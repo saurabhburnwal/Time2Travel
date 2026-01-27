@@ -1,0 +1,201 @@
+state,city,place_name,category,description,latitude,longitude,entry_fee,timings,avg_visit_duration_hours
+Goa,Panaji,Miramar Beach,beach,Popular urban beach near Panaji with sunset views,15.490930,73.807230,Free,Open all day,1.5
+Goa,Panaji,Dona Paula View Point,nature,Scenic viewpoint overlooking Zuari and Mandovi rivers,15.455300,73.803000,Free,06:00-22:00,0.75
+Goa,Panaji,Reis Magos Fort,heritage,Restored Portuguese fort with river views,15.497200,73.816900,INR 50,09:30-17:00,1.5
+Goa,Panaji,Goa State Museum,heritage,Museum showcasing Goan history and culture,15.498900,73.828000,INR 10,09:30-17:30,1
+Goa,Panaji,Fontainhas Latin Quarter,heritage,UNESCO-recognized Portuguese-era neighborhood,15.496600,73.829700,Free,Open all day,1.25
+Goa,Panaji,Dr Salim Ali Bird Sanctuary,nature,Mangrove bird sanctuary on Chorao Island,15.538900,73.866700,INR 10,07:00-17:30,2
+Goa,Panaji,Immaculate Conception Church,heritage,Iconic white church overlooking Panaji,15.498300,73.828900,Free,09:00-18:30,0.75
+Goa,Panaji,Mandovi River Cruise,adventure,Boat cruise with cultural performances,15.500000,73.826000,INR 300,18:00-20:00,1
+Goa,Panaji,Campal Gardens,nature,Peaceful riverside garden and walkway,15.493200,73.819800,Free,06:00-20:00,0.75
+Goa,Panaji,Miramar Cycling Track,adventure,Beachside cycling and jogging track,15.491500,73.808200,Free,05:00-22:00,1
+Goa,Calangute,Calangute Beach,beach,One of the busiest and most popular beaches in Goa,15.549400,73.755300,Free,Open all day,2
+Goa,Calangute,Baga River Point,nature,Scenic river-mouth area near Baga,15.556800,73.751000,Free,Open all day,1
+Goa,Calangute,Tito's Lane,adventure,Famous nightlife and entertainment street,15.556100,73.751700,Free,18:00-03:00,2
+Goa,Calangute,St Alex Church,heritage,Large white church with baroque architecture,15.542700,73.760200,Free,08:00-20:00,0.75
+Goa,Calangute,Kerkar Art Complex,heritage,Art gallery showcasing Goan artists,15.553100,73.754800,Free,10:00-18:00,1
+Goa,Calangute,Baga Creek Kayaking,adventure,Kayaking experience in calm backwaters,15.557200,73.750200,INR 800,07:00-17:00,1.5
+Goa,Calangute,Calangute Market,heritage,Local market with souvenirs and handicrafts,15.548800,73.756500,Free,09:00-22:00,1
+Goa,Calangute,Infantaria Restaurant Area,heritage,Historic bakery and café zone,15.549900,73.754900,Free,08:00-22:00,1
+Goa,Calangute,Baga Snow Park,adventure,Indoor snow-themed adventure park,15.557400,73.750900,INR 1200,11:00-22:00,1
+Goa,Calangute,Baga Beach Extension,beach,Less crowded extension of Baga Beach,15.558600,73.748800,Free,Open all day,1.5
+Goa,Candolim,Candolim Beach,beach,Clean and less crowded beach ideal for relaxation,15.515000,73.763200,Free,Open all day,2
+Goa,Candolim,Sinquerim Fort,heritage,Historic fort overlooking the Arabian Sea,15.498700,73.763600,Free,09:00-17:30,1.25
+Goa,Candolim,Aguada Fort Lighthouse,heritage,Old Portuguese lighthouse and fort complex,15.492000,73.773300,Free,10:00-17:00,1
+Goa,Candolim,Calizz Restaurant Area,heritage,Popular dining and nightlife stretch,15.517200,73.762500,Free,18:00-23:30,1.5
+Goa,Candolim,Water Sports Zone,adventure,Jet ski and parasailing activities,15.515900,73.762800,INR 1000,09:00-17:00,1.5
+Goa,Candolim,Princess River Cruise,nature,Backwater cruise with wildlife spotting,15.519000,73.766000,INR 400,10:00-16:00,1
+Goa,Candolim,Sinq Night Market,heritage,Weekly flea and food market,15.496500,73.769200,Free,18:00-23:00,1.5
+Goa,Candolim,Nerul River Kayaking,adventure,Kayaking in calm inland waters,15.510600,73.773900,INR 900,07:00-16:00,1.5
+Goa,Candolim,Sunset Point Sinquerim,nature,Scenic sunset location near the fort,15.497900,73.764400,Free,17:30-19:00,0.75
+Goa,Candolim,Candolim Church,heritage,Historic village church,15.518300,73.760900,Free,08:00-19:00,0.5
+Goa,Mapusa,Mapusa Market,heritage,Famous weekly market selling local produce,15.590200,73.814000,Free,08:00-18:00,1.5
+Goa,Mapusa,St Jerome Church,heritage,Major religious landmark in Mapusa,15.589300,73.810600,Free,07:00-20:00,0.75
+Goa,Mapusa,Anjuna View Hills,nature,Elevated viewpoints near Anjuna side,15.584900,73.807400,Free,Open all day,1
+Goa,Mapusa,Chapora River Bank,nature,Quiet riverside area ideal for walks,15.602500,73.820300,Free,Open all day,1
+Goa,Mapusa,Mapusa Municipal Garden,nature,Public garden and leisure spot,15.592800,73.812900,Free,06:00-20:00,0.75
+Goa,Mapusa,Bodgeshwar Temple,heritage,Popular local temple,15.599300,73.811100,Free,06:00-21:00,1
+Goa,Mapusa,Local Spice Shops,heritage,Traditional Goan spice markets,15.591600,73.813500,Free,09:00-18:00,0.75
+Goa,Mapusa,Moira Cycling Route,adventure,Village cycling route through greenery,15.602900,73.825800,Free,06:00-18:00,1.5
+Goa,Mapusa,Mapusa Cultural Hall,heritage,Venue for cultural events,15.589900,73.812300,Free,10:00-20:00,1
+Goa,Mapusa,Parra Road,nature,Famous palm-lined scenic road,15.573400,73.807900,Free,Open all day,0.5
+Goa,Margao,Colva Beach,beach,Popular white sand beach in South Goa,15.279100,73.911400,Free,Open all day,2
+Goa,Margao,Benaulim Beach,beach,Quieter beach near Margao,15.253800,73.922600,Free,Open all day,2
+Goa,Margao,Our Lady of Grace Church,heritage,Historic church in Margao city center,15.275600,73.958000,Free,08:00-19:00,0.75
+Goa,Margao,Margao Municipal Garden,nature,Urban green space for relaxation,15.277900,73.962300,Free,06:00-20:00,0.75
+Goa,Margao,Burnzam Ghor,heritage,Portuguese-era mansion museum,15.275100,73.960200,INR 100,10:00-17:00,1
+Goa,Margao,Cabo de Rama Road Drive,adventure,Scenic coastal drive route,15.230200,73.981100,Free,Open all day,1.5
+Goa,Margao,Colva Creek Kayaking,adventure,Kayaking through coastal creeks,15.276000,73.914800,INR 800,07:00-16:00,1.5
+Goa,Margao,Margao Market,heritage,Local market and shopping area,15.275900,73.958900,Free,09:00-20:00,1
+Goa,Margao,Navelim Hill View,nature,Elevated viewpoint near Margao,15.283600,73.952200,Free,Open all day,0.75
+Goa,Margao,Loyola College Area,heritage,Colonial-era educational campus,15.281200,73.960900,Free,09:00-17:00,0.75
+Goa,Vasco da Gama,Bogmalo Beach,beach,Small scenic beach close to the airport,15.392500,73.826900,Free,Open all day,2
+Goa,Vasco da Gama,Baina Beach,beach,Urban beach near port area,15.411200,73.813500,Free,Open all day,1.5
+Goa,Vasco da Gama,Naval Aviation Museum,heritage,Only naval aviation museum in India,15.386200,73.832900,INR 50,09:30-17:00,1.5
+Goa,Vasco da Gama,Mormugao Fort,heritage,Historic Portuguese fort overlooking harbor,15.403600,73.807800,Free,09:00-17:30,1
+Goa,Vasco da Gama,Japanese Garden,nature,Garden with sea-facing viewpoints,15.387900,73.807200,Free,06:00-18:30,0.75
+Goa,Vasco da Gama,St Andrew’s Church,heritage,Prominent Vasco church,15.398200,73.811400,Free,08:00-20:00,0.75
+Goa,Vasco da Gama,Mormugao Harbour Viewpoint,nature,Scenic port and sea views,15.401800,73.808900,Free,Open all day,0.5
+Goa,Vasco da Gama,Hollant Beach,beach,Calm beach ideal for sunrise views,15.378900,73.827200,Free,Open all day,1.5
+Goa,Vasco da Gama,Vasco Market,heritage,Local market and shopping area,15.398900,73.810700,Free,09:00-21:00,1
+Goa,Vasco da Gama,Issorcim Cliff Point,adventure,Cliffside walk with sea views,15.382400,73.834100,Free,Open all day,1
+Goa,Old Goa,Basilica of Bom Jesus,heritage,UNESCO World Heritage church housing St. Francis Xavier,15.500900,73.911500,Free,09:00-18:30,1.5
+Goa,Old Goa,Se Cathedral,heritage,Largest church in Asia by area,15.503800,73.912300,Free,07:30-18:00,1.5
+Goa,Old Goa,Church of St Francis of Assisi,heritage,Portuguese-era church and museum,15.503200,73.911400,Free,09:00-17:30,1
+Goa,Old Goa,Church of St Cajetan,heritage,Baroque-style church inspired by St Peter’s Basilica,15.505700,73.915100,Free,09:00-17:00,1
+Goa,Old Goa,Ruins of St Augustine,nature,Historic ruins on a hilltop,15.500500,73.906500,Free,09:00-18:00,1
+Goa,Old Goa,Arch of the Viceroys,heritage,Old ceremonial gateway,15.505800,73.913700,Free,Open all day,0.5
+Goa,Old Goa,Museum of Christian Art,heritage,Museum of Indo-Portuguese art,15.501400,73.907300,INR 50,09:30-17:30,1
+Goa,Old Goa,Divar Island Ferry Point,nature,Scenic ferry crossing and river views,15.509200,73.904900,Free,06:00-22:00,0.75
+Goa,Old Goa,Our Lady of the Rosary Church,heritage,One of the oldest churches in Goa,15.501700,73.905000,Free,07:00-18:00,0.75
+Goa,Old Goa,Mandovi Riverside Walk,nature,Peaceful riverside walking trail,15.504300,73.910600,Free,Open all day,0.75
+Goa,Ponda,Shri Mangeshi Temple,heritage,Famous Hindu temple dedicated to Lord Shiva,15.422800,73.982100,Free,06:00-22:00,1.5
+Goa,Ponda,Shri Shantadurga Temple,heritage,Major Goan temple complex,15.407900,73.991600,Free,06:00-22:00,1.5
+Goa,Ponda,Braganza House,heritage,Historic Portuguese mansion,15.433500,74.006700,INR 100,10:00-17:00,1
+Goa,Ponda,Bondla Wildlife Sanctuary,nature,Small zoo and forest sanctuary,15.438800,74.102300,INR 50,09:00-17:00,2
+Goa,Ponda,Safa Masjid,heritage,Ancient mosque with Islamic architecture,15.454200,73.990800,Free,09:00-17:00,0.75
+Goa,Ponda,Spice Plantation Tour,nature,Guided tour of spice farms,15.419300,74.020500,INR 400,09:00-16:00,2
+Goa,Ponda,Netravali Wildlife Sanctuary,nature,Biodiversity hotspot with waterfalls,15.341000,74.191000,INR 50,08:00-16:00,3
+Goa,Ponda,Mhadei River Viewpoint,nature,Scenic river and forest views,15.447800,74.045600,Free,Open all day,0.75
+Goa,Ponda,Farmagudi Hill View,nature,Quiet hilltop viewpoint,15.457300,73.998700,Free,Open all day,0.5
+Goa,Ponda,Ponda Market,heritage,Local shopping and food area,15.402900,74.007100,Free,09:00-20:00,1
+Goa,Anjuna,Anjuna Beach,beach,Famous beach known for nightlife and cliffs,15.583300,73.733300,Free,Open all day,2
+Goa,Anjuna,Anjuna Flea Market,heritage,Weekly flea market with global vendors,15.583900,73.733500,Free,09:00-18:00,2
+Goa,Anjuna,St Michael’s Church,heritage,Large village church in Anjuna,15.570600,73.746900,Free,08:00-20:00,0.75
+Goa,Anjuna,Ozran Beach,beach,Small scenic beach also called Little Vagator,15.593900,73.736600,Free,Open all day,1.5
+Goa,Anjuna,Chapora River Kayaking,adventure,Kayaking near river mouth,15.590800,73.740200,INR 800,07:00-16:00,1.5
+Goa,Anjuna,Anjuna Cliff Viewpoint,nature,Cliffside sunset viewpoint,15.585400,73.732100,Free,Open all day,0.75
+Goa,Anjuna,Curlies Beach Shack,adventure,Iconic beach shack and party spot,15.583700,73.733100,Free,10:00-23:00,2
+Goa,Anjuna,Vagator Hill Trail,adventure,Scenic walking trail between beaches,15.600100,73.736800,Free,Open all day,1
+Goa,Anjuna,Blue Flag Rock View,nature,Rocky viewpoint near Anjuna shore,15.584900,73.731800,Free,Open all day,0.5
+Goa,Anjuna,Anjuna Heritage Walk,heritage,Walk through old village areas,15.575800,73.744100,Free,Open all day,1
+Goa,Vagator,Vagator Beach,beach,Red cliff-backed beach with sunset views,15.650100,73.734500,Free,Open all day,2
+Goa,Vagator,Chapora Fort,heritage,Famous fort overlooking Vagator beach,15.618200,73.736800,Free,09:00-17:30,1.5
+Goa,Vagator,Ozran Beach,beach,Also called Little Vagator,15.593900,73.736600,Free,Open all day,1.5
+Goa,Vagator,Big Vagator Beach,beach,Wider and quieter beach area,15.655400,73.732300,Free,Open all day,1.5
+Goa,Vagator,Sunset Point Vagator,nature,Popular sunset viewpoint,15.648900,73.734200,Free,17:30-19:00,0.75
+Goa,Vagator,Vagator Hilltop Cafes,heritage,Cafes with cliffside views,15.646300,73.735900,Free,09:00-22:00,1.5
+Goa,Vagator,Chapora River View,nature,Scenic river views near fort,15.620800,73.742100,Free,Open all day,0.75
+Goa,Vagator,Rock Climbing Spot Vagator,adventure,Cliff-based adventure activity,15.647500,73.733000,Free,Open all day,1
+Goa,Vagator,St Anthony’s Chapel,heritage,Small hilltop chapel,15.641800,73.739400,Free,08:00-18:00,0.5
+Goa,Vagator,Vagator Coastal Walk,adventure,Scenic coastal walking route,15.652300,73.731100,Free,Open all day,1
+Goa,Mapusa,Mapusa Municipal Market,heritage,Major local market for produce and spices,15.590200,73.814000,Free,08:00-20:00,1.5
+Goa,Mapusa,St Jerome Church,heritage,Historic church in the heart of Mapusa,15.589300,73.810600,Free,07:00-20:00,0.75
+Goa,Mapusa,Bodgeshwar Temple,heritage,Popular local temple near Mapusa,15.599300,73.811100,Free,06:00-21:00,1
+Goa,Mapusa,Parra Road,nature,Iconic palm-lined scenic road,15.573400,73.807900,Free,Open all day,0.5
+Goa,Mapusa,Moira Village Walk,heritage,Traditional Goan village experience,15.604800,73.819600,Free,Open all day,1
+Goa,Mapusa,Chapora River Bank,nature,Quiet riverside stretch near Mapusa,15.602500,73.820300,Free,Open all day,1
+Goa,Mapusa,Mapusa Cultural Hall,heritage,Venue for cultural programs,15.589900,73.812300,Free,10:00-20:00,1
+Goa,Mapusa,Anjuna Hills Viewpoint,nature,Elevated viewpoint towards Anjuna,15.584900,73.807400,Free,Open all day,0.75
+Goa,Mapusa,Mapusa Garden,nature,Small public garden for leisure,15.592800,73.812900,Free,06:00-20:00,0.75
+Goa,Mapusa,Local Spice Shops,heritage,Traditional spice and dry goods stores,15.591600,73.813500,Free,09:00-18:00,0.75
+Goa,Calangute,Calangute Beach,beach,Popular and lively beach in North Goa,15.549400,73.755300,Free,Open all day,2
+Goa,Calangute,St Alex Church,heritage,Large white church with baroque architecture,15.542700,73.760200,Free,08:00-20:00,0.75
+Goa,Calangute,Calangute Market Square,heritage,Local shopping and food area,15.548800,73.756500,Free,09:00-22:00,1
+Goa,Calangute,Baga Creek Kayaking,adventure,Kayaking in calm backwaters,15.557200,73.750200,INR 800,07:00-16:00,1.5
+Goa,Calangute,Tito’s Lane,adventure,Famous nightlife street near Baga,15.556100,73.751700,Free,18:00-03:00,2
+Goa,Calangute,Infantaria Bakery,heritage,Iconic Goan bakery and café,15.549900,73.754900,Free,08:00-22:00,1
+Goa,Calangute,Baga Snow Park,adventure,Indoor snow adventure park,15.557400,73.750900,INR 1200,11:00-22:00,1
+Goa,Calangute,Baga River Mouth,nature,Scenic river and sea meeting point,15.556800,73.751000,Free,Open all day,0.75
+Goa,Calangute,Kerkar Art Complex,heritage,Art gallery showcasing Goan artists,15.553100,73.754800,Free,10:00-18:00,1
+Goa,Calangute,Baga Beach Extension,beach,Less crowded extension of Baga Beach,15.558600,73.748800,Free,Open all day,1.5
+Goa,Candolim,Candolim Beach,beach,Clean and relaxed beach stretch,15.515000,73.763200,Free,Open all day,2
+Goa,Candolim,Fort Aguada,heritage,17th-century Portuguese fort and lighthouse,15.492000,73.773300,Free,09:00-17:30,1.5
+Goa,Candolim,Sinquerim Beach,beach,Beach below Fort Aguada,15.500000,73.756300,Free,Open all day,1.5
+Goa,Candolim,Nerul River Kayaking,adventure,Kayaking in calm inland waters,15.510600,73.773900,INR 900,07:00-16:00,1.5
+Goa,Candolim,Princess River Cruise,nature,Backwater cruise with bird sightings,15.519000,73.766000,INR 400,10:00-16:00,1
+Goa,Candolim,Sinq Night Market,heritage,Popular weekly night market,15.496500,73.769200,Free,18:00-23:00,1.5
+Goa,Candolim,Sunset Point Sinquerim,nature,Scenic sunset viewpoint,15.497900,73.764400,Free,17:30-19:00,0.75
+Goa,Candolim,Calizz Restaurant Strip,heritage,Well-known dining and nightlife area,15.517200,73.762500,Free,18:00-23:30,1.5
+Goa,Candolim,Candolim Church,heritage,Historic village church,15.518300,73.760900,Free,08:00-19:00,0.5
+Goa,Candolim,Water Sports Zone Candolim,adventure,Parasailing and jet ski activities,15.515900,73.762800,INR 1000,09:00-17:00,1.5
+Goa,Morjim,Morjim Beach,beach,Quiet beach known for turtle nesting,15.629400,73.735800,Free,Open all day,2
+Goa,Morjim,Olive Ridley Turtle Nesting Site,nature,Seasonal turtle nesting area,15.630000,73.736200,Free,Nov-Mar daylight,1
+Goa,Morjim,Chapora River View,nature,Scenic river stretch near Morjim,15.620800,73.742100,Free,Open all day,0.75
+Goa,Morjim,St Anthony’s Church Morjim,heritage,Local village church,15.629000,73.735000,Free,08:00-19:00,0.5
+Goa,Morjim,Mandrem Cycling Route,adventure,Flat scenic cycling trail,15.647300,73.736900,Free,06:00-18:00,1.5
+Goa,Morjim,Mandrem Beach,beach,Wide calm beach north of Morjim,15.669900,73.736900,Free,Open all day,2
+Goa,Morjim,Morjim Sunset Point,nature,Popular sunset viewing spot,15.628300,73.734900,Free,17:30-19:00,0.75
+Goa,Morjim,Chapora Backwater Kayaking,adventure,Kayaking in backwaters,15.625600,73.739200,INR 800,07:00-16:00,1.5
+Goa,Morjim,Russian Food Street,heritage,Cultural food hub in Morjim,15.631100,73.736400,Free,10:00-22:00,1
+Goa,Morjim,Morjim Village Walk,heritage,Walk through traditional village lanes,15.633200,73.737800,Free,Open all day,1
+Goa,Arambol,Arambol Beach,beach,Famous beach with hippie culture,15.700000,73.700000,Free,Open all day,2
+Goa,Arambol,Sweet Water Lake,nature,Freshwater lake behind the beach,15.706400,73.725000,Free,Open all day,1
+Goa,Arambol,Arambol Cliff View,nature,Cliffside viewpoint overlooking sea,15.715600,73.705000,Free,Open all day,0.75
+Goa,Arambol,Keri Beach,beach,Quiet northern beach near Terekhol river,15.712200,73.713900,Free,Open all day,1.5
+Goa,Arambol,Paragliding Point,adventure,Popular paragliding takeoff zone,15.716900,73.707600,INR 2500,09:00-17:00,1
+Goa,Arambol,Arambol Drum Circle,heritage,Evening cultural gathering on beach,15.701500,73.701900,Free,17:00-19:00,1
+Goa,Arambol,Harmal Village Walk,heritage,Traditional village exploration,15.704800,73.719300,Free,Open all day,1
+Goa,Arambol,Arambol Banyan Tree Spot,nature,Shaded relaxation point inland,15.709200,73.721100,Free,Open all day,0.5
+Goa,Arambol,Kalacha Beach,nature,Secluded beach north of Arambol,15.719300,73.713000,Free,Open all day,1.5
+Goa,Arambol,Arambol Yoga Centres,heritage,Yoga and wellness hubs,15.703900,73.719900,Varies,06:00-20:00,1.5
+Goa,Margao,Colva Beach,beach,Popular white-sand beach near Margao,15.279100,73.911400,Free,Open all day,2
+Goa,Margao,Benaulim Beach,beach,Calm and less crowded beach,15.253800,73.922600,Free,Open all day,2
+Goa,Margao,Our Lady of Grace Church,heritage,Major Catholic church in Margao,15.275600,73.958000,Free,08:00-19:00,0.75
+Goa,Margao,Burnzam Ghor,heritage,Portuguese-era mansion museum,15.275100,73.960200,INR 100,10:00-17:00,1
+Goa,Margao,Margao Municipal Garden,nature,Urban green park for leisure,15.277900,73.962300,Free,06:00-20:00,0.75
+Goa,Margao,Margao Market,heritage,Busy local market and shopping area,15.275900,73.958900,Free,09:00-20:00,1
+Goa,Margao,Colva Creek Kayaking,adventure,Kayaking through mangroves and creeks,15.276000,73.914800,INR 800,07:00-16:00,1.5
+Goa,Margao,Navelim Hill View,nature,Small hill viewpoint near Margao,15.283600,73.952200,Free,Open all day,0.75
+Goa,Margao,Loyola College Area,heritage,Colonial-era educational campus,15.281200,73.960900,Free,09:00-17:00,0.75
+Goa,Margao,Fatorda Stadium Area,adventure,Sports and recreation zone,15.264400,73.963300,Free,Open all day,1
+Goa,Colva,Colva Beach Main Stretch,beach,Most visited section of Colva Beach,15.279500,73.911000,Free,Open all day,2
+Goa,Colva,Sernabatim Beach,beach,Quieter extension of Colva Beach,15.264700,73.914800,Free,Open all day,2
+Goa,Colva,Our Lady of Mercy Church,heritage,Historic church with religious significance,15.279900,73.912900,Free,08:00-19:00,0.75
+Goa,Colva,Colva Promenade,nature,Beachside walking and relaxation area,15.278200,73.910300,Free,Open all day,1
+Goa,Colva,Benaulim Backwater Kayaking,adventure,Kayaking in calm backwaters,15.262100,73.920400,INR 800,07:00-16:00,1.5
+Goa,Colva,Colva Market,heritage,Local food and souvenir market,15.279800,73.913600,Free,09:00-21:00,1
+Goa,Colva,Sunset Point Colva,nature,Popular sunset viewing spot,15.276900,73.909700,Free,17:30-19:00,0.75
+Goa,Colva,Water Sports Zone Colva,adventure,Jet ski and parasailing activities,15.279300,73.910800,INR 1000,09:00-17:00,1.5
+Goa,Colva,Colva Heritage Walk,heritage,Walk through old village areas,15.281100,73.915100,Free,Open all day,1
+Goa,Colva,Sernabatim Dunes,nature,Coastal dunes and open spaces,15.266400,73.913500,Free,Open all day,1
+Goa,Benaulim,Benaulim Beach,beach,Relaxed beach with wide shoreline,15.253800,73.922600,Free,Open all day,2
+Goa,Benaulim,Trinity Beach,beach,Quiet neighboring beach stretch,15.249300,73.925900,Free,Open all day,1.5
+Goa,Benaulim,St John the Baptist Church,heritage,Historic village church,15.253100,73.924100,Free,08:00-19:00,0.75
+Goa,Benaulim,Zalor Beach,nature,Less crowded beach ideal for walks,15.243900,73.928700,Free,Open all day,1.5
+Goa,Benaulim,Benaulim Fishing Jetty,heritage,Traditional fishing activity area,15.252600,73.923900,Free,Open all day,0.75
+Goa,Benaulim,Benaulim Backwater Trail,nature,Scenic inland walking trail,15.256200,73.930300,Free,Open all day,1
+Goa,Benaulim,Water Sports Benaulim,adventure,Boat rides and water activities,15.254700,73.923100,INR 900,09:00-17:00,1.5
+Goa,Benaulim,Benaulim Sunset Point,nature,Sunset viewing location,15.252200,73.921900,Free,17:30-19:00,0.75
+Goa,Benaulim,Benaulim Heritage Walk,heritage,Walk through village heritage zones,15.255300,73.926700,Free,Open all day,1
+Goa,Benaulim,Lotus Pond Area,nature,Small inland waterbody and greenery,15.258900,73.932100,Free,Open all day,0.75
+Goa,Canacona,Palolem Beach,beach,Crescent-shaped iconic beach,14.972100,74.020900,Free,Open all day,2
+Goa,Canacona,Agonda Beach,beach,Serene beach popular with nature lovers,14.948700,73.974500,Free,Open all day,2
+Goa,Canacona,Butterfly Beach,nature,Hidden beach accessible by boat or trek,14.986000,74.022000,Free,Open all day,1.5
+Goa,Canacona,Cotigao Wildlife Sanctuary,nature,Forest sanctuary with watchtowers,14.916000,73.937000,INR 50,07:00-17:30,2.5
+Goa,Canacona,Galjibag Turtle Nesting Site,nature,Seasonal Olive Ridley nesting site,14.966000,74.024000,Free,Nov-Mar daylight,1
+Goa,Canacona,Palolem Dolphin Cruise,adventure,Dolphin spotting boat tour,14.972100,74.020900,INR 500,07:00-11:00,1
+Goa,Canacona,Cabo de Rama Fort,heritage,Historic cliff-top fort,15.088900,73.924600,Free,09:00-17:30,1.5
+Goa,Canacona,Cola Beach,beach,Lagoon-backed secluded beach,15.096400,73.936100,Free,Open all day,2
+Goa,Canacona,Palolem Market,heritage,Shopping and food stalls near beach,14.973500,74.021800,Free,09:00-22:00,1
+Goa,Canacona,Agonda Sunset Point,nature,Sunset viewing area,14.948200,73.972900,Free,17:30-19:00,0.75
+Goa,Quepem,Salaulim Dam,nature,Large reservoir with landscaped gardens,15.139700,74.051800,Free,09:00-18:00,1.5
+Goa,Quepem,Curdi Village Ruins,heritage,Submerged historic village site,15.146900,74.043200,Free,Seasonal visibility,1
+Goa,Quepem,Church of Our Lady of Snows,heritage,Prominent Catholic church,15.195000,74.062000,Free,08:00-19:00,0.75
+Goa,Quepem,Betul Beach,nature,Quiet beach near river mouth,15.254000,73.985000,Free,Open all day,1.5
+Goa,Quepem,Netravali Wildlife Sanctuary,nature,Biodiversity-rich sanctuary with waterfalls,15.341000,74.191000,INR 50,08:00-16:00,3
+Goa,Quepem,Wildlife Viewpoint Netravali,nature,Forest and valley views,15.346900,74.185400,Free,Open all day,0.75
+Goa,Quepem,Kuskem Waterfall,nature,Seasonal waterfall in forest area,15.333900,74.169200,Free,Monsoon daylight,1.5
+Goa,Quepem,Quepem Market,heritage,Local market and town center,15.212400,74.078700,Free,09:00-20:00,1
+Goa,Quepem,Salaulim Backwater Kayaking,adventure,Kayaking in reservoir waters,15.141600,74.049900,INR 900,07:00-16:00,1.5
+Goa,Quepem,Hill Viewpoint Quepem,nature,Elevated viewpoint overlooking countryside,15.205800,74.083400,Free,Open all day,0.75
