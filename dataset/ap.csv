@@ -1,201 +1,201 @@
-state,city,place_name,category,description,latitude,longitude,entry_fee,avg_visit_duration_minutes
-Andhra Pradesh,Visakhapatnam,RK Beach,beach,Popular city beach with promenade,17.712800,83.318600,Free,90
-Andhra Pradesh,Visakhapatnam,Kailasagiri Hill Park,nature,Hilltop park with panoramic sea views,17.747300,83.343600,INR 20,90
-Andhra Pradesh,Visakhapatnam,INS Kursura Submarine Museum,heritage,Decommissioned submarine museum,17.712400,83.329900,INR 40,60
-Andhra Pradesh,Visakhapatnam,Yarada Beach,beach,Scenic beach surrounded by hills,17.659800,83.274600,Free,120
-Andhra Pradesh,Visakhapatnam,Borra Caves,nature,Natural limestone caves in Eastern Ghats,18.287000,83.037600,INR 40,120
-Andhra Pradesh,Visakhapatnam,Simhachalam Temple,heritage,Ancient hilltop temple,17.766300,83.249700,Free,90
-Andhra Pradesh,Visakhapatnam,Ross Hill Church,heritage,Historic church with city views,17.688600,83.289500,Free,45
-Andhra Pradesh,Visakhapatnam,Araku Valley,nature,Scenic hill station and coffee plantations,18.327300,82.877200,Free,180
-Andhra Pradesh,Visakhapatnam,Dolphin's Nose Viewpoint,nature,Cliff viewpoint overlooking harbor,17.676500,83.287200,Free,45
-Andhra Pradesh,Visakhapatnam,Scuba Diving Rushikonda,adventure,Beginner-friendly scuba experience,17.782900,83.385600,INR 3500,120
-Andhra Pradesh,Vijayawada,Kanaka Durga Temple,heritage,Famous temple on Indrakeeladri Hill,16.515000,80.616700,Free,90
-Andhra Pradesh,Vijayawada,Prakasam Barrage,heritage,Barrage across Krishna River,16.506200,80.611700,Free,45
-Andhra Pradesh,Vijayawada,Bhavani Island,adventure,River island with water sports,16.505000,80.620500,INR 50,120
-Andhra Pradesh,Vijayawada,Gandhi Hill,heritage,Memorial hill with stupa,16.528300,80.603700,Free,60
-Andhra Pradesh,Vijayawada,Undavalli Caves,heritage,Ancient rock-cut caves,16.497800,80.579600,INR 25,90
-Andhra Pradesh,Vijayawada,Mangalagiri Temple,heritage,Ancient Narasimha temple,16.430800,80.568900,Free,60
-Andhra Pradesh,Vijayawada,Kondapalli Fort,heritage,Historic hill fort,16.626800,80.535600,Free,90
-Andhra Pradesh,Vijayawada,VMC Park,nature,Urban recreational park,16.512300,80.624800,Free,60
-Andhra Pradesh,Vijayawada,Krishna River Cruise,adventure,Boat cruise with city views,16.506800,80.619900,INR 300,60
-Andhra Pradesh,Vijayawada,Kolavennu Backwaters,nature,Scenic rural backwaters,16.457600,80.542800,Free,90
-Andhra Pradesh,Tirupati,Tirumala Venkateswara Temple,heritage,One of the richest Hindu temples,13.683300,79.347400,Free,180
-Andhra Pradesh,Tirupati,Silathoranam,nature,Natural rock arch formation,13.683900,79.350600,Free,45
-Andhra Pradesh,Tirupati,Kapila Theertham,heritage,Temple with waterfall,13.645300,79.408900,Free,60
-Andhra Pradesh,Tirupati,Chandragiri Fort,heritage,Historic fort of Vijayanagara kings,13.586400,79.317800,Free,90
-Andhra Pradesh,Tirupati,Sri Venkateswara Zoo,nature,Large zoological park,13.634900,79.374200,INR 50,120
-Andhra Pradesh,Tirupati,Akasa Ganga Waterfall,nature,Sacred waterfall near Tirumala,13.690900,79.348700,Free,60
-Andhra Pradesh,Tirupati,Deer Park Tirumala,nature,Forest park with deer sightings,13.679800,79.345900,Free,60
-Andhra Pradesh,Tirupati,TTD Gardens,heritage,Temple-maintained botanical gardens,13.682100,79.346600,Free,60
-Andhra Pradesh,Tirupati,Rock Garden,nature,Geological garden near zoo,13.636500,79.372900,Free,45
-Andhra Pradesh,Tirupati,Tirupati Heritage Walk,heritage,Walk through old temple town,13.628800,79.419200,Free,60
-Andhra Pradesh,Kurnool,Belum Caves,nature,Second largest cave system in India,15.101000,78.113600,INR 60,120
-Andhra Pradesh,Kurnool,Konda Reddy Fort,heritage,Historic fort in city center,15.828100,78.036300,Free,60
-Andhra Pradesh,Kurnool,Oravakallu Rock Garden,nature,Unique rock formations,15.781700,78.012200,INR 20,90
-Andhra Pradesh,Kurnool,Rollapadu Wildlife Sanctuary,nature,Great Indian bustard habitat,15.432500,78.210000,INR 50,150
-Andhra Pradesh,Kurnool,Srisailam Dam,nature,Major dam on Krishna River,16.074000,78.868600,Free,90
-Andhra Pradesh,Kurnool,Sakshi Ganapati Temple,heritage,Ancient temple with inscriptions,15.785200,78.045800,Free,45
-Andhra Pradesh,Kurnool,Ahobilam Temple,heritage,Narasimha temple complex in hills,15.137200,78.774600,Free,120
-Andhra Pradesh,Kurnool,Pathala Ganga,adventure,Boat ride near Srisailam,16.074800,78.869300,INR 150,60
-Andhra Pradesh,Kurnool,Nallamala Forest Trek,adventure,Forest trekking route,15.950000,78.850000,Free,180
-Andhra Pradesh,Kurnool,Kurnool Heritage Walk,heritage,Exploration of old Kurnool areas,15.828900,78.037800,Free,60
-Andhra Pradesh,Rajahmundry,Papi Hills,nature,Scenic hill range along Godavari,17.443600,81.819600,Free,180
-Andhra Pradesh,Rajahmundry,Godavari River Cruise,adventure,Boat cruise through Papi Hills,17.000500,81.804000,INR 500,180
-Andhra Pradesh,Rajahmundry,Rallabandi Subbarao Museum,heritage,Archaeological and cultural museum,17.000000,81.804200,INR 10,60
-Andhra Pradesh,Rajahmundry,Iskcon Temple Rajahmundry,heritage,Spiritual and cultural center,17.015600,81.807900,Free,60
-Andhra Pradesh,Rajahmundry,Dowleswaram Barrage,heritage,Historic barrage on Godavari,17.051600,81.797700,Free,45
-Andhra Pradesh,Rajahmundry,Kadiyapulanka Gardens,nature,Floriculture village near river,16.995600,81.804700,Free,90
-Andhra Pradesh,Rajahmundry,Pattiseema,nature,Riverbank pilgrimage village,17.084600,81.650900,Free,60
-Andhra Pradesh,Rajahmundry,Pushkar Ghat,heritage,Riverside ghat and temples,16.996200,81.804900,Free,60
-Andhra Pradesh,Rajahmundry,Govindarajula Gutta,nature,Hilltop viewpoint,17.019800,81.820300,Free,45
-Andhra Pradesh,Rajahmundry,Rajahmundry Heritage Walk,heritage,Historic town exploration,16.998800,81.804500,Free,60
-Andhra Pradesh,Guntur,Kondaveedu Fort,heritage,Historic hill fort of Reddy dynasty,16.616800,80.352900,Free,90
-Andhra Pradesh,Guntur,Amaravati Stupa,heritage,Ancient Buddhist monument,16.572600,80.356400,Free,90
-Andhra Pradesh,Guntur,Undavalli Caves,nature,Rock-cut caves near Krishna river,16.497800,80.579600,INR 25,90
-Andhra Pradesh,Guntur,Ettipotala Waterfall,nature,Scenic waterfall near Nagarjuna Sagar,16.539200,79.282200,Free,90
-Andhra Pradesh,Guntur,Amaravati Museum,heritage,Buddhist artifacts museum,16.572800,80.357200,INR 10,60
-Andhra Pradesh,Guntur,Uppalapadu Bird Sanctuary,nature,Seasonal bird sanctuary,16.364200,80.436300,INR 10,60
-Andhra Pradesh,Guntur,Krishna River Ghat,heritage,Sacred riverfront area,16.508600,80.640700,Free,45
-Andhra Pradesh,Guntur,Chuttugunta Circle,heritage,Urban landmark and shopping hub,16.306700,80.437600,Free,30
-Andhra Pradesh,Guntur,Nagarjuna Sagar Viewpoint,nature,Viewpoint overlooking dam area,16.578500,79.310200,Free,60
-Andhra Pradesh,Guntur,Guntur Heritage Walk,heritage,Walk through old town areas,16.306900,80.436500,Free,60
-Andhra Pradesh,Nellore,Nellore Beach,beach,Quiet beach near city outskirts,14.444200,79.986000,Free,120
-Andhra Pradesh,Nellore,Pennar River Barrage,heritage,Bridge and river view point,14.441200,79.986600,Free,45
-Andhra Pradesh,Nellore,Ranganatha Temple,heritage,Ancient temple near river,14.441800,79.986900,Free,60
-Andhra Pradesh,Nellore,Mypadu Beach,beach,Popular beach with long shoreline,14.451900,79.999400,Free,120
-Andhra Pradesh,Nellore,Nelapattu Bird Sanctuary,nature,Pelican breeding ground,13.880300,79.844400,INR 50,120
-Andhra Pradesh,Nellore,Udayagiri Fort,heritage,Hilltop fort with ruins,14.913300,79.317600,Free,90
-Andhra Pradesh,Nellore,Venkatagiri Fort,heritage,Historic fort-palace complex,13.960000,79.580000,Free,90
-Andhra Pradesh,Nellore,Barah Shaheed Dargah,heritage,Historic Islamic shrine,14.440100,79.987900,Free,30
-Andhra Pradesh,Nellore,Jonnawada Temple,heritage,Spiritual center near river,14.461600,79.975200,Free,60
-Andhra Pradesh,Nellore,Nellore Heritage Walk,heritage,Historic city exploration,14.441500,79.986800,Free,60
-Andhra Pradesh,Ongole,Ongole Beach,beach,Quiet coastal beach stretch,15.503600,80.048500,Free,120
-Andhra Pradesh,Ongole,Kothapatnam Beach,beach,Popular beach near Ongole,15.479600,80.079600,Free,120
-Andhra Pradesh,Ongole,Chennakesava Swamy Temple,heritage,Ancient temple in Ongole,15.505300,80.049900,Free,60
-Andhra Pradesh,Ongole,Bhairavakona Caves,nature,Rock-cut caves with waterfalls,14.888200,79.200700,Free,120
-Andhra Pradesh,Ongole,Ramathirtham,nature,Historic Jain and Hindu site,15.506900,80.051800,Free,60
-Andhra Pradesh,Ongole,Kandaleru Dam,nature,Large irrigation reservoir,14.577900,79.614300,Free,60
-Andhra Pradesh,Ongole,Ongole Cattle Market,heritage,Famous cattle trading hub,15.505900,80.049300,Free,60
-Andhra Pradesh,Ongole,Sri Prasanna Chennakesava Temple,heritage,Temple with Dravidian architecture,15.507200,80.047800,Free,60
-Andhra Pradesh,Ongole,Ongole Viewpoint,nature,City outskirts viewpoint,15.511800,80.043200,Free,30
-Andhra Pradesh,Ongole,Ongole Heritage Walk,heritage,Historic town walk,15.506400,80.048900,Free,1020
-Andhra Pradesh,Eluru,Kolleru Lake,nature,One of India's largest freshwater lakes,16.620000,81.200000,Free,180
-Andhra Pradesh,Eluru,Buddha Park Eluru,nature,Urban riverside park,16.712000,81.100800,Free,60
-Andhra Pradesh,Eluru,Eluru Canal View,heritage,Historic canal system,16.708800,81.095600,Free,45
-Andhra Pradesh,Eluru,Gudivada Buddha Stupa,heritage,Ancient Buddhist site,16.433800,80.991700,Free,60
-Andhra Pradesh,Eluru,Kolleru Bird Sanctuary,nature,Seasonal migratory birds area,16.615800,81.210200,INR 50,120
-Andhra Pradesh,Eluru,Pedavegi Buddhist Ruins,heritage,Buddhist archaeological site,16.633300,81.042600,Free,90
-Andhra Pradesh,Eluru,Eluru Heritage Walk,heritage,Old town exploration,16.710000,81.095000,Free,60
-Andhra Pradesh,Eluru,Tammileru River Bank,nature,Riverbank relaxation area,16.705600,81.104300,Free,45
-Andhra Pradesh,Eluru,Eluru Parks Cluster,nature,Public parks area,16.711200,81.098700,Free,60
-Andhra Pradesh,Eluru,Eluru Water Sports Zone,adventure,Boating and water activities,16.707800,81.101900,INR 300,90
-Andhra Pradesh,Srikakulam,Kalingapatnam Beach,beach,Serene beach near river mouth,18.341800,84.119400,Free,120
-Andhra Pradesh,Srikakulam,Salihundam Buddhist Complex,heritage,Ancient Buddhist site,18.325600,84.050400,Free,90
-Andhra Pradesh,Srikakulam,Sri Mukhalingam Temple,heritage,Famous Shiva temple complex,18.594300,83.950200,Free,90
-Andhra Pradesh,Srikakulam,Baruva Beach,beach,Quiet coastal stretch,18.213500,84.022400,Free,120
-Andhra Pradesh,Srikakulam,Telineelapuram Bird Sanctuary,nature,Pelican and stork habitat,18.503800,83.858900,INR 10,90
-Andhra Pradesh,Srikakulam,Kalingapatnam Lighthouse,nature,Coastal viewpoint,18.343900,84.118000,Free,30
-Andhra Pradesh,Srikakulam,Narasannapeta Handloom Village,heritage,Traditional handloom center,18.414600,83.941200,Free,60
-Andhra Pradesh,Srikakulam,Srikurmam Temple,heritage,Unique Kurma avatar temple,18.266300,84.038400,Free,90
-Andhra Pradesh,Srikakulam,Vamsadhara River View,nature,Scenic river viewpoint,18.336700,83.934600,Free,45
-Andhra Pradesh,Srikakulam,Srikakulam Heritage Walk,heritage,Historic town exploration,18.296900,83.897700,Free,60
-Andhra Pradesh,Kakinada,Kakinada Beach,beach,Long sandy beach near city,16.989100,82.247500,Free,120
-Andhra Pradesh,Kakinada,Hope Island,beach,Barrier island with pristine beach,17.008900,82.350600,Free,150
-Andhra Pradesh,Kakinada,Coringa Wildlife Sanctuary,nature,Mangrove forest with birdlife,16.819700,82.303300,INR 50,120
-Andhra Pradesh,Kakinada,Uppada Beach,beach,Scenic beach with sunrise views,17.090300,82.337900,Free,120
-Andhra Pradesh,Kakinada,Kakinada Port View,nature,Port and sea viewpoint,16.989900,82.251800,Free,30
-Andhra Pradesh,Kakinada,Jagannatha Swamy Temple,heritage,Historic temple in city center,16.989600,82.247000,Free,60
-Andhra Pradesh,Kakinada,Bhaskara Rao Park,nature,Urban park and leisure area,16.985700,82.243900,Free,60
-Andhra Pradesh,Kakinada,Kakinada Heritage Walk,heritage,Old town and port area walk,16.988200,82.246800,Free,60
-Andhra Pradesh,Kakinada,Boat Ride to Hope Island,adventure,Boat trip through backwaters,16.993500,82.258900,INR 500,120
-Andhra Pradesh,Kakinada,Adurru Buddhist Stupa,heritage,Ancient Buddhist site,16.873800,82.202600,Free,90
-Andhra Pradesh,Anantapur,Gooty Fort,heritage,Hilltop fort with panoramic views,15.126900,77.634900,Free,120
-Andhra Pradesh,Anantapur,Puttaparthi Ashram,heritage,Spiritual center and ashram,14.165100,77.811600,Free,120
-Andhra Pradesh,Anantapur,Lepakshi Veerabhadra Temple,heritage,Famous Vijayanagara-era temple,13.806700,77.606700,Free,90
-Andhra Pradesh,Anantapur,Pennar River View,nature,Scenic river stretch,14.677800,77.600500,Free,45
-Andhra Pradesh,Anantapur,Nallamada Reservoir,nature,Large irrigation reservoir,14.973600,77.705200,Free,90
-Andhra Pradesh,Anantapur,Ahobilam Hills Trek,adventure,Trekking in forested hills,15.137200,78.774600,Free,180
-Andhra Pradesh,Anantapur,Sri Sathya Sai Museum,heritage,Museum on Sai Baba's life,14.165800,77.812300,Free,60
-Andhra Pradesh,Anantapur,Gooty Town Heritage Walk,heritage,Historic town exploration,15.121500,77.630800,Free,60
-Andhra Pradesh,Anantapur,Bugga Ramalingeswara Temple,heritage,Temple with underground water spring,14.932900,77.817200,Free,60
-Andhra Pradesh,Anantapur,Nagarjuna Sagar Canal View,nature,Canal and countryside view,14.860300,77.692100,Free,45
-Andhra Pradesh,Kadapa,Gandikota Fort,heritage,Famous fort overlooking gorge,14.814300,78.286100,Free,120
-Andhra Pradesh,Kadapa,Gandikota Canyon,nature,Known as the Grand Canyon of India,14.812500,78.288900,Free,120
-Andhra Pradesh,Kadapa,Belum Caves,nature,Extensive underground cave system,15.101000,78.113600,INR 60,120
-Andhra Pradesh,Kadapa,Ameen Peer Dargah,heritage,Important Sufi shrine,14.475600,78.835300,Free,45
-Andhra Pradesh,Kadapa,Pushpagiri Temple,heritage,Ancient temple complex,14.456200,78.814600,Free,90
-Andhra Pradesh,Kadapa,Sidhout Fort,heritage,Historic fort on river bank,14.463900,78.819200,Free,60
-Andhra Pradesh,Kadapa,Rayachoty Hill View,nature,Hilltop scenic viewpoint,14.048400,78.749300,Free,45
-Andhra Pradesh,Kadapa,Mylavaram Dam,nature,Reservoir and picnic area,14.485200,78.785600,Free,60
-Andhra Pradesh,Kadapa,Kadapa Heritage Walk,heritage,Exploration of old town,14.475900,78.835900,Free,60
-Andhra Pradesh,Kadapa,Ontimitta Temple,heritage,Famous Rama temple complex,14.393400,79.009600,Free,90
-Andhra Pradesh,Chittoor,Horsley Hills,nature,Hill station with cool climate,13.650900,78.403600,INR 30,150
-Andhra Pradesh,Chittoor,Kaundinya Wildlife Sanctuary,nature,Elephant and wildlife reserve,13.682800,78.607200,INR 50,150
-Andhra Pradesh,Chittoor,Kanipakam Vinayaka Temple,heritage,Famous Ganesha temple,13.277200,79.019600,Free,90
-Andhra Pradesh,Chittoor,Chandragiri Fort,heritage,Historic Vijayanagara fort,13.586400,79.317800,Free,90
-Andhra Pradesh,Chittoor,Talakona Waterfall,nature,Tallest waterfall in Andhra Pradesh,13.815400,79.214200,Free,120
-Andhra Pradesh,Chittoor,Nagari Hills Trek,adventure,Trekking in Eastern Ghats,13.308200,79.586100,Free,180
-Andhra Pradesh,Chittoor,Srikalahasti Temple,heritage,Famous Shiva temple,13.749000,79.698800,Free,90
-Andhra Pradesh,Chittoor,Kalyani Dam,nature,Reservoir and picnic area,13.637800,78.506900,Free,60
-Andhra Pradesh,Chittoor,Chittoor Heritage Walk,heritage,Historic town exploration,13.217200,79.100300,Free,60
-Andhra Pradesh,Chittoor,Kalavagunta Viewpoint,nature,Hill viewpoint near forest,13.660900,78.432200,Free,45
-Andhra Pradesh,Vizianagaram,Vizianagaram Fort,heritage,Historic fort and palace ruins,18.113300,83.411200,Free,90
-Andhra Pradesh,Vizianagaram,Ramanaidu Studios Viewpoint,heritage,Famous film studio exterior views,17.735800,83.266600,Free,45
-Andhra Pradesh,Vizianagaram,Thatipudi Reservoir,nature,Scenic reservoir and hills,18.019400,83.512600,Free,90
-Andhra Pradesh,Vizianagaram,Padmanabham Temple,heritage,Ancient temple with history,17.966900,83.483700,Free,60
-Andhra Pradesh,Vizianagaram,Simhachalam Hills,nature,Forested hills near city,17.766300,83.249700,Free,90
-Andhra Pradesh,Vizianagaram,Seethammadara Viewpoint,nature,Urban hill viewpoint,17.744600,83.296400,Free,45
-Andhra Pradesh,Vizianagaram,Thotlakonda Buddhist Site,heritage,Ancient Buddhist ruins,17.828600,83.419800,Free,90
-Andhra Pradesh,Vizianagaram,Kumili Handloom Village,heritage,Traditional weaving village,18.156400,83.438200,Free,60
-Andhra Pradesh,Vizianagaram,Vizianagaram Heritage Walk,heritage,Old town exploration,18.112900,83.411900,Free,60
-Andhra Pradesh,Vizianagaram,Gantyada View Hills,nature,Hill area near city outskirts,18.170300,83.469100,Free,45
-Andhra Pradesh,Machilipatnam,Manginapudi Beach,beach,Popular beach with lighthouse views,16.187400,81.138200,Free,120
-Andhra Pradesh,Machilipatnam,Machilipatnam Fort Ruins,heritage,Remains of historic port fort,16.182600,81.137000,Free,60
-Andhra Pradesh,Machilipatnam,Panduranga Swamy Temple,heritage,Ancient Krishna temple,16.187900,81.136400,Free,60
-Andhra Pradesh,Machilipatnam,Avanigadda Backwaters,nature,Scenic Krishna river backwaters,16.021700,80.919200,Free,90
-Andhra Pradesh,Machilipatnam,Pedana Kalamkari Village,heritage,Traditional Kalamkari art center,16.260600,81.134600,Free,90
-Andhra Pradesh,Machilipatnam,Machilipatnam Lighthouse,nature,Coastal viewpoint and photography spot,16.186100,81.140300,Free,45
-Andhra Pradesh,Machilipatnam,Ghantasala Buddhist Site,heritage,Ancient Buddhist ruins,16.238300,81.052800,Free,90
-Andhra Pradesh,Machilipatnam,Krishna Delta Bird Area,nature,Seasonal migratory birds,16.200000,81.050000,Free,120
-Andhra Pradesh,Machilipatnam,Machilipatnam Heritage Walk,heritage,Historic port town exploration,16.185900,81.136800,Free,60
-Andhra Pradesh,Machilipatnam,Water Sports Manginapudi,adventure,Jet ski and boating activities,16.188200,81.139500,INR 800,90
-Andhra Pradesh,Nandyal,Mahanandi Temple,heritage,Famous ancient Shiva temple,15.486800,78.512300,Free,90
-Andhra Pradesh,Nandyal,Banaganapalli Fort,heritage,Historic fort ruins,15.317900,78.226300,Free,60
-Andhra Pradesh,Nandyal,Ahobilam Upper Temple,heritage,Narasimha temple in hills,15.137200,78.774600,Free,120
-Andhra Pradesh,Nandyal,Nallamala Forest View,nature,Forested hill views,15.381400,78.618200,Free,90
-Andhra Pradesh,Nandyal,Oravakallu Rock Garden,nature,Rock formations and viewpoints,15.781700,78.012200,INR 20,90
-Andhra Pradesh,Nandyal,Mahanandi Backwater Area,nature,Water bodies and greenery,15.492300,78.508700,Free,60
-Andhra Pradesh,Nandyal,Nandyal Heritage Walk,heritage,Old town exploration,15.477300,78.482800,Free,60
-Andhra Pradesh,Nandyal,Pathala Ganga Boat Ride,adventure,Boat ride near Srisailam,16.074800,78.869300,INR 150,60
-Andhra Pradesh,Nandyal,Rollapadu Sanctuary Access,nature,Nearby wildlife sanctuary zone,15.432500,78.210000,INR 50,120
-Andhra Pradesh,Nandyal,Shivagiri Hill View,nature,Hilltop viewpoint near town,15.460800,78.495600,Free,45
-Andhra Pradesh,Proddatur,Proddatur Town Viewpoint,nature,Urban hill viewpoint,14.739900,78.550600,Free,45
-Andhra Pradesh,Proddatur,Siddheswara Swamy Temple,heritage,Important local temple,14.737800,78.553900,Free,60
-Andhra Pradesh,Proddatur,Proddatur Heritage Walk,heritage,Exploration of old town,14.739100,78.551200,Free,60
-Andhra Pradesh,Proddatur,Gandikota Day Trip,nature,Access point to Gandikota canyon,14.814300,78.286100,Free,180
-Andhra Pradesh,Proddatur,Penna River Bank,nature,Riverside relaxation area,14.735600,78.552400,Free,60
-Andhra Pradesh,Proddatur,Sidhout Fort,heritage,Historic fort nearby,14.463900,78.819200,Free,90
-Andhra Pradesh,Proddatur,Rayachoty Road View,nature,Scenic countryside drive,14.692200,78.640300,Free,45
-Andhra Pradesh,Proddatur,Proddatur Market,heritage,Local shopping and food area,14.739400,78.552100,Free,60
-Andhra Pradesh,Proddatur,Penna River Bridge View,nature,Bridge and river scenery,14.737200,78.550800,Free,30
-Andhra Pradesh,Proddatur,Cultural Hall Proddatur,heritage,Local cultural venue,14.738800,78.551900,Free,60
-Andhra Pradesh,Tenali,Tenali Beach Access,beach,Coastal access near Tenali region,16.240000,80.640000,Free,120
-Andhra Pradesh,Tenali,Tenali Ramalingeswara Temple,heritage,Ancient Shiva temple,16.239800,80.640900,Free,60
-Andhra Pradesh,Tenali,Krishna Canal Bank,nature,Canal-side walking area,16.237600,80.642300,Free,45
-Andhra Pradesh,Tenali,Chandole Handloom Village,heritage,Traditional weaving village,16.220900,80.655400,Free,90
-Andhra Pradesh,Tenali,Tenali Heritage Walk,heritage,Old town exploration,16.239200,80.641800,Free,60
-Andhra Pradesh,Tenali,Munnangi Backwaters,nature,Scenic rural backwaters,16.195300,80.658900,Free,90
-Andhra Pradesh,Tenali,Water Sports Krishna Canal,adventure,Boating activities,16.238800,80.643600,INR 300,60
-Andhra Pradesh,Tenali,Tenali Central Park,nature,Urban green space,16.240600,80.641200,Free,60
-Andhra Pradesh,Tenali,Tenali Market,heritage,Local shopping hub,16.239500,80.641500,Free,60
-Andhra Pradesh,Tenali,Village Cycling Route,nature,Countryside cycling trail,16.210000,80.650000,Free,90
-Andhra Pradesh,Amaravati,Dhyana Buddha Statue,heritage,Iconic meditation Buddha statue,16.572000,80.357800,Free,60
-Andhra Pradesh,Amaravati,Amaravati Stupa,heritage,Ancient Buddhist stupa,16.572600,80.356400,Free,90
-Andhra Pradesh,Amaravati,Amaravati Museum,heritage,Buddhist artifacts museum,16.572800,80.357200,INR 10,60
-Andhra Pradesh,Amaravati,Krishna River Viewpoint,nature,Scenic riverfront views,16.574500,80.359600,Free,45
-Andhra Pradesh,Amaravati,Amaravati Heritage Walk,heritage,Archaeological and historic walk,16.573200,80.356900,Free,60
-Andhra Pradesh,Amaravati,Uddandarayunipalem Capital Zone,nature,Planned capital region landscape,16.515200,80.516300,Free,60
-Andhra Pradesh,Amaravati,Kondaveedu Fort Access,nature,Viewpoint towards historic fort,16.616800,80.352900,Free,90
-Andhra Pradesh,Amaravati,Seed Access Road View,nature,Open plains and river scenery,16.565300,80.361800,Free,45
-Andhra Pradesh,Amaravati,Cycling Track Amaravati,nature,Designated cycling route,16.570900,80.360200,Free,90
-Andhra Pradesh,Amaravati,Sunset Point Amaravati,nature,Riverbank sunset viewing spot,16.573800,80.358400,Free,45
+state,city,hotel_name,hotel_category,avg_price_per_night_inr,latitude,longitude,rating
+Andhra Pradesh,Visakhapatnam,Novotel Visakhapatnam Varun Beach,luxury,9000,17.712300,83.318900,4.6
+Andhra Pradesh,Visakhapatnam,The Park Visakhapatnam,luxury,8500,17.711900,83.319800,4.5
+Andhra Pradesh,Visakhapatnam,Ramada by Wyndham Vizag,luxury,7500,17.726800,83.305300,4.4
+Andhra Pradesh,Visakhapatnam,Four Points by Sheraton,mid-range,6000,17.716900,83.301200,4.3
+Andhra Pradesh,Visakhapatnam,Keys Select Hotel,mid-range,4200,17.733200,83.316400,4.1
+Andhra Pradesh,Visakhapatnam,Dolphin Hotel,mid-range,4800,17.724600,83.305100,4.2
+Andhra Pradesh,Visakhapatnam,Hotel Daspalla,luxury,8200,17.712900,83.300600,4.5
+Andhra Pradesh,Visakhapatnam,Treebo Trend MVP Grand,budget,2200,17.739800,83.318200,3.9
+Andhra Pradesh,Visakhapatnam,Hotel Meghalaya,budget,2000,17.712400,83.305700,3.8
+Andhra Pradesh,Visakhapatnam,OYO Townhouse Vizag,budget,1800,17.721100,83.309800,3.7
+Andhra Pradesh,Vijayawada,Novotel Vijayawada Varun,luxury,8800,16.506200,80.628900,4.6
+Andhra Pradesh,Vijayawada,Hyatt Place Vijayawada,luxury,9200,16.497900,80.664300,4.7
+Andhra Pradesh,Vijayawada,Quality Hotel DV Manor,mid-range,5500,16.511300,80.624700,4.4
+Andhra Pradesh,Vijayawada,Hotel Ilapuram,mid-range,4500,16.509600,80.623800,4.1
+Andhra Pradesh,Vijayawada,Hotel Aira,luxury,7800,16.507200,80.651300,4.5
+Andhra Pradesh,Vijayawada,Treebo Trend Kosala,budget,2100,16.512800,80.621900,3.8
+Andhra Pradesh,Vijayawada,Hotel Southern Grand,mid-range,4800,16.504100,80.623200,4.0
+Andhra Pradesh,Vijayawada,OYO Capital O,budget,1900,16.506600,80.620500,3.7
+Andhra Pradesh,Vijayawada,Hotel Midcity,budget,1700,16.512100,80.629900,3.6
+Andhra Pradesh,Vijayawada,Hotel City Central,budget,1600,16.510200,80.624100,3.5
+Andhra Pradesh,Tirupati,Taj Tirupati,luxury,9500,13.635600,79.415300,4.7
+Andhra Pradesh,Tirupati,Marasa Sarovar Premiere,luxury,8200,13.626900,79.419800,4.6
+Andhra Pradesh,Tirupati,Minerva Grand,mid-range,5200,13.630200,79.417500,4.3
+Andhra Pradesh,Tirupati,Hotel Bliss,mid-range,4600,13.625400,79.420900,4.2
+Andhra Pradesh,Tirupati,Ramee Guestline,luxury,7800,13.628700,79.414900,4.4
+Andhra Pradesh,Tirupati,Treebo Trend Seven Hills,budget,2300,13.630800,79.419200,3.8
+Andhra Pradesh,Tirupati,Hotel Bhimas,budget,2400,13.628100,79.417800,3.9
+Andhra Pradesh,Tirupati,Hotel PLR Grand,budget,2100,13.628900,79.416300,3.7
+Andhra Pradesh,Tirupati,Hotel Harsha Residency,budget,1900,13.629600,79.418900,3.6
+Andhra Pradesh,Tirupati,Hotel Renigunta,budget,1700,13.646300,79.504100,3.5
+Andhra Pradesh,Kurnool,Trident Hotel Kurnool,mid-range,4200,15.828700,78.038200,4.1
+Andhra Pradesh,Kurnool,Hotel DVR Mansion,mid-range,3800,15.830900,78.042500,4.0
+Andhra Pradesh,Kurnool,Hotel Mourya Inn,mid-range,4000,15.831800,78.040700,4.1
+Andhra Pradesh,Kurnool,Hotel Athidhi Regency,budget,2200,15.829400,78.039100,3.8
+Andhra Pradesh,Kurnool,Hotel Eesha Residency,budget,2000,15.827900,78.041300,3.7
+Andhra Pradesh,Kurnool,Hotel Rajavihar,luxury,6500,15.825600,78.037900,4.4
+Andhra Pradesh,Kurnool,Hotel Akshaya,budget,1800,15.826700,78.038600,3.6
+Andhra Pradesh,Kurnool,OYO Townhouse Kurnool,budget,1700,15.829800,78.040900,3.5
+Andhra Pradesh,Kurnool,Hotel Sai Teja,budget,1600,15.828300,78.041800,3.4
+Andhra Pradesh,Kurnool,Hotel Central Plaza,mid-range,3900,15.830100,78.039500,4.0
+Andhra Pradesh,Rajahmundry,River Bay Resort,luxury,8800,17.003900,81.786600,4.5
+Andhra Pradesh,Rajahmundry,Hotel Anand Regency,mid-range,4200,17.004200,81.789300,4.1
+Andhra Pradesh,Rajahmundry,Manjeera Sarovar Premiere,luxury,9000,16.999800,81.790900,4.6
+Andhra Pradesh,Rajahmundry,Hotel Shelton,mid-range,3800,17.006400,81.792100,4.0
+Andhra Pradesh,Rajahmundry,Hotel La Hospin,budget,2200,17.005800,81.791700,3.8
+Andhra Pradesh,Rajahmundry,OYO River View,budget,1900,17.002600,81.785200,3.6
+Andhra Pradesh,Rajahmundry,Hotel Royal Fort,budget,2000,17.004900,81.789900,3.7
+Andhra Pradesh,Rajahmundry,Hotel Akshaya,budget,1800,17.003300,81.788800,3.5
+Andhra Pradesh,Rajahmundry,Hotel Pushkar,budget,1700,17.006900,81.792500,3.6
+Andhra Pradesh,Rajahmundry,Hotel Jetty Grand,mid-range,4100,17.007400,81.794200,4.0
+Andhra Pradesh,Guntur,The Capital Hotel,luxury,7200,16.306500,80.436900,4.4
+Andhra Pradesh,Guntur,Hotel Geetha Regency,mid-range,4200,16.308800,80.437500,4.1
+Andhra Pradesh,Guntur,Hotel Siddhartha Grand,mid-range,4500,16.305900,80.438200,4.2
+Andhra Pradesh,Guntur,Hotel Swarna Palace,mid-range,3900,16.309700,80.435600,4.0
+Andhra Pradesh,Guntur,Hotel Karthikeya Grand,luxury,6800,16.304300,80.439100,4.3
+Andhra Pradesh,Guntur,Treebo Trend Empire,budget,2200,16.307400,80.434800,3.8
+Andhra Pradesh,Guntur,Hotel V Royal,budget,2000,16.310100,80.436200,3.7
+Andhra Pradesh,Guntur,Hotel Mourya Inn,budget,1900,16.308200,80.435100,3.6
+Andhra Pradesh,Guntur,OYO Flagship Guntur,budget,1700,16.306800,80.437900,3.5
+Andhra Pradesh,Guntur,Hotel Surya Grand,mid-range,4100,16.305200,80.440300,4.0
+Andhra Pradesh,Nellore,Hotel Minerva Grand Nellore,luxury,7600,14.442900,79.986800,4.5
+Andhra Pradesh,Nellore,Hotel DR Utthama,mid-range,4200,14.443600,79.987300,4.1
+Andhra Pradesh,Nellore,Hotel Blue Moon,mid-range,3900,14.440200,79.985900,4.0
+Andhra Pradesh,Nellore,Hotel Sree Lakshmi Residency,budget,2200,14.444100,79.984500,3.8
+Andhra Pradesh,Nellore,Hotel City Pride,budget,2000,14.441700,79.988200,3.7
+Andhra Pradesh,Nellore,OYO Townhouse Nellore,budget,1800,14.442500,79.989100,3.6
+Andhra Pradesh,Nellore,Hotel Kalpana Residency,budget,1700,14.440900,79.987600,3.5
+Andhra Pradesh,Nellore,Hotel RRR Grand,mid-range,4100,14.443900,79.986200,4.0
+Andhra Pradesh,Nellore,Hotel Mourya Inn Nellore,mid-range,4300,14.445300,79.985300,4.2
+Andhra Pradesh,Nellore,Hotel Sai International,budget,1600,14.441200,79.984100,3.4
+Andhra Pradesh,Ongole,Hotel Kaveri Grand,luxury,7000,15.505600,80.048800,4.4
+Andhra Pradesh,Ongole,Hotel Vikram Deluxe,mid-range,4200,15.506900,80.047200,4.1
+Andhra Pradesh,Ongole,Hotel Central Park,mid-range,3900,15.504800,80.050300,4.0
+Andhra Pradesh,Ongole,Hotel Raghavendra Residency,budget,2100,15.503600,80.046700,3.8
+Andhra Pradesh,Ongole,Hotel Sitara Inn,budget,2000,15.507200,80.048900,3.7
+Andhra Pradesh,Ongole,OYO Ongole Central,budget,1800,15.505100,80.047600,3.6
+Andhra Pradesh,Ongole,Hotel Surya Inn,budget,1700,15.504200,80.049800,3.5
+Andhra Pradesh,Ongole,Hotel Swarna Palace Ongole,mid-range,4100,15.506300,80.046100,4.0
+Andhra Pradesh,Ongole,Hotel Mourya Inn Ongole,mid-range,4300,15.507600,80.047900,4.2
+Andhra Pradesh,Ongole,Hotel Sai Residency,budget,1600,15.503900,80.048300,3.4
+Andhra Pradesh,Eluru,Hotel Grand Arya,luxury,6800,16.711200,81.095900,4.4
+Andhra Pradesh,Eluru,Hotel Sri Ram Grand,mid-range,4200,16.709800,81.096300,4.1
+Andhra Pradesh,Eluru,Hotel Blue Moon Eluru,mid-range,3900,16.712600,81.094800,4.0
+Andhra Pradesh,Eluru,Hotel Vivera,budget,2200,16.710300,81.097900,3.8
+Andhra Pradesh,Eluru,Hotel Sai Residency Eluru,budget,2000,16.708900,81.095400,3.7
+Andhra Pradesh,Eluru,OYO Eluru Central,budget,1800,16.711800,81.096600,3.6
+Andhra Pradesh,Eluru,Hotel Minerva Eluru,mid-range,4300,16.713200,81.097200,4.2
+Andhra Pradesh,Eluru,Hotel Sri Lakshmi,budget,1700,16.709600,81.098300,3.5
+Andhra Pradesh,Eluru,Hotel Mourya Inn Eluru,mid-range,4100,16.710900,81.094600,4.0
+Andhra Pradesh,Eluru,Hotel City Park Eluru,budget,1600,16.708200,81.096100,3.4
+Andhra Pradesh,Srikakulam,Hotel River View,luxury,6500,18.296800,83.897900,4.4
+Andhra Pradesh,Srikakulam,Hotel Ananda Inn,mid-range,4200,18.298300,83.896700,4.1
+Andhra Pradesh,Srikakulam,Hotel Royal Park,mid-range,3900,18.295700,83.899200,4.0
+Andhra Pradesh,Srikakulam,Hotel Sri Sai Residency,budget,2200,18.297600,83.895800,3.8
+Andhra Pradesh,Srikakulam,Hotel Blue Moon Srikakulam,budget,2000,18.296200,83.898600,3.7
+Andhra Pradesh,Srikakulam,OYO Srikakulam Central,budget,1800,18.294900,83.897300,3.6
+Andhra Pradesh,Srikakulam,Hotel Mourya Inn Srikakulam,mid-range,4300,18.299100,83.896200,4.2
+Andhra Pradesh,Srikakulam,Hotel Vamsi Residency,budget,1700,18.295400,83.899800,3.5
+Andhra Pradesh,Srikakulam,Hotel Sri Lakshmi Grand,mid-range,4100,18.297900,83.898100,4.0
+Andhra Pradesh,Srikakulam,Hotel City Square,budget,1600,18.296500,83.896900,3.4
+Andhra Pradesh,Kakinada,Paradigm Sarovar Portico,luxury,7800,16.989800,82.246900,4.5
+Andhra Pradesh,Kakinada,Hotel Royal Park,luxury,7200,16.987400,82.245100,4.4
+Andhra Pradesh,Kakinada,Hotel Subham Grand,mid-range,4200,16.988900,82.247800,4.1
+Andhra Pradesh,Kakinada,Hotel Viswa Residency,mid-range,3900,16.990200,82.248600,4.0
+Andhra Pradesh,Kakinada,Hotel Anand Regency,budget,2200,16.987100,82.249200,3.8
+Andhra Pradesh,Kakinada,OYO Kakinada Central,budget,1900,16.988600,82.246200,3.6
+Andhra Pradesh,Kakinada,Hotel Blue Moon Kakinada,budget,1800,16.989300,82.245700,3.5
+Andhra Pradesh,Kakinada,Hotel Mourya Inn Kakinada,mid-range,4300,16.990900,82.247100,4.2
+Andhra Pradesh,Kakinada,Hotel City Pride,budget,1700,16.987900,82.248900,3.4
+Andhra Pradesh,Kakinada,Hotel Central Park Kakinada,mid-range,4100,16.989600,82.246500,4.0
+Andhra Pradesh,Anantapur,Hotel Manasa Grand,luxury,7000,14.681900,77.600300,4.4
+Andhra Pradesh,Anantapur,Hotel Blue Moon Anantapur,mid-range,4200,14.682800,77.598900,4.1
+Andhra Pradesh,Anantapur,Hotel Mourya Inn Anantapur,mid-range,4000,14.684100,77.599700,4.0
+Andhra Pradesh,Anantapur,Hotel Surya Residency,budget,2200,14.681200,77.601600,3.8
+Andhra Pradesh,Anantapur,Hotel Sai Teja,budget,2000,14.683500,77.602300,3.7
+Andhra Pradesh,Anantapur,OYO Anantapur Central,budget,1800,14.682100,77.600900,3.6
+Andhra Pradesh,Anantapur,Hotel Minerva Grand,luxury,7600,14.685200,77.598100,4.5
+Andhra Pradesh,Anantapur,Hotel City Park,budget,1700,14.680600,77.603400,3.5
+Andhra Pradesh,Anantapur,Hotel Royal Palace,mid-range,4300,14.684700,77.599300,4.2
+Andhra Pradesh,Anantapur,Hotel Sri Lakshmi Residency,budget,1600,14.683900,77.601900,3.4
+Andhra Pradesh,Kadapa,Hotel Grand Arya Kadapa,luxury,7200,14.476800,78.835600,4.4
+Andhra Pradesh,Kadapa,Hotel Mourya Inn Kadapa,mid-range,4300,14.477900,78.836900,4.2
+Andhra Pradesh,Kadapa,Hotel Blue Moon Kadapa,mid-range,4000,14.475600,78.834100,4.0
+Andhra Pradesh,Kadapa,Hotel Sri Lakshmi Grand,budget,2200,14.474300,78.833800,3.8
+Andhra Pradesh,Kadapa,Hotel Sai Residency Kadapa,budget,2000,14.476200,78.837200,3.7
+Andhra Pradesh,Kadapa,OYO Kadapa Central,budget,1800,14.477100,78.835400,3.6
+Andhra Pradesh,Kadapa,Hotel Minerva Grand Kadapa,luxury,7800,14.478500,78.834600,4.5
+Andhra Pradesh,Kadapa,Hotel City Park Kadapa,budget,1700,14.475100,78.836100,3.5
+Andhra Pradesh,Kadapa,Hotel Royal Fort Kadapa,mid-range,4200,14.476900,78.838000,4.1
+Andhra Pradesh,Kadapa,Hotel Central Park Kadapa,mid-range,4100,14.478200,78.833900,4.0
+Andhra Pradesh,Chittoor,Fortune Select Grand Ridge,luxury,8200,13.630900,79.414600,4.6
+Andhra Pradesh,Chittoor,Hotel Pai Viceroy,luxury,7600,13.627800,79.418300,4.5
+Andhra Pradesh,Chittoor,Hotel Bliss Chittoor,mid-range,4500,13.628600,79.416700,4.2
+Andhra Pradesh,Chittoor,Hotel Minerva Grand Chittoor,mid-range,4800,13.629400,79.419100,4.3
+Andhra Pradesh,Chittoor,Hotel Sri Lakshmi Residency,budget,2300,13.627100,79.417600,3.8
+Andhra Pradesh,Chittoor,OYO Chittoor Central,budget,2000,13.626800,79.415900,3.6
+Andhra Pradesh,Chittoor,Hotel Harsha Residency,budget,1900,13.630200,79.418900,3.7
+Andhra Pradesh,Chittoor,Hotel PLR Grand Chittoor,budget,2100,13.628300,79.416200,3.9
+Andhra Pradesh,Chittoor,Hotel Ramee Guestline,luxury,7800,13.631100,79.414300,4.4
+Andhra Pradesh,Chittoor,Hotel City Square Chittoor,budget,1700,13.629800,79.417300,3.5
+Andhra Pradesh,Vizianagaram,Hotel Ananda Inn Vizianagaram,luxury,6800,18.113900,83.412100,4.4
+Andhra Pradesh,Vizianagaram,Hotel Royal Park Vizianagaram,mid-range,4200,18.114600,83.411300,4.1
+Andhra Pradesh,Vizianagaram,Hotel Mourya Inn Vizianagaram,mid-range,4300,18.115800,83.410900,4.2
+Andhra Pradesh,Vizianagaram,Hotel Blue Moon Vizianagaram,mid-range,3900,18.112700,83.413400,4.0
+Andhra Pradesh,Vizianagaram,Hotel Sri Sai Residency,budget,2200,18.114100,83.414200,3.8
+Andhra Pradesh,Vizianagaram,OYO Vizianagaram Central,budget,1900,18.113200,83.412800,3.6
+Andhra Pradesh,Vizianagaram,Hotel City Pride Vizianagaram,budget,1800,18.115100,83.411700,3.5
+Andhra Pradesh,Vizianagaram,Hotel Minerva Grand Vizianagaram,luxury,7400,18.116300,83.413000,4.5
+Andhra Pradesh,Vizianagaram,Hotel Lakshmi Grand,mid-range,4100,18.112900,83.414900,4.0
+Andhra Pradesh,Vizianagaram,Hotel Vamsi Residency,budget,1700,18.114800,83.412500,3.4
+Andhra Pradesh,Machilipatnam,Hotel Kennison,luxury,6500,16.186200,81.137400,4.4
+Andhra Pradesh,Machilipatnam,Hotel Chandra Residency,mid-range,4200,16.185400,81.136800,4.1
+Andhra Pradesh,Machilipatnam,Hotel Mourya Inn Machilipatnam,mid-range,4300,16.187100,81.138200,4.2
+Andhra Pradesh,Machilipatnam,Hotel Sri Lakshmi Residency,budget,2200,16.184900,81.135900,3.8
+Andhra Pradesh,Machilipatnam,Hotel Blue Moon Machilipatnam,budget,2000,16.186800,81.137900,3.7
+Andhra Pradesh,Machilipatnam,OYO Machilipatnam Central,budget,1800,16.185600,81.136300,3.6
+Andhra Pradesh,Machilipatnam,Hotel Royal Fort Machilipatnam,mid-range,4100,16.187900,81.139100,4.0
+Andhra Pradesh,Machilipatnam,Hotel Sai Teja,budget,1700,16.184200,81.135300,3.5
+Andhra Pradesh,Machilipatnam,Hotel Minerva Grand Machilipatnam,luxury,7200,16.188600,81.138800,4.5
+Andhra Pradesh,Machilipatnam,Hotel City Park Machilipatnam,budget,1600,16.185100,81.136000,3.4
+Andhra Pradesh,Nandyal,Hotel DVR Mansion Nandyal,luxury,7000,15.477900,78.482200,4.4
+Andhra Pradesh,Nandyal,Hotel Mourya Inn Nandyal,mid-range,4300,15.476500,78.483600,4.2
+Andhra Pradesh,Nandyal,Hotel Blue Moon Nandyal,mid-range,4000,15.478300,78.481700,4.0
+Andhra Pradesh,Nandyal,Hotel Sri Lakshmi Grand,budget,2200,15.479200,78.480900,3.8
+Andhra Pradesh,Nandyal,Hotel Sai Residency Nandyal,budget,2000,15.476900,78.484300,3.7
+Andhra Pradesh,Nandyal,OYO Nandyal Central,budget,1800,15.478600,78.482800,3.6
+Andhra Pradesh,Nandyal,Hotel Central Park Nandyal,mid-range,4100,15.480100,78.483900,4.1
+Andhra Pradesh,Nandyal,Hotel Royal Fort Nandyal,mid-range,4200,15.477200,78.485100,4.0
+Andhra Pradesh,Nandyal,Hotel City Pride Nandyal,budget,1700,15.479800,78.481300,3.5
+Andhra Pradesh,Nandyal,Hotel Minerva Grand Nandyal,luxury,7600,15.481500,78.484600,4.5
+Andhra Pradesh,Proddatur,Hotel Sri Sai Grand,luxury,6800,14.739800,78.551400,4.4
+Andhra Pradesh,Proddatur,Hotel Mourya Inn Proddatur,mid-range,4200,14.740900,78.550700,4.1
+Andhra Pradesh,Proddatur,Hotel Blue Moon Proddatur,mid-range,3900,14.738600,78.552300,4.0
+Andhra Pradesh,Proddatur,Hotel Sri Lakshmi Residency,budget,2200,14.739200,78.549800,3.8
+Andhra Pradesh,Proddatur,Hotel Sai Teja Proddatur,budget,2000,14.741300,78.553100,3.7
+Andhra Pradesh,Proddatur,OYO Proddatur Central,budget,1800,14.739700,78.551900,3.6
+Andhra Pradesh,Proddatur,Hotel Central Park Proddatur,mid-range,4100,14.738900,78.550100,4.0
+Andhra Pradesh,Proddatur,Hotel City Square Proddatur,budget,1700,14.740600,78.552800,3.5
+Andhra Pradesh,Proddatur,Hotel Minerva Grand Proddatur,luxury,7400,14.742100,78.550400,4.5
+Andhra Pradesh,Proddatur,Hotel Royal Fort Proddatur,mid-range,4300,14.738300,78.551600,4.2
+Andhra Pradesh,Tenali,Hotel Chandra Grand,luxury,6600,16.240800,80.642100,4.4
+Andhra Pradesh,Tenali,Hotel Mourya Inn Tenali,mid-range,4200,16.239600,80.641300,4.1
+Andhra Pradesh,Tenali,Hotel Blue Moon Tenali,mid-range,3900,16.241100,80.640200,4.0
+Andhra Pradesh,Tenali,Hotel Sri Lakshmi Residency,budget,2200,16.239200,80.643400,3.8
+Andhra Pradesh,Tenali,Hotel Sai Residency Tenali,budget,2000,16.242300,80.641700,3.7
+Andhra Pradesh,Tenali,OYO Tenali Central,budget,1800,16.240100,80.642900,3.6
+Andhra Pradesh,Tenali,Hotel Central Park Tenali,mid-range,4100,16.241800,80.640900,4.0
+Andhra Pradesh,Tenali,Hotel City Pride Tenali,budget,1700,16.239900,80.641100,3.5
+Andhra Pradesh,Tenali,Hotel Minerva Grand Tenali,luxury,7200,16.243200,80.642600,4.5
+Andhra Pradesh,Tenali,Hotel Royal Palace Tenali,mid-range,4300,16.242700,80.640500,4.2
+Andhra Pradesh,Amaravati,The Gateway Hotel Amaravati,luxury,8500,16.573900,80.358900,4.6
+Andhra Pradesh,Amaravati,Hotel Minerva Grand Amaravati,luxury,7800,16.575200,80.360400,4.5
+Andhra Pradesh,Amaravati,Hotel Mourya Inn Amaravati,mid-range,4200,16.572100,80.357600,4.1
+Andhra Pradesh,Amaravati,Hotel Blue Moon Amaravati,mid-range,3900,16.571400,80.359200,4.0
+Andhra Pradesh,Amaravati,Hotel Sri Lakshmi Residency,budget,2200,16.570800,80.356900,3.8
+Andhra Pradesh,Amaravati,Hotel Sai Residency Amaravati,budget,2000,16.573400,80.360800,3.7
+Andhra Pradesh,Amaravati,OYO Amaravati Central,budget,1800,16.572900,80.358200,3.6
+Andhra Pradesh,Amaravati,Hotel Central Park Amaravati,mid-range,4100,16.574600,80.359700,4.0
+Andhra Pradesh,Amaravati,Hotel City Square Amaravati,budget,1700,16.571900,80.357300,3.5
+Andhra Pradesh,Amaravati,Hotel Royal Palace Amaravati,mid-range,4300,16.575800,80.361100,4.2
