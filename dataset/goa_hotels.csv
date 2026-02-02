@@ -1,0 +1,201 @@
+state,city,hotel_name,hotel_category,avg_price_per_night_inr,latitude,longitude,rating
+Goa,Panaji,Goa Marriott Resort & Spa,luxury,14000,15.502400,73.829900,4.6
+Goa,Panaji,Grand Hyatt Goa,luxury,15000,15.463900,73.807300,4.7
+Goa,Panaji,Country Inn & Suites Panaji,mid-range,6500,15.499100,73.828400,4.3
+Goa,Panaji,Hotel Mandovi,mid-range,5200,15.498300,73.827900,4.1
+Goa,Panaji,The Crown Goa,mid-range,6000,15.501200,73.829400,4.2
+Goa,Panaji,Hotel Manvin's,budget,2800,15.498900,73.826800,3.8
+Goa,Panaji,Hotel Viva Panjim,budget,3000,15.496700,73.827600,4.0
+Goa,Panaji,OYO Panaji Central,budget,2000,15.499800,73.828100,3.6
+Goa,Panaji,Treebo Trend Sunheads,budget,2300,15.500600,73.826300,3.7
+Goa,Panaji,Hotel Venite,budget,1800,15.497200,73.829100,3.5
+Goa,Calangute,Taj Fort Aguada Resort & Spa,luxury,18000,15.495600,73.773900,4.8
+Goa,Calangute,Le Méridien Goa,luxury,16000,15.522800,73.774300,4.6
+Goa,Calangute,Hard Rock Hotel Goa,mid-range,8500,15.557600,73.752900,4.4
+Goa,Calangute,Resort Terra Paraiso,mid-range,6500,15.544200,73.758100,4.2
+Goa,Calangute,Azzure By Spree,mid-range,6000,15.548900,73.754600,4.1
+Goa,Calangute,Hotel Calangute Towers,budget,3200,15.543700,73.756800,3.9
+Goa,Calangute,La Flamingo,budget,2800,15.550100,73.753200,3.8
+Goa,Calangute,OYO Flagship Calangute,budget,2000,15.546900,73.755900,3.6
+Goa,Calangute,Treebo Trend Dona Eliza,budget,2400,15.552200,73.757400,3.7
+Goa,Calangute,Hotel Sea Shore,budget,1800,15.548200,73.754100,3.5
+Goa,Candolim,Seashell Suites & Villas,luxury,14000,15.520400,73.765900,4.7
+Goa,Candolim,Taj Holiday Village,luxury,17000,15.518300,73.763200,4.8
+Goa,Candolim,Novotel Goa Candolim,mid-range,9000,15.520700,73.771300,4.4
+Goa,Candolim,Fortune Acron Regina,mid-range,7500,15.518900,73.761400,4.3
+Goa,Candolim,Santana Beach Resort,mid-range,6200,15.515600,73.762800,4.2
+Goa,Candolim,Hotel Sonesta Inns,budget,3200,15.517700,73.764300,3.9
+Goa,Candolim,Silver Sands Serenity,budget,2800,15.516200,73.760900,3.8
+Goa,Candolim,OYO Candolim Beach Road,budget,2000,15.518600,73.763700,3.6
+Goa,Candolim,Treebo Trend Jesant Valley,budget,2400,15.519800,73.765100,3.7
+Goa,Candolim,Hotel Casa De Goa,budget,2600,15.520100,73.762300,3.8
+Goa,Mapusa,The Crown of North Goa,luxury,9000,15.590900,73.814700,4.4
+Goa,Mapusa,Hotel Green Park,mid-range,5200,15.591800,73.812900,4.1
+Goa,Mapusa,Hotel Royale Heritage,mid-range,4800,15.589700,73.811300,4.0
+Goa,Mapusa,Treebo Trend La Paz,budget,2600,15.590300,73.813500,3.8
+Goa,Mapusa,Hotel Sharayu,budget,2300,15.592200,73.814200,3.7
+Goa,Mapusa,OYO Mapusa Central,budget,2000,15.591400,73.812100,3.6
+Goa,Mapusa,Hotel Alankar,budget,1800,15.589900,73.810800,3.5
+Goa,Mapusa,Hotel Menino,budget,1700,15.590700,73.813900,3.4
+Goa,Mapusa,Hotel Mapusa Residency,mid-range,4200,15.592800,73.815400,4.0
+Goa,Mapusa,Hotel Hill Rock,luxury,7800,15.594300,73.816200,4.3
+Goa,Morjim,Marbela Beach Resort,luxury,13000,15.629600,73.736200,4.6
+Goa,Morjim,Azaya Beach Resort,luxury,15000,15.623400,73.738100,4.7
+Goa,Morjim,La Cabana Beach Resort,mid-range,8500,15.630900,73.735800,4.4
+Goa,Morjim,Montego Bay Beach Village,mid-range,7200,15.628200,73.734600,4.2
+Goa,Morjim,Living Room by Seasons,budget,3200,15.631200,73.736900,3.9
+Goa,Morjim,Treebo Trend Morjim Plaza,budget,2600,15.629800,73.737400,3.8
+Goa,Morjim,OYO Morjim Beach Road,budget,2000,15.630600,73.735200,3.6
+Goa,Morjim,Hotel Morjim Hermitage,budget,2300,15.628900,73.734100,3.7
+Goa,Morjim,Hotel Sea Breeze,budget,1800,15.629300,73.736000,3.5
+Goa,Morjim,Resorte Marinha Dourada,mid-range,6800,15.632200,73.739500,4.3
+Goa,Arambol,Ashwem Beach Resort,luxury,12000,15.716200,73.737900,4.6
+Goa,Arambol,Arambol Plaza Beach Resort,mid-range,6500,15.703400,73.719800,4.2
+Goa,Arambol,Lotus Sutra,luxury,13500,15.705800,73.720900,4.7
+Goa,Arambol,Swati Hotel Arambol,mid-range,5200,15.704900,73.721300,4.1
+Goa,Arambol,This Is It Beach Resort,mid-range,6000,15.701600,73.718500,4.2
+Goa,Arambol,Treebo Trend Arambol,budget,2600,15.703100,73.719200,3.8
+Goa,Arambol,OYO Arambol Beach Road,budget,2000,15.702400,73.720100,3.6
+Goa,Arambol,Hotel Arambol Paradise,budget,2300,15.704300,73.722200,3.7
+Goa,Arambol,Hotel Sea View Arambol,budget,1800,15.705600,73.718900,3.5
+Goa,Arambol,Hotel Mountain View Arambol,budget,1700,15.707200,73.723500,3.4
+Goa,Baga,Taj Holiday Village Baga,luxury,18000,15.552200,73.749300,4.8
+Goa,Baga,Acron Waterfront Resort,luxury,14000,15.554900,73.748800,4.6
+Goa,Baga,Resort Rio,mid-range,9000,15.555600,73.750200,4.4
+Goa,Baga,Colonia Santa Maria,mid-range,7500,15.556900,73.751400,4.3
+Goa,Baga,Lazy Lagoon Sarovar Portico,mid-range,8200,15.553100,73.748100,4.2
+Goa,Baga,Hotel Baga Pride,budget,3200,15.554600,73.750900,3.9
+Goa,Baga,Hotel Fiesta Beach Resort,budget,2800,15.556300,73.752000,3.8
+Goa,Baga,OYO Baga Beach Road,budget,2000,15.555100,73.749700,3.6
+Goa,Baga,Treebo Trend Beach Box,budget,2400,15.557200,73.751800,3.7
+Goa,Baga,Hotel Sea Hawk,budget,1800,15.553800,73.748900,3.5
+Goa,Anjuna,W Goa,luxury,22000,15.596900,73.736200,4.8
+Goa,Anjuna,Anamiva Goa,luxury,15000,15.597400,73.737800,4.6
+Goa,Anjuna,Spazio Leisure Resort,mid-range,8000,15.598200,73.740600,4.3
+Goa,Anjuna,Granpa’s Inn Hotel,mid-range,6500,15.596300,73.739100,4.2
+Goa,Anjuna,Casa Anjuna,mid-range,7200,15.595200,73.742400,4.4
+Goa,Anjuna,Treebo Trend Casa Anjuna,budget,2600,15.595800,73.741900,3.8
+Goa,Anjuna,OYO Anjuna Beach Road,budget,2000,15.596600,73.740100,3.6
+Goa,Anjuna,Hotel Down Hill Village,budget,2300,15.594900,73.743200,3.7
+Goa,Anjuna,Hotel Casa De Anjuna,budget,1900,15.597100,73.742800,3.5
+Goa,Anjuna,Hotel Blue Pearl,budget,1700,15.598600,73.739400,3.4
+Goa,Vagator,W Goa Vagator,luxury,21000,15.599300,73.736900,4.8
+Goa,Vagator,Anahata Retreat,luxury,16000,15.601400,73.735800,4.7
+Goa,Vagator,Leoney Resort,mid-range,7500,15.602900,73.739500,4.2
+Goa,Vagator,Cochichos Resort,mid-range,6800,15.601200,73.738100,4.1
+Goa,Vagator,The Grand Leoney,mid-range,7200,15.603100,73.740300,4.3
+Goa,Vagator,Treebo Trend Vagator,budget,2600,15.602200,73.737900,3.8
+Goa,Vagator,OYO Vagator Beach Road,budget,2000,15.601800,73.736600,3.6
+Goa,Vagator,Hotel Hill Top View,budget,2300,15.604400,73.741200,3.7
+Goa,Vagator,Hotel Vagator Sea View,budget,1800,15.603600,73.739000,3.5
+Goa,Vagator,Hotel Casa Vagator,budget,1700,15.600900,73.737200,3.4
+Goa,Old Goa,Heritage Village Resort & Spa,luxury,12000,15.460600,73.807100,4.6
+Goa,Old Goa,Hotel Surya Palace,luxury,10000,15.500300,73.911600,4.5
+Goa,Old Goa,Old Goa Residency,mid-range,6500,15.500700,73.910900,4.2
+Goa,Old Goa,Hotel La Grace,mid-range,6000,15.499600,73.912300,4.1
+Goa,Old Goa,Hotel Mandovi Palace,mid-range,5800,15.501200,73.911800,4.0
+Goa,Old Goa,Treebo Trend Old Goa,budget,2600,15.499900,73.913100,3.8
+Goa,Old Goa,OYO Old Goa Central,budget,2000,15.500100,73.912700,3.6
+Goa,Old Goa,Hotel River View Old Goa,budget,2300,15.501600,73.910400,3.7
+Goa,Old Goa,Hotel Casa De Old Goa,budget,1800,15.499300,73.911500,3.5
+Goa,Old Goa,Hotel Basilica Inn,budget,1700,15.500900,73.913400,3.4
+Goa,Margao,The Fern Kadamba Hotel & Spa,luxury,9000,15.275800,73.958900,4.5
+Goa,Margao,Radisson Goa Candolim City Center,luxury,8500,15.276900,73.959800,4.4
+Goa,Margao,Hotel Nanutel,mid-range,5500,15.275300,73.959300,4.2
+Goa,Margao,Hotel Laxmi Empire,mid-range,5200,15.276400,73.957200,4.1
+Goa,Margao,Hotel Xec Residency,mid-range,4800,15.274900,73.956400,4.0
+Goa,Margao,Treebo Trend City Stay,budget,2600,15.277200,73.958100,3.8
+Goa,Margao,Hotel Madhuvan,budget,2300,15.275600,73.957600,3.7
+Goa,Margao,OYO Margao Central,budget,2000,15.276800,73.959100,3.6
+Goa,Margao,Hotel City Comfort,budget,1800,15.274300,73.958400,3.5
+Goa,Margao,Hotel Welcome,budget,1700,15.276100,73.960200,3.4
+Goa,Colva,Kenilworth Resort & Spa,luxury,14000,15.266900,73.912400,4.7
+Goa,Colva,Longuinhos Beach Resort,luxury,12000,15.276200,73.911100,4.6
+Goa,Colva,Star Beach Resort,mid-range,6500,15.277600,73.912900,4.2
+Goa,Colva,William's Beach Retreat,mid-range,5800,15.275900,73.913600,4.1
+Goa,Colva,Silva Heritage Resort,mid-range,6000,15.274400,73.910800,4.0
+Goa,Colva,Treebo Trend Green View,budget,2600,15.276800,73.911900,3.8
+Goa,Colva,Hotel Colva Kinara,budget,2300,15.278100,73.913200,3.7
+Goa,Colva,OYO Colva Beach Road,budget,2000,15.275300,73.910300,3.6
+Goa,Colva,Hotel Silver Sands,budget,1800,15.277400,73.912100,3.5
+Goa,Colva,Hotel Amigo Plaza,budget,1700,15.276100,73.913800,3.4
+Goa,Benaulim,Taj Exotica Resort & Spa,luxury,22000,15.255200,73.922600,4.8
+Goa,Benaulim,Azaya Beach Resort,luxury,15000,15.253900,73.923800,4.7
+Goa,Benaulim,Joecons Beach Resort,mid-range,7500,15.256100,73.921500,4.3
+Goa,Benaulim,La Grace Resort,mid-range,6500,15.252800,73.924200,4.2
+Goa,Benaulim,Hotel San Joao,mid-range,6000,15.254700,73.923100,4.1
+Goa,Benaulim,Treebo Trend Varca,budget,2600,15.257200,73.920900,3.8
+Goa,Benaulim,Hotel Failaka,budget,2300,15.255600,73.924600,3.7
+Goa,Benaulim,OYO Benaulim Beach,budget,2000,15.253300,73.922000,3.6
+Goa,Benaulim,Hotel Lotus Beach,budget,1800,15.256900,73.921800,3.5
+Goa,Benaulim,Hotel Palm Grove,budget,1700,15.254100,73.923900,3.4
+Goa,Canacona,The LaLiT Golf & Spa Resort,luxury,20000,14.989600,74.023100,4.8
+Goa,Canacona,Art Resort Goa,luxury,13000,14.986900,74.021700,4.6
+Goa,Canacona,Cola Beach Resort,mid-range,8500,15.096400,73.936100,4.4
+Goa,Canacona,Agonda Cottages,mid-range,7000,14.948900,73.975200,4.2
+Goa,Canacona,Dunhill Beach Resort,mid-range,6500,14.972600,74.021400,4.1
+Goa,Canacona,Treebo Trend Canacona,budget,2600,14.989100,74.022500,3.8
+Goa,Canacona,Hotel Sun N Moon,budget,2300,14.990700,74.024300,3.7
+Goa,Canacona,OYO Palolem Central,budget,2000,14.988400,74.021900,3.6
+Goa,Canacona,Hotel Palolem Beach Resort,budget,1800,14.972200,74.022800,3.5
+Goa,Canacona,Hotel Neptune Point,budget,1700,14.973800,74.021300,3.4
+Goa,Quepem,The Postcard Hideaway,luxury,11000,15.198600,74.062800,4.6
+Goa,Quepem,Wildflower Villas,luxury,9500,15.201300,74.060900,4.5
+Goa,Quepem,Hotel Quepem Residency,mid-range,5200,15.212600,74.078900,4.1
+Goa,Quepem,Hotel Woodlands,mid-range,4800,15.213200,74.077500,4.0
+Goa,Quepem,Hotel Central Park Quepem,mid-range,5000,15.211800,74.079600,4.0
+Goa,Quepem,Treebo Trend Quepem,budget,2600,15.212100,74.080200,3.8
+Goa,Quepem,Hotel City Pride Quepem,budget,2300,15.214300,74.078100,3.7
+Goa,Quepem,OYO Quepem Central,budget,2000,15.213700,74.079900,3.6
+Goa,Quepem,Hotel Sai Residency Quepem,budget,1800,15.211200,74.077200,3.5
+Goa,Quepem,Hotel Hill View Quepem,budget,1700,15.214900,74.080800,3.4
+Goa,Pernem,Ahilya by the Sea,luxury,18000,15.721300,73.733600,4.8
+Goa,Pernem,Red Earth Kabini Goa,luxury,14000,15.729800,73.735400,4.6
+Goa,Pernem,Arambol Lake Resort,mid-range,6500,15.703900,73.721200,4.2
+Goa,Pernem,Mandrem Retreat,mid-range,6000,15.665800,73.736600,4.1
+Goa,Pernem,Ashwem Beach Resort,mid-range,5800,15.623400,73.733800,4.0
+Goa,Pernem,Treebo Trend Ashwem,budget,2600,15.625900,73.734600,3.8
+Goa,Pernem,Hotel Nanu Resort,budget,2400,15.621300,73.735200,3.7
+Goa,Pernem,OYO Pernem Central,budget,2000,15.718300,73.730900,3.6
+Goa,Pernem,Hotel Sea Pearl,budget,1800,15.720400,73.732500,3.5
+Goa,Pernem,Hotel Hill Breeze,budget,1700,15.722100,73.736900,3.4
+Goa,Bardez,Taj Fort Aguada Heritage,luxury,20000,15.494200,73.773800,4.9
+Goa,Bardez,Le Méridien Goa,luxury,16000,15.522800,73.774300,4.7
+Goa,Bardez,Hard Rock Hotel Goa,mid-range,9000,15.557600,73.752900,4.4
+Goa,Bardez,Resort Terra Paraiso,mid-range,6800,15.544200,73.758100,4.2
+Goa,Bardez,Acron Waterfront Resort,mid-range,7500,15.554900,73.748800,4.3
+Goa,Bardez,Treebo Trend Calangute,budget,2600,15.547800,73.756300,3.8
+Goa,Bardez,Hotel Calangute Towers,budget,3000,15.543700,73.756800,3.9
+Goa,Bardez,OYO Bardez Central,budget,2000,15.552300,73.754200,3.6
+Goa,Bardez,Hotel Sea Breeze,budget,1800,15.549600,73.753100,3.5
+Goa,Bardez,Hotel Royal Heritage,budget,1700,15.551200,73.755600,3.4
+Goa,Tiswadi,Goa Marriott Resort & Spa,luxury,14000,15.502400,73.829900,4.6
+Goa,Tiswadi,Grand Hyatt Goa,luxury,15000,15.463900,73.807300,4.7
+Goa,Tiswadi,The Crown Goa,mid-range,6000,15.501200,73.829400,4.2
+Goa,Tiswadi,Country Inn & Suites Panaji,mid-range,6500,15.499100,73.828400,4.3
+Goa,Tiswadi,Hotel Mandovi,mid-range,5200,15.498300,73.827900,4.1
+Goa,Tiswadi,Treebo Trend Sunheads,budget,2300,15.500600,73.826300,3.7
+Goa,Tiswadi,Hotel Manvin's,budget,2800,15.498900,73.826800,3.8
+Goa,Tiswadi,OYO Panaji Central,budget,2000,15.499800,73.828100,3.6
+Goa,Tiswadi,Hotel Venite,budget,1800,15.497200,73.829100,3.5
+Goa,Tiswadi,Hotel Viva Panjim,budget,3000,15.496700,73.827600,4.0
+Goa,Salcete,Alila Diwa Goa,luxury,18000,15.330800,73.913200,4.8
+Goa,Salcete,The Leela Goa,luxury,22000,15.156900,73.946200,4.9
+Goa,Salcete,Planet Hollywood Goa,mid-range,9500,15.196600,73.938900,4.4
+Goa,Salcete,Heritage Village Resort,mid-range,8200,15.246400,73.949500,4.3
+Goa,Salcete,Nanu Resort Betalbatim,mid-range,7000,15.248900,73.912600,4.2
+Goa,Salcete,Treebo Trend Majorda,budget,2600,15.146200,73.943800,3.8
+Goa,Salcete,Hotel Colva Residency,budget,2400,15.278100,73.913200,3.7
+Goa,Salcete,OYO Colva Central,budget,2000,15.275300,73.910300,3.6
+Goa,Salcete,Hotel Amigo Plaza,budget,1800,15.276100,73.913800,3.5
+Goa,Salcete,Hotel Silver Sands,budget,1700,15.277400,73.912100,3.4
+Goa,Sanguem,Dudhsagar Spa Resort,luxury,12000,15.318900,74.081200,4.6
+Goa,Sanguem,The Postcard Hideaway Netravali,luxury,11000,15.330500,74.190200,4.5
+Goa,Sanguem,Hotel Jungle Book,mid-range,6500,15.334200,74.187800,4.2
+Goa,Sanguem,Hotel Netravali Retreat,mid-range,6000,15.331600,74.188900,4.1
+Goa,Sanguem,Hotel Nature View,mid-range,5800,15.329800,74.186400,4.0
+Goa,Sanguem,Treebo Trend Sanguem,budget,2600,15.327900,74.185300,3.8
+Goa,Sanguem,Hotel Sai Residency Sanguem,budget,2300,15.328400,74.184200,3.7
+Goa,Sanguem,OYO Sanguem Central,budget,2000,15.326800,74.183900,3.6
+Goa,Sanguem,Hotel Hill View Sanguem,budget,1800,15.325600,74.186100,3.5
+Goa,Sanguem,Hotel Green Valley,budget,1700,15.329100,74.182700,3.4
