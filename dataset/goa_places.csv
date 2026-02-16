@@ -1,21 +1,21 @@
 state,city,place_name,category,description,latitude,longitude,entry_fee,avg_visit_duration_minutes
-Goa,Panaji,Miramar Beach,beach,Popular urban beach near Panaji with sunset views,15.490500,73.807800,Free,90
+Goa,Panaji,Miramar Beach,beach,Popular urban beach near Panaji with sunset views,15.476681,73.806676,Free,90
 Goa,Panaji,Dona Paula View Point,nature,Scenic viewpoint overlooking Zuari and Mandovi rivers,15.454900,73.802800,Free,45
-Goa,Panaji,Reis Magos Fort,heritage,Restored Portuguese fort with river views,15.597200,73.817700,INR 50,90
+Goa,Panaji,Reis Magos Fort,heritage,Restored Portuguese fort with river views,15.496508,73.809132,INR 50,90
 Goa,Panaji,Goa State Museum,heritage,Museum showcasing Goan history and culture,15.498500,73.828300,INR 10,60
 Goa,Panaji,Fontainhas Latin Quarter,heritage,UNESCO-recognized Portuguese-era neighborhood,15.496800,73.829900,Free,75
 Goa,Panaji,Dr Salim Ali Bird Sanctuary,nature,Mangrove bird sanctuary on Chorao Island,15.538800,73.866600,INR 10,120
 Goa,Panaji,Immaculate Conception Church,heritage,Iconic white church overlooking Panaji,15.498200,73.828800,Free,45
 Goa,Panaji,Mandovi River Cruise,adventure,Boat cruise with cultural performances,15.498600,73.825900,INR 300,60
 Goa,Panaji,Campal Gardens,nature,Peaceful riverside garden and walkway,15.493200,73.819800,Free,45
-Goa,Panaji,Miramar Cycling Track,adventure,Beachside cycling and jogging track,15.491500,73.808200,Free,60
-Goa,Calangute,Calangute Beach,beach,One of the busiest and most popular beaches in Goa,15.548500,73.756200,Free,120
+Goa,Panaji,Miramar Cycling Track,adventure,Beachside cycling and jogging track,15.491000,73.807500,Free,60
+Goa,Calangute,Calangute Beach,beach,One of the busiest and most popular beaches in Goa,15.542488,73.755562,Free,120
 Goa,Calangute,Baga River Point,nature,Scenic river-mouth area near Baga,15.556800,73.751000,Free,60
 Goa,Calangute,Tito's Lane,adventure,Famous nightlife and entertainment street,15.556100,73.751700,Free,120
-Goa,Calangute,St Alex Church,heritage,Large white church with baroque architecture,15.542700,73.760200,Free,45
+Goa,Calangute,St Alex Church,heritage,Large white church with baroque architecture,15.541584,73.768025,Free,45
 Goa,Calangute,Kerkar Art Complex,heritage,Art gallery showcasing Goan artists,15.553100,73.754800,Free,60
 Goa,Calangute,Baga Creek Kayaking,adventure,Kayaking experience in calm backwaters,15.557200,73.750200,INR 800,90
-Goa,Calangute,Calangute Market,heritage,Local market with souvenirs and handicrafts,15.548800,73.756500,Free,60
+Goa,Calangute,Calangute Market,heritage,Local market with souvenirs and handicrafts,15.545165,73.763103,Free,60
 Goa,Calangute,Infantaria Restaurant Area,heritage,Historic bakery and café zone,15.549900,73.754900,Free,60
 Goa,Calangute,Baga Snow Park,adventure,Indoor snow-themed adventure park,15.557400,73.750900,INR 1200,60
 Goa,Calangute,Baga Beach Extension,beach,Less crowded extension of Baga Beach,15.558000,73.751400,Free,90
@@ -28,18 +28,18 @@ Goa,Candolim,Princess River Cruise,nature,Backwater cruise with wildlife spottin
 Goa,Candolim,Sinq Night Market,heritage,Weekly flea and food market,15.496500,73.769200,Free,90
 Goa,Candolim,Nerul River Kayaking,adventure,Kayaking in calm inland waters,15.510600,73.773900,INR 900,90
 Goa,Candolim,Sunset Point Sinquerim,nature,Scenic sunset location near the fort,15.497900,73.764400,Free,45
-Goa,Candolim,Candolim Church,heritage,Historic village church,15.518300,73.760900,Free,30
+Goa,Candolim,Candolim Church,heritage,Historic village church,15.506108,73.770850,Free,30
 Goa,Mapusa,Mapusa Market,heritage,Famous weekly market selling local produce,15.590300,73.813900,Free,90
-Goa,Mapusa,St Jerome Church,heritage,Major religious landmark in Mapusa,15.589300,73.810600,Free,45
+Goa,Mapusa,St Jerome Church,heritage,Major religious landmark in Mapusa,15.589554,73.818393,Free,45
 Goa,Mapusa,Anjuna View Hills,nature,Elevated viewpoints near Anjuna side,15.584900,73.807400,Free,60
 Goa,Mapusa,Chapora River Bank,nature,Quiet riverside area ideal for walks,15.602500,73.820300,Free,60
 Goa,Mapusa,Mapusa Municipal Garden,nature,Public garden and leisure spot,15.592800,73.812900,Free,45
-Goa,Mapusa,Bodgeshwar Temple,heritage,Popular local temple,15.599300,73.811100,Free,60
+Goa,Mapusa,Bodgeshwar Temple,heritage,Popular local temple,15.584541,73.805877,Free,60
 Goa,Mapusa,Local Spice Shops,heritage,Traditional Goan spice markets,15.591600,73.813500,Free,45
-Goa,Mapusa,Moira Cycling Route,adventure,Village cycling route through greenery,15.602900,73.825800,Free,90
+Goa,Mapusa,Moira Cycling Route,adventure,Village cycling route through greenery,15.604200,73.823800,Free,90
 Goa,Mapusa,Mapusa Cultural Hall,heritage,Venue for cultural events,15.589900,73.812300,Free,60
-Goa,Mapusa,Parra Road,nature,Famous palm-lined scenic road,15.573400,73.807900,Free,30
-Goa,Margao,Colva Beach,beach,Popular white sand beach in South Goa,15.279500,73.913800,Free,120
+Goa,Mapusa,Parra Road,nature,Famous palm-lined scenic road,15.573986,73.793697,Free,30
+Goa,Margao,Colva Beach,beach,Popular white sand beach in South Goa,15.285791,73.910545,Free,120
 Goa,Margao,Benaulim Beach,beach,Quieter beach near Margao,15.254200,73.924100,Free,120
 Goa,Margao,Our Lady of Grace Church,heritage,Historic church in Margao city center,15.275600,73.958000,Free,45
 Goa,Margao,Margao Municipal Garden,nature,Urban green space for relaxation,15.277900,73.962300,Free,45
@@ -49,19 +49,19 @@ Goa,Margao,Colva Creek Kayaking,adventure,Kayaking through coastal creeks,15.276
 Goa,Margao,Margao Market,heritage,Local market and shopping area,15.275900,73.958900,Free,60
 Goa,Margao,Navelim Hill View,nature,Elevated viewpoint near Margao,15.283600,73.952200,Free,45
 Goa,Margao,Loyola College Area,heritage,Colonial-era educational campus,15.281200,73.960900,Free,45
-Goa,Vasco da Gama,Bogmalo Beach,beach,Small scenic beach close to the airport,15.390900,73.833400,Free,120
-Goa,Vasco da Gama,Baina Beach,beach,Urban beach near port area,15.411300,73.815200,Free,90
-Goa,Vasco da Gama,Naval Aviation Museum,heritage,Only naval aviation museum in India,15.386300,73.833200,INR 50,90
-Goa,Vasco da Gama,Mormugao Fort,heritage,Historic Portuguese fort overlooking harbor,15.403600,73.807800,Free,60
-Goa,Vasco da Gama,Japanese Garden,nature,Garden with sea-facing viewpoints,15.387900,73.807200,Free,45
-Goa,Vasco da Gama,St Andrew's Church,heritage,Prominent Vasco church,15.398200,73.811400,Free,45
-Goa,Vasco da Gama,Mormugao Harbour Viewpoint,nature,Scenic port and sea views,15.401800,73.808900,Free,30
-Goa,Vasco da Gama,Hollant Beach,beach,Calm beach ideal for sunrise views,15.378500,73.828300,Free,90
+Goa,Vasco da Gama,Bogmalo Beach,beach,Small scenic beach close to the airport,15.369369,73.834122,Free,120
+Goa,Vasco da Gama,Baina Beach,beach,Urban beach near port area,15.387609,73.807447,Free,90
+Goa,Vasco da Gama,Naval Aviation Museum,heritage,Only naval aviation museum in India,15.374666,73.838736,INR 50,90
+Goa,Vasco da Gama,Mormugao Fort,heritage,Historic Portuguese fort overlooking harbor,15.412081,73.794354,Free,60
+Goa,Vasco da Gama,Japanese Garden,nature,Garden with sea-facing viewpoints,15.407152,73.787391,Free,45
+Goa,Vasco da Gama,St Andrew's Church,heritage,Prominent Vasco church,15.399648,73.817385,Free,45
+Goa,Vasco da Gama,Mormugao Harbour Viewpoint,nature,Scenic port and sea views,15.402200,73.808500,Free,30
+Goa,Vasco da Gama,Hollant Beach,beach,Calm beach ideal for sunrise views,15.369597,73.861977,Free,90
 Goa,Vasco da Gama,Vasco Market,heritage,Local market and shopping area,15.398900,73.810700,Free,60
 Goa,Vasco da Gama,Issorcim Cliff Point,adventure,Cliffside walk with sea views,15.382400,73.834100,Free,60
 Goa,Old Goa,Basilica of Bom Jesus,heritage,UNESCO World Heritage church housing St. Francis Xavier,15.500800,73.911600,Free,90
 Goa,Old Goa,Se Cathedral,heritage,Largest church in Asia by area,15.504200,73.912100,Free,90
-Goa,Old Goa,Church of St Francis of Assisi,heritage,Portuguese-era church and museum,15.503200,73.911400,Free,60
+Goa,Old Goa,Church of St Francis of Assisi,heritage,Portuguese-era church and museum,15.649248,73.830630,Free,60
 Goa,Old Goa,Church of St Cajetan,heritage,Baroque-style church inspired by St Peter's Basilica,15.505700,73.915100,Free,60
 Goa,Old Goa,Ruins of St Augustine,nature,Historic ruins on a hilltop,15.500500,73.906500,Free,60
 Goa,Old Goa,Arch of the Viceroys,heritage,Old ceremonial gateway,15.505800,73.913700,Free,30
@@ -70,47 +70,47 @@ Goa,Old Goa,Divar Island Ferry Point,nature,Scenic ferry crossing and river view
 Goa,Old Goa,Our Lady of the Rosary Church,heritage,One of the oldest churches in Goa,15.501700,73.905000,Free,45
 Goa,Old Goa,Mandovi Riverside Walk,nature,Peaceful riverside walking trail,15.504300,73.910600,Free,45
 Goa,Ponda,Shri Mangeshi Temple,heritage,Famous Hindu temple dedicated to Lord Shiva,15.422600,73.982200,Free,90
-Goa,Ponda,Shri Shantadurga Temple,heritage,Major Goan temple complex,15.408100,73.991300,Free,90
-Goa,Ponda,Braganza House,heritage,Historic Portuguese mansion,15.433500,74.006700,INR 100,60
+Goa,Ponda,Shri Shantadurga Temple,heritage,Major Goan temple complex,15.396137,73.985478,Free,90
+Goa,Ponda,Braganza House,heritage,Historic Portuguese mansion,15.261199,74.043537,INR 100,60
 Goa,Ponda,Bondla Wildlife Sanctuary,nature,Small zoo and forest sanctuary,15.438300,74.101900,INR 50,120
-Goa,Ponda,Safa Masjid,heritage,Ancient mosque with Islamic architecture,15.454200,73.990800,Free,45
+Goa,Ponda,Safa Masjid,heritage,Ancient mosque with Islamic architecture,15.406407,73.999984,Free,45
 Goa,Ponda,Spice Plantation Tour,nature,Guided tour of spice farms,15.419300,74.020500,INR 400,120
 Goa,Ponda,Netravali Wildlife Sanctuary,nature,Biodiversity hotspot with waterfalls,15.341000,74.191000,INR 50,180
-Goa,Ponda,Mhadei River Viewpoint,nature,Scenic river and forest views,15.447800,74.045600,Free,45
+Goa,Ponda,Mhadei River Viewpoint,nature,Scenic river and forest views,15.553300,74.093200,Free,45
 Goa,Ponda,Farmagudi Hill View,nature,Quiet hilltop viewpoint,15.457300,73.998700,Free,30
 Goa,Ponda,Ponda Market,heritage,Local shopping and food area,15.402900,74.007100,Free,60
 Goa,Anjuna,Anjuna Beach,beach,Famous beach known for nightlife and cliffs,15.573900,73.739500,Free,120
-Goa,Anjuna,Anjuna Flea Market,heritage,Weekly flea market with global vendors,15.573300,73.739800,Free,120
-Goa,Anjuna,St Michael's Church,heritage,Large village church in Anjuna,15.570600,73.746900,Free,45
+Goa,Anjuna,Anjuna Flea Market,heritage,Weekly flea market with global vendors,15.576391,73.743977,Free,120
+Goa,Anjuna,St Michael's Church,heritage,Large village church in Anjuna,15.589957,73.764148,Free,45
 Goa,Anjuna,Ozran Beach,beach,Small scenic beach also called Little Vagator,15.593200,73.738100,Free,90
 Goa,Anjuna,Chapora River Kayaking,adventure,Kayaking near river mouth,15.590800,73.740200,INR 800,90
-Goa,Anjuna,Anjuna Cliff Viewpoint,nature,Cliffside sunset viewpoint,15.585400,73.732100,Free,45
+Goa,Anjuna,Anjuna Cliff Viewpoint,nature,Cliffside sunset viewpoint,15.574200,73.739200,Free,45
 Goa,Anjuna,Curlies Beach Shack,adventure,Iconic beach shack and party spot,15.583700,73.733100,Free,120
 Goa,Anjuna,Vagator Hill Trail,adventure,Scenic walking trail between beaches,15.600100,73.736800,Free,60
-Goa,Anjuna,Blue Flag Rock View,nature,Rocky viewpoint near Anjuna shore,15.584900,73.731800,Free,30
+Goa,Anjuna,Blue Flag Rock View,nature,Rocky viewpoint near Anjuna shore,15.574500,73.738900,Free,30
 Goa,Anjuna,Anjuna Heritage Walk,heritage,Walk through old village areas,15.575800,73.744100,Free,60
 Goa,Vagator,Vagator Beach,beach,Red cliff-backed beach with sunset views,15.601100,73.736800,Free,120
-Goa,Vagator,Chapora Fort,heritage,Famous fort overlooking Vagator beach,15.614200,73.738200,Free,90
+Goa,Vagator,Chapora Fort,heritage,Famous fort overlooking Vagator beach,15.605951,73.736356,Free,90
 Goa,Vagator,Ozran Beach,beach,Also called Little Vagator,15.593200,73.738100,Free,90
 Goa,Vagator,Big Vagator Beach,beach,Wider and quieter beach area,15.604800,73.735400,Free,90
-Goa,Vagator,Sunset Point Vagator,nature,Popular sunset viewpoint,15.648900,73.734200,Free,45
+Goa,Vagator,Sunset Point Vagator,nature,Popular sunset viewpoint,15.602200,73.736500,Free,45
 Goa,Vagator,Vagator Hilltop Cafes,heritage,Cafes with cliffside views,15.646300,73.735900,Free,90
 Goa,Vagator,Chapora River View,nature,Scenic river views near fort,15.620800,73.742100,Free,45
 Goa,Vagator,Rock Climbing Spot Vagator,adventure,Cliff-based adventure activity,15.647500,73.733000,Free,60
-Goa,Vagator,St Anthony's Chapel,heritage,Small hilltop chapel,15.641800,73.739400,Free,30
-Goa,Vagator,Vagator Coastal Walk,adventure,Scenic coastal walking route,15.652300,73.731100,Free,60
+Goa,Vagator,St Anthony's Chapel,heritage,Small hilltop chapel,15.644814,73.834600,Free,30
+Goa,Vagator,Vagator Coastal Walk,adventure,Scenic coastal walking route,15.603500,73.734900,Free,60
 Goa,Mapusa,Mapusa Municipal Market,heritage,Major local market for produce and spices,15.590200,73.814000,Free,90
-Goa,Mapusa,St Jerome Church,heritage,Historic church in the heart of Mapusa,15.589300,73.810600,Free,45
-Goa,Mapusa,Bodgeshwar Temple,heritage,Popular local temple near Mapusa,15.599300,73.811100,Free,60
-Goa,Mapusa,Parra Road,nature,Iconic palm-lined scenic road,15.573400,73.807900,Free,30
+Goa,Mapusa,St Jerome Church,heritage,Historic church in the heart of Mapusa,15.589554,73.818393,Free,45
+Goa,Mapusa,Bodgeshwar Temple,heritage,Popular local temple near Mapusa,15.584541,73.805877,Free,60
+Goa,Mapusa,Parra Road,nature,Iconic palm-lined scenic road,15.573942,73.793664,Free,30
 Goa,Mapusa,Moira Village Walk,heritage,Traditional Goan village experience,15.604800,73.819600,Free,60
 Goa,Mapusa,Chapora River Bank,nature,Quiet riverside stretch near Mapusa,15.602500,73.820300,Free,60
 Goa,Mapusa,Mapusa Cultural Hall,heritage,Venue for cultural programs,15.589900,73.812300,Free,60
-Goa,Mapusa,Anjuna Hills Viewpoint,nature,Elevated viewpoint towards Anjuna,15.584900,73.807400,Free,45
+Goa,Mapusa,Anjuna Hills Viewpoint,nature,Elevated viewpoint towards Anjuna,15.580200,73.745300,Free,45
 Goa,Mapusa,Mapusa Garden,nature,Small public garden for leisure,15.592800,73.812900,Free,45
 Goa,Mapusa,Local Spice Shops,heritage,Traditional spice and dry goods stores,15.591600,73.813500,Free,45
-Goa,Calangute,Calangute Beach,beach,Popular and lively beach in North Goa,15.548500,73.756200,Free,120
-Goa,Calangute,St Alex Church,heritage,Large white church with baroque architecture,15.542700,73.760200,Free,45
+Goa,Calangute,Calangute Beach,beach,Popular and lively beach in North Goa,15.542488,73.755562,Free,120
+Goa,Calangute,St Alex Church,heritage,Large white church with baroque architecture,15.541584,73.768025,Free,45
 Goa,Calangute,Calangute Market Square,heritage,Local shopping and food area,15.548800,73.756500,Free,60
 Goa,Calangute,Baga Creek Kayaking,adventure,Kayaking in calm backwaters,15.557200,73.750200,INR 800,90
 Goa,Calangute,Tito's Lane,adventure,Famous nightlife street near Baga,15.556100,73.751700,Free,120
@@ -120,43 +120,43 @@ Goa,Calangute,Baga River Mouth,nature,Scenic river and sea meeting point,15.5568
 Goa,Calangute,Kerkar Art Complex,heritage,Art gallery showcasing Goan artists,15.553100,73.754800,Free,60
 Goa,Calangute,Baga Beach Extension,beach,Less crowded extension of Baga Beach,15.558000,73.751400,Free,90
 Goa,Candolim,Candolim Beach,beach,Clean and relaxed beach stretch,15.519800,73.764200,Free,120
-Goa,Candolim,Fort Aguada,heritage,17th-century Portuguese fort and lighthouse,15.489500,73.773700,Free,90
-Goa,Candolim,Sinquerim Beach,beach,Beach below Fort Aguada,15.493900,73.771400,Free,90
+Goa,Candolim,Fort Aguada,heritage,17th-century Portuguese fort and lighthouse,15.505108,73.770643,Free,90
+Goa,Candolim,Sinquerim Beach,beach,Beach below Fort Aguada,15.501406,73.767470,Free,90
 Goa,Candolim,Nerul River Kayaking,adventure,Kayaking in calm inland waters,15.510600,73.773900,INR 900,90
 Goa,Candolim,Princess River Cruise,nature,Backwater cruise with bird sightings,15.519000,73.766000,INR 400,60
 Goa,Candolim,Sinq Night Market,heritage,Popular weekly night market,15.496500,73.769200,Free,90
-Goa,Candolim,Sunset Point Sinquerim,nature,Scenic sunset viewpoint,15.497900,73.764400,Free,45
+Goa,Candolim,Sunset Point Sinquerim,nature,Scenic sunset viewpoint,15.494800,73.772200,Free,45
 Goa,Candolim,Calizz Restaurant Strip,heritage,Well-known dining and nightlife area,15.517200,73.762500,Free,90
-Goa,Candolim,Candolim Church,heritage,Historic village church,15.518300,73.760900,Free,30
+Goa,Candolim,Candolim Church,heritage,Historic village church,15.506108,73.770850,Free,30
 Goa,Candolim,Water Sports Zone Candolim,adventure,Parasailing and jet ski activities,15.515900,73.762800,INR 1000,90
-Goa,Morjim,Morjim Beach,beach,Quiet beach known for turtle nesting,15.628800,73.742700,Free,120
+Goa,Morjim,Morjim Beach,beach,Quiet beach known for turtle nesting,15.622501,73.729856,Free,120
 Goa,Morjim,Olive Ridley Turtle Nesting Site,nature,Seasonal turtle nesting area,15.630000,73.736200,Free,60
 Goa,Morjim,Chapora River View,nature,Scenic river stretch near Morjim,15.620800,73.742100,Free,45
 Goa,Morjim,St Anthony's Church Morjim,heritage,Local village church,15.629000,73.735000,Free,30
-Goa,Morjim,Mandrem Cycling Route,adventure,Flat scenic cycling trail,15.647300,73.736900,Free,90
-Goa,Morjim,Mandrem Beach,beach,Wide calm beach north of Morjim,15.655700,73.741800,Free,120
-Goa,Morjim,Morjim Sunset Point,nature,Popular sunset viewing spot,15.628300,73.734900,Free,45
+Goa,Morjim,Mandrem Cycling Route,adventure,Flat scenic cycling trail,15.650400,73.740200,Free,90
+Goa,Morjim,Mandrem Beach,beach,Wide calm beach north of Morjim,15.660048,73.713127,Free,120
+Goa,Morjim,Morjim Sunset Point,nature,Popular sunset viewing spot,15.628500,73.742400,Free,45
 Goa,Morjim,Chapora Backwater Kayaking,adventure,Kayaking in backwaters,15.625600,73.739200,INR 800,90
 Goa,Morjim,Russian Food Street,heritage,Cultural food hub in Morjim,15.631100,73.736400,Free,60
 Goa,Morjim,Morjim Village Walk,heritage,Walk through traditional village lanes,15.633200,73.737800,Free,60
-Goa,Arambol,Arambol Beach,beach,Famous beach with hippie culture,15.682600,73.736300,Free,120
-Goa,Arambol,Sweet Water Lake,nature,Freshwater lake behind the beach,15.684000,73.737900,Free,60
-Goa,Arambol,Arambol Cliff View,nature,Cliffside viewpoint overlooking sea,15.715600,73.705000,Free,45
+Goa,Arambol,Arambol Beach,beach,Famous beach with hippie culture,15.678956,73.705039,Free,120
+Goa,Arambol,Sweet Water Lake,nature,Freshwater lake behind the beach,15.697800,73.698250,Free,60
+Goa,Arambol,Arambol Cliff View,nature,Cliffside viewpoint overlooking sea,15.684500,73.736500,Free,45
 Goa,Arambol,Keri Beach,beach,Quiet northern beach near Terekhol river,15.715400,73.745700,Free,90
 Goa,Arambol,Paragliding Point,adventure,Popular paragliding takeoff zone,15.716900,73.707600,INR 2500,60
 Goa,Arambol,Arambol Drum Circle,heritage,Evening cultural gathering on beach,15.701500,73.701900,Free,60
 Goa,Arambol,Harmal Village Walk,heritage,Traditional village exploration,15.704800,73.719300,Free,60
 Goa,Arambol,Arambol Banyan Tree Spot,nature,Shaded relaxation point inland,15.709200,73.721100,Free,30
-Goa,Arambol,Kalacha Beach,nature,Secluded beach north of Arambol,15.686100,73.738600,Free,90
+Goa,Arambol,Kalacha Beach,nature,Secluded beach north of Arambol,15.697841,73.697525,Free,90
 Goa,Arambol,Arambol Yoga Centres,heritage,Yoga and wellness hubs,15.703900,73.719900,Varies,90
-Goa,Margao,Colva Beach,beach,Popular white-sand beach near Margao,15.279500,73.913800,Free,120
+Goa,Margao,Colva Beach,beach,Popular white-sand beach near Margao,15.285791,73.910545,Free,120
 Goa,Margao,Benaulim Beach,beach,Calm and less crowded beach,15.254200,73.924100,Free,120
 Goa,Margao,Our Lady of Grace Church,heritage,Major Catholic church in Margao,15.275600,73.958000,Free,45
 Goa,Margao,Burnzam Ghor,heritage,Portuguese-era mansion museum,15.275100,73.960200,INR 100,60
 Goa,Margao,Margao Municipal Garden,nature,Urban green park for leisure,15.277900,73.962300,Free,45
 Goa,Margao,Margao Market,heritage,Busy local market and shopping area,15.275900,73.958900,Free,60
 Goa,Margao,Colva Creek Kayaking,adventure,Kayaking through mangroves and creeks,15.276000,73.914800,INR 800,90
-Goa,Margao,Navelim Hill View,nature,Small hill viewpoint near Margao,15.283600,73.952200,Free,45
+Goa,Margao,Navelim Hill View,nature,Small hill viewpoint near Margao,15.283800,73.952700,Free,45
 Goa,Margao,Loyola College Area,heritage,Colonial-era educational campus,15.281200,73.960900,Free,45
 Goa,Margao,Fatorda Stadium Area,adventure,Sports and recreation zone,15.264400,73.963300,Free,60
 Goa,Colva,Colva Beach Main Stretch,beach,Most visited section of Colva Beach,15.279500,73.913800,Free,120
@@ -165,37 +165,37 @@ Goa,Colva,Our Lady of Mercy Church,heritage,Historic church with religious signi
 Goa,Colva,Colva Promenade,nature,Beachside walking and relaxation area,15.278200,73.910300,Free,60
 Goa,Colva,Benaulim Backwater Kayaking,adventure,Kayaking in calm backwaters,15.262100,73.920400,INR 800,90
 Goa,Colva,Colva Market,heritage,Local food and souvenir market,15.279800,73.913600,Free,60
-Goa,Colva,Sunset Point Colva,nature,Popular sunset viewing spot,15.276900,73.909700,Free,45
+Goa,Colva,Sunset Point Colva,nature,Popular sunset viewing spot,15.278900,73.913300,Free,45
 Goa,Colva,Water Sports Zone Colva,adventure,Jet ski and parasailing activities,15.279300,73.910800,INR 1000,90
 Goa,Colva,Colva Heritage Walk,heritage,Walk through old village areas,15.281100,73.915100,Free,60
 Goa,Colva,Sernabatim Dunes,nature,Coastal dunes and open spaces,15.266400,73.913500,Free,60
 Goa,Benaulim,Benaulim Beach,beach,Relaxed beach with wide shoreline,15.254200,73.924100,Free,120
 Goa,Benaulim,Trinity Beach,beach,Quiet neighboring beach stretch,15.249900,73.927500,Free,90
-Goa,Benaulim,St John the Baptist Church,heritage,Historic village church,15.253100,73.924100,Free,45
-Goa,Benaulim,Zalor Beach,nature,Less crowded beach ideal for walks,15.243900,73.928700,Free,90
+Goa,Benaulim,St John the Baptist Church,heritage,Historic village church,15.479810,73.922612,Free,45
+Goa,Benaulim,Zalor Beach,nature,Less crowded beach ideal for walks,15.200662,73.934514,Free,90
 Goa,Benaulim,Benaulim Fishing Jetty,heritage,Traditional fishing activity area,15.252600,73.923900,Free,45
 Goa,Benaulim,Benaulim Backwater Trail,nature,Scenic inland walking trail,15.256200,73.930300,Free,60
 Goa,Benaulim,Water Sports Benaulim,adventure,Boat rides and water activities,15.254700,73.923100,INR 900,90
-Goa,Benaulim,Benaulim Sunset Point,nature,Sunset viewing location,15.252200,73.921900,Free,45
+Goa,Benaulim,Benaulim Sunset Point,nature,Sunset viewing location,15.254000,73.923800,Free,45
 Goa,Benaulim,Benaulim Heritage Walk,heritage,Walk through village heritage zones,15.255300,73.926700,Free,60
 Goa,Benaulim,Lotus Pond Area,nature,Small inland waterbody and greenery,15.258900,73.932100,Free,45
 Goa,Canacona,Palolem Beach,beach,Crescent-shaped iconic beach,15.009900,74.023300,Free,120
-Goa,Canacona,Agonda Beach,beach,Serene beach popular with nature lovers,15.041700,73.994200,Free,120
-Goa,Canacona,Butterfly Beach,nature,Hidden beach accessible by boat or trek,15.028400,74.023800,Free,90
-Goa,Canacona,Cotigao Wildlife Sanctuary,nature,Forest sanctuary with watchtowers,14.916000,73.937000,INR 50,150
+Goa,Canacona,Agonda Beach,beach,Serene beach popular with nature lovers,15.041552,73.987162,Free,120
+Goa,Canacona,Butterfly Beach,nature,Hidden beach accessible by boat or trek,15.019466,74.001634,Free,90
+Goa,Canacona,Cotigao Wildlife Sanctuary,nature,Forest sanctuary with watchtowers,14.9760,74.2062,INR 50,150
 Goa,Canacona,Galjibag Turtle Nesting Site,nature,Seasonal Olive Ridley nesting site,14.938900,74.040300,Free,60
 Goa,Canacona,Palolem Dolphin Cruise,adventure,Dolphin spotting boat tour,15.009900,74.023300,INR 500,60
-Goa,Canacona,Cabo de Rama Fort,heritage,Historic cliff-top fort,15.089200,73.925500,Free,90
-Goa,Canacona,Cola Beach,beach,Lagoon-backed secluded beach,15.036900,73.959700,Free,120
+Goa,Canacona,Cabo de Rama Fort,heritage,Historic cliff-top fort,15.087411,73.919927,Free,90
+Goa,Canacona,Cola Beach,beach,Lagoon-backed secluded beach,15.059252,73.970151,Free,120
 Goa,Canacona,Palolem Market,heritage,Shopping and food stalls near beach,15.010200,74.023500,Free,60
-Goa,Canacona,Agonda Sunset Point,nature,Sunset viewing area,15.042100,73.994500,Free,45
-Goa,Quepem,Salaulim Dam,nature,Large reservoir with landscaped gardens,15.139700,74.051800,Free,90
+Goa,Canacona,Agonda Sunset Point,nature,Sunset viewing area,15.041900,73.994100,Free,45
+Goa,Quepem,Salaulim Dam,nature,Large reservoir with landscaped gardens,15.213723,74.179647,Free,90
 Goa,Quepem,Curdi Village Ruins,heritage,Submerged historic village site,15.146900,74.043200,Free,60
 Goa,Quepem,Church of Our Lady of Snows,heritage,Prominent Catholic church,15.195000,74.062000,Free,45
 Goa,Quepem,Betul Beach,nature,Quiet beach near river mouth,15.254000,73.985000,Free,90
 Goa,Quepem,Netravali Wildlife Sanctuary,nature,Biodiversity-rich sanctuary with waterfalls,15.341200,74.190800,INR 50,180
-Goa,Quepem,Wildlife Viewpoint Netravali,nature,Forest and valley views,15.346900,74.185400,Free,45
-Goa,Quepem,Kuskem Waterfall,nature,Seasonal waterfall in forest area,15.333900,74.169200,Free,90
+Goa,Quepem,Wildlife Viewpoint Netravali,nature,Forest and valley views,15.342500,74.192200,Free,45
+Goa,Quepem,Kuskem Waterfall,nature,Seasonal waterfall in forest area,15.299214,74.124047,Free,90
 Goa,Quepem,Quepem Market,heritage,Local market and town center,15.212400,74.078700,Free,60
 Goa,Quepem,Salaulim Backwater Kayaking,adventure,Kayaking in reservoir waters,15.141600,74.049900,INR 900,90
-Goa,Quepem,Hill Viewpoint Quepem,nature,Elevated viewpoint overlooking countryside,15.205800,74.083400,Free,45
+Goa,Quepem,Hill Viewpoint Quepem,nature,Elevated viewpoint overlooking countryside,15.206200,74.084100,Free,45
