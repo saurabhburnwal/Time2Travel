@@ -1,0 +1,21 @@
+destination_id,name,state,country,description,best_season,is_active
+1,Chennai,Tamil Nadu,India,"Capital city with beaches, temples and IT hub",Oct-Feb,TRUE
+2,Coimbatore,Tamil Nadu,India,"Textile city and gateway to Nilgiris",Oct-Feb,TRUE
+3,Madurai,Tamil Nadu,India,"Temple city with Meenakshi Temple",Oct-Mar,TRUE
+4,Ooty,Tamil Nadu,India,"Queen of hill stations in Nilgiris",Apr-Jun, Sep-Nov,TRUE
+5,Kodaikanal,Tamil Nadu,India,"Princess of hill stations with lakes",Apr-Jun, Sep-Oct,TRUE
+6,Rameswaram,Tamil Nadu,India,"Sacred pilgrimage island destination",Oct-Mar,TRUE
+7,Kanyakumari,Tamil Nadu,India,"Southern tip with ocean confluence",Oct-Mar,TRUE
+8,Thanjavur,Tamil Nadu,India,"Art and culture hub with Brihadeeswarar Temple",Oct-Mar,TRUE
+9,Tiruchirappalli,Tamil Nadu,India,"Historic city with Rock Fort Temple",Oct-Mar,TRUE
+10,Salem,Tamil Nadu,India,"Steel city with Yercaud hills nearby",Oct-Mar,TRUE
+11,Yercaud,Tamil Nadu,India,"Hill station known as Jewel of South",Oct-Jun,TRUE
+12,Vellore,Tamil Nadu,India,"Fort city with Golden Temple",Oct-Mar,TRUE
+13,Tirunelveli,Tamil Nadu,India,"Temple town famous for Halwa",Oct-Mar,TRUE
+14,Thoothukudi,Tamil Nadu,India,"Port city known as Pearl City",Oct-Mar,TRUE
+15,Nagapattinam,Tamil Nadu,India,"Coastal town with temples and beaches",Oct-Mar,TRUE
+16,Kumbakonam,Tamil Nadu,India,"Temple town with architectural marvels",Oct-Mar,TRUE
+17,Pollachi,Tamil Nadu,India,"Agricultural town and coconut capital",Oct-Mar,TRUE
+18,Valparai,Tamil Nadu,India,"Hill station with tea estates",Sep-May,TRUE
+19,Hosur,Tamil Nadu,India,"Industrial city near Bangalore border",Oct-Mar,TRUE
+20,Cuddalore,Tamil Nadu,India,"Port city with beaches and temples",Oct-Mar,TRUE

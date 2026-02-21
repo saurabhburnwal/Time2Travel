@@ -5,7 +5,7 @@ place_id,destination_id,travel_type_id,place_name,latitude,longitude,entry_fee,a
 4,1,1,Hussain Sagar Lake,17.401,78.5027,0,65
 5,1,4,Birla Mandir,17.405,78.5067,0,70
 6,1,4,Qutb Shahi Tombs,17.409,78.5107,20,75
-7,1,1,Lumbini Park,17.413,78.5147,0,80
+7,1,1,Lumbini Park,11.6017591,79.4758758,0,80
 8,1,4,Ramoji Film City,17.417,78.5187,0,85
 9,1,5,Jubilee Hills Cafes,17.421,78.5227,20,90
 10,1,5,Tank Bund Night View,17.425,78.5267,0,95
@@ -34,7 +34,7 @@ place_id,destination_id,travel_type_id,place_name,latitude,longitude,entry_fee,a
 33,4,1,Rajiv Gandhi Deer Park,18.4506,79.1408,20,60
 34,4,4,Vemulawada Temple,18.4546,79.1448,0,65
 35,4,1,Ujjwala Park,18.4586,79.1488,0,70
-36,4,4,Archaeological Museum,18.4626,79.1528,20,75
+36,4,4,Archaeological Museum,9.8557579,78.1936024,20,75
 37,4,1,River Walk Area,18.4666,79.1568,0,80
 38,4,1,Boat Club Area,18.4706,79.1608,0,85
 39,4,5,Evening Food Street,18.4746,79.1648,20,90
@@ -56,14 +56,14 @@ place_id,destination_id,travel_type_id,place_name,latitude,longitude,entry_fee,a
 55,6,1,Godavari River View,19.1004,78.3638,0,70
 56,6,2,Forest Trek Route,19.1044,78.3678,20,75
 57,6,1,Hill View Point,19.1084,78.3718,0,80
-58,6,4,Tribal Museum,19.1124,78.3758,0,85
-59,6,1,Eco Park,19.1164,78.3798,20,90
+58,6,4,Tribal Museum,11.3673218,76.6635507,0,85
+59,6,1,Eco Park,13.012677,80.2431127,20,90
 60,6,5,Local Evening Market,19.1204,78.3838,0,95
 61,7,4,Medak Cathedral,18.0493,78.2687,0,50
 62,7,4,Medak Fort Hill,18.0533,78.2727,0,55
 63,7,1,Pocharam Sanctuary,18.0573,78.2767,20,60
 64,7,4,Edupayala Temple,18.0613,78.2807,0,65
-65,7,1,Lake View Point,18.0653,78.2847,0,70
+65,7,1,Lake View Point,10.2220245,77.3605283,0,70
 66,7,4,Heritage Streets,18.0693,78.2887,20,75
 67,7,1,Boating Spot,18.0733,78.2927,0,80
 68,7,1,Sunset View Point,18.0773,78.2967,0,85
@@ -87,15 +87,15 @@ place_id,destination_id,travel_type_id,place_name,latitude,longitude,entry_fee,a
 86,9,1,Hill View Point,17.0815,79.2924,20,75
 87,9,1,River View Area,17.0855,79.2964,0,80
 88,9,4,Heritage Street Walk,17.0895,79.3004,0,85
-89,9,1,Sunset Point,17.0935,79.3044,20,90
+89,9,1,Sunset Point,8.0778131,77.5557978,20,90
 90,9,5,Local Evening Market,17.0975,79.3084,0,95
 91,10,1,Singur Dam,17.6288,78.0906,0,50
 92,10,1,Manjeera Sanctuary,17.6328,78.0946,0,55
-93,10,1,Lake View Park,17.6368,78.0986,20,60
+93,10,1,Lake View Park,13.0412645,80.2280546,20,60
 94,10,4,Heritage Temple Area,17.6408,78.1026,0,65
 95,10,4,Old Fort Ruins,17.6448,78.1066,0,70
 96,10,1,Nature Walk Trail,17.6488,78.1106,20,75
-97,10,1,Sunset Point,17.6528,78.1146,0,80
+97,10,1,Sunset Point,8.0778131,77.5557978,0,80
 98,10,4,Local Museum,17.6568,78.1186,0,85
 99,10,5,Night Food Area,17.6608,78.1226,20,90
 100,10,4,Town Heritage Streets,17.6648,78.1266,0,95
@@ -103,11 +103,11 @@ place_id,destination_id,travel_type_id,place_name,latitude,longitude,entry_fee,a
 102,11,1,Kotepally Reservoir,17.346,77.9124,0,55
 103,11,4,Anantha Padmanabha Temple,17.35,77.9164,20,60
 104,11,2,Forest Trek Route,17.354,77.9204,0,65
-105,11,1,Sunrise View Point,17.358,77.9244,0,70
+105,11,1,Sunrise View Point,11.8175982,78.2406673,0,70
 106,11,1,River Side Camping Area,17.362,77.9284,20,75
 107,11,1,Nature Park,17.366,77.9324,0,80
 108,11,1,Hill Top View,17.37,77.9364,0,85
-109,11,5,Evening Cafes,17.374,77.9404,20,90
+109,11,5,Evening Cafes,9.287025,79.3158721,20,90
 110,11,4,Local Market,17.378,77.9444,0,95
 111,12,1,Pranahita River View,18.8766,79.4483,0,50
 112,12,1,Forest Walk Area,18.8806,79.4523,0,55
@@ -115,18 +115,18 @@ place_id,destination_id,travel_type_id,place_name,latitude,longitude,entry_fee,a
 114,12,1,Eco Tourism Park,18.8886,79.4603,0,65
 115,12,1,River Side Camping,18.8926,79.4643,0,70
 116,12,1,Nature View Point,18.8966,79.4683,20,75
-117,12,4,Temple Area,18.9006,79.4723,0,80
+117,12,4,Temple Area,8.7290271,77.7086873,0,80
 118,12,4,Heritage Streets,18.9046,79.4763,0,85
 119,12,5,Local Night Market,18.9086,79.4803,20,90
 120,12,1,Sunset View Point,18.9126,79.4843,0,95
 121,13,4,Jagtial Fort,18.7987,78.9201,0,50
 122,13,1,Sri Ram Sagar Project,18.8027,78.9241,0,55
-123,13,4,Anjaneya Temple,18.8067,78.9281,20,60
+123,13,4,Anjaneya Temple,10.793711,79.1292308,20,60
 124,13,1,River View Point,18.8107,78.9321,0,65
 125,13,1,Nature Park,18.8147,78.9361,0,70
 126,13,4,Temple Street Area,18.8187,78.9401,20,75
 127,13,4,Local Museum,18.8227,78.9441,0,80
-128,13,1,Sunset Point,18.8267,78.9481,0,85
+128,13,1,Sunset Point,8.0778131,77.5557978,0,85
 129,13,5,Evening Food Street,18.8307,78.9521,20,90
 130,13,4,Handloom Market,18.8347,78.9561,0,95
 131,14,4,Bhadrachalam Temple,17.6724,80.8928,0,50
@@ -137,13 +137,13 @@ place_id,destination_id,travel_type_id,place_name,latitude,longitude,entry_fee,a
 136,14,1,River Side Walk,17.6924,80.9128,20,75
 137,14,1,Nature View Point,17.6964,80.9168,0,80
 138,14,4,Heritage Streets,17.7004,80.9208,0,85
-139,14,5,Night Market,17.7044,80.9248,20,90
-140,14,1,Sunrise View Point,17.7084,80.9288,0,95
+139,14,5,Night Market,9.6091613,77.1700805,20,90
+140,14,1,Sunrise View Point,11.8175982,78.2406673,0,95
 141,15,1,Komati Cheruvu,18.1059,78.856,0,50
 142,15,4,Siddipet Fort Area,18.1099,78.86,0,55
 143,15,4,Local Temple,18.1139,78.864,20,60
 144,15,1,Nature Park,18.1179,78.868,0,65
-145,15,1,Sunset Point,18.1219,78.872,0,70
+145,15,1,Sunset Point,8.0778131,77.5557978,0,70
 146,15,1,River Side Walk,18.1259,78.876,20,75
 147,15,4,Handloom Market,18.1299,78.88,0,80
 148,15,5,Evening Food Street,18.1339,78.884,0,85
@@ -152,11 +152,11 @@ place_id,destination_id,travel_type_id,place_name,latitude,longitude,entry_fee,a
 151,16,4,Yadadri Temple,17.5893,78.9475,0,50
 152,16,1,Hill Top View Point,17.5933,78.9515,0,55
 153,16,1,Temple Gardens,17.5973,78.9555,20,60
-154,16,1,Sunrise Point,17.6013,78.9595,0,65
+154,16,1,Sunrise Point,8.0793666,77.5513442,0,65
 155,16,4,Heritage Streets,17.6053,78.9635,0,70
 156,16,4,Local Museum,17.6093,78.9675,20,75
 157,16,1,Nature Walk Area,17.6133,78.9715,0,80
-158,16,5,Evening Cafes,17.6173,78.9755,0,85
+158,16,5,Evening Cafes,9.287025,79.3158721,0,85
 159,16,4,Spiritual Center,17.6213,78.9795,20,90
 160,16,4,Temple Market Area,17.6253,78.9835,0,95
 161,17,1,Kinnerasani Dam,17.5575,80.6236,0,50
@@ -167,26 +167,26 @@ place_id,destination_id,travel_type_id,place_name,latitude,longitude,entry_fee,a
 166,17,4,Local Museum,17.5775,80.6436,20,75
 167,17,4,Heritage Streets,17.5815,80.6476,0,80
 168,17,5,Evening Food Street,17.5855,80.6516,0,85
-169,17,1,Sunset Point,17.5895,80.6556,20,90
+169,17,1,Sunset Point,8.0778131,77.5557978,20,90
 170,17,1,Eco Tourism Area,17.5935,80.6596,0,95
 171,18,1,Medchal Lake,17.6337,78.485,0,50
 172,18,4,Local Temple,17.6377,78.489,0,55
 173,18,1,Nature Park,17.6417,78.493,20,60
 174,18,1,Hill View Area,17.6457,78.497,0,65
 175,18,4,Heritage Streets,17.6497,78.501,0,70
-176,18,1,Sunset Point,17.6537,78.505,20,75
+176,18,1,Sunset Point,8.0778131,77.5557978,20,75
 177,18,4,Local Museum,17.6577,78.509,0,80
-178,18,5,Evening Cafes,17.6617,78.513,0,85
+178,18,5,Evening Cafes,9.287025,79.3158721,0,85
 179,18,1,Lake Side Walk,17.6657,78.517,20,90
 180,18,4,Town Market Area,17.6697,78.521,0,95
 181,19,1,Kawal Forest Area,19.362,79.289,0,50
 182,19,4,Tribal Village Walk,19.366,79.293,0,55
-183,19,1,Waterfall View Point,19.37,79.297,20,60
+183,19,1,Waterfall View Point,10.2197715,77.4873499,20,60
 184,19,2,Forest Trek Route,19.374,79.301,0,65
 185,19,1,River Side Walk,19.378,79.305,0,70
 186,19,1,Nature Park,19.382,79.309,20,75
 187,19,4,Local Museum,19.386,79.313,0,80
-188,19,1,Sunset Point,19.39,79.317,0,85
+188,19,1,Sunset Point,8.0778131,77.5557978,0,85
 189,19,5,Evening Market,19.394,79.321,20,90
 190,19,1,Eco Tourism Area,19.398,79.325,0,95
 191,20,4,Narayanpet Fort,16.8664,77.4334,0,50
@@ -195,7 +195,7 @@ place_id,destination_id,travel_type_id,place_name,latitude,longitude,entry_fee,a
 194,20,1,River View Area,16.8784,77.4454,0,65
 195,20,1,Nature Park,16.8824,77.4494,0,70
 196,20,4,Heritage Streets,16.8864,77.4534,20,75
-197,20,1,Sunset Point,16.8904,77.4574,0,80
+197,20,1,Sunset Point,8.0778131,77.5557978,0,80
 198,20,4,Local Museum,16.8944,77.4614,0,85
 199,20,5,Evening Food Street,16.8984,77.4654,20,90
 200,20,4,Town Market Area,16.9024,77.4694,0,95
