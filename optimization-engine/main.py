@@ -27,6 +27,7 @@ class OptimizationRequest(BaseModel):
     days: int
     budget: float
     travel_type_id: int
+    group_type_id: Optional[int] = 1 # Default to Solo/General
 
 @app.get("/health")
 def health_check():
@@ -36,7 +37,7 @@ def health_check():
 async def optimize_roadmap(request: OptimizationRequest):
     """
     Builds a weighted graph using PLACE_DISTANCES and runs Dijkstra.
-    Groups attractions into day-wise itineraries based on travel type and budget.
+    Groups attractions into day-wise itineraries based on travel type, budget, and group type.
     """
     try:
         # 1. Build weighted graph
@@ -45,10 +46,8 @@ async def optimize_roadmap(request: OptimizationRequest):
             G.add_edge(dist.place_a_id, dist.place_b_id, weight=dist.distance)
         
         # 2. Prioritize places by travel_type matching
-        # And sort by entry_fee to favor budget if needed
         all_places = request.places
         if request.travel_type_id:
-            # Sort: primary key is matching travel type, secondary is entry fee
             all_places = sorted(
                 all_places, 
                 key=lambda x: (x.travel_type_id != request.travel_type_id, x.entry_fee)
@@ -59,13 +58,20 @@ async def optimize_roadmap(request: OptimizationRequest):
         total_distance = 0.0
         total_entry_fees = 0.0
         
-        # Capacity and fixed cost estimates
-        places_per_day = 3
+        # 3. Pacing based on group_type_id
+        # 1: Solo, 2: Couple, 3: Family, 4: Friends
+        pacing_map = {
+            1: {"places_per_day": 4, "time_multiplier": 1.0},
+            2: {"places_per_day": 3, "time_multiplier": 1.2},
+            3: {"places_per_day": 2, "time_multiplier": 1.5},
+            4: {"places_per_day": 3, "time_multiplier": 1.1}
+        }
+        pacing = pacing_map.get(request.group_type_id, {"places_per_day": 3, "time_multiplier": 1.0})
+        places_per_day = pacing["places_per_day"]
+        
         hotel_price = request.hotels[0].get('price_per_night', 1000) if request.hotels else 1000
         est_accommodation = request.days * hotel_price
         est_food = 800 * request.days
-        
-        # Fixed initial transport estimate (local transport)
         fixed_transport = 200 * request.days
         
         current_location_id = None
@@ -78,17 +84,13 @@ async def optimize_roadmap(request: OptimizationRequest):
             
             # Find start for the day
             if current_location_id is None or current_location_id not in G:
-                # Pick the first prioritized place
                 current_place_id = next(iter(unvisited))
             else:
-                # Find closest unvisited place to last location
                 min_dist = float('inf')
                 current_place_id = next(iter(unvisited))
                 for pid in unvisited:
                     try:
                         d = nx.shortest_path_length(G, source=current_location_id, target=pid, weight='weight')
-                        # Weight the distance by whether it matches travel type
-                        # If it matches, we are more willing to travel
                         penalty = 0.8 if unvisited[pid].travel_type_id == request.travel_type_id else 1.0
                         if (d * penalty) < min_dist:
                             min_dist = d
@@ -96,21 +98,17 @@ async def optimize_roadmap(request: OptimizationRequest):
                     except nx.NetworkXNoPath:
                         continue
             
-            # Check budget before adding
+            # Budget check
             place_to_add = unvisited[current_place_id]
-            
-            # Simple greedy budget check: entry_fee + rough transport increment
-            # (multiplier 25 for Comfort as default)
             transport_multiplier = {1: 10, 2: 25, 3: 50}.get(request.travel_type_id, 25)
             
-            # If we are way over budget, skip expensive places unless they are exact travel type matches
             current_total_est = total_entry_fees + est_accommodation + est_food + (total_distance * transport_multiplier) + fixed_transport
             if current_total_est > request.budget * 1.1 and place_to_add.entry_fee > 500:
                 if place_to_add.travel_type_id != request.travel_type_id:
-                    unvisited.pop(current_place_id) # Skip it
+                    unvisited.pop(current_place_id) 
                     continue
 
-            # Add first place of the day
+            # Add first place
             day_places.append(unvisited.pop(current_place_id))
             total_entry_fees += day_places[-1].entry_fee
             
@@ -136,17 +134,14 @@ async def optimize_roadmap(request: OptimizationRequest):
                 
                 if nearest_place_id:
                     p_candidate = unvisited[nearest_place_id]
-                    # Budget guard for secondary places
                     if (total_entry_fees + p_candidate.entry_fee + est_accommodation + est_food + ((total_distance + min_dist) * transport_multiplier) + fixed_transport) > request.budget * 1.2:
-                        # Only skip if it's not a priority match
                         if p_candidate.travel_type_id != request.travel_type_id:
-                            continue # Don't pop, maybe useful for another day or if budget allows later (unlikely in greedy)
+                            continue 
                     
                     total_distance += min_dist
                     day_places.append(unvisited.pop(nearest_place_id))
                     total_entry_fees += day_places[-1].entry_fee
                 else:
-                    # If no path found, pick next prioritized
                     next_id = next(iter(unvisited))
                     day_places.append(unvisited.pop(next_id))
                     total_entry_fees += day_places[-1].entry_fee

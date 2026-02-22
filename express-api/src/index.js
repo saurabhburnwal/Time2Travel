@@ -105,7 +105,8 @@ app.post('/antigravity/generate-roadmap', async (req, res) => {
             hotels: hotelsRes.data,
             days: pref.days,
             budget: pref.budget,
-            travel_type_id: pref.travel_type_id
+            travel_type_id: pref.travel_type_id,
+            group_type_id: pref.group_type_id
         };
 
         // 4. Call FastAPI
