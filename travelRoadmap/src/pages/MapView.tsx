@@ -28,8 +28,8 @@ export default function MapView() {
 
     const places = getPlacesForDestination(trip.destination);
     const center = DESTINATION_COORDS[trip.destination] || { lat: 10.0889, lng: 77.0595 };
-    const stayLat = (trip.selectedStay as any)?.lat || center.lat;
-    const stayLng = (trip.selectedStay as any)?.lng || center.lng;
+    const stayLat = trip.stayLat || center.lat;
+    const stayLng = trip.stayLng || center.lng;
     const placesPerDay = Math.ceil(places.length / trip.days);
 
     const filteredPlaces = selectedDay === 0
@@ -41,7 +41,7 @@ export default function MapView() {
         ...filteredPlaces.map(p => [p.lat, p.lng] as [number, number]),
     ];
 
-    const dayColors = ['#7c3aed', '#3b82f6', '#10b981', '#f97316', '#ef4444', '#6366f1', '#14b8a6'];
+    const dayColors = ['#18465a', '#9ec1d7', '#10b981', '#65403a', '#ef4444', '#6366f1', '#14b8a6'];
 
     return (
         <AnimatedPage className="page-bg pt-28 pb-16">
@@ -76,7 +76,7 @@ export default function MapView() {
                         />
                         {/* Stay marker */}
                         <Marker position={[stayLat, stayLng]} icon={stayIcon}>
-                            <Popup><strong>🏠 Your Stay</strong><br />{(trip.selectedStay as any)?.name}</Popup>
+                            <Popup><strong>Your Stay</strong><br />{trip.selectedStay}</Popup>
                         </Marker>
                         {/* Place markers */}
                         {filteredPlaces.map(place => (

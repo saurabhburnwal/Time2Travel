@@ -19,7 +19,7 @@ export default function FinalReview() {
     const handleSubmitReview = () => {
         if (reviewRating === 0) { toast.error('Please select a rating'); return; }
         setReviewSubmitted(true);
-        toast.success('Thank you for your review! 🎉');
+        toast.success('Thank you for your review!');
     };
 
     const handleNewTrip = () => {
@@ -34,7 +34,7 @@ export default function FinalReview() {
                     <div className="text-center mb-8">
                         <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 200 }}>
                             <div className="w-20 h-20 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-green-300/40">
-                                <span className="text-3xl">🎉</span>
+                                <Star size={32} className="text-white" />
                             </div>
                         </motion.div>
                         <h1 className="text-3xl md:text-4xl font-bold font-display mb-2">Your Trip is Ready!</h1>
@@ -47,7 +47,7 @@ export default function FinalReview() {
                         <div className="grid grid-cols-2 gap-4 text-sm">
                             <div className="flex items-center gap-2"><MapPin size={16} className="text-brand-500" /><div><p className="text-gray-400">Destination</p><p className="font-semibold text-gray-800">{trip.destination}, {trip.state}</p></div></div>
                             <div className="flex items-center gap-2"><Calendar size={16} className="text-ocean-500" /><div><p className="text-gray-400">Duration</p><p className="font-semibold text-gray-800">{trip.days} days</p></div></div>
-                            <div className="flex items-center gap-2"><Home size={16} className="text-green-500" /><div><p className="text-gray-400">Stay</p><p className="font-semibold text-gray-800">{(trip.selectedStay as any)?.name}</p></div></div>
+                            <div className="flex items-center gap-2"><Home size={16} className="text-green-500" /><div><p className="text-gray-400">Stay</p><p className="font-semibold text-gray-800">{trip.selectedStay}</p></div></div>
                             <div className="flex items-center gap-2"><DollarSign size={16} className="text-yellow-500" /><div><p className="text-gray-400">Budget</p><p className="font-semibold text-gray-800">₹{trip.budget.toLocaleString()}</p></div></div>
                         </div>
                     </div>
@@ -73,7 +73,7 @@ export default function FinalReview() {
                                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
                                     {EMERGENCY_CONTACTS.map(c => (
                                         <div key={c.name} className="bg-white rounded-xl p-3 text-center shadow-sm">
-                                            <span className="text-2xl block mb-1">{c.icon}</span>
+                                            <span className="text-2xl block mb-1"><Phone size={20} className="text-green-600 mx-auto" /></span>
                                             <p className="text-xs text-gray-500">{c.name}</p>
                                             <a href={`tel:${c.number}`} className="text-lg font-bold text-green-700">{c.number}</a>
                                         </div>
@@ -82,7 +82,7 @@ export default function FinalReview() {
 
                                 {trip.groupType === 'Solo' && (
                                     <>
-                                        <h4 className="font-bold text-green-800 mb-3">🧍 Solo Traveler Safety Tips</h4>
+                                        <h4 className="font-bold text-green-800 mb-3">Solo Traveler Safety Tips</h4>
                                         <ul className="space-y-2">
                                             {SOLO_SAFETY_TIPS.map((tip, i) => (
                                                 <li key={i} className="text-sm text-green-700 flex items-start gap-2">
@@ -96,7 +96,7 @@ export default function FinalReview() {
                                 {trip.stayType === 'host' && (
                                     <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-xl">
                                         <h4 className="font-bold text-blue-800 mb-2 flex items-center gap-2"><Phone size={16} /> Host Contact</h4>
-                                        <p className="text-sm text-blue-700"><strong>{(trip.selectedStay as any)?.name}</strong></p>
+                                        <p className="text-sm text-blue-700"><strong>{trip.selectedStay}</strong></p>
                                         <p className="text-sm text-blue-600">Contact will be shared after booking confirmation</p>
                                     </div>
                                 )}
@@ -109,7 +109,7 @@ export default function FinalReview() {
                         <h3 className="font-bold text-lg mb-4 flex items-center gap-2"><MessageSquare size={20} className="text-brand-500" /> Rate Your Experience</h3>
                         {reviewSubmitted ? (
                             <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} className="text-center py-6">
-                                <div className="text-4xl mb-2">🙏</div>
+                                <div className="text-4xl mb-2"><Star size={32} className="text-brand-500 mx-auto" /></div>
                                 <p className="font-semibold text-gray-800">Thanks for your feedback!</p>
                                 <p className="text-sm text-gray-500">Your review helps other travelers</p>
                             </motion.div>
@@ -135,7 +135,7 @@ export default function FinalReview() {
                     {/* Safety Warning */}
                     <div className="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-4 mb-6">
                         <p className="text-sm text-yellow-800">
-                            <strong>🛡️ Safety First:</strong> Share your itinerary with family. Keep emergency contacts handy. Travel smart!
+                            <strong>Safety First:</strong> Share your itinerary with family. Keep emergency contacts handy. Travel smart!
                         </p>
                     </div>
 

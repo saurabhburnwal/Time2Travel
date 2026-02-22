@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { User, MapPin, Star, Calendar, DollarSign, Mail, Phone, Shield, Settings, ChevronRight } from 'lucide-react';
+import { User, MapPin, Star, Calendar, DollarSign, Mail, Phone, Shield, Settings, ChevronRight, Map, Plane, Edit, MailOpen } from 'lucide-react';
 import { motion } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
 import StarRating from '../components/StarRating';
@@ -71,8 +71,8 @@ export default function Profile() {
                                 transition={{ delay: i * 0.1 }}
                                 className="flex items-center gap-4 p-4 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
                             >
-                                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-100 to-ocean-100 flex items-center justify-center text-lg flex-shrink-0">
-                                    🗺️
+                                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-100 to-ocean-100 flex items-center justify-center flex-shrink-0">
+                                    <Map size={20} className="text-brand-500" />
                                 </div>
                                 <div className="flex-1 min-w-0">
                                     <h3 className="font-semibold text-gray-800">{trip.destination}, {trip.state}</h3>
@@ -115,13 +115,13 @@ export default function Profile() {
                     <h2 className="text-xl font-bold mb-4 flex items-center gap-2"><Settings className="text-gray-500" size={20} /> Quick Actions</h2>
                     <div className="space-y-2">
                         {[
-                            { label: 'Plan a New Trip', to: '/plan', icon: '✈️' },
-                            { label: 'Edit Profile', to: '#', icon: '✏️' },
-                            { label: 'Contact Admin', to: '#', icon: '📧' },
+                            { label: 'Plan a New Trip', to: '/plan', icon: <Plane size={18} className="text-brand-500" /> },
+                            { label: 'Edit Profile', to: '#', icon: <Edit size={18} className="text-brand-500" /> },
+                            { label: 'Contact Admin', to: '#', icon: <MailOpen size={18} className="text-brand-500" /> },
                         ].map(action => (
                             <Link key={action.label} to={action.to} className="flex items-center justify-between p-4 bg-white rounded-xl hover:bg-gray-50 transition-colors border border-gray-100">
                                 <span className="flex items-center gap-3 font-medium text-gray-700">
-                                    <span className="text-lg">{action.icon}</span> {action.label}
+                                    {action.icon} {action.label}
                                 </span>
                                 <ChevronRight size={16} className="text-gray-400" />
                             </Link>

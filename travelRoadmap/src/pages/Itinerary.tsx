@@ -29,7 +29,7 @@ export default function Itinerary() {
         });
     });
 
-    const dayColors = ['from-purple-500 to-brand-500', 'from-ocean-500 to-cyan-500', 'from-green-500 to-emerald-500', 'from-orange-500 to-pink-500', 'from-red-500 to-rose-500', 'from-indigo-500 to-violet-500', 'from-teal-500 to-green-500'];
+    const dayColors = ['from-brand-500 to-brand-400', 'from-ocean-500 to-cyan-500', 'from-green-500 to-emerald-500', 'from-orange-500 to-warm', 'from-red-500 to-rose-500', 'from-brand-600 to-ocean-600', 'from-teal-500 to-green-500'];
 
     return (
         <AnimatedPage className="page-bg pt-28 pb-16">
@@ -40,7 +40,7 @@ export default function Itinerary() {
                     <h1 className="text-3xl md:text-4xl font-bold font-display mb-2">
                         Day-by-Day <span className="gradient-text">Itinerary</span>
                     </h1>
-                    <p className="text-gray-500">{trip.selectedRoadmap?.type} — Starting from {(trip.selectedStay as any)?.name}</p>
+                    <p className="text-gray-500">{trip.selectedRoadmap?.type} — Starting from {trip.selectedStay}</p>
                 </div>
 
                 <div className="space-y-4">

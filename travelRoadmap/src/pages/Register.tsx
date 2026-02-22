@@ -14,12 +14,16 @@ export default function Register() {
 
     const update = (key: string, value: string) => setForm(p => ({ ...p, [key]: value }));
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!form.name || !form.email || !form.password) { toast.error('Please fill required fields'); return; }
-        register({ name: form.name, email: form.email, phone: form.phone, gender: form.gender, role: form.role as any });
-        toast.success('Account created successfully!');
-        navigate('/');
+        const success = await register({ name: form.name, email: form.email, phone: form.phone, gender: form.gender, role: form.role as any });
+        if (success) {
+            toast.success('Account created successfully!');
+            navigate('/');
+        } else {
+            toast.error('Registration failed. Please try again.');
+        }
     };
 
     return (
@@ -35,7 +39,7 @@ export default function Register() {
             </div>
 
             {/* Right: Form */}
-            <div className="flex-1 flex items-center justify-center px-6 py-24 bg-gradient-to-br from-slate-50 to-purple-50/30">
+            <div className="flex-1 flex items-center justify-center px-6 py-24 bg-gradient-to-br from-offwhite to-blue-50/30">
                 <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md">
                     <div className="flex items-center gap-2 mb-8">
                         <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-ocean-500 flex items-center justify-center">

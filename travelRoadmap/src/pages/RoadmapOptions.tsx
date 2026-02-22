@@ -9,7 +9,7 @@ export default function RoadmapOptions() {
     const { trip, updateTrip } = useTrip();
     const navigate = useNavigate();
 
-    const stayCost = trip.stayType === 'hotel' ? ((trip.selectedStay as any)?.price || 2000) * trip.days : 0;
+    const stayCost = trip.stayType === 'hotel' ? 2000 * trip.days : 0;
 
     const roadmaps = [
         {
@@ -41,7 +41,7 @@ export default function RoadmapOptions() {
                     <h1 className="text-4xl md:text-5xl font-bold font-display mb-3">
                         Your <span className="gradient-text">Smart Roadmaps</span>
                     </h1>
-                    <p className="text-gray-500 text-lg">Based on your stay at <strong>{(trip.selectedStay as any)?.name}</strong></p>
+                    <p className="text-gray-500 text-lg">Based on your stay at <strong>{trip.selectedStay}</strong></p>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-6">
@@ -52,7 +52,7 @@ export default function RoadmapOptions() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: i * 0.2, duration: 0.5 }}
                             whileHover={{ y: -5 }}
-                            onClick={() => { updateTrip('selectedRoadmap', rm); navigate('/itinerary'); }}
+                            onClick={() => { updateTrip({ selectedRoadmap: rm }); navigate('/itinerary'); }}
                             className="glass-card p-8 cursor-pointer group hover:shadow-2xl transition-all duration-300 relative overflow-hidden"
                         >
                             {/* Decorative gradient */}
@@ -73,7 +73,7 @@ export default function RoadmapOptions() {
                             <div className="space-y-3 mb-6">
                                 <div className="flex items-center gap-3 text-gray-600">
                                     <Home size={18} className="text-gray-400" />
-                                    <span>{(trip.selectedStay as any)?.name}</span>
+                                    <span>{trip.selectedStay}</span>
                                 </div>
                                 <div className="flex items-center gap-3 text-gray-600">
                                     <MapPin size={18} className="text-gray-400" />
@@ -105,8 +105,8 @@ export default function RoadmapOptions() {
                                 </div>
                                 <p className="text-xs text-gray-400 mt-1">
                                     {rm.estimatedCost <= trip.budget
-                                        ? `✅ ₹${(trip.budget - rm.estimatedCost).toLocaleString()} remaining`
-                                        : `⚠️ ₹${(rm.estimatedCost - trip.budget).toLocaleString()} over budget`}
+                                        ? `₹${(trip.budget - rm.estimatedCost).toLocaleString()} remaining`
+                                        : `₹${(rm.estimatedCost - trip.budget).toLocaleString()} over budget`}
                                 </p>
                             </div>
 

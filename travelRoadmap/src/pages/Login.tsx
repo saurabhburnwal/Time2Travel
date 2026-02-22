@@ -10,17 +10,27 @@ export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPass, setShowPass] = useState(false);
+    const [loading, setLoading] = useState(false);
     const { login } = useAuth();
     const navigate = useNavigate();
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!email || !password) { toast.error('Please fill in all fields'); return; }
-        const success = login(email, password);
-        if (success) {
-            toast.success('Welcome back!');
-            if (email === 'admin@time2travel.com') navigate('/admin');
-            else navigate('/plan');
+        setLoading(true);
+        try {
+            const success = await login(email, password);
+            if (success) {
+                toast.success('Welcome back!');
+                if (email === 'admin@timetotravel.com') navigate('/admin');
+                else navigate('/plan');
+            } else {
+                toast.error('Login failed. Please check your credentials.');
+            }
+        } catch {
+            toast.error('An error occurred. Please try again.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -32,20 +42,15 @@ export default function Login() {
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/30" />
                 <div className="absolute bottom-12 left-12 text-white">
                     <h2 className="text-4xl font-bold font-display mb-2">Welcome Back</h2>
-                    <p className="text-white/80 text-lg">Continue planning your perfect trip</p>
+                    <p className="text-white/80 text-lg">Continue your travel journey</p>
                 </div>
             </div>
 
             {/* Right: Form */}
-            <div className="flex-1 flex items-center justify-center px-6 py-24 bg-gradient-to-br from-slate-50 to-purple-50/30">
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="w-full max-w-md"
-                >
+            <div className="flex-1 flex items-center justify-center px-6 py-24 bg-gradient-to-br from-offwhite to-blue-50/30">
+                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md">
                     <div className="flex items-center gap-2 mb-8">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-ocean-500 flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-ocean-300 flex items-center justify-center">
                             <MapPin className="text-white" size={20} />
                         </div>
                         <span className="text-xl font-bold font-display gradient-text">Time2Travel</span>
@@ -61,8 +66,7 @@ export default function Login() {
                                 <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
                                 <input
                                     type="email" value={email} onChange={e => setEmail(e.target.value)}
-                                    placeholder="you@email.com"
-                                    className="input-field pl-11"
+                                    placeholder="you@email.com" className="input-field pl-11"
                                 />
                             </div>
                         </div>
@@ -73,8 +77,7 @@ export default function Login() {
                                 <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
                                 <input
                                     type={showPass ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)}
-                                    placeholder="••••••••"
-                                    className="input-field pl-11 pr-11"
+                                    placeholder="Your password" className="input-field pl-11 pr-11"
                                 />
                                 <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
                                     {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -82,21 +85,21 @@ export default function Login() {
                             </div>
                         </div>
 
-                        <button type="submit" className="btn-primary w-full text-center justify-center">
-                            Sign In
+                        <button type="submit" disabled={loading} className="btn-primary w-full text-center justify-center">
+                            {loading ? 'Signing in...' : 'Sign In'}
                         </button>
                     </form>
 
-                    <div className="mt-6 p-4 bg-brand-50 rounded-xl text-sm text-gray-600 space-y-1">
-                        <p className="font-semibold text-brand-600 mb-2">Quick Login:</p>
-                        <p>• Any email → Traveler account</p>
-                        <p>• <code className="text-brand-600">admin@time2travel.com</code> → Admin</p>
-                        <p>• <code className="text-brand-600">priya@example.com</code> → Host</p>
+                    {/* Quick Login Hint */}
+                    <div className="mt-6 p-4 bg-brand-50 rounded-xl text-sm">
+                        <p className="font-semibold text-brand-700 mb-1">Quick Login</p>
+                        <p className="text-brand-600"><strong>Admin:</strong> admin@timetotravel.com / 123456</p>
+                        <p className="text-brand-600"><strong>Traveler:</strong> any email / any password</p>
                     </div>
 
                     <p className="text-center text-gray-500 text-sm mt-6">
-                        Don't have an account?{' '}
-                        <Link to="/register" className="text-brand-600 font-semibold hover:underline">Sign Up</Link>
+                        New here?{' '}
+                        <Link to="/register" className="text-brand-600 font-semibold hover:underline">Create Account</Link>
                     </p>
                 </motion.div>
             </div>

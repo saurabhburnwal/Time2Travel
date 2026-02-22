@@ -13,18 +13,18 @@ export const DESTINATIONS: Record<string, string[]> = {
 
 // ===== TRAVEL & GROUP TYPES =====
 export const TRAVEL_TYPES = [
-    { id: 1, name: 'Nature', icon: '🌿', color: 'from-green-400 to-emerald-500' },
-    { id: 2, name: 'Adventure', icon: '🏔️', color: 'from-orange-400 to-red-500' },
-    { id: 3, name: 'Beach', icon: '🏖️', color: 'from-cyan-400 to-blue-500' },
-    { id: 4, name: 'Heritage', icon: '🏛️', color: 'from-amber-400 to-yellow-600' },
-    { id: 5, name: 'Nightlife', icon: '🌙', color: 'from-purple-400 to-pink-500' },
+    { id: 1, name: 'Nature', color: 'from-green-400 to-emerald-500' },
+    { id: 2, name: 'Adventure', color: 'from-orange-400 to-red-500' },
+    { id: 3, name: 'Beach', color: 'from-cyan-400 to-blue-500' },
+    { id: 4, name: 'Heritage', color: 'from-amber-400 to-yellow-600' },
+    { id: 5, name: 'Nightlife', color: 'from-purple-400 to-pink-500' },
 ];
 
 export const GROUP_TYPES = [
-    { id: 1, name: 'Solo', icon: '🧍', desc: 'Travel solo and discover yourself' },
-    { id: 2, name: 'Duo', icon: '👫', desc: 'Perfect romantic getaway' },
-    { id: 3, name: 'Family', icon: '👨‍👩‍👧‍👦', desc: 'Family-friendly adventures' },
-    { id: 4, name: 'Friends', icon: '👥', desc: 'Group trips with your squad' },
+    { id: 1, name: 'Solo', desc: 'Travel solo and discover yourself' },
+    { id: 2, name: 'Duo', desc: 'Perfect romantic getaway' },
+    { id: 3, name: 'Family', desc: 'Family-friendly adventures' },
+    { id: 4, name: 'Friends', desc: 'Group trips with your squad' },
 ];
 
 // ===== DESTINATION COORDS (for map) =====
@@ -162,7 +162,7 @@ export interface Review {
 
 export const MOCK_REVIEWS: Review[] = [
     { id: 1, userName: 'Aisha Patel', avatar: 'AP', destination: 'Munnar', rating: 5, comment: 'The roadmap saved us so much time! We covered 8 spots in 3 days effortlessly. The route optimization was incredible.', date: '2 weeks ago' },
-    { id: 2, userName: 'Rajesh Kumar', avatar: 'RK', destination: 'Hampi', rating: 4, comment: 'Amazing budget planning! Stayed within our ₹5000 budget and saw all the major ruins. Highly recommend for heritage lovers.', date: '1 month ago' },
+    { id: 2, userName: 'Rajesh Kumar', avatar: 'RK', destination: 'Hampi', rating: 4, comment: 'Amazing budget planning! Stayed within our Rs.5000 budget and saw all the major ruins. Highly recommend for heritage lovers.', date: '1 month ago' },
     { id: 3, userName: 'Sneha Reddy', avatar: 'SR', destination: 'Goa', rating: 5, comment: 'Best travel app for beach destinations! The local host feature was a game changer. Got authentic Goan food included.', date: '3 weeks ago' },
     { id: 4, userName: 'Vikram Singh', avatar: 'VS', destination: 'Ooty', rating: 4, comment: 'Solo trip made easy. The safety contacts feature made me feel secure throughout. Great itinerary suggestions!', date: '2 months ago' },
     { id: 5, userName: 'Meera Nair', avatar: 'MN', destination: 'Wayanad', rating: 5, comment: 'Planned a family trip for 5 people. The expense tracker was spot on. Kids loved every activity on the itinerary.', date: '1 week ago' },
@@ -179,12 +179,12 @@ export const TRAVEL_QUOTES = [
 
 // ===== SAFETY INFO =====
 export const EMERGENCY_CONTACTS = [
-    { name: 'Police', number: '100', icon: '🚔' },
-    { name: 'Ambulance', number: '108', icon: '🚑' },
-    { name: 'Fire', number: '101', icon: '🚒' },
-    { name: 'Women Helpline', number: '1091', icon: '👩‍⚕️' },
-    { name: 'Tourist Helpline', number: '1363', icon: '🧳' },
-    { name: 'Disaster Management', number: '1078', icon: '⚠️' },
+    { name: 'Police', number: '100' },
+    { name: 'Ambulance', number: '108' },
+    { name: 'Fire', number: '101' },
+    { name: 'Women Helpline', number: '1091' },
+    { name: 'Tourist Helpline', number: '1363' },
+    { name: 'Disaster Management', number: '1078' },
 ];
 
 export const SOLO_SAFETY_TIPS = [
@@ -193,7 +193,7 @@ export const SOLO_SAFETY_TIPS = [
     'Register with the local tourist office at your destination',
     'Avoid isolated areas after dark, especially in unfamiliar places',
     'Keep emergency contacts saved offline on your phone',
-    'Trust your instincts – if something feels wrong, leave immediately',
+    'Trust your instincts - if something feels wrong, leave immediately',
     'Use verified and well-reviewed accommodations',
     'Carry a portable charger and keep your phone charged',
 ];
@@ -212,7 +212,7 @@ export interface MockUser {
 
 export const MOCK_USERS: MockUser[] = [
     { id: 1, name: 'Sudeepa', email: 'sudeepa@example.com', phone: '9876543210', gender: 'Male', role: 'traveler', avatar: 'SU', joinedDate: 'Jan 2026' },
-    { id: 2, name: 'Admin User', email: 'admin@time2travel.com', phone: '9000000000', gender: 'Other', role: 'admin', avatar: 'AD', joinedDate: 'Dec 2025' },
+    { id: 2, name: 'Admin User', email: 'admin@timetotravel.com', phone: '9000000000', gender: 'Other', role: 'admin', avatar: 'AD', joinedDate: 'Dec 2025' },
     { id: 3, name: 'Priya Host', email: 'priya@example.com', phone: '9111222333', gender: 'Female', role: 'host', avatar: 'PH', joinedDate: 'Feb 2026' },
 ];
 
@@ -235,7 +235,6 @@ export const MOCK_PAST_TRIPS: PastTrip[] = [
 ];
 
 // ===== PEXELS CONFIG =====
-// The user will provide their Pexels API key. Set it here.
 export const PEXELS_API_KEY = 'YOUR_PEXELS_API_KEY';
 
 export const HERO_IMAGES = [

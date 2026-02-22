@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { Hotel, LocalHost, Place } from '../data/mockData';
+import { Place } from '../data/mockData';
 
 interface TripState {
     state: string;
@@ -8,15 +8,17 @@ interface TripState {
     days: number;
     travelType: string;
     groupType: string;
-    selectedStay: (Hotel | LocalHost) | null;
+    selectedStay: string;
     stayType: 'hotel' | 'host' | null;
+    stayLat: number;
+    stayLng: number;
     selectedRoadmap: any | null;
     places: Place[];
 }
 
 interface TripContextType {
     trip: TripState;
-    updateTrip: (key: string, value: any) => void;
+    updateTrip: (updates: Partial<TripState>) => void;
     resetTrip: () => void;
 }
 
@@ -27,8 +29,10 @@ const initialTrip: TripState = {
     days: 3,
     travelType: '',
     groupType: '',
-    selectedStay: null,
+    selectedStay: '',
     stayType: null,
+    stayLat: 0,
+    stayLng: 0,
     selectedRoadmap: null,
     places: [],
 };
@@ -38,8 +42,8 @@ const TripContext = createContext<TripContextType | undefined>(undefined);
 export function TripProvider({ children }: { children: ReactNode }) {
     const [trip, setTrip] = useState<TripState>(initialTrip);
 
-    const updateTrip = (key: string, value: any) => {
-        setTrip(prev => ({ ...prev, [key]: value }));
+    const updateTrip = (updates: Partial<TripState>) => {
+        setTrip(prev => ({ ...prev, ...updates }));
     };
 
     const resetTrip = () => setTrip(initialTrip);

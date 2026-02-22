@@ -1,11 +1,12 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { MockUser, MOCK_USERS } from '../data/mockData';
+import { MockUser } from '../data/mockData';
+import { loginUser, registerUser } from '../lib/supabaseService';
 
 interface AuthContextType {
     user: MockUser | null;
     isLoggedIn: boolean;
-    login: (email: string, password: string) => boolean;
-    register: (userData: Partial<MockUser>) => boolean;
+    login: (email: string, password: string) => Promise<boolean>;
+    register: (userData: Partial<MockUser>) => Promise<boolean>;
     logout: () => void;
     isAdmin: boolean;
     isHost: boolean;
@@ -16,45 +17,22 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<MockUser | null>(null);
 
-    const login = (email: string, _password: string): boolean => {
-        // Admin login: check for admin email
-        if (email === 'admin@time2travel.com') {
-            setUser(MOCK_USERS[1]);
+    const login = async (email: string, password: string): Promise<boolean> => {
+        const result = await loginUser(email, password);
+        if (result) {
+            setUser(result);
             return true;
         }
-        // Host login
-        if (email === 'priya@example.com') {
-            setUser(MOCK_USERS[2]);
-            return true;
-        }
-        // Any other email = traveler
-        const mockUser: MockUser = {
-            id: Date.now(),
-            name: email.split('@')[0].charAt(0).toUpperCase() + email.split('@')[0].slice(1),
-            email,
-            phone: '9876543210',
-            gender: 'Other',
-            role: 'traveler',
-            avatar: email.substring(0, 2).toUpperCase(),
-            joinedDate: 'Feb 2026',
-        };
-        setUser(mockUser);
-        return true;
+        return false;
     };
 
-    const register = (userData: Partial<MockUser>): boolean => {
-        const newUser: MockUser = {
-            id: Date.now(),
-            name: userData.name || 'Traveler',
-            email: userData.email || '',
-            phone: userData.phone || '',
-            gender: userData.gender || 'Other',
-            role: userData.role || 'traveler',
-            avatar: (userData.name || 'TR').substring(0, 2).toUpperCase(),
-            joinedDate: 'Feb 2026',
-        };
-        setUser(newUser);
-        return true;
+    const register = async (userData: Partial<MockUser>): Promise<boolean> => {
+        const result = await registerUser(userData);
+        if (result) {
+            setUser(result);
+            return true;
+        }
+        return false;
     };
 
     const logout = () => setUser(null);

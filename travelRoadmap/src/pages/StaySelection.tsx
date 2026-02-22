@@ -1,184 +1,232 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { Hotel, Home, Star, Shield, MapPin, ChevronRight, ArrowLeft, Sparkles } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Building2, Users, Star, MapPin, Check, Loader2, ChevronRight, Sparkles, Coffee, Wifi, Utensils, Dumbbell } from 'lucide-react';
 import { motion } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
+import StarRating from '../components/StarRating';
 import { useTrip } from '../contexts/TripContext';
-import { getHotelsForDestination, getHostsForDestination } from '../data/mockData';
+import { Hotel, getHostsForDestination as getMockHosts } from '../data/mockData';
+import { fetchHotelsForDestination } from '../lib/supabaseService';
+import toast from 'react-hot-toast';
+
+const AMENITY_ICONS: Record<string, React.ReactNode> = {
+    'WiFi': <Wifi size={12} />,
+    'Restaurant': <Utensils size={12} />,
+    'Gym': <Dumbbell size={12} />,
+    'Breakfast': <Coffee size={12} />,
+};
 
 export default function StaySelection() {
     const { trip, updateTrip } = useTrip();
     const navigate = useNavigate();
     const [tab, setTab] = useState<'hotels' | 'hosts'>('hotels');
-
-    const hotels = getHotelsForDestination(trip.destination);
-    const hosts = getHostsForDestination(trip.destination);
-
+    const [hotels, setHotels] = useState<Hotel[]>([]);
+    const [loading, setLoading] = useState(true);
     const [generating, setGenerating] = useState(false);
-    const [genStep, setGenStep] = useState(0);
-    const genSteps = ['Calculating distances from your stay...', 'Grouping nearby tourist spots...', 'Optimizing routes to save time & money...', 'Creating your perfect roadmap...'];
 
-    const handleGenerate = () => {
-        setGenerating(true);
-        setGenStep(0);
-        let step = 0;
-        const interval = setInterval(() => {
-            step++;
-            if (step < genSteps.length) setGenStep(step);
-            else { clearInterval(interval); navigate('/roadmap-options'); }
-        }, 1200);
+    const hosts = getMockHosts(trip.destination);
+
+    useEffect(() => {
+        if (!trip.destination) return;
+        (async () => {
+            setLoading(true);
+            const h = await fetchHotelsForDestination(trip.destination);
+            setHotels(h);
+            setLoading(false);
+        })();
+    }, [trip.destination]);
+
+    const selectHotel = (h: Hotel) => {
+        updateTrip({ selectedStay: h.name, stayType: 'hotel', stayLat: h.lat, stayLng: h.lng });
+    };
+    const selectHost = (h: any) => {
+        updateTrip({ selectedStay: h.name, stayType: 'host', stayLat: h.lat, stayLng: h.lng });
     };
 
-    if (generating) {
+    const handleGenerate = () => {
+        if (!trip.selectedStay) { toast.error('Please select a stay'); return; }
+        setGenerating(true);
+        setTimeout(() => {
+            setGenerating(false);
+            navigate('/roadmap-options');
+        }, 2000);
+    };
+
+    if (!trip.destination) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-brand-600 via-purple-600 to-ocean-600 flex items-center justify-center p-8">
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="text-center text-white max-w-md"
-                >
-                    <div className="mb-8 relative">
-                        <div className="w-24 h-24 border-4 border-white/30 border-t-white rounded-full animate-spin mx-auto" />
-                        <MapPin size={28} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white" />
+            <AnimatedPage className="page-bg pt-28 pb-16 min-h-screen flex items-center justify-center">
+                <div className="text-center">
+                    <div className="w-24 h-24 rounded-full bg-brand-50 flex items-center justify-center mx-auto mb-6">
+                        <Building2 size={40} className="text-brand-400" />
                     </div>
-                    <h2 className="text-3xl font-bold font-display mb-4">Creating Your Roadmap</h2>
-                    <motion.p
-                        key={genStep}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="text-xl text-white/90 mb-8"
-                    >
-                        {genSteps[genStep]}
-                    </motion.p>
-                    <div className="flex gap-2 justify-center">
-                        {genSteps.map((_, i) => (
-                            <div key={i} className={`w-3 h-3 rounded-full transition-all duration-300 ${i <= genStep ? 'bg-white scale-110' : 'bg-white/30'}`} />
-                        ))}
-                    </div>
-                </motion.div>
-            </div>
+                    <h2 className="text-2xl font-bold mb-2">Select a Destination First</h2>
+                    <p className="text-gray-500 mb-6">Choose your destination to browse stays</p>
+                    <button onClick={() => navigate('/plan')} className="btn-primary">Go to Planner</button>
+                </div>
+            </AnimatedPage>
         );
     }
 
     return (
-        <AnimatedPage className="page-bg pt-28 pb-16">
-            <div className="section-container max-w-6xl">
-                <button onClick={() => navigate('/plan')} className="flex items-center gap-2 text-brand-600 hover:text-brand-800 font-medium mb-6 transition-colors">
-                    <ArrowLeft size={18} /> Back to Planning
-                </button>
+        <AnimatedPage className="page-bg pt-20 pb-16 min-h-screen">
+            {/* Decorative blobs */}
+            <div className="page-decorations">
+                <div className="deco-blob deco-blob-2 animate-pulse-soft" />
+            </div>
 
-                <div className="text-center mb-10">
-                    <h1 className="text-4xl font-bold font-display mb-2">
-                        Choose Your <span className="gradient-text">Stay</span>
-                    </h1>
-                    <p className="text-gray-500">in {trip.destination}, {trip.state} — Your roadmap starts from here</p>
+            <div className="section-container max-w-5xl relative z-10">
+                {/* Hero Banner */}
+                <div className="hero-banner mb-8">
+                    <img src="https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Hotel" loading="eager" />
+                    <div className="hero-overlay" />
+                    <div className="hero-content justify-end">
+                        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}>
+                            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md text-white px-4 py-1.5 rounded-full text-sm font-medium mb-3 border border-white/20">
+                                <Sparkles size={14} /> {trip.destination}, {trip.state}
+                            </div>
+                            <h1 className="text-3xl md:text-5xl font-bold font-display text-white mb-2">
+                                Choose Your <span className="text-ocean-200">Stay</span>
+                            </h1>
+                            <p className="text-white/60">Your stay location determines your optimized travel routes</p>
+                        </motion.div>
+                    </div>
                 </div>
 
                 {/* Tabs */}
-                <div className="flex gap-2 mb-8 bg-gray-100 p-1.5 rounded-2xl max-w-md mx-auto">
-                    <button onClick={() => setTab('hotels')} className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-semibold text-sm transition-all ${tab === 'hotels' ? 'bg-white shadow-md text-brand-600' : 'text-gray-500 hover:text-gray-700'}`}>
-                        <Hotel size={18} /> Hotels ({hotels.length})
+                <div className="flex gap-2 mb-8 bg-white rounded-xl p-1.5 shadow-md max-w-md mx-auto">
+                    <button onClick={() => setTab('hotels')} className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-semibold transition-all text-sm ${tab === 'hotels' ? 'bg-brand-500 text-white shadow-md' : 'text-gray-500 hover:bg-gray-50'}`}>
+                        <Building2 size={18} /> Hotels & Hostels
                     </button>
-                    <button onClick={() => setTab('hosts')} className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-semibold text-sm transition-all ${tab === 'hosts' ? 'bg-white shadow-md text-brand-600' : 'text-gray-500 hover:text-gray-700'}`}>
-                        <Home size={18} /> Local Hosts ({hosts.length})
+                    <button onClick={() => setTab('hosts')} className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-semibold transition-all text-sm ${tab === 'hosts' ? 'bg-brand-500 text-white shadow-md' : 'text-gray-500 hover:bg-gray-50'}`}>
+                        <Users size={18} /> Local Hosts
                     </button>
                 </div>
 
-                {/* Hotels */}
+                {/* Hotels Tab */}
                 {tab === 'hotels' && (
-                    <div className="grid md:grid-cols-2 gap-4">
-                        {hotels.map((hotel, i) => (
-                            <motion.div
-                                key={hotel.id}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: i * 0.05 }}
-                                onClick={() => { updateTrip('selectedStay', hotel); updateTrip('stayType', 'hotel'); }}
-                                className={`glass-card p-5 cursor-pointer transition-all duration-300 ${trip.selectedStay?.id === hotel.id && trip.stayType === 'hotel'
-                                        ? 'ring-2 ring-brand-400 bg-brand-50/50 shadow-xl shadow-brand-200/30'
-                                        : 'hover:shadow-xl hover:-translate-y-0.5'
-                                    }`}
-                            >
-                                <div className="flex justify-between items-start mb-3">
-                                    <div>
-                                        <h3 className="font-bold text-gray-800 text-lg">{hotel.name}</h3>
-                                        <p className="text-sm text-gray-500 mt-0.5">{hotel.distance}</p>
-                                    </div>
-                                    <div className="flex items-center gap-1 bg-yellow-50 px-2.5 py-1 rounded-full">
-                                        <Star size={14} className="text-yellow-500 fill-yellow-500" />
-                                        <span className="text-sm font-bold text-yellow-700">{hotel.rating}</span>
-                                    </div>
-                                </div>
-                                <div className="flex flex-wrap gap-1.5 mb-3">
-                                    {hotel.amenities?.map(a => (
-                                        <span key={a} className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">{a}</span>
-                                    ))}
-                                </div>
-                                <div className="flex justify-between items-center">
-                                    <span className="text-2xl font-bold gradient-text">₹{hotel.price.toLocaleString()}<span className="text-sm font-normal text-gray-400">/night</span></span>
-                                    <span className="text-xs text-gray-400">₹{(hotel.price * trip.days).toLocaleString()} total</span>
-                                </div>
-                            </motion.div>
-                        ))}
+                    <div className="space-y-4">
+                        {loading ? (
+                            <div className="text-center py-16">
+                                <Loader2 className="animate-spin mx-auto text-brand-500" size={36} />
+                                <p className="text-gray-500 mt-4">Finding the best stays...</p>
+                            </div>
+                        ) : (
+                            <div className="grid md:grid-cols-2 gap-5">
+                                {hotels.map((hotel, i) => (
+                                    <motion.div
+                                        key={hotel.id}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: i * 0.05 }}
+                                        onClick={() => selectHotel(hotel)}
+                                        className={`feature-card cursor-pointer group ${trip.selectedStay === hotel.name ? 'ring-2 ring-brand-500 border-brand-200 bg-brand-50/30' : ''}`}
+                                    >
+                                        {/* Hotel Image Header */}
+                                        <div className="image-card h-36 mb-4 -mx-6 -mt-6 rounded-b-none">
+                                            <img src={`https://images.pexels.com/photos/${258154 + (i * 137) % 2000}/pexels-photo-${258154 + (i * 137) % 2000}.jpeg?auto=compress&cs=tinysrgb&w=600`}
+                                                alt={hotel.name} loading="lazy"
+                                                onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=600'; }}
+                                            />
+                                            <div className="image-card-overlay" />
+                                            <div className="absolute top-3 right-3 z-10">
+                                                <span className="bg-white/90 backdrop-blur text-brand-600 text-sm font-bold px-3 py-1 rounded-full shadow">
+                                                    Rs. {hotel.price.toLocaleString()}<span className="text-xs font-normal text-gray-500">/night</span>
+                                                </span>
+                                            </div>
+                                            {trip.selectedStay === hotel.name && (
+                                                <div className="absolute top-3 left-3 z-10 w-8 h-8 rounded-full bg-brand-500 text-white flex items-center justify-center shadow-lg">
+                                                    <Check size={16} />
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <h3 className="font-bold text-gray-800 text-lg group-hover:text-brand-600 transition-colors">{hotel.name}</h3>
+                                        <p className="text-sm text-gray-500 flex items-center gap-1 mt-1"><MapPin size={14} /> {hotel.distance}</p>
+                                        <div className="flex items-center gap-3 mt-3">
+                                            <StarRating rating={hotel.rating} size={14} />
+                                            <span className="text-sm text-gray-400 font-medium">{hotel.rating}</span>
+                                        </div>
+                                        {hotel.amenities && (
+                                            <div className="flex flex-wrap gap-1.5 mt-3">
+                                                {hotel.amenities.map(a => (
+                                                    <span key={a} className="text-xs bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full flex items-center gap-1 hover:bg-brand-50 hover:text-brand-600 transition-colors">
+                                                        {AMENITY_ICONS[a] || null} {a}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </motion.div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 )}
 
-                {/* Hosts */}
+                {/* Hosts Tab */}
                 {tab === 'hosts' && (
                     <div className="space-y-4">
-                        {hosts.map((host, i) => (
-                            <motion.div
-                                key={host.id}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: i * 0.05 }}
-                                onClick={() => { updateTrip('selectedStay', host); updateTrip('stayType', 'host'); }}
-                                className={`glass-card p-5 cursor-pointer transition-all duration-300 ${trip.selectedStay?.id === host.id && trip.stayType === 'host'
-                                        ? 'ring-2 ring-ocean-400 bg-ocean-50/50 shadow-xl'
-                                        : 'hover:shadow-xl hover:-translate-y-0.5'
-                                    }`}
-                            >
-                                <div className="flex items-start gap-4">
-                                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-ocean-400 to-brand-500 flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
-                                        {host.name.split(' ').map(n => n[0]).join('')}
-                                    </div>
-                                    <div className="flex-1">
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <h3 className="font-bold text-gray-800 text-lg">{host.name}</h3>
-                                            {host.verified && <Shield size={16} className="text-green-500" />}
-                                            <div className="flex items-center gap-1 bg-yellow-50 px-2 py-0.5 rounded-full ml-auto">
-                                                <Star size={12} className="text-yellow-500 fill-yellow-500" />
-                                                <span className="text-xs font-bold">{host.rating}</span>
+                        <div className="tip-card mb-6 flex items-start gap-3">
+                            <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center flex-shrink-0">
+                                <Users size={20} className="text-green-600" />
+                            </div>
+                            <div>
+                                <p className="font-semibold text-green-800 text-sm">Local Host Experience</p>
+                                <p className="text-sm text-green-700/80 mt-0.5">Free stays with authentic cultural experiences. All hosts are verified for safety.</p>
+                            </div>
+                        </div>
+                        <div className="grid md:grid-cols-2 gap-5">
+                            {hosts.map((host, i) => (
+                                <motion.div
+                                    key={host.id}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: i * 0.05 }}
+                                    onClick={() => selectHost(host)}
+                                    className={`feature-card cursor-pointer ${trip.selectedStay === host.name ? 'ring-2 ring-brand-500 border-brand-200 bg-brand-50/30' : ''}`}
+                                >
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center text-white text-xl font-bold shadow-lg">{host.name.charAt(0)}</div>
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <h3 className="font-bold text-gray-800">{host.name}</h3>
+                                                {host.verified && <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">Verified</span>}
                                             </div>
+                                            <p className="text-sm text-gray-500">{host.bio}</p>
                                         </div>
-                                        <p className="text-sm text-gray-500 mb-2">{host.bio}</p>
-                                        <div className="flex flex-wrap gap-2">
-                                            <span className="text-xs bg-green-50 text-green-700 px-2.5 py-1 rounded-full font-medium">FREE Stay</span>
-                                            {host.foodIncluded && <span className="text-xs bg-orange-50 text-orange-700 px-2.5 py-1 rounded-full font-medium">🍽️ Food Included</span>}
-                                            <span className="text-xs bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full font-medium">Max {host.maxGuests} guest{host.maxGuests > 1 ? 's' : ''}</span>
-                                            <span className="text-xs bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full">{host.distance}</span>
-                                        </div>
+                                        {trip.selectedStay === host.name && (
+                                            <div className="w-8 h-8 rounded-full bg-brand-500 text-white flex items-center justify-center"><Check size={16} /></div>
+                                        )}
                                     </div>
-                                </div>
-                            </motion.div>
-                        ))}
-
-                        <Link to="/host-register" className="block w-full p-5 border-2 border-dashed border-gray-300 rounded-2xl text-center text-gray-500 hover:border-brand-400 hover:text-brand-600 transition-all duration-300">
-                            <Sparkles size={20} className="mx-auto mb-2" />
-                            <span className="font-semibold">Register as a Local Host</span>
-                            <p className="text-xs mt-1">Open your home to travelers</p>
-                        </Link>
+                                    <div className="flex items-center gap-4 mt-3 text-sm text-gray-400 border-t border-gray-100 pt-3">
+                                        <span className="flex items-center gap-1"><Star size={14} className="text-yellow-400 fill-current" /> {host.rating}</span>
+                                        <span className="flex items-center gap-1"><Users size={14} /> Max {host.maxGuests}</span>
+                                        <span className="flex items-center gap-1"><MapPin size={14} /> {host.distance}</span>
+                                        {host.foodIncluded && <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium ml-auto">Food Included</span>}
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
                     </div>
                 )}
 
                 {/* Generate Button */}
-                {trip.selectedStay && (
-                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mt-8">
-                        <button onClick={handleGenerate} className="btn-primary w-full text-lg py-4 justify-center flex items-center gap-2">
-                            Generate Roadmap <ChevronRight size={20} />
-                        </button>
-                    </motion.div>
-                )}
+                <div className="mt-10">
+                    <motion.button
+                        onClick={handleGenerate}
+                        disabled={!trip.selectedStay || generating}
+                        whileHover={trip.selectedStay ? { scale: 1.02 } : {}}
+                        whileTap={trip.selectedStay ? { scale: 0.98 } : {}}
+                        className={`w-full py-4 rounded-2xl text-lg font-bold flex items-center justify-center gap-3 transition-all duration-300 ${trip.selectedStay
+                            ? 'bg-gradient-to-r from-brand-500 to-ocean-300 text-white shadow-xl shadow-brand-500/20 hover:shadow-brand-500/40'
+                            : 'bg-gray-200 text-gray-400 cursor-not-allowed'}`}
+                    >
+                        {generating ? (
+                            <><Loader2 className="animate-spin" size={22} /> Generating Your Roadmap...</>
+                        ) : (
+                            <>Generate Roadmap <ChevronRight size={20} /></>
+                        )}
+                    </motion.button>
+                </div>
             </div>
         </AnimatedPage>
     );

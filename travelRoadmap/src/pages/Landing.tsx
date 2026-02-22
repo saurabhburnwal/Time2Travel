@@ -120,7 +120,7 @@ export default function Landing() {
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                         {[
-                            { icon: <MapPin className="text-brand-500" />, title: 'Smart Routes', desc: 'AI-optimized routes from your stay location, minimizing travel time', color: 'from-purple-500/10 to-purple-500/5' },
+                            { icon: <MapPin className="text-brand-500" />, title: 'Smart Routes', desc: 'AI-optimized routes from your stay location, minimizing travel time', color: 'from-brand-500/10 to-brand-500/5' },
                             { icon: <DollarSign className="text-green-500" />, title: 'Budget Control', desc: 'Stay within ₹2K–₹10K per person with real-time expense tracking', color: 'from-green-500/10 to-green-500/5' },
                             { icon: <Calendar className="text-ocean-500" />, title: 'Day-wise Plans', desc: 'Detailed itineraries with timings, distances, and entry fees', color: 'from-blue-500/10 to-blue-500/5' },
                             { icon: <Shield className="text-orange-500" />, title: 'Safety First', desc: 'Emergency contacts, solo traveler tips, and verified hosts', color: 'from-orange-500/10 to-orange-500/5' },
@@ -223,7 +223,7 @@ export default function Landing() {
             </section>
 
             {/* ===== CTA ===== */}
-            <section className="py-24 bg-gradient-to-br from-brand-600 via-purple-600 to-ocean-600 text-white text-center relative overflow-hidden">
+            <section className="py-24 bg-gradient-to-br from-brand-600 via-navy to-ocean-600 text-white text-center relative overflow-hidden">
                 <div className="absolute inset-0 opacity-10">
                     <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-white rounded-full blur-3xl" />
                     <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-yellow-300 rounded-full blur-3xl" />

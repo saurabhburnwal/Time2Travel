@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Shield, TrendingDown } from 'lucide-react';
+import { ArrowLeft, Shield, TrendingDown, Building2, Car, UtensilsCrossed, Ticket, Package } from 'lucide-react';
 import { motion } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
 import { useTrip } from '../contexts/TripContext';
@@ -9,18 +9,18 @@ export default function ExpenseBreakdown() {
     const { trip } = useTrip();
     const navigate = useNavigate();
 
-    const accommodation = trip.stayType === 'hotel' ? ((trip.selectedStay as any)?.price || 2000) * trip.days : 0;
+    const accommodation = trip.stayType === 'hotel' ? 2000 * trip.days : 0;
     const transport = 250 * trip.days;
     const food = 400 * trip.days;
     const entryFees = 80 * trip.days;
     const misc = 100 * trip.days;
 
     const expenses = [
-        { label: 'Accommodation', amount: accommodation, color: 'from-brand-400 to-brand-600', icon: '🏨' },
-        { label: 'Transport', amount: transport, color: 'from-ocean-400 to-ocean-600', icon: '🚗' },
-        { label: 'Food & Dining', amount: food, color: 'from-orange-400 to-red-500', icon: '🍽️' },
-        { label: 'Entry Fees', amount: entryFees, color: 'from-green-400 to-emerald-600', icon: '🎫' },
-        { label: 'Miscellaneous', amount: misc, color: 'from-gray-400 to-gray-600', icon: '📦' },
+        { label: 'Accommodation', amount: accommodation, color: 'from-brand-400 to-brand-600', icon: <Building2 size={18} className="text-brand-500" /> },
+        { label: 'Transport', amount: transport, color: 'from-ocean-400 to-ocean-600', icon: <Car size={18} className="text-ocean-400" /> },
+        { label: 'Food & Dining', amount: food, color: 'from-orange-400 to-red-500', icon: <UtensilsCrossed size={18} className="text-orange-500" /> },
+        { label: 'Entry Fees', amount: entryFees, color: 'from-green-400 to-emerald-600', icon: <Ticket size={18} className="text-green-500" /> },
+        { label: 'Miscellaneous', amount: misc, color: 'from-gray-400 to-gray-600', icon: <Package size={18} className="text-gray-500" /> },
     ];
 
     const total = expenses.reduce((sum, e) => sum + e.amount, 0);
@@ -50,7 +50,7 @@ export default function ExpenseBreakdown() {
                             >
                                 <div className="flex justify-between items-center mb-2.5">
                                     <span className="font-semibold text-gray-700 flex items-center gap-2">
-                                        <span className="text-lg">{exp.icon}</span> {exp.label}
+                                        {exp.icon} {exp.label}
                                     </span>
                                     <span className="text-xl font-bold gradient-text">₹{exp.amount.toLocaleString()}</span>
                                 </div>
@@ -102,7 +102,7 @@ export default function ExpenseBreakdown() {
                         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }} className="mt-6 p-4 bg-green-50 border-2 border-green-200 rounded-xl flex items-center gap-3">
                             <Shield className="text-green-600 flex-shrink-0" size={24} />
                             <p className="text-green-700 font-medium text-sm">
-                                You're saving approximately ₹{(2000 * trip.days).toLocaleString()} by staying with a local host! 🎉
+                                You're saving approximately Rs. {(2000 * trip.days).toLocaleString()} by staying with a local host!
                             </p>
                         </motion.div>
                     )}

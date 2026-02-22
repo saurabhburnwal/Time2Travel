@@ -27,8 +27,8 @@ export default function Navbar() {
 
     return (
         <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isTransparent
-                ? 'bg-transparent'
-                : 'bg-white/80 backdrop-blur-xl shadow-lg shadow-purple-500/5 border-b border-white/20'
+            ? 'bg-transparent'
+            : 'bg-white/80 backdrop-blur-xl shadow-lg shadow-brand-500/5 border-b border-white/20'
             }`}>
             <div className="section-container">
                 <div className="flex items-center justify-between h-16 md:h-20">
@@ -49,8 +49,8 @@ export default function Navbar() {
                                 key={link.to}
                                 to={link.to}
                                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${location.pathname === link.to
-                                        ? isTransparent ? 'bg-white/20 text-white' : 'bg-brand-50 text-brand-600'
-                                        : isTransparent ? 'text-white/80 hover:text-white hover:bg-white/10' : 'text-gray-600 hover:text-brand-600 hover:bg-brand-50'
+                                    ? isTransparent ? 'bg-white/20 text-white' : 'bg-brand-50 text-brand-600'
+                                    : isTransparent ? 'text-white/80 hover:text-white hover:bg-white/10' : 'text-gray-600 hover:text-brand-600 hover:bg-brand-50'
                                     }`}
                             >
                                 {link.label}
