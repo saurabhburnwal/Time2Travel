@@ -94,7 +94,8 @@ app.post('/antigravity/generate-roadmap', async (req, res) => {
                 latitude: p.latitude,
                 longitude: p.longitude,
                 entry_fee: p.entry_fee || 0,
-                avg_visit_time: p.avg_visit_time || 60
+                avg_visit_time: p.avg_visit_time || 60,
+                travel_type_id: p.travel_type_id
             })),
             distances: distancesRes.data.map(d => ({
                 place_a_id: d.place_a_id,
