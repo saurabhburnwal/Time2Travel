@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { MapPin, Menu, X, User, LogOut, Shield, LayoutDashboard } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
@@ -6,12 +6,18 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navbar() {
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
     const { user, isLoggedIn, logout, isAdmin } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
 
     const isLanding = location.pathname === '/';
-    const isTransparent = isLanding;
+
+    useEffect(() => {
+        const handleScroll = () => setScrolled(window.scrollY > 50);
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     const navLinks = [
         { to: '/', label: 'Home' },
@@ -25,11 +31,25 @@ export default function Navbar() {
         setMobileOpen(false);
     };
 
+    // Dynamic navbar styles based on page + scroll position
+    const getNavClasses = () => {
+        if (isLanding && !scrolled) {
+            // Landing page top — subtle glass over hero video
+            return 'bg-white/5 backdrop-blur-md border-b border-white/10';
+        }
+        if (isLanding && scrolled) {
+            // Landing page scrolled — stronger glass for readability over lighter sections
+            return 'bg-white/80 backdrop-blur-xl shadow-lg shadow-brand-500/5 border-b border-white/20';
+        }
+        // All other pages — consistent glass style
+        return 'bg-white/80 backdrop-blur-xl shadow-lg shadow-brand-500/5 border-b border-white/20';
+    };
+
+    // Text color depends on whether we're on transparent landing or solid bg
+    const isTransparent = isLanding && !scrolled;
+
     return (
-        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isTransparent
-            ? 'bg-transparent'
-            : 'bg-white/80 backdrop-blur-xl shadow-lg shadow-brand-500/5 border-b border-white/20'
-            }`}>
+        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${getNavClasses()}`}>
             <div className="section-container">
                 <div className="flex items-center justify-between h-16 md:h-20">
                     {/* Logo */}

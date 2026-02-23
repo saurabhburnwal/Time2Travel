@@ -7,7 +7,7 @@ import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
 
 export default function Register() {
-    const [form, setForm] = useState({ name: '', email: '', phone: '', password: '', gender: '', role: 'traveler' as const });
+    const [form, setForm] = useState({ name: '', email: '', phone: '', password: '', gender: '', role: 'traveler' as 'traveler' | 'host' });
     const [showPass, setShowPass] = useState(false);
     const { register } = useAuth();
     const navigate = useNavigate();
@@ -17,10 +17,16 @@ export default function Register() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!form.name || !form.email || !form.password) { toast.error('Please fill required fields'); return; }
+        if (form.password.length < 6) { toast.error('Password must be at least 6 characters'); return; }
         const success = await register({ name: form.name, email: form.email, phone: form.phone, gender: form.gender, role: form.role as any });
         if (success) {
             toast.success('Account created successfully!');
-            navigate('/');
+            // Redirect hosts to host registration page, travelers to home
+            if (form.role === 'host') {
+                navigate('/host-register');
+            } else {
+                navigate('/');
+            }
         } else {
             toast.error('Registration failed. Please try again.');
         }

@@ -68,6 +68,19 @@ export default function TripPlanner() {
 
     const travelColors = ['from-green-400 to-emerald-500', 'from-orange-400 to-red-500', 'from-cyan-400 to-blue-500', 'from-amber-400 to-yellow-600', 'from-brand-400 to-ocean-300'];
 
+    // Step indicator component
+    const StepHeader = ({ step, title, subtitle, icon }: { step: number; title: string; subtitle: string; icon: React.ReactNode }) => (
+        <div className="flex items-center gap-4 mb-5">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-ocean-400 flex items-center justify-center text-white font-bold text-sm shadow-md flex-shrink-0">
+                {step}
+            </div>
+            <div className="flex-1 min-w-0">
+                <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2">{icon} {title}</h3>
+                <p className="text-sm text-gray-400 mt-0.5">{subtitle}</p>
+            </div>
+        </div>
+    );
+
     return (
         <AnimatedPage className="page-bg pt-20 pb-16 min-h-screen">
             {/* Decorative background blobs */}
@@ -115,10 +128,10 @@ export default function TripPlanner() {
                 <div className="grid lg:grid-cols-3 gap-8">
                     {/* Left Column: Main Form */}
                     <div className="lg:col-span-2 space-y-6">
-                        {/* Travel Type */}
+                        {/* Step 1: Travel Type */}
                         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="feature-card">
-                            <label className="floating-label flex items-center gap-2"><Compass size={16} /> Travel Type</label>
-                            <div className="flex flex-wrap gap-3 mt-3">
+                            <StepHeader step={1} title="Choose Your Interests" subtitle="What kind of experience are you looking for?" icon={<Compass size={18} className="text-brand-500" />} />
+                            <div className="flex flex-wrap gap-3">
                                 {travelTypes.map((type, i) => (
                                     <button
                                         key={type.id}
@@ -134,11 +147,12 @@ export default function TripPlanner() {
                             </div>
                         </motion.div>
 
-                        {/* State & Destination */}
+                        {/* Step 2: State & Destination */}
                         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="feature-card">
+                            <StepHeader step={2} title="Select Destination" subtitle="Pick your state and city to explore" icon={<MapPin size={18} className="text-brand-500" />} />
                             <div className="grid md:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="floating-label flex items-center gap-2"><MapPin size={16} /> State</label>
+                                    <label className="floating-label flex items-center gap-2"><MapPin size={14} /> State</label>
                                     <select
                                         value={trip.state}
                                         onChange={e => { updateTrip({ state: e.target.value, destination: '' }); }}
@@ -149,7 +163,7 @@ export default function TripPlanner() {
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="floating-label flex items-center gap-2"><MapPin size={16} /> Destination</label>
+                                    <label className="floating-label flex items-center gap-2"><MapPin size={14} /> Destination</label>
                                     <select
                                         value={trip.destination}
                                         onChange={e => updateTrip({ destination: e.target.value })}
@@ -163,11 +177,12 @@ export default function TripPlanner() {
                             </div>
                         </motion.div>
 
-                        {/* Budget & Days */}
+                        {/* Step 3: Budget & Days */}
                         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="feature-card">
+                            <StepHeader step={3} title="Set Your Budget & Duration" subtitle="Adjust your spending limit and trip length" icon={<DollarSign size={18} className="text-brand-500" />} />
                             <div className="grid md:grid-cols-2 gap-8">
                                 <div>
-                                    <label className="floating-label flex items-center gap-2"><DollarSign size={16} /> Budget (per person)</label>
+                                    <label className="floating-label flex items-center gap-2"><DollarSign size={14} /> Budget (per person)</label>
                                     <div className="mt-4">
                                         <input
                                             type="range" min={2000} max={10000} step={500}
@@ -183,7 +198,7 @@ export default function TripPlanner() {
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="floating-label flex items-center gap-2"><Calendar size={16} /> Days</label>
+                                    <label className="floating-label flex items-center gap-2"><Calendar size={14} /> Days</label>
                                     <div className="mt-4">
                                         <input
                                             type="range" min={2} max={7} step={1}
@@ -201,10 +216,10 @@ export default function TripPlanner() {
                             </div>
                         </motion.div>
 
-                        {/* Group Type */}
+                        {/* Step 4: Group Type */}
                         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="feature-card">
-                            <label className="floating-label flex items-center gap-2"><Users size={16} /> Group Type</label>
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
+                            <StepHeader step={4} title="Who's Traveling?" subtitle="Select your travel group type" icon={<Users size={18} className="text-brand-500" />} />
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                                 {groupTypes.map(g => (
                                     <button
                                         key={g.id}
@@ -224,7 +239,7 @@ export default function TripPlanner() {
                     {/* Right Column: Summary + Tips */}
                     <div className="space-y-6">
                         {/* Live Trip Summary */}
-                        <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 }} className="travel-strip text-white sticky top-24">
+                        <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 }} className="travel-strip text-white">
                             <div className="relative z-10">
                                 <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
                                     <Sparkles size={18} className="text-ocean-200" /> Trip Preview

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Building2, Users, Star, MapPin, Check, Loader2, ChevronRight, Sparkles, Coffee, Wifi, Utensils, Dumbbell } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Building2, Users, Star, MapPin, Check, Loader2, ChevronRight, Sparkles, Coffee, Wifi, Utensils, Dumbbell, UserPlus } from 'lucide-react';
 import { motion } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
+import AuthModal from '../components/AuthModal';
 import StarRating from '../components/StarRating';
 import { useTrip } from '../contexts/TripContext';
+import { useAuth } from '../contexts/AuthContext';
 import { Hotel, getHostsForDestination as getMockHosts } from '../data/mockData';
 import { fetchHotelsForDestination } from '../lib/supabaseService';
 import toast from 'react-hot-toast';
@@ -16,13 +18,29 @@ const AMENITY_ICONS: Record<string, React.ReactNode> = {
     'Breakfast': <Coffee size={12} />,
 };
 
+// Curated high-quality hotel/resort images
+const HOTEL_IMAGES = [
+    'https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=600',
+    'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=600',
+    'https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=600',
+    'https://images.pexels.com/photos/189296/pexels-photo-189296.jpeg?auto=compress&cs=tinysrgb&w=600',
+    'https://images.pexels.com/photos/1134176/pexels-photo-1134176.jpeg?auto=compress&cs=tinysrgb&w=600',
+    'https://images.pexels.com/photos/2467285/pexels-photo-2467285.jpeg?auto=compress&cs=tinysrgb&w=600',
+    'https://images.pexels.com/photos/2029698/pexels-photo-2029698.jpeg?auto=compress&cs=tinysrgb&w=600',
+    'https://images.pexels.com/photos/1579253/pexels-photo-1579253.jpeg?auto=compress&cs=tinysrgb&w=600',
+    'https://images.pexels.com/photos/2507010/pexels-photo-2507010.jpeg?auto=compress&cs=tinysrgb&w=600',
+    'https://images.pexels.com/photos/2869215/pexels-photo-2869215.jpeg?auto=compress&cs=tinysrgb&w=600',
+];
+
 export default function StaySelection() {
     const { trip, updateTrip } = useTrip();
+    const { isLoggedIn } = useAuth();
     const navigate = useNavigate();
     const [tab, setTab] = useState<'hotels' | 'hosts'>('hotels');
     const [hotels, setHotels] = useState<Hotel[]>([]);
     const [loading, setLoading] = useState(true);
     const [generating, setGenerating] = useState(false);
+    const [showAuthModal, setShowAuthModal] = useState(false);
 
     const hosts = getMockHosts(trip.destination);
 
@@ -45,11 +63,26 @@ export default function StaySelection() {
 
     const handleGenerate = () => {
         if (!trip.selectedStay) { toast.error('Please select a stay'); return; }
+        // Auth gate: must be logged in to generate roadmap
+        if (!isLoggedIn) {
+            setShowAuthModal(true);
+            return;
+        }
+        proceedToGenerate();
+    };
+
+    const proceedToGenerate = () => {
         setGenerating(true);
         setTimeout(() => {
             setGenerating(false);
             navigate('/roadmap-options');
         }, 2000);
+    };
+
+    const handleAuthSuccess = () => {
+        setShowAuthModal(false);
+        toast.success('You\'re signed in! Generating roadmap...');
+        proceedToGenerate();
     };
 
     if (!trip.destination) {
@@ -69,6 +102,9 @@ export default function StaySelection() {
 
     return (
         <AnimatedPage className="page-bg pt-20 pb-16 min-h-screen">
+            {/* Auth Modal */}
+            <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} onSuccess={handleAuthSuccess} />
+
             {/* Decorative blobs */}
             <div className="page-decorations">
                 <div className="deco-blob deco-blob-2 animate-pulse-soft" />
@@ -121,11 +157,10 @@ export default function StaySelection() {
                                         onClick={() => selectHotel(hotel)}
                                         className={`feature-card cursor-pointer group ${trip.selectedStay === hotel.name ? 'ring-2 ring-brand-500 border-brand-200 bg-brand-50/30' : ''}`}
                                     >
-                                        {/* Hotel Image Header */}
+                                        {/* Hotel Image Header — curated images */}
                                         <div className="image-card h-36 mb-4 -mx-6 -mt-6 rounded-b-none">
-                                            <img src={`https://images.pexels.com/photos/${258154 + (i * 137) % 2000}/pexels-photo-${258154 + (i * 137) % 2000}.jpeg?auto=compress&cs=tinysrgb&w=600`}
+                                            <img src={HOTEL_IMAGES[i % HOTEL_IMAGES.length]}
                                                 alt={hotel.name} loading="lazy"
-                                                onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=600'; }}
                                             />
                                             <div className="image-card-overlay" />
                                             <div className="absolute top-3 right-3 z-10">
@@ -205,6 +240,24 @@ export default function StaySelection() {
                                     </div>
                                 </motion.div>
                             ))}
+
+                            {/* Register as Local Host CTA */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: hosts.length * 0.05 }}
+                            >
+                                <Link
+                                    to="/host-register"
+                                    className="feature-card flex flex-col items-center justify-center text-center p-8 border-2 border-dashed border-brand-200 bg-brand-50/30 hover:bg-brand-50 hover:border-brand-400 cursor-pointer group h-full"
+                                >
+                                    <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-brand-400 to-ocean-500 flex items-center justify-center text-white mb-4 shadow-lg group-hover:shadow-xl transition-shadow">
+                                        <UserPlus size={28} />
+                                    </div>
+                                    <h3 className="font-bold text-gray-800 text-lg mb-1 group-hover:text-brand-600 transition-colors">Register as Local Host</h3>
+                                    <p className="text-sm text-gray-500">Open your home to travelers and share your culture</p>
+                                </Link>
+                            </motion.div>
                         </div>
                     </div>
                 )}
@@ -226,6 +279,9 @@ export default function StaySelection() {
                             <>Generate Roadmap <ChevronRight size={20} /></>
                         )}
                     </motion.button>
+                    {!isLoggedIn && trip.selectedStay && (
+                        <p className="text-center text-sm text-gray-400 mt-2">Sign in required to generate roadmap</p>
+                    )}
                 </div>
             </div>
         </AnimatedPage>

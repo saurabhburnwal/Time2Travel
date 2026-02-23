@@ -108,14 +108,25 @@ export default function Landing() {
                 </div>
             </section>
 
-            {/* ===== FEATURES ===== */}
-            <section className="py-24 page-bg">
-                <div className="section-container">
+            {/* ===== FEATURES ("Why Time2Travel?") — WITH BACKGROUND IMAGE ===== */}
+            <section className="py-24 relative overflow-hidden">
+                {/* Background Image + Overlay */}
+                <div className="absolute inset-0">
+                    <img
+                        src="https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg?auto=compress&cs=tinysrgb&w=1920"
+                        alt=""
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/90 via-offwhite/85 to-blue-50/90 backdrop-blur-[2px]" />
+                </div>
+
+                <div className="section-container relative z-10">
                     <div className="text-center mb-16">
                         <h2 className="text-4xl md:text-5xl font-bold font-display mb-4">
                             Why <span className="gradient-text">Time2Travel?</span>
                         </h2>
-                        <p className="text-gray-500 text-lg max-w-2xl mx-auto">Everything you need for a perfect trip, intelligently planned</p>
+                        <p className="text-gray-600 text-lg max-w-2xl mx-auto">Everything you need for a perfect trip, intelligently planned</p>
                     </div>
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
