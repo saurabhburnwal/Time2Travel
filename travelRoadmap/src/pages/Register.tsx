@@ -109,9 +109,9 @@ export default function Register() {
                                 <label className="floating-label">Gender</label>
                                 <select value={form.gender} onChange={e => update('gender', e.target.value)} className="select-field">
                                     <option value="">Select</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                    <option value="Other">Other</option>
+                                    <option value="MALE">Male</option>
+                                    <option value="FEMALE">Female</option>
+                                    <option value="OTHER">Other</option>
                                 </select>
                             </div>
                             <div>

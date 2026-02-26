@@ -290,7 +290,7 @@ INSERT INTO "public"."roles" ("role_id", "role_name") VALUES
 --
 
 INSERT INTO "public"."users" ("user_id", "name", "email", "password_hash", "phone", "gender", "role_id", "is_active", "created_at") VALUES
-	(1, 'Admin', 'admin@timetotravel.com', '123456', '9000000000', 'OTHER', 1, true, '2026-02-22 11:41:59.385273+00');
+	(1, 'Admin', 'admin@timetotravel.com', '$2a$10$TIU4BmFmV1LKEwMRjWct5OyLBM.UQtdE94hDh5IhR8nTzpP/oe6Vu', '9000000000', 'OTHER', 1, true, '2026-02-22 11:41:59.385273+00');
 
 
 --

@@ -10,6 +10,8 @@ interface TripState {
     groupType: string;
     selectedStay: string;
     stayType: 'hotel' | 'host' | null;
+    hotelPrice: number;
+    transportMode: string;
     stayLat: number;
     stayLng: number;
     selectedRoadmap: any | null;
@@ -31,6 +33,8 @@ const initialTrip: TripState = {
     groupType: '',
     selectedStay: '',
     stayType: null,
+    hotelPrice: 0,
+    transportMode: 'car',
     stayLat: 0,
     stayLng: 0,
     selectedRoadmap: null,

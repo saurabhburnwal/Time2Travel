@@ -12,6 +12,7 @@ const destinationRoutes = require('./routes/destinations');
 const placeRoutes = require('./routes/places');
 const hotelRoutes = require('./routes/hotels');
 const hostRoutes = require('./routes/hosts');
+const hostRegistrationRoutes = require('./routes/hostRegistrations');
 const expenseRoutes = require('./routes/expenses');
 const safetyRoutes = require('./routes/safety');
 const reviewRoutes = require('./routes/reviews');
@@ -23,9 +24,16 @@ const errorHandler = require('./middleware/errorHandler');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+const allowedOrigins = [
+    'http://localhost:3000'
+];
+if (process.env.FRONTEND_URL) {
+    allowedOrigins.push(process.env.FRONTEND_URL);
+}
+
 // ===== CORE MIDDLEWARE =====
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    origin: allowedOrigins,
     credentials: true,
 }));
 app.use(express.json());
@@ -60,6 +68,7 @@ app.use('/api/places', placeRoutes);
 // Module 5: Accommodation
 app.use('/api/hotels', hotelRoutes);
 app.use('/api/hosts', hostRoutes);
+app.use('/api/host-registrations', hostRegistrationRoutes);
 
 // Module 6: Expense Estimation
 app.use('/api/expenses', expenseRoutes);

@@ -18,12 +18,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<MockUser | null>(null);
 
     const login = async (email: string, password: string): Promise<{ success: boolean; error?: string; user?: MockUser }> => {
-        const res = await loginUser(email, password);
-        if (res.user) {
-            setUser(res.user);
-            return { success: true, user: res.user };
+        const user = await loginUser(email, password);
+        if (user) {
+            setUser(user);
+            return { success: true, user: user };
         }
-        return { success: false, error: res.error };
+        return { success: false, error: 'invalid_credentials' };
     };
 
     const register = async (userData: Partial<MockUser> & { password: string }): Promise<{ success: boolean; error?: string }> => {

@@ -55,7 +55,7 @@ export default function StaySelection() {
     }, [trip.destination]);
 
     const selectHotel = (h: Hotel) => {
-        updateTrip({ selectedStay: h.name, stayType: 'hotel', stayLat: h.lat, stayLng: h.lng });
+        updateTrip({ selectedStay: h.name, stayType: 'hotel', stayLat: h.lat, stayLng: h.lng, hotelPrice: h.price });
     };
     const selectHost = (h: any) => {
         updateTrip({ selectedStay: h.name, stayType: 'host', stayLat: h.lat, stayLng: h.lng });

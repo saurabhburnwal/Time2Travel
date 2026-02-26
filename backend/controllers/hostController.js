@@ -1,25 +1,33 @@
 const { query } = require('../config/db');
 
-// ===== GET ACTIVE HOSTS FOR DESTINATION =====
 exports.getHostsByDestination = async (req, res, next) => {
     try {
         const { destination_id } = req.query;
 
-        if (!destination_id) {
-            return res.status(400).json({ success: false, message: 'destination_id query param is required.' });
-        }
-
-        const result = await query(
-            `SELECT hp.host_id, hp.max_guests, hp.provides_food, hp.verified,
+        let sql = `
+            SELECT hp.host_id, hp.max_guests, hp.provides_food, hp.verified,
+                    hp.is_active,
                     hp.voluntary_min_amount, u.name AS host_name,
-                    d.name AS destination, d.state
+                    d.name AS destination, d.state,
+                    u.email, u.phone
              FROM host_profiles hp
              LEFT JOIN users u ON hp.user_id = u.user_id
              LEFT JOIN destinations d ON hp.destination_id = d.destination_id
-             WHERE hp.destination_id = $1 AND hp.is_active = true
-             ORDER BY hp.verified DESC, hp.voluntary_min_amount ASC`,
-            [destination_id]
-        );
+             WHERE 1=1
+        `;
+        const params = [];
+
+        if (destination_id) {
+            sql += ` AND hp.destination_id = $1`;
+            params.push(destination_id);
+        } else {
+            // Optional: for non-admins, we might require destination_id, but the frontend admin
+            // dashboard calls this without destination_id to get ALL hosts.
+        }
+
+        sql += ` ORDER BY hp.verified DESC, hp.voluntary_min_amount ASC`;
+
+        const result = await query(sql, params);
 
         res.json({ success: true, count: result.rowCount, hosts: result.rows });
     } catch (err) {
