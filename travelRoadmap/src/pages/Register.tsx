@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { User, Mail, Phone, Lock, Eye, EyeOff, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
@@ -7,7 +7,9 @@ import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
 
 export default function Register() {
-    const [form, setForm] = useState({ name: '', email: '', phone: '', password: '', gender: '', role: 'traveler' as 'traveler' | 'host' });
+    const loc = useLocation();
+    const prefillEmail = (loc.state as any)?.email || '';
+    const [form, setForm] = useState({ name: '', email: prefillEmail, phone: '', password: '', gender: '', role: 'traveler' as 'traveler' | 'host' });
     const [showPass, setShowPass] = useState(false);
     const { register } = useAuth();
     const navigate = useNavigate();
@@ -18,7 +20,14 @@ export default function Register() {
         e.preventDefault();
         if (!form.name || !form.email || !form.password) { toast.error('Please fill required fields'); return; }
         if (form.password.length < 6) { toast.error('Password must be at least 6 characters'); return; }
-        const success = await register({ name: form.name, email: form.email, phone: form.phone, gender: form.gender, role: form.role as any });
+        const { success, error } = await register({
+            name: form.name,
+            email: form.email,
+            phone: form.phone,
+            gender: form.gender,
+            role: form.role as any,
+            password: form.password,
+        });
         if (success) {
             toast.success('Account created successfully!');
             // Redirect hosts to host registration page, travelers to home
@@ -28,7 +37,11 @@ export default function Register() {
                 navigate('/');
             }
         } else {
-            toast.error('Registration failed. Please try again.');
+            if (error === 'registration_failed') {
+                toast.error('Registration failed. Please try again.');
+            } else {
+                toast.error(error || 'Registration failed. Please try again.');
+            }
         }
     };
 

@@ -104,7 +104,8 @@ exports.login = async (req, res, next) => {
         );
 
         if (result.rows.length === 0) {
-            return res.status(401).json({ success: false, message: 'Invalid email or password.' });
+            // no account with that email exists
+            return res.status(404).json({ success: false, message: 'Email not registered.' });
         }
 
         const user = result.rows[0];
@@ -116,7 +117,7 @@ exports.login = async (req, res, next) => {
         // Compare password
         const isMatch = await bcrypt.compare(password, user.password_hash);
         if (!isMatch) {
-            return res.status(401).json({ success: false, message: 'Invalid email or password.' });
+            return res.status(401).json({ success: false, message: 'Invalid password.' });
         }
 
         const token = generateToken(user);

@@ -19,13 +19,24 @@ export default function Login() {
         if (!email || !password) { toast.error('Please fill in all fields'); return; }
         setLoading(true);
         try {
-            const success = await login(email, password);
-            if (success) {
+            const res = await login(email, password);
+            if (res.success) {
                 toast.success('Welcome back!');
-                if (email === 'admin@timetotravel.com') navigate('/admin');
-                else navigate('/plan');
+                // route based on actual role rather than email string
+                if (res.user?.role === 'admin') {
+                    navigate('/admin');
+                } else {
+                    navigate('/plan');
+                }
             } else {
-                toast.error('Login failed. Please check your credentials.');
+                if (res.error === 'not_found') {
+                    toast.error('No account found. Redirecting to registration.');
+                    navigate('/register', { state: { email } });
+                } else if (res.error === 'invalid_credentials') {
+                    toast.error('Invalid email or password.');
+                } else {
+                    toast.error('Login failed. Please check your credentials.');
+                }
             }
         } catch {
             toast.error('An error occurred. Please try again.');

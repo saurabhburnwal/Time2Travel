@@ -5,8 +5,8 @@ import { loginUser, registerUser } from '../lib/supabaseService';
 interface AuthContextType {
     user: MockUser | null;
     isLoggedIn: boolean;
-    login: (email: string, password: string) => Promise<boolean>;
-    register: (userData: Partial<MockUser>) => Promise<boolean>;
+    login: (email: string, password: string) => Promise<{ success: boolean; error?: string; user?: MockUser }>;
+    register: (userData: Partial<MockUser> & { password: string }) => Promise<{ success: boolean; error?: string }>;
     logout: () => void;
     isAdmin: boolean;
     isHost: boolean;
@@ -17,22 +17,22 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<MockUser | null>(null);
 
-    const login = async (email: string, password: string): Promise<boolean> => {
-        const result = await loginUser(email, password);
-        if (result) {
-            setUser(result);
-            return true;
+    const login = async (email: string, password: string): Promise<{ success: boolean; error?: string; user?: MockUser }> => {
+        const res = await loginUser(email, password);
+        if (res.user) {
+            setUser(res.user);
+            return { success: true, user: res.user };
         }
-        return false;
+        return { success: false, error: res.error };
     };
 
-    const register = async (userData: Partial<MockUser>): Promise<boolean> => {
+    const register = async (userData: Partial<MockUser> & { password: string }): Promise<{ success: boolean; error?: string }> => {
         const result = await registerUser(userData);
         if (result) {
             setUser(result);
-            return true;
+            return { success: true };
         }
-        return false;
+        return { success: false, error: 'registration_failed' };
     };
 
     const logout = () => setUser(null);

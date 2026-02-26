@@ -29,10 +29,16 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
         if (!email || !password) { toast.error('Please fill in all fields'); return; }
         setLoading(true);
         try {
-            const success = await login(email, password);
+            const { success, error } = await login(email, password);
             if (success) {
                 toast.success('Welcome back!');
                 onSuccess();
+            } else if (error === 'not_found') {
+                toast.error('No account found - please register first.');
+                setMode('register');
+                setRegForm(prev => ({ ...prev, email }));
+            } else if (error === 'invalid_credentials') {
+                toast.error('Email or password is incorrect.');
             } else {
                 toast.error('Login failed. Please check your credentials.');
             }
@@ -49,18 +55,19 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
         if (regForm.password.length < 6) { toast.error('Password must be at least 6 characters'); return; }
         setLoading(true);
         try {
-            const success = await register({
+            const { success, error } = await register({
                 name: regForm.name,
                 email: regForm.email,
                 phone: regForm.phone,
                 gender: regForm.gender,
                 role: 'traveler',
+                password: regForm.password,
             });
             if (success) {
                 toast.success('Account created successfully!');
                 onSuccess();
             } else {
-                toast.error('Registration failed. Please try again.');
+                toast.error(error || 'Registration failed. Please try again.');
             }
         } catch {
             toast.error('An error occurred.');
