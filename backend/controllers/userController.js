@@ -133,3 +133,28 @@ exports.updateUserRole = async (req, res, next) => {
         next(err);
     }
 };
+
+// ===== DELETE USER (Admin) =====
+exports.deleteUser = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+
+        // Prevent admin from deleting themselves
+        if (parseInt(id) === req.user.userId) {
+            return res.status(400).json({ success: false, message: 'You cannot delete your own account.' });
+        }
+
+        const result = await query(
+            `DELETE FROM users WHERE user_id = $1 RETURNING user_id, name`,
+            [id]
+        );
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({ success: false, message: 'User not found.' });
+        }
+
+        res.json({ success: true, message: `User '${result.rows[0].name}' deleted.` });
+    } catch (err) {
+        next(err);
+    }
+};

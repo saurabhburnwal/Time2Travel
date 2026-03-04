@@ -4,7 +4,8 @@ const {
     submitHostRegistration,
     getAllHostRegistrations,
     updateRegistrationStatus,
-    getMyRegistration
+    getMyRegistration,
+    deleteRegistration
 } = require('../controllers/hostRegistrationController');
 const verifyToken = require('../middleware/auth');
 const requireRole = require('../middleware/roleCheck');
@@ -26,5 +27,22 @@ router.get('/me', verifyToken, getMyRegistration);
 
 // PATCH /api/host-registrations/:id  — update registration status (admin only)
 router.patch('/:id', verifyToken, requireRole('admin'), updateRegistrationStatus);
+
+// POST /api/host-registrations/:id/approve  — approve a registration (admin only)
+router.post('/:id/approve', verifyToken, requireRole('admin'), (req, res, next) => {
+    req.body.status = 'approved';
+    req.body.rejection_reason = null;
+    updateRegistrationStatus(req, res, next);
+});
+
+// POST /api/host-registrations/:id/reject  — reject a registration (admin only)
+router.post('/:id/reject', verifyToken, requireRole('admin'), (req, res, next) => {
+    req.body.status = 'rejected';
+    req.body.rejection_reason = req.body.reason || null;
+    updateRegistrationStatus(req, res, next);
+});
+
+// DELETE /api/host-registrations/:id  — delete a registration (admin only)
+router.delete('/:id', verifyToken, requireRole('admin'), deleteRegistration);
 
 module.exports = router;

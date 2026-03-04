@@ -33,6 +33,35 @@ exports.addContact = async (req, res, next) => {
     }
 };
 
+// ===== UPDATE SAFETY CONTACT =====
+exports.updateContact = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { name, phone } = req.body;
+
+        if (!name && !phone) {
+            return res.status(400).json({ success: false, message: 'Provide at least name or phone to update.' });
+        }
+
+        const result = await query(
+            `UPDATE safety_contacts
+             SET name  = COALESCE($1, name),
+                 phone = COALESCE($2, phone)
+             WHERE contact_id = $3 AND user_id = $4
+             RETURNING *`,
+            [name || null, phone || null, id, req.user.userId]
+        );
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({ success: false, message: 'Contact not found.' });
+        }
+
+        res.json({ success: true, message: 'Contact updated.', contact: result.rows[0] });
+    } catch (err) {
+        next(err);
+    }
+};
+
 // ===== DELETE SAFETY CONTACT =====
 exports.deleteContact = async (req, res, next) => {
     try {

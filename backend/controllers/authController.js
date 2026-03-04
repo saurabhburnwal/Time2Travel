@@ -19,8 +19,9 @@ exports.registerValidation = [
     body('name').notEmpty().withMessage('Name is required').trim(),
     body('email').isEmail().withMessage('Valid email is required').normalizeEmail(),
     body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
-    body('phone').optional().isMobilePhone().withMessage('Invalid phone number'),
-    body('gender').optional().isIn(['MALE', 'FEMALE', 'OTHER']).withMessage('Gender must be MALE, FEMALE, or OTHER'),
+    body('phone').optional({ checkFalsy: true })
+        .matches(/^[0-9+\-\s()]{7,15}$/).withMessage('Invalid phone number'),
+    body('gender').optional({ checkFalsy: true }).isIn(['MALE', 'FEMALE', 'OTHER']).withMessage('Gender must be MALE, FEMALE, or OTHER'),
 ];
 
 exports.loginValidation = [
@@ -36,7 +37,7 @@ exports.register = async (req, res, next) => {
             return res.status(400).json({ success: false, errors: errors.array() });
         }
 
-        const { name, email, password, phone, gender } = req.body;
+        const { name, email, password, phone, gender, role } = req.body;
 
         // Check if user already exists
         const existing = await query('SELECT user_id FROM users WHERE email = $1', [email]);
@@ -48,9 +49,16 @@ exports.register = async (req, res, next) => {
         const salt = await bcrypt.genSalt(10);
         const password_hash = await bcrypt.hash(password, salt);
 
-        // Get traveler role_id (role_id = 1)
-        const roleResult = await query("SELECT role_id FROM roles WHERE LOWER(role_name) = 'traveler' LIMIT 1");
-        const role_id = roleResult.rows[0]?.role_id || 1;
+        // Resolve role: use provided role (traveler or host), default to traveler
+        const requestedRole = (role || 'traveler').toLowerCase();
+        const roleResult = await query(
+            `SELECT role_id, role_name FROM roles WHERE LOWER(role_name) = $1 LIMIT 1`,
+            [requestedRole]
+        );
+        // Fallback: traveler has role_id = 2 in the seed
+        const role_id = roleResult.rows[0]?.role_id || 2;
+        const role_name = roleResult.rows[0]?.role_name || 'Traveler';
+
 
         // Insert user
         const result = await query(
@@ -61,7 +69,7 @@ exports.register = async (req, res, next) => {
         );
 
         const user = result.rows[0];
-        user.role_name = 'Traveler';
+        user.role_name = role_name;   // use the resolved role name
 
         const token = generateToken(user);
 
@@ -75,7 +83,7 @@ exports.register = async (req, res, next) => {
                 email: user.email,
                 phone: user.phone,
                 gender: user.gender,
-                role: 'traveler',
+                role: role_name.toLowerCase(),
             },
         });
     } catch (err) {

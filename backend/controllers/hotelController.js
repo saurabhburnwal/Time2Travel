@@ -3,10 +3,22 @@ const { query } = require('../config/db');
 // ===== GET HOTELS FOR DESTINATION =====
 exports.getHotelsByDestination = async (req, res, next) => {
     try {
-        const { destination_id } = req.query;
+        let { destination_id, destination } = req.query;
+
+        // Accept destination name as well as destination_id
+        if (!destination_id && destination) {
+            const destRes = await query(
+                `SELECT destination_id FROM destinations WHERE LOWER(name) = LOWER($1) LIMIT 1`,
+                [destination]
+            );
+            if (destRes.rowCount === 0) {
+                return res.status(404).json({ success: false, message: `Destination '${destination}' not found.` });
+            }
+            destination_id = destRes.rows[0].destination_id;
+        }
 
         if (!destination_id) {
-            return res.status(400).json({ success: false, message: 'destination_id query param is required.' });
+            return res.status(400).json({ success: false, message: 'destination_id or destination query param is required.' });
         }
 
         const result = await query(

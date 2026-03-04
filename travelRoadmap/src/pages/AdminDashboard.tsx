@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Users, Home, MapPin, Search, Check, X, Clock, Star, ChevronRight, Shield, UserCheck, MessageSquare, Loader2, AlertTriangle } from 'lucide-react';
+import { LayoutDashboard, Users, Home, MapPin, Search, Check, X, Clock, Star, ChevronRight, Shield, UserCheck, MessageSquare, Loader2, AlertTriangle, Trash2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
 import { useAuth } from '../contexts/AuthContext';
-import { fetchAllUsers, fetchAllHosts, fetchDestinationStats, fetchPendingHostRegistrations, approveHostRegistration, rejectHostRegistration, HostRegistrationRecord } from '../lib/supabaseService';
+import { fetchAllUsers, fetchAllHosts, fetchDestinationStats, fetchPendingHostRegistrations, approveHostRegistration, rejectHostRegistration, deleteUser, HostRegistrationRecord } from '../lib/supabaseService';
 import toast from 'react-hot-toast';
 
 type Tab = 'overview' | 'users' | 'hosts' | 'pending';
@@ -22,6 +22,7 @@ export default function AdminDashboard() {
     const [actionLoading, setActionLoading] = useState<number | null>(null);
     const [rejectModal, setRejectModal] = useState<{ id: number; name: string } | null>(null);
     const [rejectReason, setRejectReason] = useState('');
+    const [deleteConfirm, setDeleteConfirm] = useState<{ id: number; name: string } | null>(null);
 
     useEffect(() => {
         if (!isAdmin) { navigate('/'); return; }
@@ -71,6 +72,20 @@ export default function AdminDashboard() {
         }
         setRejectModal(null);
         setRejectReason('');
+        setActionLoading(null);
+    };
+
+    const handleDeleteUser = async () => {
+        if (!deleteConfirm) return;
+        setActionLoading(deleteConfirm.id);
+        const success = await deleteUser(deleteConfirm.id);
+        if (success) {
+            toast.success(`User '${deleteConfirm.name}' deleted.`);
+            setUsers(prev => prev.filter(u => u.id !== deleteConfirm.id));
+        } else {
+            toast.error('Failed to delete user. Please try again.');
+        }
+        setDeleteConfirm(null);
         setActionLoading(null);
     };
 
@@ -273,6 +288,7 @@ export default function AdminDashboard() {
                                                 <th className="px-6 py-4 font-semibold text-gray-500 uppercase tracking-wider text-xs">Email</th>
                                                 <th className="px-6 py-4 font-semibold text-gray-500 uppercase tracking-wider text-xs">Role</th>
                                                 <th className="px-6 py-4 font-semibold text-gray-500 uppercase tracking-wider text-xs">Status</th>
+                                                <th className="px-6 py-4 font-semibold text-gray-500 uppercase tracking-wider text-xs">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-100">
@@ -293,6 +309,18 @@ export default function AdminDashboard() {
                                                     <td className="px-6 py-4">
                                                         <span className="w-2 h-2 bg-green-400 rounded-full inline-block mr-2"></span>
                                                         Active
+                                                    </td>
+                                                    <td className="px-6 py-4">
+                                                        <button
+                                                            onClick={() => setDeleteConfirm({ id: u.id, name: u.name })}
+                                                            disabled={actionLoading === u.id}
+                                                            title="Delete user"
+                                                            className="p-2 rounded-lg text-red-400 hover:bg-red-50 hover:text-red-600 transition-all disabled:opacity-40"
+                                                        >
+                                                            {actionLoading === u.id
+                                                                ? <Loader2 size={15} className="animate-spin" />
+                                                                : <Trash2 size={15} />}
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             ))}
@@ -364,6 +392,33 @@ export default function AdminDashboard() {
                             <button onClick={() => setRejectModal(null)} className="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all">Cancel</button>
                             <button onClick={handleReject} disabled={!rejectReason.trim()} className="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-red-500 text-white hover:bg-red-600 transition-all disabled:opacity-50 shadow-md">
                                 Reject Registration
+                            </button>
+                        </div>
+                    </motion.div>
+                </div>
+            )}
+
+            {/* ===== DELETE USER CONFIRMATION MODAL ===== */}
+            {deleteConfirm && (
+                <div className="fixed inset-0 z-[60] flex items-center justify-center p-4" onClick={() => setDeleteConfirm(null)}>
+                    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="relative glass-card p-8 max-w-sm w-full z-10"
+                        onClick={e => e.stopPropagation()}
+                    >
+                        <div className="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center mx-auto mb-4">
+                            <Trash2 size={22} className="text-red-600" />
+                        </div>
+                        <h3 className="text-xl font-bold text-gray-800 mb-2 text-center">Delete User</h3>
+                        <p className="text-sm text-gray-500 mb-6 text-center">
+                            Are you sure you want to permanently delete <strong>{deleteConfirm.name}</strong>? This action cannot be undone.
+                        </p>
+                        <div className="flex gap-3">
+                            <button onClick={() => setDeleteConfirm(null)} className="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all">Cancel</button>
+                            <button onClick={handleDeleteUser} className="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-red-500 text-white hover:bg-red-600 transition-all shadow-md">
+                                Delete Permanently
                             </button>
                         </div>
                     </motion.div>

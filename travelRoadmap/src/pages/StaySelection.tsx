@@ -8,7 +8,7 @@ import StarRating from '../components/StarRating';
 import { useTrip } from '../contexts/TripContext';
 import { useAuth } from '../contexts/AuthContext';
 import { Hotel, getHostsForDestination as getMockHosts } from '../data/mockData';
-import { fetchHotelsForDestination } from '../lib/supabaseService';
+import { fetchHotelsForDestination, fetchHostsForDestination, LocalHost } from '../lib/supabaseService';
 import toast from 'react-hot-toast';
 
 const AMENITY_ICONS: Record<string, React.ReactNode> = {
@@ -38,19 +38,25 @@ export default function StaySelection() {
     const navigate = useNavigate();
     const [tab, setTab] = useState<'hotels' | 'hosts'>('hotels');
     const [hotels, setHotels] = useState<Hotel[]>([]);
+    const [hosts, setHosts] = useState<LocalHost[]>([]);
     const [loading, setLoading] = useState(true);
+    const [hostsLoading, setHostsLoading] = useState(true);
     const [generating, setGenerating] = useState(false);
     const [showAuthModal, setShowAuthModal] = useState(false);
-
-    const hosts = getMockHosts(trip.destination);
 
     useEffect(() => {
         if (!trip.destination) return;
         (async () => {
             setLoading(true);
-            const h = await fetchHotelsForDestination(trip.destination);
+            setHostsLoading(true);
+            const [h, hostList] = await Promise.all([
+                fetchHotelsForDestination(trip.destination),
+                fetchHostsForDestination(trip.destination),
+            ]);
             setHotels(h);
+            setHosts(hostList);
             setLoading(false);
+            setHostsLoading(false);
         })();
     }, [trip.destination]);
 
@@ -210,54 +216,69 @@ export default function StaySelection() {
                             </div>
                         </div>
                         <div className="grid md:grid-cols-2 gap-5">
-                            {hosts.map((host, i) => (
+                            {hostsLoading ? (
+                                <div className="md:col-span-2 text-center py-16">
+                                    <Loader2 className="animate-spin mx-auto text-brand-500" size={36} />
+                                    <p className="text-gray-500 mt-4">Finding local hosts...</p>
+                                </div>
+                            ) : hosts.length === 0 ? (
+                                <div className="md:col-span-2 text-center py-12 glass-card">
+                                    <Users size={40} className="text-gray-300 mx-auto mb-3" />
+                                    <p className="text-gray-500 font-medium">No local hosts available in {trip.destination} yet.</p>
+                                    <p className="text-sm text-gray-400 mt-1">Be the first — register as a host!</p>
+                                </div>
+                            ) : (
+                                hosts.map((host, i) => (
+                                    <motion.div
+                                        key={host.id}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: i * 0.05 }}
+                                        onClick={() => selectHost(host)}
+                                        className={`feature-card cursor-pointer ${trip.selectedStay === host.name ? 'ring-2 ring-brand-500 border-brand-200 bg-brand-50/30' : ''}`}
+                                    >
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center text-white text-xl font-bold shadow-lg">{host.name.charAt(0)}</div>
+                                            <div className="flex-1">
+                                                <div className="flex items-center gap-2 mb-1">
+                                                    <h3 className="font-bold text-gray-800">{host.name}</h3>
+                                                    {host.verified && <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">Verified</span>}
+                                                </div>
+                                                <p className="text-sm text-gray-500">{host.bio}</p>
+                                            </div>
+                                            {trip.selectedStay === host.name && (
+                                                <div className="w-8 h-8 rounded-full bg-brand-500 text-white flex items-center justify-center"><Check size={16} /></div>
+                                            )}
+                                        </div>
+                                        <div className="flex items-center gap-4 mt-3 text-sm text-gray-400 border-t border-gray-100 pt-3">
+                                            <span className="flex items-center gap-1"><Star size={14} className="text-yellow-400 fill-current" /> {host.rating}</span>
+                                            <span className="flex items-center gap-1"><Users size={14} /> Max {host.maxGuests}</span>
+                                            <span className="flex items-center gap-1"><MapPin size={14} /> {host.distance}</span>
+                                            {host.foodIncluded && <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium ml-auto">Food Included</span>}
+                                        </div>
+                                    </motion.div>
+                                ))
+                            )}
+
+                            {/* Register as Local Host CTA — always visible */}
+                            {!hostsLoading && (
                                 <motion.div
-                                    key={host.id}
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: i * 0.05 }}
-                                    onClick={() => selectHost(host)}
-                                    className={`feature-card cursor-pointer ${trip.selectedStay === host.name ? 'ring-2 ring-brand-500 border-brand-200 bg-brand-50/30' : ''}`}
+                                    transition={{ delay: hosts.length * 0.05 }}
                                 >
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center text-white text-xl font-bold shadow-lg">{host.name.charAt(0)}</div>
-                                        <div className="flex-1">
-                                            <div className="flex items-center gap-2 mb-1">
-                                                <h3 className="font-bold text-gray-800">{host.name}</h3>
-                                                {host.verified && <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">Verified</span>}
-                                            </div>
-                                            <p className="text-sm text-gray-500">{host.bio}</p>
+                                    <Link
+                                        to="/host-register"
+                                        className="feature-card flex flex-col items-center justify-center text-center p-8 border-2 border-dashed border-brand-200 bg-brand-50/30 hover:bg-brand-50 hover:border-brand-400 cursor-pointer group h-full"
+                                    >
+                                        <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-brand-400 to-ocean-500 flex items-center justify-center text-white mb-4 shadow-lg group-hover:shadow-xl transition-shadow">
+                                            <UserPlus size={28} />
                                         </div>
-                                        {trip.selectedStay === host.name && (
-                                            <div className="w-8 h-8 rounded-full bg-brand-500 text-white flex items-center justify-center"><Check size={16} /></div>
-                                        )}
-                                    </div>
-                                    <div className="flex items-center gap-4 mt-3 text-sm text-gray-400 border-t border-gray-100 pt-3">
-                                        <span className="flex items-center gap-1"><Star size={14} className="text-yellow-400 fill-current" /> {host.rating}</span>
-                                        <span className="flex items-center gap-1"><Users size={14} /> Max {host.maxGuests}</span>
-                                        <span className="flex items-center gap-1"><MapPin size={14} /> {host.distance}</span>
-                                        {host.foodIncluded && <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium ml-auto">Food Included</span>}
-                                    </div>
+                                        <h3 className="font-bold text-gray-800 text-lg mb-1 group-hover:text-brand-600 transition-colors">Register as Local Host</h3>
+                                        <p className="text-sm text-gray-500">Open your home to travelers and share your culture</p>
+                                    </Link>
                                 </motion.div>
-                            ))}
-
-                            {/* Register as Local Host CTA */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: hosts.length * 0.05 }}
-                            >
-                                <Link
-                                    to="/host-register"
-                                    className="feature-card flex flex-col items-center justify-center text-center p-8 border-2 border-dashed border-brand-200 bg-brand-50/30 hover:bg-brand-50 hover:border-brand-400 cursor-pointer group h-full"
-                                >
-                                    <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-brand-400 to-ocean-500 flex items-center justify-center text-white mb-4 shadow-lg group-hover:shadow-xl transition-shadow">
-                                        <UserPlus size={28} />
-                                    </div>
-                                    <h3 className="font-bold text-gray-800 text-lg mb-1 group-hover:text-brand-600 transition-colors">Register as Local Host</h3>
-                                    <p className="text-sm text-gray-500">Open your home to travelers and share your culture</p>
-                                </Link>
-                            </motion.div>
+                            )}
                         </div>
                     </div>
                 )}

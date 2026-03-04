@@ -244,4 +244,4 @@ export const HERO_IMAGES = [
     'https://images.pexels.com/photos/2450296/pexels-photo-2450296.jpeg?auto=compress&cs=tinysrgb&w=1920',
 ];
 
-export const HERO_VIDEO_URL = 'https://videos.pexels.com/video-files/3571264/3571264-uhd_2560_1440_30fps.mp4';
+export const HERO_VIDEO_URL = '/hero.mp4';

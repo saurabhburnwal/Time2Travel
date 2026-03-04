@@ -88,3 +88,28 @@ exports.updateExpenses = async (req, res, next) => {
         next(err);
     }
 };
+
+// ===== DELETE EXPENSE RECORD =====
+exports.deleteExpenses = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+
+        // Verify ownership via roadmap
+        const ownerCheck = await query(
+            `SELECT e.expense_id FROM expenses e
+             JOIN roadmaps r ON e.roadmap_id = r.roadmap_id
+             WHERE e.expense_id = $1 AND r.user_id = $2`,
+            [id, req.user.userId]
+        );
+
+        if (ownerCheck.rowCount === 0) {
+            return res.status(404).json({ success: false, message: 'Expense record not found.' });
+        }
+
+        await query(`DELETE FROM expenses WHERE expense_id = $1`, [id]);
+
+        res.json({ success: true, message: 'Expense record deleted.' });
+    } catch (err) {
+        next(err);
+    }
+};
