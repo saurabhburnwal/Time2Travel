@@ -10,8 +10,9 @@ const {
 const verifyToken = require('../middleware/auth');
 const requireRole = require('../middleware/roleCheck');
 
-// POST /api/host-registrations  — submit host registration (any user, even non-logged-in)
-router.post('/', submitHostRegistration);
+// POST /api/host-registrations  — submit host registration (must be logged in)
+router.post('/', verifyToken, submitHostRegistration);
+
 
 // GET /api/host-registrations  — get all registrations (admin only)
 router.get('/', verifyToken, requireRole('admin'), getAllHostRegistrations);
