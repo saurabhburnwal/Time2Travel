@@ -4,6 +4,7 @@ import { AnimatePresence } from 'framer-motion';
 import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import { ProtectedRoute, AdminRoute } from './components/ProtectedRoute';
 
 // Pages
 import Landing from './pages/Landing';
@@ -39,20 +40,29 @@ function AppContent() {
       <main className="flex-1">
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
+            {/* ── Public routes ──────────────────────────────── */}
             <Route path="/" element={<Landing />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/plan" element={<TripPlanner />} />
-            <Route path="/stay-selection" element={<StaySelection />} />
-            <Route path="/host-register" element={<HostRegistration />} />
-            <Route path="/roadmap-options" element={<RoadmapOptions />} />
-            <Route path="/itinerary" element={<Itinerary />} />
-            <Route path="/map-view" element={<MapView />} />
-            <Route path="/expense-breakdown" element={<ExpenseBreakdown />} />
-            <Route path="/final-review" element={<FinalReview />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/admin" element={<AdminDashboard />} />
+
+            {/* ── Protected routes (login required) ──────────── */}
+            <Route element={<ProtectedRoute />}>
+              <Route path="/plan" element={<TripPlanner />} />
+              <Route path="/stay-selection" element={<StaySelection />} />
+              <Route path="/host-register" element={<HostRegistration />} />
+              <Route path="/roadmap-options" element={<RoadmapOptions />} />
+              <Route path="/itinerary" element={<Itinerary />} />
+              <Route path="/map-view" element={<MapView />} />
+              <Route path="/expense-breakdown" element={<ExpenseBreakdown />} />
+              <Route path="/final-review" element={<FinalReview />} />
+              <Route path="/profile" element={<Profile />} />
+            </Route>
+
+            {/* ── Admin-only routes ───────────────────────────── */}
+            <Route element={<AdminRoute />}>
+              <Route path="/admin" element={<AdminDashboard />} />
+            </Route>
           </Routes>
         </AnimatePresence>
       </main>

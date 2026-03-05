@@ -25,8 +25,8 @@ export default function Navbar() {
         { to: '/plan', label: 'Plan Trip' },
     ];
 
-    const handleLogout = () => {
-        logout();
+    const handleLogout = async () => {
+        await logout();
         navigate('/');
         setMobileOpen(false);
     };
