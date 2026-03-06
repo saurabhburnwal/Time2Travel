@@ -4,7 +4,7 @@ import { MapPin, Compass, Users, DollarSign, Calendar, ChevronRight, Sparkles, T
 import { motion } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
 import { useTrip } from '../contexts/TripContext';
-import { STATES as MOCK_STATES, DESTINATIONS as MOCK_DESTINATIONS, TRAVEL_TYPES as MOCK_TRAVEL_TYPES, GROUP_TYPES as MOCK_GROUP_TYPES } from '../data/mockData';
+
 import { fetchStates, fetchDestinations, fetchTravelTypes, fetchGroupTypes, DBTravelType, DBGroupType } from '../lib/supabaseService';
 import toast from 'react-hot-toast';
 
@@ -34,10 +34,10 @@ export default function TripPlanner() {
     const { trip, updateTrip } = useTrip();
     const navigate = useNavigate();
 
-    const [states, setStates] = useState<string[]>(MOCK_STATES);
+    const [states, setStates] = useState<string[]>([]);
     const [destinations, setDestinations] = useState<string[]>([]);
-    const [travelTypes, setTravelTypes] = useState<DBTravelType[]>(MOCK_TRAVEL_TYPES.map(t => ({ id: t.id, name: t.name })));
-    const [groupTypes, setGroupTypes] = useState<DBGroupType[]>(MOCK_GROUP_TYPES.map(g => ({ id: g.id, name: g.name })));
+    const [travelTypes, setTravelTypes] = useState<DBTravelType[]>([]);
+    const [groupTypes, setGroupTypes] = useState<DBGroupType[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {

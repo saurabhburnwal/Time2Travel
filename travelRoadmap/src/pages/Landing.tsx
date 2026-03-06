@@ -4,8 +4,26 @@ import { ChevronRight, ChevronDown, MapPin, Calendar, DollarSign, Star, Shield, 
 import { motion } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
 import StarRating from '../components/StarRating';
-import { MOCK_REVIEWS, TRAVEL_QUOTES, HERO_IMAGES, HERO_VIDEO_URL } from '../data/mockData';
+const HERO_IMAGES = [
+    '/images/hero1.jpg',
+    '/images/hero2.jpg',
+    '/images/hero3.jpg',
+    '/images/hero4.jpg',
+];
 
+const HERO_VIDEO_URL = '/hero.mp4';
+
+const TRAVEL_QUOTES = [
+    { quote: "The world is a book, and those who do not travel read only one page.", author: "Saint Augustine" },
+    { quote: "Travel makes one modest. You see what a tiny place you occupy in the world.", author: "Gustave Flaubert" },
+    { quote: "Life is short and the world is wide. Better get started.", author: "Simon Raven" },
+];
+
+const MOCK_REVIEWS = [
+    { id: 1, userName: 'Aisha Patel', avatar: 'AP', destination: 'Munnar', rating: 5, comment: 'The roadmap saved us so much time! We covered 8 spots in 3 days effortlessly.', date: '2 weeks ago' },
+    { id: 2, userName: 'Rajesh Kumar', avatar: 'RK', destination: 'Hampi', rating: 4, comment: 'Amazing budget planning! Stayed within our Rs.5000 budget and saw all the major ruins.', date: '1 month ago' },
+    { id: 3, userName: 'Sneha Reddy', avatar: 'SR', destination: 'Goa', rating: 5, comment: 'Best travel app for beach destinations! The local host feature was a game changer.', date: '3 weeks ago' },
+];
 export default function Landing() {
     const [quoteIdx, setQuoteIdx] = useState(0);
     const [imgIdx, setImgIdx] = useState(0);

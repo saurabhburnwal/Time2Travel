@@ -5,7 +5,18 @@ import { motion } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
 import StarRating from '../components/StarRating';
 import { useTrip } from '../contexts/TripContext';
-import { EMERGENCY_CONTACTS, SOLO_SAFETY_TIPS } from '../data/mockData';
+const EMERGENCY_CONTACTS = [
+    { name: 'Police', number: '100' },
+    { name: 'Ambulance', number: '108' },
+    { name: 'Fire', number: '101' },
+    { name: 'Women Helpline', number: '1091' },
+];
+
+const SOLO_SAFETY_TIPS = [
+    'Share your itinerary with family or friends before departure',
+    'Keep digital copies of all important documents',
+    'Trust your instincts - if something feels wrong, leave immediately',
+];
 import toast from 'react-hot-toast';
 
 export default function FinalReview() {

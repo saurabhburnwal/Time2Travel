@@ -4,14 +4,13 @@ import { ChevronDown, Clock, MapPin, DollarSign, Map, ArrowLeft } from 'lucide-r
 import { motion, AnimatePresence } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
 import { useTrip } from '../contexts/TripContext';
-import { getPlacesForDestination } from '../data/mockData';
 
 export default function Itinerary() {
     const { trip } = useTrip();
     const navigate = useNavigate();
     const [expandedDay, setExpandedDay] = useState<number | null>(0);
 
-    const places = getPlacesForDestination(trip.destination);
+    const places = trip.places || [];
     const placesPerDay = Math.ceil(places.length / trip.days);
 
     // Build day-wise itinerary

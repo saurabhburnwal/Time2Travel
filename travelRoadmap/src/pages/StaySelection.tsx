@@ -7,8 +7,7 @@ import AuthModal from '../components/AuthModal';
 import StarRating from '../components/StarRating';
 import { useTrip } from '../contexts/TripContext';
 import { useAuth } from '../contexts/AuthContext';
-import { Hotel, getHostsForDestination as getMockHosts } from '../data/mockData';
-import { fetchHotelsForDestination, fetchHostsForDestination, LocalHost } from '../lib/supabaseService';
+import { fetchHotelsForDestination, fetchHostsForDestination, LocalHost, Hotel } from '../lib/supabaseService';
 import toast from 'react-hot-toast';
 
 const AMENITY_ICONS: Record<string, React.ReactNode> = {

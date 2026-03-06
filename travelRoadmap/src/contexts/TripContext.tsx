@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { Place } from '../data/mockData';
+import { Place } from '../lib/supabaseService';
 
 interface TripState {
     state: string;

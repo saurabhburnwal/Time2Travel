@@ -6,7 +6,7 @@ import { Icon } from 'leaflet';
 import { motion } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
 import { useTrip } from '../contexts/TripContext';
-import { getPlacesForDestination, DESTINATION_COORDS } from '../data/mockData';
+
 import 'leaflet/dist/leaflet.css';
 
 // Fix default marker icons for Leaflet
@@ -26,10 +26,10 @@ export default function MapView() {
     const navigate = useNavigate();
     const [selectedDay, setSelectedDay] = useState(0); // 0 = all
 
-    const places = getPlacesForDestination(trip.destination);
-    const center = DESTINATION_COORDS[trip.destination] || { lat: 10.0889, lng: 77.0595 };
-    const stayLat = trip.stayLat || center.lat;
-    const stayLng = trip.stayLng || center.lng;
+    const places = trip.places || [];
+    const center = { lat: trip.stayLat || 10.0889, lng: trip.stayLng || 77.0595 };
+    const stayLat = center.lat;
+    const stayLng = center.lng;
     const placesPerDay = Math.ceil(places.length / trip.days);
 
     const filteredPlaces = selectedDay === 0
