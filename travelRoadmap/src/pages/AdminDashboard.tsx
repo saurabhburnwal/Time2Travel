@@ -108,7 +108,7 @@ export default function AdminDashboard() {
             <div className="section-container max-w-6xl relative z-10">
                 {/* Header */}
                 <div className="hero-banner mb-8">
-                    <img src="https://images.pexels.com/photos/260689/pexels-photo-260689.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Admin" loading="eager" />
+                    <img src="/images/admin_bg.jpg" alt="Admin" loading="eager" />
                     <div className="hero-overlay" />
                     <div className="hero-content justify-end">
                         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}>

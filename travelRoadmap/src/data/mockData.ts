@@ -234,14 +234,12 @@ export const MOCK_PAST_TRIPS: PastTrip[] = [
     { id: 3, destination: 'Goa', state: 'Goa', days: 4, date: 'Nov 2025', rating: 5, totalCost: 6800, roadmapType: 'Budget Efficient' },
 ];
 
-// ===== PEXELS CONFIG =====
-export const PEXELS_API_KEY = 'YOUR_PEXELS_API_KEY';
-
+// ===== LOCAL IMAGE CONFIG =====
 export const HERO_IMAGES = [
-    'https://images.pexels.com/photos/1371360/pexels-photo-1371360.jpeg?auto=compress&cs=tinysrgb&w=1920',
-    'https://images.pexels.com/photos/3155666/pexels-photo-3155666.jpeg?auto=compress&cs=tinysrgb&w=1920',
-    'https://images.pexels.com/photos/2265876/pexels-photo-2265876.jpeg?auto=compress&cs=tinysrgb&w=1920',
-    'https://images.pexels.com/photos/2450296/pexels-photo-2450296.jpeg?auto=compress&cs=tinysrgb&w=1920',
+    '/images/hero1.jpg',
+    '/images/hero2.jpg',
+    '/images/hero3.jpg',
+    '/images/hero4.jpg',
 ];
 
 export const HERO_VIDEO_URL = '/hero.mp4';

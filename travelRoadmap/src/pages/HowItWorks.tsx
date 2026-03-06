@@ -5,10 +5,10 @@ import { motion } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
 
 const STEP_IMAGES = [
-    'https://images.pexels.com/photos/2161449/pexels-photo-2161449.jpeg?auto=compress&cs=tinysrgb&w=600',
-    'https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=600',
-    'https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg?auto=compress&cs=tinysrgb&w=600',
-    'https://images.pexels.com/photos/1450353/pexels-photo-1450353.jpeg?auto=compress&cs=tinysrgb&w=600',
+    '/images/how_img1.jpg',
+    '/images/how_img2.jpg',
+    '/images/how_img3.jpg',
+    '/images/how_img4.jpg',
 ];
 
 export default function HowItWorks() {
@@ -37,7 +37,7 @@ export default function HowItWorks() {
             <div className="section-container relative z-10">
                 {/* Hero Banner */}
                 <div className="hero-banner mb-16">
-                    <img src="https://images.pexels.com/photos/3935702/pexels-photo-3935702.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Travel planning" loading="eager" />
+                    <img src="/images/how_planning.jpg" alt="Travel planning" loading="eager" />
                     <div className="hero-overlay" />
                     <div className="hero-content justify-center text-center" style={{ minHeight: '320px' }}>
                         <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>

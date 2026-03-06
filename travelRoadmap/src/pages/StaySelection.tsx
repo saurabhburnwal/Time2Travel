@@ -20,16 +20,16 @@ const AMENITY_ICONS: Record<string, React.ReactNode> = {
 
 // Curated high-quality hotel/resort images
 const HOTEL_IMAGES = [
-    'https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=600',
-    'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=600',
-    'https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=600',
-    'https://images.pexels.com/photos/189296/pexels-photo-189296.jpeg?auto=compress&cs=tinysrgb&w=600',
-    'https://images.pexels.com/photos/1134176/pexels-photo-1134176.jpeg?auto=compress&cs=tinysrgb&w=600',
-    'https://images.pexels.com/photos/2467285/pexels-photo-2467285.jpeg?auto=compress&cs=tinysrgb&w=600',
-    'https://images.pexels.com/photos/2029698/pexels-photo-2029698.jpeg?auto=compress&cs=tinysrgb&w=600',
-    'https://images.pexels.com/photos/1579253/pexels-photo-1579253.jpeg?auto=compress&cs=tinysrgb&w=600',
-    'https://images.pexels.com/photos/2507010/pexels-photo-2507010.jpeg?auto=compress&cs=tinysrgb&w=600',
-    'https://images.pexels.com/photos/2869215/pexels-photo-2869215.jpeg?auto=compress&cs=tinysrgb&w=600',
+    '/images/how_img2.jpg',
+    '/images/stay_h1.jpg',
+    '/images/stay_h2.jpg',
+    '/images/stay_h3.jpg',
+    '/images/stay_h4.jpg',
+    '/images/stay_h5.jpg',
+    '/images/stay_h6.jpg',
+    '/images/stay_h7.jpg',
+    '/images/stay_h8.jpg',
+    '/images/stay_h9.jpg',
 ];
 
 export default function StaySelection() {
@@ -119,7 +119,7 @@ export default function StaySelection() {
             <div className="section-container max-w-5xl relative z-10">
                 {/* Hero Banner */}
                 <div className="hero-banner mb-8">
-                    <img src="https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Hotel" loading="eager" />
+                    <img src="/images/hotel_bg.jpg" alt="Hotel" loading="eager" />
                     <div className="hero-overlay" />
                     <div className="hero-content justify-end">
                         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}>

@@ -113,7 +113,7 @@ export default function Landing() {
                 {/* Background Image + Overlay */}
                 <div className="absolute inset-0">
                     <img
-                        src="https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg?auto=compress&cs=tinysrgb&w=1920"
+                        src="/images/landing_hero.jpg"
                         alt=""
                         className="w-full h-full object-cover"
                         loading="lazy"
@@ -167,14 +167,14 @@ export default function Landing() {
 
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         {[
-                            { name: 'Munnar', state: 'Kerala', img: 'https://images.pexels.com/photos/2104882/pexels-photo-2104882.jpeg?auto=compress&cs=tinysrgb&w=600' },
-                            { name: 'Hampi', state: 'Karnataka', img: 'https://images.pexels.com/photos/5087167/pexels-photo-5087167.jpeg?auto=compress&cs=tinysrgb&w=600' },
-                            { name: 'Goa Beaches', state: 'Goa', img: 'https://images.pexels.com/photos/1078983/pexels-photo-1078983.jpeg?auto=compress&cs=tinysrgb&w=600' },
-                            { name: 'Ooty', state: 'Tamil Nadu', img: 'https://images.pexels.com/photos/3155666/pexels-photo-3155666.jpeg?auto=compress&cs=tinysrgb&w=600' },
-                            { name: 'Hyderabad', state: 'Telangana', img: 'https://images.pexels.com/photos/3573382/pexels-photo-3573382.jpeg?auto=compress&cs=tinysrgb&w=600' },
-                            { name: 'Coorg', state: 'Karnataka', img: 'https://images.pexels.com/photos/2387418/pexels-photo-2387418.jpeg?auto=compress&cs=tinysrgb&w=600' },
-                            { name: 'Alleppey', state: 'Kerala', img: 'https://images.pexels.com/photos/962464/pexels-photo-962464.jpeg?auto=compress&cs=tinysrgb&w=600' },
-                            { name: 'Pondicherry', state: 'Tamil Nadu', img: 'https://images.pexels.com/photos/1450353/pexels-photo-1450353.jpeg?auto=compress&cs=tinysrgb&w=600' },
+                            { name: 'Munnar', state: 'Kerala', img: '/images/dest_munnar.jpg' },
+                            { name: 'Hampi', state: 'Karnataka', img: '/images/dest_hampi.jpg' },
+                            { name: 'Goa Beaches', state: 'Goa', img: '/images/dest_goa.jpg' },
+                            { name: 'Ooty', state: 'Tamil Nadu', img: '/images/dest_ooty.jpg' },
+                            { name: 'Hyderabad', state: 'Telangana', img: '/images/dest_hyderabad.jpg' },
+                            { name: 'Coorg', state: 'Karnataka', img: '/images/dest_coorg.jpg' },
+                            { name: 'Alleppey', state: 'Kerala', img: '/images/dest_alleppey.jpg' },
+                            { name: 'Pondicherry', state: 'Tamil Nadu', img: '/images/dest_pondicherry.jpg' },
                         ].map((d, i) => (
                             <motion.div
                                 key={d.name}
