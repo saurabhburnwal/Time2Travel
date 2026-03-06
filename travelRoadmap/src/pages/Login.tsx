@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, MapPin } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Mail, Lock, Eye, EyeOff, MapPin, AlertTriangle, RefreshCw } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
 import { useAuth } from '../contexts/AuthContext';
+import { resendVerificationEmail } from '../lib/supabaseService';
 import toast from 'react-hot-toast';
 
 export default function Login() {
@@ -11,6 +12,9 @@ export default function Login() {
     const [password, setPassword] = useState('');
     const [showPass, setShowPass] = useState(false);
     const [loading, setLoading] = useState(false);
+    // email_not_verified banner state
+    const [unverifiedEmail, setUnverifiedEmail] = useState<string | null>(null);
+    const [isResending, setIsResending] = useState(false);
     const { login } = useAuth();
     const navigate = useNavigate();
 
@@ -18,6 +22,7 @@ export default function Login() {
         e.preventDefault();
         if (!email || !password) { toast.error('Please fill in all fields'); return; }
         setLoading(true);
+        setUnverifiedEmail(null);
         try {
             const res = await login(email, password);
             if (res.success) {
@@ -29,7 +34,10 @@ export default function Login() {
                     navigate('/plan');
                 }
             } else {
-                if (res.error === 'not_found') {
+                if (res.error === 'email_not_verified') {
+                    // Show inline resend banner instead of toast
+                    setUnverifiedEmail(res.email || email);
+                } else if (res.error === 'not_found') {
                     toast.error('No account found. Redirecting to registration.');
                     navigate('/register', { state: { email } });
                 } else if (res.error === 'invalid_credentials') {
@@ -42,6 +50,22 @@ export default function Login() {
             toast.error('An error occurred. Please try again.');
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleResend = async () => {
+        if (!unverifiedEmail || isResending) return;
+        setIsResending(true);
+        try {
+            const ok = await resendVerificationEmail(unverifiedEmail);
+            if (ok) {
+                toast.success('Verification email sent! Check your inbox.');
+                navigate('/verify-email', { state: { email: unverifiedEmail } });
+            } else {
+                toast.error('Failed to resend. Please try again.');
+            }
+        } finally {
+            setIsResending(false);
         }
     };
 
@@ -69,6 +93,42 @@ export default function Login() {
 
                     <h1 className="text-3xl font-bold text-gray-800 mb-2">Sign In</h1>
                     <p className="text-gray-500 mb-8">Enter your credentials to continue</p>
+
+                    {/* Email Not Verified Banner */}
+                    <AnimatePresence>
+                        {unverifiedEmail && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -8, height: 0 }}
+                                animate={{ opacity: 1, y: 0, height: 'auto' }}
+                                exit={{ opacity: 0, y: -8, height: 0 }}
+                                className="mb-5 overflow-hidden"
+                            >
+                                <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+                                    <div className="flex items-start gap-3">
+                                        <AlertTriangle size={18} className="text-amber-500 mt-0.5 shrink-0" />
+                                        <div className="flex-1">
+                                            <p className="text-sm font-semibold text-amber-800 mb-1">
+                                                Email not verified
+                                            </p>
+                                            <p className="text-xs text-amber-700 mb-3 leading-relaxed">
+                                                Please verify your email address before logging in. Didn't get the email?
+                                            </p>
+                                            <button
+                                                onClick={handleResend}
+                                                disabled={isResending}
+                                                className="flex items-center gap-1.5 text-xs font-semibold text-amber-700
+                                                           bg-amber-100 hover:bg-amber-200 border border-amber-300
+                                                           py-1.5 px-3 rounded-lg transition-colors disabled:opacity-50"
+                                            >
+                                                <RefreshCw size={12} className={isResending ? 'animate-spin' : ''} />
+                                                {isResending ? 'Sending…' : 'Resend verification email'}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
 
                     <form onSubmit={handleSubmit} className="space-y-5">
                         <div>

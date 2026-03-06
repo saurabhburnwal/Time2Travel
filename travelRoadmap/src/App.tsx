@@ -11,6 +11,8 @@ import Landing from './pages/Landing';
 import HowItWorks from './pages/HowItWorks';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import VerifyEmail from './pages/VerifyEmail';
+import EmailVerified from './pages/EmailVerified';
 import TripPlanner from './pages/TripPlanner';
 import StaySelection from './pages/StaySelection';
 import HostRegistration from './pages/HostRegistration';
@@ -26,11 +28,11 @@ function AppContent() {
   const location = useLocation();
 
   // Pages without standard footer (full-screen pages)
-  const noFooterPages = ['/login', '/register'];
+  const noFooterPages = ['/login', '/register', '/verify-email', '/email-verified'];
   const showFooter = !noFooterPages.includes(location.pathname);
 
   // Don't show navbar on login/register (they have their own layout)
-  const noNavPages = ['/login', '/register'];
+  const noNavPages = ['/login', '/register', '/verify-email', '/email-verified'];
   const showNav = !noNavPages.includes(location.pathname);
 
   return (
@@ -45,6 +47,8 @@ function AppContent() {
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
+            <Route path="/email-verified" element={<EmailVerified />} />
 
             {/* ── Protected routes (login required) ──────────── */}
             <Route element={<ProtectedRoute />}>

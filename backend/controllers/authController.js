@@ -1,7 +1,9 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const { body, validationResult } = require('express-validator');
 const { query } = require('../config/db');
+const { sendVerificationEmail } = require('../utils/emailService');
 
 // ── Cookie config ────────────────────────────────────────────────────────────
 const COOKIE_NAME = 'tt_token';
@@ -50,6 +52,13 @@ const generateToken = (user) => {
     );
 };
 
+/**
+ * Generate a secure random verification token (hex string)
+ */
+function generateVerificationToken() {
+    return crypto.randomBytes(32).toString('hex');
+}
+
 // ── Validation rules ─────────────────────────────────────────────────────────
 exports.registerValidation = [
     body('name').notEmpty().withMessage('Name is required').trim(),
@@ -69,7 +78,7 @@ exports.loginValidation = [
 exports.getMe = async (req, res, next) => {
     try {
         const result = await query(
-            `SELECT u.user_id, u.name, u.email, u.phone, u.gender, r.role_name
+            `SELECT u.user_id, u.name, u.email, u.phone, u.gender, r.role_name, u.is_email_verified
              FROM users u
              LEFT JOIN roles r ON u.role_id = r.role_id
              WHERE u.user_id = $1 AND u.is_active = true`,
@@ -91,6 +100,7 @@ exports.getMe = async (req, res, next) => {
                 phone: user.phone,
                 gender: user.gender,
                 role: (user.role_name || 'Traveler').toLowerCase(),
+                isEmailVerified: user.is_email_verified,
             },
         });
     } catch (err) {
@@ -127,31 +137,37 @@ exports.register = async (req, res, next) => {
         const role_id = roleResult.rows[0]?.role_id || 2;
         const role_name = roleResult.rows[0]?.role_name || 'Traveler';
 
-        // Insert user
+        // Generate email verification token (expires in 24 hours)
+        const verificationToken = generateVerificationToken();
+        const tokenExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // +24h
+
+        // Insert user — NOT verified yet, NO auth cookie issued
         const result = await query(
-            `INSERT INTO users (name, email, password_hash, phone, gender, role_id, is_active)
-             VALUES ($1, $2, $3, $4, $5, $6, true)
+            `INSERT INTO users (name, email, password_hash, phone, gender, role_id, is_active,
+                                is_email_verified, verification_token, token_expires_at)
+             VALUES ($1, $2, $3, $4, $5, $6, true, false, $7, $8)
              RETURNING user_id, name, email, phone, gender, role_id, created_at`,
-            [name, email, password_hash, phone || null, (gender || 'OTHER').toUpperCase(), role_id]
+            [name, email, password_hash, phone || null, (gender || 'OTHER').toUpperCase(),
+                role_id, verificationToken, tokenExpiresAt]
         );
 
         const user = result.rows[0];
         user.role_name = role_name;
 
-        const token = generateToken(user);
-        setAuthCookie(res, token);   // ← JWT goes into HttpOnly cookie, NOT response body
+        // Send verification email (non-blocking — log on failure)
+        try {
+            await sendVerificationEmail(email, name, verificationToken);
+        } catch (emailErr) {
+            console.error('[authController] Failed to send verification email:', emailErr.message);
+            // Don't fail registration — user can request resend
+        }
 
+        // No cookie set — account requires email verification before login
         res.status(201).json({
             success: true,
-            message: 'Registration successful.',
-            user: {
-                userId: user.user_id,
-                name: user.name,
-                email: user.email,
-                phone: user.phone,
-                gender: user.gender,
-                role: role_name.toLowerCase(),
-            },
+            requiresVerification: true,
+            message: 'Registration successful. Please check your email to verify your account.',
+            email: user.email,
         });
     } catch (err) {
         next(err);
@@ -171,7 +187,7 @@ exports.login = async (req, res, next) => {
         // Fetch user with role
         const result = await query(
             `SELECT u.user_id, u.name, u.email, u.password_hash, u.phone, u.gender,
-                    u.is_active, r.role_name
+                    u.is_active, u.is_email_verified, r.role_name
              FROM users u
              LEFT JOIN roles r ON u.role_id = r.role_id
              WHERE u.email = $1`,
@@ -193,6 +209,16 @@ exports.login = async (req, res, next) => {
             return res.status(401).json({ success: false, message: 'Invalid password.' });
         }
 
+        // Block login if email not verified
+        if (!user.is_email_verified) {
+            return res.status(403).json({
+                success: false,
+                message: 'email_not_verified',
+                email: user.email,
+                hint: 'Please verify your email address before logging in. Check your inbox or request a new verification email.',
+            });
+        }
+
         const token = generateToken(user);
         setAuthCookie(res, token);   // ← JWT goes into HttpOnly cookie, NOT response body
 
@@ -208,6 +234,106 @@ exports.login = async (req, res, next) => {
                 role: (user.role_name || 'Traveler').toLowerCase(),
             },
         });
+    } catch (err) {
+        next(err);
+    }
+};
+
+// ── GET /api/auth/verify-email?token=... ─────────────────────────────────────
+exports.verifyEmail = async (req, res, next) => {
+    try {
+        const { token } = req.query;
+        if (!token) {
+            return res.status(400).json({ success: false, message: 'Verification token is required.' });
+        }
+
+        // Look up user by token
+        const result = await query(
+            `SELECT user_id, name, email, is_email_verified, token_expires_at
+             FROM users
+             WHERE verification_token = $1`,
+            [token]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: 'Invalid or already-used verification link.',
+            });
+        }
+
+        const user = result.rows[0];
+
+        // Check expiry
+        if (user.token_expires_at && new Date() > new Date(user.token_expires_at)) {
+            return res.status(410).json({
+                success: false,
+                expired: true,
+                message: 'This verification link has expired. Please request a new one.',
+                email: user.email,
+            });
+        }
+
+        // Mark as verified and clear token
+        await query(
+            `UPDATE users
+             SET is_email_verified = true,
+                 verification_token = NULL,
+                 token_expires_at = NULL
+             WHERE user_id = $1`,
+            [user.user_id]
+        );
+
+        res.json({
+            success: true,
+            message: 'Email verified successfully! You can now log in.',
+            name: user.name,
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
+// ── POST /api/auth/resend-verification ───────────────────────────────────────
+exports.resendVerification = async (req, res, next) => {
+    try {
+        const { email } = req.body;
+        if (!email) {
+            return res.status(400).json({ success: false, message: 'Email is required.' });
+        }
+
+        const result = await query(
+            `SELECT user_id, name, email, is_email_verified FROM users WHERE email = $1`,
+            [email.toLowerCase()]
+        );
+
+        // Always return 200 to prevent email enumeration
+        if (result.rows.length === 0) {
+            return res.json({ success: true, message: 'If that email is registered, a verification link has been sent.' });
+        }
+
+        const user = result.rows[0];
+
+        if (user.is_email_verified) {
+            return res.json({ success: true, message: 'Your email is already verified. Please log in.' });
+        }
+
+        // Generate fresh token
+        const verificationToken = generateVerificationToken();
+        const tokenExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
+        await query(
+            `UPDATE users SET verification_token = $1, token_expires_at = $2 WHERE user_id = $3`,
+            [verificationToken, tokenExpiresAt, user.user_id]
+        );
+
+        try {
+            await sendVerificationEmail(user.email, user.name, verificationToken);
+        } catch (emailErr) {
+            console.error('[authController] Failed to resend verification email:', emailErr.message);
+        }
+
+        res.json({ success: true, message: 'Verification email resent. Please check your inbox.' });
     } catch (err) {
         next(err);
     }

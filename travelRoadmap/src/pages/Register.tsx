@@ -20,7 +20,7 @@ export default function Register() {
         e.preventDefault();
         if (!form.name || !form.email || !form.password) { toast.error('Please fill required fields'); return; }
         if (form.password.length < 6) { toast.error('Password must be at least 6 characters'); return; }
-        const { success, error } = await register({
+        const { success, error, requiresVerification, email } = await register({
             name: form.name,
             email: form.email,
             phone: form.phone,
@@ -28,14 +28,13 @@ export default function Register() {
             role: form.role as any,
             password: form.password,
         });
-        if (success) {
+        if (success && requiresVerification) {
+            toast.success('Account created! Please check your email to verify.');
+            navigate('/verify-email', { state: { email: email || form.email } });
+        } else if (success) {
+            // Fallback: should not happen with verification flow, but gracefully handle
             toast.success('Account created successfully!');
-            // Redirect hosts to host registration page, travelers to home
-            if (form.role === 'host') {
-                navigate('/host-register');
-            } else {
-                navigate('/');
-            }
+            navigate('/');
         } else {
             if (error === 'registration_failed') {
                 toast.error('Registration failed. Please try again.');

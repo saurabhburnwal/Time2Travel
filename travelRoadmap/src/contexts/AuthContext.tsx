@@ -18,8 +18,8 @@ interface AuthContextType {
     user: MockUser | null;
     isLoggedIn: boolean;
     isLoading: boolean;
-    login: (email: string, password: string) => Promise<{ success: boolean; error?: string; user?: MockUser }>;
-    register: (userData: Partial<MockUser> & { password: string }) => Promise<{ success: boolean; error?: string }>;
+    login: (email: string, password: string) => Promise<{ success: boolean; error?: string; email?: string; user?: MockUser }>;
+    register: (userData: Partial<MockUser> & { password: string }) => Promise<{ success: boolean; error?: string; requiresVerification?: boolean; email?: string }>;
     logout: () => Promise<void>;
     isAdmin: boolean;
     isHost: boolean;
@@ -91,24 +91,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const login = async (
         email: string,
         password: string,
-    ): Promise<{ success: boolean; error?: string; user?: MockUser }> => {
+    ): Promise<{ success: boolean; error?: string; email?: string; user?: MockUser }> => {
         const result = await loginUser(email, password);
-        if (result) {
-            setUser(result);
-            persistUserCache(result);
-            return { success: true, user: result };
+        if (result.user) {
+            setUser(result.user);
+            persistUserCache(result.user);
+            return { success: true, user: result.user };
         }
-        return { success: false, error: 'invalid_credentials' };
+        if (result.error === 'email_not_verified') {
+            return { success: false, error: 'email_not_verified', email: result.email };
+        }
+        return { success: false, error: result.error || 'invalid_credentials' };
     };
 
     const register = async (
         userData: Partial<MockUser> & { password: string },
-    ): Promise<{ success: boolean; error?: string }> => {
+    ): Promise<{ success: boolean; error?: string; requiresVerification?: boolean; email?: string }> => {
         const result = await registerUser(userData);
-        if (result) {
-            setUser(result);
-            persistUserCache(result);
-            return { success: true };
+        if (result && result.requiresVerification) {
+            // Do NOT log the user in — they need to verify their email first
+            return { success: true, requiresVerification: true, email: result.email };
         }
         return { success: false, error: 'registration_failed' };
     };
