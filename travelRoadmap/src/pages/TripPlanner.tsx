@@ -24,10 +24,10 @@ const GROUP_TYPE_ICONS: Record<string, React.ReactNode> = {
 };
 
 const DESTINATION_IMAGES = [
-    'https://images.pexels.com/photos/2161449/pexels-photo-2161449.jpeg?auto=compress&cs=tinysrgb&w=600',
-    'https://images.pexels.com/photos/3225531/pexels-photo-3225531.jpeg?auto=compress&cs=tinysrgb&w=600',
-    'https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg?auto=compress&cs=tinysrgb&w=600',
-    'https://images.pexels.com/photos/1450353/pexels-photo-1450353.jpeg?auto=compress&cs=tinysrgb&w=600',
+    '/images/how_img1.jpg',
+    '/images/trip_bg1.jpg',
+    '/images/how_img3.jpg',
+    '/images/dest_pondicherry.jpg',
 ];
 
 export default function TripPlanner() {
@@ -92,7 +92,7 @@ export default function TripPlanner() {
             <div className="section-container max-w-5xl relative z-10">
                 {/* Hero Banner */}
                 <div className="hero-banner mb-10">
-                    <img src="https://images.pexels.com/photos/1271619/pexels-photo-1271619.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="South India travel" loading="eager" />
+                    <img src="/images/trip_south.jpg" alt="South India travel" loading="eager" />
                     <div className="hero-overlay" />
                     <div className="hero-content justify-center text-center">
                         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
@@ -296,7 +296,7 @@ export default function TripPlanner() {
 
                         {/* Decorative Image */}
                         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }} className="image-card h-48">
-                            <img src="https://images.pexels.com/photos/2166559/pexels-photo-2166559.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Scenic India" loading="lazy" />
+                            <img src="/images/trip_scenic.jpg" alt="Scenic India" loading="lazy" />
                             <div className="image-card-overlay" />
                             <div className="absolute bottom-4 left-4 text-white z-10">
                                 <p className="text-xs font-medium text-white/70">Discover</p>

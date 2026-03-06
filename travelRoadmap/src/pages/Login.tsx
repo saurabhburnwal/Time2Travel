@@ -49,7 +49,7 @@ export default function Login() {
         <AnimatedPage className="min-h-screen flex">
             {/* Left: Image */}
             <div className="hidden lg:block lg:w-1/2 relative">
-                <img src="https://images.pexels.com/photos/2265876/pexels-photo-2265876.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Travel" className="w-full h-full object-cover" />
+                <img src="/images/login_bg.jpg" alt="Travel" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/30" />
                 <div className="absolute bottom-12 left-12 text-white">
                     <h2 className="text-4xl font-bold font-display mb-2">Welcome Back</h2>
