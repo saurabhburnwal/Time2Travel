@@ -1,0 +1,216 @@
+const nodemailer = require('nodemailer');
+
+/**
+ * Email transporter — uses Gmail SMTP with app password.
+ * Config is loaded from environment variables with sensible defaults.
+ */
+const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST || 'smtp.gmail.com',
+    port: parseInt(process.env.SMTP_PORT) || 587,
+    secure: false, // true for 465, false for other ports (STARTTLS)
+    auth: {
+        user: process.env.SMTP_USER || 'ttimettottravel@gmail.com',
+        pass: process.env.SMTP_PASS || '',
+    },
+});
+
+const FROM_EMAIL = process.env.SMTP_FROM_EMAIL || 'ttimettottravel@gmail.com';
+const FROM_NAME = process.env.SMTP_FROM_NAME || 'Time2Travel';
+
+/**
+ * Verify SMTP connection on startup (non-blocking).
+ */
+transporter.verify()
+    .then(() => console.log('✅ SMTP email service connected'))
+    .catch((err) => console.error('❌ SMTP connection error:', err.message));
+
+// ======================== EMAIL TEMPLATES ========================
+
+/**
+ * Send a welcome email to a newly registered user.
+ */
+async function sendWelcomeEmail(name, email) {
+    const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7fa; margin: 0; padding: 0; }
+            .container { max-width: 600px; margin: 40px auto; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+            .header { background: linear-gradient(135deg, #18465a, #1a6b8a); padding: 40px 30px; text-align: center; }
+            .header h1 { color: #ffffff; font-size: 28px; margin: 0 0 8px 0; }
+            .header p { color: rgba(255,255,255,0.85); font-size: 14px; margin: 0; }
+            .body { padding: 36px 30px; }
+            .body h2 { color: #18465a; font-size: 22px; margin: 0 0 16px 0; }
+            .body p { color: #555; font-size: 15px; line-height: 1.7; margin: 0 0 16px 0; }
+            .cta { display: inline-block; background: linear-gradient(135deg, #18465a, #1a6b8a); color: #fff; text-decoration: none; padding: 14px 32px; border-radius: 12px; font-size: 15px; font-weight: 600; margin: 16px 0; }
+            .features { background: #f8fafc; border-radius: 12px; padding: 20px; margin: 20px 0; }
+            .features ul { list-style: none; padding: 0; margin: 0; }
+            .features li { padding: 8px 0; color: #444; font-size: 14px; }
+            .features li::before { content: "✅ "; }
+            .footer { background: #f8fafc; padding: 24px 30px; text-align: center; border-top: 1px solid #eee; }
+            .footer p { color: #999; font-size: 12px; margin: 4px 0; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>🌍 Time2Travel</h1>
+                <p>Smart Travel Planning Within Your Budget</p>
+            </div>
+            <div class="body">
+                <h2>Welcome aboard, ${name}! 🎉</h2>
+                <p>Thank you for joining Time2Travel — your go-to platform for budget-smart travel planning across South India.</p>
+                <p>Your account has been created successfully. Here's what you can do next:</p>
+                <div class="features">
+                    <ul>
+                        <li>Plan trips to 130+ destinations across 7 states</li>
+                        <li>Get AI-optimized routes based on your stay location</li>
+                        <li>Track expenses within your budget (₹2K–₹10K per person)</li>
+                        <li>Download complete trip itineraries as PDF</li>
+                        <li>Access safety contacts and solo traveler tips</li>
+                    </ul>
+                </div>
+                <p style="text-align: center;">
+                    <a href="http://localhost:5173/plan" class="cta">🗺️ Plan Your First Trip</a>
+                </p>
+                <p style="color: #888; font-size: 13px;">If you didn't create this account, you can safely ignore this email.</p>
+            </div>
+            <div class="footer">
+                <p>Time2Travel — Budget Constrained Intelligent Travel Roadmap System</p>
+                <p>Contact us: <a href="mailto:ttimettottravel@gmail.com" style="color: #18465a;">ttimettottravel@gmail.com</a></p>
+            </div>
+        </div>
+    </body>
+    </html>
+    `;
+
+    try {
+        await transporter.sendMail({
+            from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+            to: email,
+            subject: `Welcome to Time2Travel, ${name}! 🌍`,
+            html,
+        });
+        console.log(`📧 Welcome email sent to ${email}`);
+        return true;
+    } catch (err) {
+        console.error(`❌ Failed to send welcome email to ${email}:`, err.message);
+        return false;
+    }
+}
+
+/**
+ * Send a trip confirmation email with the generated PDF attached.
+ *
+ * @param {string} name          - User's name
+ * @param {string} email         - User's email address
+ * @param {object} tripData      - Trip details (destination, days, budget, etc.)
+ * @param {Buffer|string} pdfBuffer - PDF as a Buffer or base64 string
+ */
+async function sendTripConfirmationEmail(name, email, tripData, pdfBuffer) {
+    // Convert base64 to Buffer if needed
+    const attachment = Buffer.isBuffer(pdfBuffer)
+        ? pdfBuffer
+        : Buffer.from(pdfBuffer, 'base64');
+
+    const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7fa; margin: 0; padding: 0; }
+            .container { max-width: 600px; margin: 40px auto; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+            .header { background: linear-gradient(135deg, #18465a, #1a6b8a); padding: 40px 30px; text-align: center; }
+            .header h1 { color: #ffffff; font-size: 28px; margin: 0 0 8px 0; }
+            .header p { color: rgba(255,255,255,0.85); font-size: 14px; margin: 0; }
+            .body { padding: 36px 30px; }
+            .body h2 { color: #18465a; font-size: 22px; margin: 0 0 16px 0; }
+            .body p { color: #555; font-size: 15px; line-height: 1.7; margin: 0 0 16px 0; }
+            .trip-card { background: linear-gradient(135deg, #f0f9ff, #e8f4fd); border-radius: 12px; padding: 24px; margin: 20px 0; border: 1px solid #d1e9f6; }
+            .trip-card .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(24,70,90,0.1); }
+            .trip-card .row:last-child { border-bottom: none; }
+            .trip-card .label { color: #888; font-size: 13px; }
+            .trip-card .value { color: #18465a; font-size: 14px; font-weight: 600; }
+            .cta { display: inline-block; background: linear-gradient(135deg, #18465a, #1a6b8a); color: #fff; text-decoration: none; padding: 14px 32px; border-radius: 12px; font-size: 15px; font-weight: 600; margin: 16px 0; }
+            .footer { background: #f8fafc; padding: 24px 30px; text-align: center; border-top: 1px solid #eee; }
+            .footer p { color: #999; font-size: 12px; margin: 4px 0; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>🌍 Time2Travel</h1>
+                <p>Your Trip is Confirmed!</p>
+            </div>
+            <div class="body">
+                <h2>Happy travels, ${name}! ✈️</h2>
+                <p>Thank you for planning your trip with Time2Travel. Your complete itinerary is attached to this email as a PDF.</p>
+
+                <div class="trip-card">
+                    <div class="row">
+                        <span class="label">📍 Destination</span>
+                        <span class="value">${tripData.destination || 'N/A'}${tripData.state ? ', ' + tripData.state : ''}</span>
+                    </div>
+                    <div class="row">
+                        <span class="label">📅 Duration</span>
+                        <span class="value">${tripData.days || 'N/A'} days</span>
+                    </div>
+                    <div class="row">
+                        <span class="label">💰 Budget</span>
+                        <span class="value">₹${tripData.budget ? Number(tripData.budget).toLocaleString('en-IN') : 'N/A'}</span>
+                    </div>
+                    <div class="row">
+                        <span class="label">🏨 Stay</span>
+                        <span class="value">${tripData.selectedStay || 'N/A'}</span>
+                    </div>
+                    <div class="row">
+                        <span class="label">🗺️ Route</span>
+                        <span class="value">${tripData.roadmapType || 'Standard'}</span>
+                    </div>
+                </div>
+
+                <p>📎 <strong>Your trip itinerary PDF is attached below.</strong> Save it to your phone for offline access during your trip!</p>
+
+                <p style="text-align: center;">
+                    <a href="http://localhost:5173/plan" class="cta">🗺️ Plan Another Trip</a>
+                </p>
+
+                <p style="color: #888; font-size: 13px;">
+                    <strong>Safety Tip:</strong> Share your itinerary with family and friends. Keep emergency contacts handy. Travel smart! 🛡️
+                </p>
+            </div>
+            <div class="footer">
+                <p>Time2Travel — Budget Constrained Intelligent Travel Roadmap System</p>
+                <p>Contact us: <a href="mailto:ttimettottravel@gmail.com" style="color: #18465a;">ttimettottravel@gmail.com</a></p>
+            </div>
+        </div>
+    </body>
+    </html>
+    `;
+
+    try {
+        await transporter.sendMail({
+            from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+            to: email,
+            subject: `Your Trip to ${tripData.destination || 'an amazing place'} is ready! 🗺️`,
+            html,
+            attachments: [
+                {
+                    filename: `Time2Travel_${(tripData.destination || 'Trip').replace(/\s+/g, '_')}_Itinerary.pdf`,
+                    content: attachment,
+                    contentType: 'application/pdf',
+                },
+            ],
+        });
+        console.log(`📧 Trip confirmation email sent to ${email}`);
+        return true;
+    } catch (err) {
+        console.error(`❌ Failed to send trip email to ${email}:`, err.message);
+        return false;
+    }
+}
+
+module.exports = { sendWelcomeEmail, sendTripConfirmationEmail };

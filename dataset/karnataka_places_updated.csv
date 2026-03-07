@@ -1,0 +1,201 @@
+state,city,place_name,category,description,latitude,longitude,entry_fee,avg_visit_duration_minutes
+Karnataka,Bengaluru,Bengaluru Attraction 1,adventure,Popular tourist spot in Bengaluru offering great views and historical significance.,13.012521,77.627561,INR 100,45
+Karnataka,Bengaluru,Bengaluru Point 2,heritage,Popular tourist spot in Bengaluru offering great views and historical significance.,12.994329,77.616067,INR 20,90
+Karnataka,Bengaluru,Bengaluru Garden 3,nature,Popular tourist spot in Bengaluru offering great views and historical significance.,12.94362,77.546757,Free,180
+Karnataka,Bengaluru,Bengaluru Temple 4,park,Popular tourist spot in Bengaluru offering great views and historical significance.,12.928256,77.626802,INR 50,30
+Karnataka,Bengaluru,Bengaluru Fort 5,beach,Popular tourist spot in Bengaluru offering great views and historical significance.,12.925576,77.609536,INR 100,30
+Karnataka,Bengaluru,Bengaluru View 6,park,Popular tourist spot in Bengaluru offering great views and historical significance.,12.926739,77.638565,INR 20,60
+Karnataka,Bengaluru,Bengaluru Falls 7,nature,Popular tourist spot in Bengaluru offering great views and historical significance.,12.986396,77.638422,INR 50,90
+Karnataka,Bengaluru,Bengaluru Lake 8,adventure,Popular tourist spot in Bengaluru offering great views and historical significance.,12.958309,77.545434,INR 50,30
+Karnataka,Bengaluru,Bengaluru Beach 9,park,Popular tourist spot in Bengaluru offering great views and historical significance.,13.005989,77.548798,INR 200,45
+Karnataka,Bengaluru,Bengaluru Museum 10,park,Popular tourist spot in Bengaluru offering great views and historical significance.,13.012508,77.63981,INR 20,45
+Karnataka,Mysuru,Mysuru Attraction 1,temple,Popular tourist spot in Mysuru offering great views and historical significance.,12.299296,76.686931,INR 200,45
+Karnataka,Mysuru,Mysuru Point 2,heritage,Popular tourist spot in Mysuru offering great views and historical significance.,12.293721,76.630053,INR 20,30
+Karnataka,Mysuru,Mysuru Garden 3,temple,Popular tourist spot in Mysuru offering great views and historical significance.,12.258959,76.626761,Free,180
+Karnataka,Mysuru,Mysuru Temple 4,heritage,Popular tourist spot in Mysuru offering great views and historical significance.,12.270483,76.599551,INR 50,180
+Karnataka,Mysuru,Mysuru Fort 5,adventure,Popular tourist spot in Mysuru offering great views and historical significance.,12.277696,76.591688,INR 20,45
+Karnataka,Mysuru,Mysuru View 6,nature,Popular tourist spot in Mysuru offering great views and historical significance.,12.268358,76.622256,Free,180
+Karnataka,Mysuru,Mysuru Falls 7,temple,Popular tourist spot in Mysuru offering great views and historical significance.,12.275284,76.653483,INR 50,30
+Karnataka,Mysuru,Mysuru Lake 8,heritage,Popular tourist spot in Mysuru offering great views and historical significance.,12.305838,76.63895,INR 20,45
+Karnataka,Mysuru,Mysuru Beach 9,adventure,Popular tourist spot in Mysuru offering great views and historical significance.,12.342442,76.59156,INR 200,30
+Karnataka,Mysuru,Mysuru Museum 10,adventure,Popular tourist spot in Mysuru offering great views and historical significance.,12.299454,76.624204,Free,60
+Karnataka,Hampi,Hampi Attraction 1,nature,Popular tourist spot in Hampi offering great views and historical significance.,15.31362,76.493743,Free,120
+Karnataka,Hampi,Hampi Point 2,nature,Popular tourist spot in Hampi offering great views and historical significance.,15.332153,76.417063,INR 20,30
+Karnataka,Hampi,Hampi Garden 3,beach,Popular tourist spot in Hampi offering great views and historical significance.,15.338683,76.498026,Free,30
+Karnataka,Hampi,Hampi Temple 4,park,Popular tourist spot in Hampi offering great views and historical significance.,15.354938,76.459355,Free,180
+Karnataka,Hampi,Hampi Fort 5,adventure,Popular tourist spot in Hampi offering great views and historical significance.,15.37496,76.438319,INR 200,90
+Karnataka,Hampi,Hampi View 6,heritage,Popular tourist spot in Hampi offering great views and historical significance.,15.308079,76.490505,INR 20,30
+Karnataka,Hampi,Hampi Falls 7,temple,Popular tourist spot in Hampi offering great views and historical significance.,15.333657,76.419424,INR 50,30
+Karnataka,Hampi,Hampi Lake 8,heritage,Popular tourist spot in Hampi offering great views and historical significance.,15.324019,76.434933,INR 50,30
+Karnataka,Hampi,Hampi Beach 9,beach,Popular tourist spot in Hampi offering great views and historical significance.,15.345669,76.507423,INR 50,30
+Karnataka,Hampi,Hampi Museum 10,heritage,Popular tourist spot in Hampi offering great views and historical significance.,15.321657,76.485615,INR 50,180
+Karnataka,Gokarna,Gokarna Attraction 1,nature,Popular tourist spot in Gokarna offering great views and historical significance.,14.581708,74.348333,Free,30
+Karnataka,Gokarna,Gokarna Point 2,temple,Popular tourist spot in Gokarna offering great views and historical significance.,14.582255,74.323074,INR 50,90
+Karnataka,Gokarna,Gokarna Garden 3,beach,Popular tourist spot in Gokarna offering great views and historical significance.,14.574362,74.29475,INR 200,120
+Karnataka,Gokarna,Gokarna Temple 4,nature,Popular tourist spot in Gokarna offering great views and historical significance.,14.562817,74.349167,Free,60
+Karnataka,Gokarna,Gokarna Fort 5,heritage,Popular tourist spot in Gokarna offering great views and historical significance.,14.584489,74.360468,INR 50,90
+Karnataka,Gokarna,Gokarna View 6,nature,Popular tourist spot in Gokarna offering great views and historical significance.,14.566263,74.342307,Free,30
+Karnataka,Gokarna,Gokarna Falls 7,nature,Popular tourist spot in Gokarna offering great views and historical significance.,14.573467,74.350481,INR 100,60
+Karnataka,Gokarna,Gokarna Lake 8,temple,Popular tourist spot in Gokarna offering great views and historical significance.,14.575746,74.311471,INR 100,60
+Karnataka,Gokarna,Gokarna Beach 9,temple,Popular tourist spot in Gokarna offering great views and historical significance.,14.542959,74.35499,INR 20,90
+Karnataka,Gokarna,Gokarna Museum 10,heritage,Popular tourist spot in Gokarna offering great views and historical significance.,14.550795,74.334383,INR 100,60
+Karnataka,Coorg,Coorg Attraction 1,nature,Popular tourist spot in Coorg offering great views and historical significance.,12.41081,75.760388,INR 20,30
+Karnataka,Coorg,Coorg Point 2,heritage,Popular tourist spot in Coorg offering great views and historical significance.,12.431808,75.746067,INR 200,90
+Karnataka,Coorg,Coorg Garden 3,adventure,Popular tourist spot in Coorg offering great views and historical significance.,12.470238,75.733701,INR 50,60
+Karnataka,Coorg,Coorg Temple 4,nature,Popular tourist spot in Coorg offering great views and historical significance.,12.438274,75.72058,INR 100,60
+Karnataka,Coorg,Coorg Fort 5,adventure,Popular tourist spot in Coorg offering great views and historical significance.,12.395714,75.723924,INR 100,90
+Karnataka,Coorg,Coorg View 6,temple,Popular tourist spot in Coorg offering great views and historical significance.,12.380535,75.692942,Free,90
+Karnataka,Coorg,Coorg Falls 7,nature,Popular tourist spot in Coorg offering great views and historical significance.,12.415317,75.786939,Free,120
+Karnataka,Coorg,Coorg Lake 8,nature,Popular tourist spot in Coorg offering great views and historical significance.,12.424713,75.698814,INR 100,30
+Karnataka,Coorg,Coorg Beach 9,beach,Popular tourist spot in Coorg offering great views and historical significance.,12.453837,75.689601,INR 20,120
+Karnataka,Coorg,Coorg Museum 10,adventure,Popular tourist spot in Coorg offering great views and historical significance.,12.453653,75.710958,INR 50,180
+Karnataka,Mangaluru,Mangaluru Attraction 1,park,Popular tourist spot in Mangaluru offering great views and historical significance.,12.884546,74.876678,INR 20,30
+Karnataka,Mangaluru,Mangaluru Point 2,adventure,Popular tourist spot in Mangaluru offering great views and historical significance.,12.95715,74.873008,Free,90
+Karnataka,Mangaluru,Mangaluru Garden 3,adventure,Popular tourist spot in Mangaluru offering great views and historical significance.,12.931826,74.894673,INR 200,30
+Karnataka,Mangaluru,Mangaluru Temple 4,nature,Popular tourist spot in Mangaluru offering great views and historical significance.,12.904242,74.880083,Free,30
+Karnataka,Mangaluru,Mangaluru Fort 5,heritage,Popular tourist spot in Mangaluru offering great views and historical significance.,12.872439,74.866872,Free,30
+Karnataka,Mangaluru,Mangaluru View 6,beach,Popular tourist spot in Mangaluru offering great views and historical significance.,12.950027,74.841892,Free,90
+Karnataka,Mangaluru,Mangaluru Falls 7,temple,Popular tourist spot in Mangaluru offering great views and historical significance.,12.869502,74.89163,INR 200,120
+Karnataka,Mangaluru,Mangaluru Lake 8,beach,Popular tourist spot in Mangaluru offering great views and historical significance.,12.914927,74.823148,INR 20,60
+Karnataka,Mangaluru,Mangaluru Beach 9,beach,Popular tourist spot in Mangaluru offering great views and historical significance.,12.925797,74.882401,INR 20,90
+Karnataka,Mangaluru,Mangaluru Museum 10,heritage,Popular tourist spot in Mangaluru offering great views and historical significance.,12.868248,74.817801,Free,60
+Karnataka,Chikmagalur,Chikmagalur Attraction 1,heritage,Popular tourist spot in Chikmagalur offering great views and historical significance.,13.332991,75.799429,INR 200,60
+Karnataka,Chikmagalur,Chikmagalur Point 2,park,Popular tourist spot in Chikmagalur offering great views and historical significance.,13.345515,75.811233,Free,30
+Karnataka,Chikmagalur,Chikmagalur Garden 3,adventure,Popular tourist spot in Chikmagalur offering great views and historical significance.,13.336302,75.783939,INR 50,120
+Karnataka,Chikmagalur,Chikmagalur Temple 4,nature,Popular tourist spot in Chikmagalur offering great views and historical significance.,13.335114,75.794034,Free,180
+Karnataka,Chikmagalur,Chikmagalur Fort 5,adventure,Popular tourist spot in Chikmagalur offering great views and historical significance.,13.266706,75.765594,Free,120
+Karnataka,Chikmagalur,Chikmagalur View 6,park,Popular tourist spot in Chikmagalur offering great views and historical significance.,13.316613,75.801584,INR 100,30
+Karnataka,Chikmagalur,Chikmagalur Falls 7,temple,Popular tourist spot in Chikmagalur offering great views and historical significance.,13.361796,75.793702,Free,90
+Karnataka,Chikmagalur,Chikmagalur Lake 8,adventure,Popular tourist spot in Chikmagalur offering great views and historical significance.,13.268336,75.736778,INR 20,180
+Karnataka,Chikmagalur,Chikmagalur Beach 9,heritage,Popular tourist spot in Chikmagalur offering great views and historical significance.,13.29914,75.729274,INR 50,180
+Karnataka,Chikmagalur,Chikmagalur Museum 10,park,Popular tourist spot in Chikmagalur offering great views and historical significance.,13.3101,75.797722,INR 20,180
+Karnataka,Badami,Badami Attraction 1,temple,Popular tourist spot in Badami offering great views and historical significance.,15.938555,75.631731,INR 100,180
+Karnataka,Badami,Badami Point 2,heritage,Popular tourist spot in Badami offering great views and historical significance.,15.913148,75.648845,Free,60
+Karnataka,Badami,Badami Garden 3,heritage,Popular tourist spot in Badami offering great views and historical significance.,15.967848,75.656805,INR 20,90
+Karnataka,Badami,Badami Temple 4,nature,Popular tourist spot in Badami offering great views and historical significance.,15.89462,75.675672,INR 50,45
+Karnataka,Badami,Badami Fort 5,heritage,Popular tourist spot in Badami offering great views and historical significance.,15.873087,75.637688,INR 20,90
+Karnataka,Badami,Badami View 6,nature,Popular tourist spot in Badami offering great views and historical significance.,15.906678,75.679065,INR 200,120
+Karnataka,Badami,Badami Falls 7,temple,Popular tourist spot in Badami offering great views and historical significance.,15.957036,75.657625,INR 100,180
+Karnataka,Badami,Badami Lake 8,nature,Popular tourist spot in Badami offering great views and historical significance.,15.958142,75.7207,INR 100,120
+Karnataka,Badami,Badami Beach 9,beach,Popular tourist spot in Badami offering great views and historical significance.,15.950564,75.660787,INR 20,30
+Karnataka,Badami,Badami Museum 10,temple,Popular tourist spot in Badami offering great views and historical significance.,15.906476,75.692997,INR 100,30
+Karnataka,Belagavi,Belagavi Attraction 1,nature,Popular tourist spot in Belagavi offering great views and historical significance.,15.83302,74.51463,INR 20,60
+Karnataka,Belagavi,Belagavi Point 2,park,Popular tourist spot in Belagavi offering great views and historical significance.,15.851015,74.524344,Free,45
+Karnataka,Belagavi,Belagavi Garden 3,nature,Popular tourist spot in Belagavi offering great views and historical significance.,15.840961,74.531461,INR 50,60
+Karnataka,Belagavi,Belagavi Temple 4,nature,Popular tourist spot in Belagavi offering great views and historical significance.,15.800122,74.531128,INR 200,90
+Karnataka,Belagavi,Belagavi Fort 5,nature,Popular tourist spot in Belagavi offering great views and historical significance.,15.853219,74.530469,INR 50,180
+Karnataka,Belagavi,Belagavi View 6,adventure,Popular tourist spot in Belagavi offering great views and historical significance.,15.803855,74.512539,INR 50,120
+Karnataka,Belagavi,Belagavi Falls 7,nature,Popular tourist spot in Belagavi offering great views and historical significance.,15.879289,74.536342,INR 50,45
+Karnataka,Belagavi,Belagavi Lake 8,temple,Popular tourist spot in Belagavi offering great views and historical significance.,15.854588,74.539572,INR 50,45
+Karnataka,Belagavi,Belagavi Beach 9,heritage,Popular tourist spot in Belagavi offering great views and historical significance.,15.859973,74.467659,INR 100,180
+Karnataka,Belagavi,Belagavi Museum 10,adventure,Popular tourist spot in Belagavi offering great views and historical significance.,15.81149,74.547062,INR 50,120
+Karnataka,Hubballi,Hubballi Attraction 1,heritage,Popular tourist spot in Hubballi offering great views and historical significance.,15.395047,75.074361,INR 20,45
+Karnataka,Hubballi,Hubballi Point 2,park,Popular tourist spot in Hubballi offering great views and historical significance.,15.325487,75.094562,INR 200,180
+Karnataka,Hubballi,Hubballi Garden 3,nature,Popular tourist spot in Hubballi offering great views and historical significance.,15.320435,75.117845,INR 200,90
+Karnataka,Hubballi,Hubballi Temple 4,nature,Popular tourist spot in Hubballi offering great views and historical significance.,15.336405,75.153597,Free,180
+Karnataka,Hubballi,Hubballi Fort 5,temple,Popular tourist spot in Hubballi offering great views and historical significance.,15.367415,75.08595,INR 50,60
+Karnataka,Hubballi,Hubballi View 6,nature,Popular tourist spot in Hubballi offering great views and historical significance.,15.387635,75.081929,INR 20,45
+Karnataka,Hubballi,Hubballi Falls 7,nature,Popular tourist spot in Hubballi offering great views and historical significance.,15.368948,75.165202,INR 100,60
+Karnataka,Hubballi,Hubballi Lake 8,heritage,Popular tourist spot in Hubballi offering great views and historical significance.,15.323348,75.100535,INR 100,180
+Karnataka,Hubballi,Hubballi Beach 9,temple,Popular tourist spot in Hubballi offering great views and historical significance.,15.364035,75.094259,INR 50,90
+Karnataka,Hubballi,Hubballi Museum 10,park,Popular tourist spot in Hubballi offering great views and historical significance.,15.392661,75.114052,INR 100,60
+Karnataka,Dharwad,Dharwad Attraction 1,heritage,Popular tourist spot in Dharwad offering great views and historical significance.,15.507249,74.984465,INR 50,180
+Karnataka,Dharwad,Dharwad Point 2,park,Popular tourist spot in Dharwad offering great views and historical significance.,15.459152,74.975253,INR 100,120
+Karnataka,Dharwad,Dharwad Garden 3,beach,Popular tourist spot in Dharwad offering great views and historical significance.,15.413632,74.981592,INR 200,120
+Karnataka,Dharwad,Dharwad Temple 4,heritage,Popular tourist spot in Dharwad offering great views and historical significance.,15.444164,74.998986,Free,180
+Karnataka,Dharwad,Dharwad Fort 5,nature,Popular tourist spot in Dharwad offering great views and historical significance.,15.460229,74.959837,INR 50,180
+Karnataka,Dharwad,Dharwad View 6,park,Popular tourist spot in Dharwad offering great views and historical significance.,15.431311,74.97692,INR 20,60
+Karnataka,Dharwad,Dharwad Falls 7,adventure,Popular tourist spot in Dharwad offering great views and historical significance.,15.426788,74.994045,INR 20,90
+Karnataka,Dharwad,Dharwad Lake 8,beach,Popular tourist spot in Dharwad offering great views and historical significance.,15.438703,75.045876,INR 50,180
+Karnataka,Dharwad,Dharwad Beach 9,park,Popular tourist spot in Dharwad offering great views and historical significance.,15.493801,75.051468,INR 50,60
+Karnataka,Dharwad,Dharwad Museum 10,heritage,Popular tourist spot in Dharwad offering great views and historical significance.,15.454452,74.980962,Free,30
+Karnataka,Udupi,Udupi Attraction 1,nature,Popular tourist spot in Udupi offering great views and historical significance.,13.366949,74.721438,INR 100,45
+Karnataka,Udupi,Udupi Point 2,park,Popular tourist spot in Udupi offering great views and historical significance.,13.317689,74.720537,INR 50,180
+Karnataka,Udupi,Udupi Garden 3,nature,Popular tourist spot in Udupi offering great views and historical significance.,13.387913,74.743704,Free,180
+Karnataka,Udupi,Udupi Temple 4,adventure,Popular tourist spot in Udupi offering great views and historical significance.,13.291335,74.714979,INR 50,180
+Karnataka,Udupi,Udupi Fort 5,temple,Popular tourist spot in Udupi offering great views and historical significance.,13.390624,74.710915,INR 100,180
+Karnataka,Udupi,Udupi View 6,adventure,Popular tourist spot in Udupi offering great views and historical significance.,13.374549,74.789524,INR 50,180
+Karnataka,Udupi,Udupi Falls 7,beach,Popular tourist spot in Udupi offering great views and historical significance.,13.342066,74.78464,INR 50,120
+Karnataka,Udupi,Udupi Lake 8,park,Popular tourist spot in Udupi offering great views and historical significance.,13.309473,74.777376,INR 50,180
+Karnataka,Udupi,Udupi Beach 9,heritage,Popular tourist spot in Udupi offering great views and historical significance.,13.328089,74.695252,Free,180
+Karnataka,Udupi,Udupi Museum 10,adventure,Popular tourist spot in Udupi offering great views and historical significance.,13.360324,74.733199,INR 50,120
+Karnataka,Karwar,Karwar Attraction 1,adventure,Popular tourist spot in Karwar offering great views and historical significance.,14.837526,74.170828,INR 50,90
+Karnataka,Karwar,Karwar Point 2,beach,Popular tourist spot in Karwar offering great views and historical significance.,14.775167,74.081632,INR 20,180
+Karnataka,Karwar,Karwar Garden 3,nature,Popular tourist spot in Karwar offering great views and historical significance.,14.78466,74.14729,INR 20,180
+Karnataka,Karwar,Karwar Temple 4,adventure,Popular tourist spot in Karwar offering great views and historical significance.,14.807578,74.110884,INR 100,120
+Karnataka,Karwar,Karwar Fort 5,temple,Popular tourist spot in Karwar offering great views and historical significance.,14.779283,74.096449,INR 50,30
+Karnataka,Karwar,Karwar View 6,adventure,Popular tourist spot in Karwar offering great views and historical significance.,14.855535,74.09602,Free,45
+Karnataka,Karwar,Karwar Falls 7,beach,Popular tourist spot in Karwar offering great views and historical significance.,14.854228,74.11668,INR 20,45
+Karnataka,Karwar,Karwar Lake 8,park,Popular tourist spot in Karwar offering great views and historical significance.,14.84195,74.112767,INR 200,30
+Karnataka,Karwar,Karwar Beach 9,temple,Popular tourist spot in Karwar offering great views and historical significance.,14.815909,74.113553,Free,60
+Karnataka,Karwar,Karwar Museum 10,beach,Popular tourist spot in Karwar offering great views and historical significance.,14.849134,74.17415,INR 100,45
+Karnataka,Murudeshwar,Murudeshwar Attraction 1,park,Popular tourist spot in Murudeshwar offering great views and historical significance.,14.087207,74.509573,INR 50,120
+Karnataka,Murudeshwar,Murudeshwar Point 2,beach,Popular tourist spot in Murudeshwar offering great views and historical significance.,14.096488,74.445814,INR 200,90
+Karnataka,Murudeshwar,Murudeshwar Garden 3,adventure,Popular tourist spot in Murudeshwar offering great views and historical significance.,14.104362,74.493977,INR 50,60
+Karnataka,Murudeshwar,Murudeshwar Temple 4,temple,Popular tourist spot in Murudeshwar offering great views and historical significance.,14.073914,74.436368,Free,60
+Karnataka,Murudeshwar,Murudeshwar Fort 5,adventure,Popular tourist spot in Murudeshwar offering great views and historical significance.,14.059028,74.447723,Free,90
+Karnataka,Murudeshwar,Murudeshwar View 6,heritage,Popular tourist spot in Murudeshwar offering great views and historical significance.,14.141352,74.491978,Free,120
+Karnataka,Murudeshwar,Murudeshwar Falls 7,park,Popular tourist spot in Murudeshwar offering great views and historical significance.,14.115178,74.485458,Free,90
+Karnataka,Murudeshwar,Murudeshwar Lake 8,nature,Popular tourist spot in Murudeshwar offering great views and historical significance.,14.061467,74.455222,INR 200,45
+Karnataka,Murudeshwar,Murudeshwar Beach 9,temple,Popular tourist spot in Murudeshwar offering great views and historical significance.,14.114126,74.512474,INR 100,120
+Karnataka,Murudeshwar,Murudeshwar Museum 10,beach,Popular tourist spot in Murudeshwar offering great views and historical significance.,14.080486,74.53312,Free,90
+Karnataka,Jog Falls,Jog Falls Attraction 1,nature,Popular tourist spot in Jog Falls offering great views and historical significance.,14.26804,74.779894,Free,30
+Karnataka,Jog Falls,Jog Falls Point 2,adventure,Popular tourist spot in Jog Falls offering great views and historical significance.,14.176621,74.815746,INR 200,60
+Karnataka,Jog Falls,Jog Falls Garden 3,nature,Popular tourist spot in Jog Falls offering great views and historical significance.,14.227618,74.805297,Free,90
+Karnataka,Jog Falls,Jog Falls Temple 4,heritage,Popular tourist spot in Jog Falls offering great views and historical significance.,14.186816,74.787017,Free,45
+Karnataka,Jog Falls,Jog Falls Fort 5,temple,Popular tourist spot in Jog Falls offering great views and historical significance.,14.202783,74.86007,INR 200,180
+Karnataka,Jog Falls,Jog Falls View 6,temple,Popular tourist spot in Jog Falls offering great views and historical significance.,14.214044,74.822941,INR 200,45
+Karnataka,Jog Falls,Jog Falls Falls 7,beach,Popular tourist spot in Jog Falls offering great views and historical significance.,14.270387,74.766873,Free,60
+Karnataka,Jog Falls,Jog Falls Lake 8,adventure,Popular tourist spot in Jog Falls offering great views and historical significance.,14.25454,74.776705,INR 50,30
+Karnataka,Jog Falls,Jog Falls Beach 9,beach,Popular tourist spot in Jog Falls offering great views and historical significance.,14.19206,74.815664,Free,30
+Karnataka,Jog Falls,Jog Falls Museum 10,beach,Popular tourist spot in Jog Falls offering great views and historical significance.,14.22827,74.799612,INR 100,45
+Karnataka,Bandipur,Bandipur Attraction 1,beach,Popular tourist spot in Bandipur offering great views and historical significance.,11.64927,76.643543,INR 100,45
+Karnataka,Bandipur,Bandipur Point 2,nature,Popular tourist spot in Bandipur offering great views and historical significance.,11.628246,76.649312,INR 100,90
+Karnataka,Bandipur,Bandipur Garden 3,temple,Popular tourist spot in Bandipur offering great views and historical significance.,11.676921,76.672417,INR 50,60
+Karnataka,Bandipur,Bandipur Temple 4,temple,Popular tourist spot in Bandipur offering great views and historical significance.,11.678749,76.586932,INR 200,180
+Karnataka,Bandipur,Bandipur Fort 5,park,Popular tourist spot in Bandipur offering great views and historical significance.,11.694238,76.61168,INR 100,90
+Karnataka,Bandipur,Bandipur View 6,beach,Popular tourist spot in Bandipur offering great views and historical significance.,11.646534,76.624541,INR 200,120
+Karnataka,Bandipur,Bandipur Falls 7,adventure,Popular tourist spot in Bandipur offering great views and historical significance.,11.640732,76.577712,Free,60
+Karnataka,Bandipur,Bandipur Lake 8,beach,Popular tourist spot in Bandipur offering great views and historical significance.,11.713469,76.627622,INR 50,45
+Karnataka,Bandipur,Bandipur Beach 9,nature,Popular tourist spot in Bandipur offering great views and historical significance.,11.652968,76.59381,Free,30
+Karnataka,Bandipur,Bandipur Museum 10,park,Popular tourist spot in Bandipur offering great views and historical significance.,11.621979,76.64895,Free,60
+Karnataka,Kabini,Kabini Attraction 1,beach,Popular tourist spot in Kabini offering great views and historical significance.,11.925876,76.216543,INR 100,60
+Karnataka,Kabini,Kabini Point 2,heritage,Popular tourist spot in Kabini offering great views and historical significance.,11.937463,76.287239,INR 50,180
+Karnataka,Kabini,Kabini Garden 3,park,Popular tourist spot in Kabini offering great views and historical significance.,11.899505,76.275488,INR 200,30
+Karnataka,Kabini,Kabini Temple 4,temple,Popular tourist spot in Kabini offering great views and historical significance.,11.923179,76.249341,Free,90
+Karnataka,Kabini,Kabini Fort 5,beach,Popular tourist spot in Kabini offering great views and historical significance.,11.952226,76.201109,INR 20,90
+Karnataka,Kabini,Kabini View 6,beach,Popular tourist spot in Kabini offering great views and historical significance.,11.898293,76.260132,Free,180
+Karnataka,Kabini,Kabini Falls 7,nature,Popular tourist spot in Kabini offering great views and historical significance.,11.934187,76.194226,INR 100,45
+Karnataka,Kabini,Kabini Lake 8,park,Popular tourist spot in Kabini offering great views and historical significance.,11.91287,76.2812,INR 20,60
+Karnataka,Kabini,Kabini Beach 9,heritage,Popular tourist spot in Kabini offering great views and historical significance.,11.872684,76.286266,INR 20,90
+Karnataka,Kabini,Kabini Museum 10,nature,Popular tourist spot in Kabini offering great views and historical significance.,11.941992,76.229321,Free,180
+Karnataka,Pattadakal,Pattadakal Attraction 1,beach,Popular tourist spot in Pattadakal offering great views and historical significance.,15.928734,75.800406,Free,45
+Karnataka,Pattadakal,Pattadakal Point 2,nature,Popular tourist spot in Pattadakal offering great views and historical significance.,15.922854,75.810995,Free,60
+Karnataka,Pattadakal,Pattadakal Garden 3,nature,Popular tourist spot in Pattadakal offering great views and historical significance.,15.923183,75.848181,INR 20,90
+Karnataka,Pattadakal,Pattadakal Temple 4,heritage,Popular tourist spot in Pattadakal offering great views and historical significance.,15.911313,75.862437,INR 50,45
+Karnataka,Pattadakal,Pattadakal Fort 5,nature,Popular tourist spot in Pattadakal offering great views and historical significance.,15.908443,75.800835,INR 50,120
+Karnataka,Pattadakal,Pattadakal View 6,heritage,Popular tourist spot in Pattadakal offering great views and historical significance.,15.94195,75.781414,INR 100,180
+Karnataka,Pattadakal,Pattadakal Falls 7,heritage,Popular tourist spot in Pattadakal offering great views and historical significance.,15.964829,75.769532,INR 20,60
+Karnataka,Pattadakal,Pattadakal Lake 8,temple,Popular tourist spot in Pattadakal offering great views and historical significance.,15.909808,75.794706,INR 50,45
+Karnataka,Pattadakal,Pattadakal Beach 9,beach,Popular tourist spot in Pattadakal offering great views and historical significance.,15.941819,75.796994,INR 20,45
+Karnataka,Pattadakal,Pattadakal Museum 10,heritage,Popular tourist spot in Pattadakal offering great views and historical significance.,15.909243,75.779838,INR 200,90
+Karnataka,Aihole,Aihole Attraction 1,heritage,Popular tourist spot in Aihole offering great views and historical significance.,16.05818,75.916442,INR 50,90
+Karnataka,Aihole,Aihole Point 2,beach,Popular tourist spot in Aihole offering great views and historical significance.,16.049991,75.864828,INR 200,30
+Karnataka,Aihole,Aihole Garden 3,temple,Popular tourist spot in Aihole offering great views and historical significance.,16.063026,75.909298,INR 20,180
+Karnataka,Aihole,Aihole Temple 4,beach,Popular tourist spot in Aihole offering great views and historical significance.,16.000644,75.879724,Free,45
+Karnataka,Aihole,Aihole Fort 5,heritage,Popular tourist spot in Aihole offering great views and historical significance.,16.031685,75.92113,INR 200,30
+Karnataka,Aihole,Aihole View 6,temple,Popular tourist spot in Aihole offering great views and historical significance.,15.988626,75.884381,INR 20,30
+Karnataka,Aihole,Aihole Falls 7,nature,Popular tourist spot in Aihole offering great views and historical significance.,16.048129,75.924054,INR 50,120
+Karnataka,Aihole,Aihole Lake 8,heritage,Popular tourist spot in Aihole offering great views and historical significance.,16.030663,75.870227,INR 100,30
+Karnataka,Aihole,Aihole Beach 9,park,Popular tourist spot in Aihole offering great views and historical significance.,16.031856,75.850763,INR 20,45
+Karnataka,Aihole,Aihole Museum 10,adventure,Popular tourist spot in Aihole offering great views and historical significance.,16.051609,75.842645,Free,45
+Karnataka,Bijapur,Bijapur Attraction 1,adventure,Popular tourist spot in Bijapur offering great views and historical significance.,16.79989,75.672404,INR 200,45
+Karnataka,Bijapur,Bijapur Point 2,nature,Popular tourist spot in Bijapur offering great views and historical significance.,16.819796,75.753169,INR 200,180
+Karnataka,Bijapur,Bijapur Garden 3,park,Popular tourist spot in Bijapur offering great views and historical significance.,16.867436,75.689212,INR 200,120
+Karnataka,Bijapur,Bijapur Temple 4,beach,Popular tourist spot in Bijapur offering great views and historical significance.,16.8376,75.7467,INR 50,180
+Karnataka,Bijapur,Bijapur Fort 5,temple,Popular tourist spot in Bijapur offering great views and historical significance.,16.852453,75.723965,INR 50,60
+Karnataka,Bijapur,Bijapur View 6,beach,Popular tourist spot in Bijapur offering great views and historical significance.,16.839794,75.714522,Free,180
+Karnataka,Bijapur,Bijapur Falls 7,park,Popular tourist spot in Bijapur offering great views and historical significance.,16.865099,75.757655,INR 20,45
+Karnataka,Bijapur,Bijapur Lake 8,temple,Popular tourist spot in Bijapur offering great views and historical significance.,16.865673,75.755639,INR 20,45
+Karnataka,Bijapur,Bijapur Beach 9,temple,Popular tourist spot in Bijapur offering great views and historical significance.,16.84234,75.743767,INR 20,180
+Karnataka,Bijapur,Bijapur Museum 10,park,Popular tourist spot in Bijapur offering great views and historical significance.,16.791181,75.721838,INR 20,45

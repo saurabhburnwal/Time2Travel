@@ -1,0 +1,5 @@
+{
+    "scripts": {
+        "export-seed": "node scripts/export-seed.js"
+    }
+}

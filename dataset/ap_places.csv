@@ -1,0 +1,201 @@
+state,city,place_name,category,description,latitude,longitude,entry_fee,avg_visit_duration_minutes
+Andhra Pradesh,Visakhapatnam,RK Beach,beach,Popular city beach with promenade,17.712800,83.318600,Free,90
+Andhra Pradesh,Visakhapatnam,Kailasagiri Hill Park,nature,Hilltop park with panoramic sea views,17.747300,83.343600,INR 20,90
+Andhra Pradesh,Visakhapatnam,INS Kursura Submarine Museum,heritage,Decommissioned submarine museum,17.712400,83.329900,INR 40,60
+Andhra Pradesh,Visakhapatnam,Yarada Beach,beach,Scenic beach surrounded by hills,17.659800,83.274600,Free,120
+Andhra Pradesh,Visakhapatnam,Borra Caves,nature,Natural limestone caves in Eastern Ghats,18.287000,83.037600,INR 40,120
+Andhra Pradesh,Visakhapatnam,Simhachalam Temple,heritage,Ancient hilltop temple,17.766300,83.249700,Free,90
+Andhra Pradesh,Visakhapatnam,Ross Hill Church,heritage,Historic church with city views,17.688600,83.289500,Free,45
+Andhra Pradesh,Visakhapatnam,Araku Valley,nature,Scenic hill station and coffee plantations,18.327300,82.877200,Free,180
+Andhra Pradesh,Visakhapatnam,Dolphin's Nose Viewpoint,nature,Cliff viewpoint overlooking harbor,17.676500,83.287200,Free,45
+Andhra Pradesh,Visakhapatnam,Scuba Diving Rushikonda,adventure,Beginner-friendly scuba experience,17.782900,83.385600,INR 3500,120
+Andhra Pradesh,Vijayawada,Kanaka Durga Temple,heritage,Famous temple on Indrakeeladri Hill,16.515000,80.616700,Free,90
+Andhra Pradesh,Vijayawada,Prakasam Barrage,heritage,Barrage across Krishna River,16.506200,80.611700,Free,45
+Andhra Pradesh,Vijayawada,Bhavani Island,adventure,River island with water sports,16.505000,80.620500,INR 50,120
+Andhra Pradesh,Vijayawada,Gandhi Hill,heritage,Memorial hill with stupa,16.528300,80.603700,Free,60
+Andhra Pradesh,Vijayawada,Undavalli Caves,heritage,Ancient rock-cut caves,16.497800,80.579600,INR 25,90
+Andhra Pradesh,Vijayawada,Mangalagiri Temple,heritage,Ancient Narasimha temple,16.430800,80.568900,Free,60
+Andhra Pradesh,Vijayawada,Kondapalli Fort,heritage,Historic hill fort,16.626800,80.535600,Free,90
+Andhra Pradesh,Vijayawada,VMC Park,nature,Urban recreational park,16.512300,80.624800,Free,60
+Andhra Pradesh,Vijayawada,Krishna River Cruise,adventure,Boat cruise with city views,16.506800,80.619900,INR 300,60
+Andhra Pradesh,Vijayawada,Kolavennu Backwaters,nature,Scenic rural backwaters,16.457600,80.542800,Free,90
+Andhra Pradesh,Tirupati,Tirumala Venkateswara Temple,heritage,One of the richest Hindu temples,13.683300,79.347400,Free,180
+Andhra Pradesh,Tirupati,Silathoranam,nature,Natural rock arch formation,13.683900,79.350600,Free,45
+Andhra Pradesh,Tirupati,Kapila Theertham,heritage,Temple with waterfall,13.645300,79.408900,Free,60
+Andhra Pradesh,Tirupati,Chandragiri Fort,heritage,Historic fort of Vijayanagara kings,13.586400,79.317800,Free,90
+Andhra Pradesh,Tirupati,Sri Venkateswara Zoo,nature,Large zoological park,13.634900,79.374200,INR 50,120
+Andhra Pradesh,Tirupati,Akasa Ganga Waterfall,nature,Sacred waterfall near Tirumala,13.690900,79.348700,Free,60
+Andhra Pradesh,Tirupati,Deer Park Tirumala,nature,Forest park with deer sightings,13.679800,79.345900,Free,60
+Andhra Pradesh,Tirupati,TTD Gardens,heritage,Temple-maintained botanical gardens,13.682100,79.346600,Free,60
+Andhra Pradesh,Tirupati,Rock Garden,nature,Geological garden near zoo,13.636500,79.372900,Free,45
+Andhra Pradesh,Tirupati,Tirupati Heritage Walk,heritage,Walk through old temple town,13.628800,79.419200,Free,60
+Andhra Pradesh,Kurnool,Belum Caves,nature,Second largest cave system in India,15.101000,78.113600,INR 60,120
+Andhra Pradesh,Kurnool,Konda Reddy Fort,heritage,Historic fort in city center,15.828100,78.036300,Free,60
+Andhra Pradesh,Kurnool,Oravakallu Rock Garden,nature,Unique rock formations,15.781700,78.012200,INR 20,90
+Andhra Pradesh,Kurnool,Rollapadu Wildlife Sanctuary,nature,Great Indian bustard habitat,15.432500,78.210000,INR 50,150
+Andhra Pradesh,Kurnool,Srisailam Dam,nature,Major dam on Krishna River,16.074000,78.868600,Free,90
+Andhra Pradesh,Kurnool,Sakshi Ganapati Temple,heritage,Ancient temple with inscriptions,15.785200,78.045800,Free,45
+Andhra Pradesh,Kurnool,Ahobilam Temple,heritage,Narasimha temple complex in hills,15.137200,78.774600,Free,120
+Andhra Pradesh,Kurnool,Pathala Ganga,adventure,Boat ride near Srisailam,16.074800,78.869300,INR 150,60
+Andhra Pradesh,Kurnool,Nallamala Forest Trek,adventure,Forest trekking route,15.950000,78.850000,Free,180
+Andhra Pradesh,Kurnool,Kurnool Heritage Walk,heritage,Exploration of old Kurnool areas,15.828900,78.037800,Free,60
+Andhra Pradesh,Rajahmundry,Papi Hills,nature,Scenic hill range along Godavari,17.443600,81.819600,Free,180
+Andhra Pradesh,Rajahmundry,Godavari River Cruise,adventure,Boat cruise through Papi Hills,17.000500,81.804000,INR 500,180
+Andhra Pradesh,Rajahmundry,Rallabandi Subbarao Museum,heritage,Archaeological and cultural museum,17.000000,81.804200,INR 10,60
+Andhra Pradesh,Rajahmundry,Iskcon Temple Rajahmundry,heritage,Spiritual and cultural center,17.015600,81.807900,Free,60
+Andhra Pradesh,Rajahmundry,Dowleswaram Barrage,heritage,Historic barrage on Godavari,17.051600,81.797700,Free,45
+Andhra Pradesh,Rajahmundry,Kadiyapulanka Gardens,nature,Floriculture village near river,16.995600,81.804700,Free,90
+Andhra Pradesh,Rajahmundry,Pattiseema,nature,Riverbank pilgrimage village,17.084600,81.650900,Free,60
+Andhra Pradesh,Rajahmundry,Pushkar Ghat,heritage,Riverside ghat and temples,16.996200,81.804900,Free,60
+Andhra Pradesh,Rajahmundry,Govindarajula Gutta,nature,Hilltop viewpoint,17.019800,81.820300,Free,45
+Andhra Pradesh,Rajahmundry,Rajahmundry Heritage Walk,heritage,Historic town exploration,16.998800,81.804500,Free,60
+Andhra Pradesh,Guntur,Kondaveedu Fort,heritage,Historic hill fort of Reddy dynasty,16.616800,80.352900,Free,90
+Andhra Pradesh,Guntur,Amaravati Stupa,heritage,Ancient Buddhist monument,16.572600,80.356400,Free,90
+Andhra Pradesh,Guntur,Undavalli Caves,nature,Rock-cut caves near Krishna river,16.497800,80.579600,INR 25,90
+Andhra Pradesh,Guntur,Ettipotala Waterfall,nature,Scenic waterfall near Nagarjuna Sagar,16.539200,79.282200,Free,90
+Andhra Pradesh,Guntur,Amaravati Museum,heritage,Buddhist artifacts museum,16.572800,80.357200,INR 10,60
+Andhra Pradesh,Guntur,Uppalapadu Bird Sanctuary,nature,Seasonal bird sanctuary,16.364200,80.436300,INR 10,60
+Andhra Pradesh,Guntur,Krishna River Ghat,heritage,Sacred riverfront area,16.508600,80.640700,Free,45
+Andhra Pradesh,Guntur,Chuttugunta Circle,heritage,Urban landmark and shopping hub,16.306700,80.437600,Free,30
+Andhra Pradesh,Guntur,Nagarjuna Sagar Viewpoint,nature,Viewpoint overlooking dam area,16.578500,79.310200,Free,60
+Andhra Pradesh,Guntur,Guntur Heritage Walk,heritage,Walk through old town areas,16.306900,80.436500,Free,60
+Andhra Pradesh,Nellore,Nellore Beach,beach,Quiet beach near city outskirts,14.444200,79.986000,Free,120
+Andhra Pradesh,Nellore,Pennar River Barrage,heritage,Bridge and river view point,14.441200,79.986600,Free,45
+Andhra Pradesh,Nellore,Ranganatha Temple,heritage,Ancient temple near river,14.441800,79.986900,Free,60
+Andhra Pradesh,Nellore,Mypadu Beach,beach,Popular beach with long shoreline,14.451900,79.999400,Free,120
+Andhra Pradesh,Nellore,Nelapattu Bird Sanctuary,nature,Pelican breeding ground,13.880300,79.844400,INR 50,120
+Andhra Pradesh,Nellore,Udayagiri Fort,heritage,Hilltop fort with ruins,14.913300,79.317600,Free,90
+Andhra Pradesh,Nellore,Venkatagiri Fort,heritage,Historic fort-palace complex,13.960000,79.580000,Free,90
+Andhra Pradesh,Nellore,Barah Shaheed Dargah,heritage,Historic Islamic shrine,14.440100,79.987900,Free,30
+Andhra Pradesh,Nellore,Jonnawada Temple,heritage,Spiritual center near river,14.461600,79.975200,Free,60
+Andhra Pradesh,Nellore,Nellore Heritage Walk,heritage,Historic city exploration,14.441500,79.986800,Free,60
+Andhra Pradesh,Ongole,Ongole Beach,beach,Quiet coastal beach stretch,15.503600,80.048500,Free,120
+Andhra Pradesh,Ongole,Kothapatnam Beach,beach,Popular beach near Ongole,15.479600,80.079600,Free,120
+Andhra Pradesh,Ongole,Chennakesava Swamy Temple,heritage,Ancient temple in Ongole,15.505300,80.049900,Free,60
+Andhra Pradesh,Ongole,Bhairavakona Caves,nature,Rock-cut caves with waterfalls,14.888200,79.200700,Free,120
+Andhra Pradesh,Ongole,Ramathirtham,nature,Historic Jain and Hindu site,15.506900,80.051800,Free,60
+Andhra Pradesh,Ongole,Kandaleru Dam,nature,Large irrigation reservoir,14.577900,79.614300,Free,60
+Andhra Pradesh,Ongole,Ongole Cattle Market,heritage,Famous cattle trading hub,15.505900,80.049300,Free,60
+Andhra Pradesh,Ongole,Sri Prasanna Chennakesava Temple,heritage,Temple with Dravidian architecture,15.507200,80.047800,Free,60
+Andhra Pradesh,Ongole,Ongole Viewpoint,nature,City outskirts viewpoint,15.511800,80.043200,Free,30
+Andhra Pradesh,Ongole,Ongole Heritage Walk,heritage,Historic town walk,15.506400,80.048900,Free,1020
+Andhra Pradesh,Eluru,Kolleru Lake,nature,One of India's largest freshwater lakes,16.620000,81.200000,Free,180
+Andhra Pradesh,Eluru,Buddha Park Eluru,nature,Urban riverside park,16.712000,81.100800,Free,60
+Andhra Pradesh,Eluru,Eluru Canal View,heritage,Historic canal system,16.708800,81.095600,Free,45
+Andhra Pradesh,Eluru,Gudivada Buddha Stupa,heritage,Ancient Buddhist site,16.433800,80.991700,Free,60
+Andhra Pradesh,Eluru,Kolleru Bird Sanctuary,nature,Seasonal migratory birds area,16.615800,81.210200,INR 50,120
+Andhra Pradesh,Eluru,Pedavegi Buddhist Ruins,heritage,Buddhist archaeological site,16.633300,81.042600,Free,90
+Andhra Pradesh,Eluru,Eluru Heritage Walk,heritage,Old town exploration,16.710000,81.095000,Free,60
+Andhra Pradesh,Eluru,Tammileru River Bank,nature,Riverbank relaxation area,16.705600,81.104300,Free,45
+Andhra Pradesh,Eluru,Eluru Parks Cluster,nature,Public parks area,16.711200,81.098700,Free,60
+Andhra Pradesh,Eluru,Eluru Water Sports Zone,adventure,Boating and water activities,16.707800,81.101900,INR 300,90
+Andhra Pradesh,Srikakulam,Kalingapatnam Beach,beach,Serene beach near river mouth,18.341800,84.119400,Free,120
+Andhra Pradesh,Srikakulam,Salihundam Buddhist Complex,heritage,Ancient Buddhist site,18.325600,84.050400,Free,90
+Andhra Pradesh,Srikakulam,Sri Mukhalingam Temple,heritage,Famous Shiva temple complex,18.594300,83.950200,Free,90
+Andhra Pradesh,Srikakulam,Baruva Beach,beach,Quiet coastal stretch,18.213500,84.022400,Free,120
+Andhra Pradesh,Srikakulam,Telineelapuram Bird Sanctuary,nature,Pelican and stork habitat,18.503800,83.858900,INR 10,90
+Andhra Pradesh,Srikakulam,Kalingapatnam Lighthouse,nature,Coastal viewpoint,18.343900,84.118000,Free,30
+Andhra Pradesh,Srikakulam,Narasannapeta Handloom Village,heritage,Traditional handloom center,18.414600,83.941200,Free,60
+Andhra Pradesh,Srikakulam,Srikurmam Temple,heritage,Unique Kurma avatar temple,18.266300,84.038400,Free,90
+Andhra Pradesh,Srikakulam,Vamsadhara River View,nature,Scenic river viewpoint,18.336700,83.934600,Free,45
+Andhra Pradesh,Srikakulam,Srikakulam Heritage Walk,heritage,Historic town exploration,18.296900,83.897700,Free,60
+Andhra Pradesh,Kakinada,Kakinada Beach,beach,Long sandy beach near city,16.989100,82.247500,Free,120
+Andhra Pradesh,Kakinada,Hope Island,beach,Barrier island with pristine beach,17.008900,82.350600,Free,150
+Andhra Pradesh,Kakinada,Coringa Wildlife Sanctuary,nature,Mangrove forest with birdlife,16.819700,82.303300,INR 50,120
+Andhra Pradesh,Kakinada,Uppada Beach,beach,Scenic beach with sunrise views,17.090300,82.337900,Free,120
+Andhra Pradesh,Kakinada,Kakinada Port View,nature,Port and sea viewpoint,16.989900,82.251800,Free,30
+Andhra Pradesh,Kakinada,Jagannatha Swamy Temple,heritage,Historic temple in city center,16.989600,82.247000,Free,60
+Andhra Pradesh,Kakinada,Bhaskara Rao Park,nature,Urban park and leisure area,16.985700,82.243900,Free,60
+Andhra Pradesh,Kakinada,Kakinada Heritage Walk,heritage,Old town and port area walk,16.988200,82.246800,Free,60
+Andhra Pradesh,Kakinada,Boat Ride to Hope Island,adventure,Boat trip through backwaters,16.993500,82.258900,INR 500,120
+Andhra Pradesh,Kakinada,Adurru Buddhist Stupa,heritage,Ancient Buddhist site,16.873800,82.202600,Free,90
+Andhra Pradesh,Anantapur,Gooty Fort,heritage,Hilltop fort with panoramic views,15.126900,77.634900,Free,120
+Andhra Pradesh,Anantapur,Puttaparthi Ashram,heritage,Spiritual center and ashram,14.165100,77.811600,Free,120
+Andhra Pradesh,Anantapur,Lepakshi Veerabhadra Temple,heritage,Famous Vijayanagara-era temple,13.806700,77.606700,Free,90
+Andhra Pradesh,Anantapur,Pennar River View,nature,Scenic river stretch,14.677800,77.600500,Free,45
+Andhra Pradesh,Anantapur,Nallamada Reservoir,nature,Large irrigation reservoir,14.973600,77.705200,Free,90
+Andhra Pradesh,Anantapur,Ahobilam Hills Trek,adventure,Trekking in forested hills,15.137200,78.774600,Free,180
+Andhra Pradesh,Anantapur,Sri Sathya Sai Museum,heritage,Museum on Sai Baba's life,14.165800,77.812300,Free,60
+Andhra Pradesh,Anantapur,Gooty Town Heritage Walk,heritage,Historic town exploration,15.121500,77.630800,Free,60
+Andhra Pradesh,Anantapur,Bugga Ramalingeswara Temple,heritage,Temple with underground water spring,14.932900,77.817200,Free,60
+Andhra Pradesh,Anantapur,Nagarjuna Sagar Canal View,nature,Canal and countryside view,14.860300,77.692100,Free,45
+Andhra Pradesh,Kadapa,Gandikota Fort,heritage,Famous fort overlooking gorge,14.814300,78.286100,Free,120
+Andhra Pradesh,Kadapa,Gandikota Canyon,nature,Known as the Grand Canyon of India,14.812500,78.288900,Free,120
+Andhra Pradesh,Kadapa,Belum Caves,nature,Extensive underground cave system,15.101000,78.113600,INR 60,120
+Andhra Pradesh,Kadapa,Ameen Peer Dargah,heritage,Important Sufi shrine,14.475600,78.835300,Free,45
+Andhra Pradesh,Kadapa,Pushpagiri Temple,heritage,Ancient temple complex,14.456200,78.814600,Free,90
+Andhra Pradesh,Kadapa,Sidhout Fort,heritage,Historic fort on river bank,14.463900,78.819200,Free,60
+Andhra Pradesh,Kadapa,Rayachoty Hill View,nature,Hilltop scenic viewpoint,14.048400,78.749300,Free,45
+Andhra Pradesh,Kadapa,Mylavaram Dam,nature,Reservoir and picnic area,14.485200,78.785600,Free,60
+Andhra Pradesh,Kadapa,Kadapa Heritage Walk,heritage,Exploration of old town,14.475900,78.835900,Free,60
+Andhra Pradesh,Kadapa,Ontimitta Temple,heritage,Famous Rama temple complex,14.393400,79.009600,Free,90
+Andhra Pradesh,Chittoor,Horsley Hills,nature,Hill station with cool climate,13.650900,78.403600,INR 30,150
+Andhra Pradesh,Chittoor,Kaundinya Wildlife Sanctuary,nature,Elephant and wildlife reserve,13.682800,78.607200,INR 50,150
+Andhra Pradesh,Chittoor,Kanipakam Vinayaka Temple,heritage,Famous Ganesha temple,13.277200,79.019600,Free,90
+Andhra Pradesh,Chittoor,Chandragiri Fort,heritage,Historic Vijayanagara fort,13.586400,79.317800,Free,90
+Andhra Pradesh,Chittoor,Talakona Waterfall,nature,Tallest waterfall in Andhra Pradesh,13.815400,79.214200,Free,120
+Andhra Pradesh,Chittoor,Nagari Hills Trek,adventure,Trekking in Eastern Ghats,13.308200,79.586100,Free,180
+Andhra Pradesh,Chittoor,Srikalahasti Temple,heritage,Famous Shiva temple,13.749000,79.698800,Free,90
+Andhra Pradesh,Chittoor,Kalyani Dam,nature,Reservoir and picnic area,13.637800,78.506900,Free,60
+Andhra Pradesh,Chittoor,Chittoor Heritage Walk,heritage,Historic town exploration,13.217200,79.100300,Free,60
+Andhra Pradesh,Chittoor,Kalavagunta Viewpoint,nature,Hill viewpoint near forest,13.660900,78.432200,Free,45
+Andhra Pradesh,Vizianagaram,Vizianagaram Fort,heritage,Historic fort and palace ruins,18.113300,83.411200,Free,90
+Andhra Pradesh,Vizianagaram,Ramanaidu Studios Viewpoint,heritage,Famous film studio exterior views,17.735800,83.266600,Free,45
+Andhra Pradesh,Vizianagaram,Thatipudi Reservoir,nature,Scenic reservoir and hills,18.019400,83.512600,Free,90
+Andhra Pradesh,Vizianagaram,Padmanabham Temple,heritage,Ancient temple with history,17.966900,83.483700,Free,60
+Andhra Pradesh,Vizianagaram,Simhachalam Hills,nature,Forested hills near city,17.766300,83.249700,Free,90
+Andhra Pradesh,Vizianagaram,Seethammadara Viewpoint,nature,Urban hill viewpoint,17.744600,83.296400,Free,45
+Andhra Pradesh,Vizianagaram,Thotlakonda Buddhist Site,heritage,Ancient Buddhist ruins,17.828600,83.419800,Free,90
+Andhra Pradesh,Vizianagaram,Kumili Handloom Village,heritage,Traditional weaving village,18.156400,83.438200,Free,60
+Andhra Pradesh,Vizianagaram,Vizianagaram Heritage Walk,heritage,Old town exploration,18.112900,83.411900,Free,60
+Andhra Pradesh,Vizianagaram,Gantyada View Hills,nature,Hill area near city outskirts,18.170300,83.469100,Free,45
+Andhra Pradesh,Machilipatnam,Manginapudi Beach,beach,Popular beach with lighthouse views,16.187400,81.138200,Free,120
+Andhra Pradesh,Machilipatnam,Machilipatnam Fort Ruins,heritage,Remains of historic port fort,16.182600,81.137000,Free,60
+Andhra Pradesh,Machilipatnam,Panduranga Swamy Temple,heritage,Ancient Krishna temple,16.187900,81.136400,Free,60
+Andhra Pradesh,Machilipatnam,Avanigadda Backwaters,nature,Scenic Krishna river backwaters,16.021700,80.919200,Free,90
+Andhra Pradesh,Machilipatnam,Pedana Kalamkari Village,heritage,Traditional Kalamkari art center,16.260600,81.134600,Free,90
+Andhra Pradesh,Machilipatnam,Machilipatnam Lighthouse,nature,Coastal viewpoint and photography spot,16.186100,81.140300,Free,45
+Andhra Pradesh,Machilipatnam,Ghantasala Buddhist Site,heritage,Ancient Buddhist ruins,16.238300,81.052800,Free,90
+Andhra Pradesh,Machilipatnam,Krishna Delta Bird Area,nature,Seasonal migratory birds,16.200000,81.050000,Free,120
+Andhra Pradesh,Machilipatnam,Machilipatnam Heritage Walk,heritage,Historic port town exploration,16.185900,81.136800,Free,60
+Andhra Pradesh,Machilipatnam,Water Sports Manginapudi,adventure,Jet ski and boating activities,16.188200,81.139500,INR 800,90
+Andhra Pradesh,Nandyal,Mahanandi Temple,heritage,Famous ancient Shiva temple,15.486800,78.512300,Free,90
+Andhra Pradesh,Nandyal,Banaganapalli Fort,heritage,Historic fort ruins,15.317900,78.226300,Free,60
+Andhra Pradesh,Nandyal,Ahobilam Upper Temple,heritage,Narasimha temple in hills,15.137200,78.774600,Free,120
+Andhra Pradesh,Nandyal,Nallamala Forest View,nature,Forested hill views,15.381400,78.618200,Free,90
+Andhra Pradesh,Nandyal,Oravakallu Rock Garden,nature,Rock formations and viewpoints,15.781700,78.012200,INR 20,90
+Andhra Pradesh,Nandyal,Mahanandi Backwater Area,nature,Water bodies and greenery,15.492300,78.508700,Free,60
+Andhra Pradesh,Nandyal,Nandyal Heritage Walk,heritage,Old town exploration,15.477300,78.482800,Free,60
+Andhra Pradesh,Nandyal,Pathala Ganga Boat Ride,adventure,Boat ride near Srisailam,16.074800,78.869300,INR 150,60
+Andhra Pradesh,Nandyal,Rollapadu Sanctuary Access,nature,Nearby wildlife sanctuary zone,15.432500,78.210000,INR 50,120
+Andhra Pradesh,Nandyal,Shivagiri Hill View,nature,Hilltop viewpoint near town,15.460800,78.495600,Free,45
+Andhra Pradesh,Proddatur,Proddatur Town Viewpoint,nature,Urban hill viewpoint,14.739900,78.550600,Free,45
+Andhra Pradesh,Proddatur,Siddheswara Swamy Temple,heritage,Important local temple,14.737800,78.553900,Free,60
+Andhra Pradesh,Proddatur,Proddatur Heritage Walk,heritage,Exploration of old town,14.739100,78.551200,Free,60
+Andhra Pradesh,Proddatur,Gandikota Day Trip,nature,Access point to Gandikota canyon,14.814300,78.286100,Free,180
+Andhra Pradesh,Proddatur,Penna River Bank,nature,Riverside relaxation area,14.735600,78.552400,Free,60
+Andhra Pradesh,Proddatur,Sidhout Fort,heritage,Historic fort nearby,14.463900,78.819200,Free,90
+Andhra Pradesh,Proddatur,Rayachoty Road View,nature,Scenic countryside drive,14.692200,78.640300,Free,45
+Andhra Pradesh,Proddatur,Proddatur Market,heritage,Local shopping and food area,14.739400,78.552100,Free,60
+Andhra Pradesh,Proddatur,Penna River Bridge View,nature,Bridge and river scenery,14.737200,78.550800,Free,30
+Andhra Pradesh,Proddatur,Cultural Hall Proddatur,heritage,Local cultural venue,14.738800,78.551900,Free,60
+Andhra Pradesh,Tenali,Tenali Beach Access,beach,Coastal access near Tenali region,16.240000,80.640000,Free,120
+Andhra Pradesh,Tenali,Tenali Ramalingeswara Temple,heritage,Ancient Shiva temple,16.239800,80.640900,Free,60
+Andhra Pradesh,Tenali,Krishna Canal Bank,nature,Canal-side walking area,16.237600,80.642300,Free,45
+Andhra Pradesh,Tenali,Chandole Handloom Village,heritage,Traditional weaving village,16.220900,80.655400,Free,90
+Andhra Pradesh,Tenali,Tenali Heritage Walk,heritage,Old town exploration,16.239200,80.641800,Free,60
+Andhra Pradesh,Tenali,Munnangi Backwaters,nature,Scenic rural backwaters,16.195300,80.658900,Free,90
+Andhra Pradesh,Tenali,Water Sports Krishna Canal,adventure,Boating activities,16.238800,80.643600,INR 300,60
+Andhra Pradesh,Tenali,Tenali Central Park,nature,Urban green space,16.240600,80.641200,Free,60
+Andhra Pradesh,Tenali,Tenali Market,heritage,Local shopping hub,16.239500,80.641500,Free,60
+Andhra Pradesh,Tenali,Village Cycling Route,nature,Countryside cycling trail,16.210000,80.650000,Free,90
+Andhra Pradesh,Amaravati,Dhyana Buddha Statue,heritage,Iconic meditation Buddha statue,16.572000,80.357800,Free,60
+Andhra Pradesh,Amaravati,Amaravati Stupa,heritage,Ancient Buddhist stupa,16.572600,80.356400,Free,90
+Andhra Pradesh,Amaravati,Amaravati Museum,heritage,Buddhist artifacts museum,16.572800,80.357200,INR 10,60
+Andhra Pradesh,Amaravati,Krishna River Viewpoint,nature,Scenic riverfront views,16.574500,80.359600,Free,45
+Andhra Pradesh,Amaravati,Amaravati Heritage Walk,heritage,Archaeological and historic walk,16.573200,80.356900,Free,60
+Andhra Pradesh,Amaravati,Uddandarayunipalem Capital Zone,nature,Planned capital region landscape,16.515200,80.516300,Free,60
+Andhra Pradesh,Amaravati,Kondaveedu Fort Access,nature,Viewpoint towards historic fort,16.616800,80.352900,Free,90
+Andhra Pradesh,Amaravati,Seed Access Road View,nature,Open plains and river scenery,16.565300,80.361800,Free,45
+Andhra Pradesh,Amaravati,Cycling Track Amaravati,nature,Designated cycling route,16.570900,80.360200,Free,90
+Andhra Pradesh,Amaravati,Sunset Point Amaravati,nature,Riverbank sunset viewing spot,16.573800,80.358400,Free,45

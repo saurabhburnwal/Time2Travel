@@ -1,0 +1,21 @@
+destination_id,name,state,country,description,best_season,is_active
+1,Hyderabad,Telangana,India,"Capital city with heritage, food and nightlife",Oct–Feb,TRUE
+2,Warangal,Telangana,India,Historic Kakatiya capital,Oct–Feb,TRUE
+3,Nizamabad,Telangana,India,Cultural city with temples and forts,Oct–Feb,TRUE
+4,Karimnagar,Telangana,India,Gateway to forts and reservoirs,Oct–Feb,TRUE
+5,Khammam,Telangana,India,Nature-rich district with temples,Oct–Feb,TRUE
+6,Adilabad,Telangana,India,Waterfalls and forest landscapes,Jul–Feb,TRUE
+7,Medak,Telangana,India,Historic cathedral town,Oct–Feb,TRUE
+8,Mahabubnagar,Telangana,India,Heritage forts and lakes,Oct–Feb,TRUE
+9,Nalgonda,Telangana,India,Historical forts and Buddhist sites,Oct–Feb,TRUE
+10,Sangareddy,Telangana,India,Industrial city with lakes,Oct–Feb,TRUE
+11,Vikarabad,Telangana,India,Hill region near Hyderabad,Oct–Feb,TRUE
+12,Mancherial,Telangana,India,Forests and river views,Oct–Feb,TRUE
+13,Jagtial,Telangana,India,Temple town near Godavari,Oct–Feb,TRUE
+14,Bhadrachalam,Telangana,India,Major pilgrimage center,Oct–Feb,TRUE
+15,Siddipet,Telangana,India,Reservoirs and temples,Oct–Feb,TRUE
+16,Yadadri,Telangana,India,Famous hill temple town,Oct–Feb,TRUE
+17,Kothagudem,Telangana,India,Coal city with nature escapes,Oct–Feb,TRUE
+18,Medchal,Telangana,India,Suburban cultural destination,Oct–Feb,TRUE
+19,Asifabad,Telangana,India,Tribal forests and waterfalls,Jul–Feb,TRUE
+20,Narayanpet,Telangana,India,Handloom and heritage town,Oct–Feb,TRUE

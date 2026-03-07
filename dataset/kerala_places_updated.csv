@@ -1,0 +1,201 @@
+state,city,place_name,category,description,latitude,longitude,entry_fee,avg_visit_duration_minutes
+Kerala,Kochi,Kochi Attraction 1,beach,Popular tourist spot in Kochi offering great views and historical significance.,9.887608,76.286797,INR 100,30
+Kerala,Kochi,Kochi Point 2,beach,Popular tourist spot in Kochi offering great views and historical significance.,9.942925,76.229163,INR 50,60
+Kerala,Kochi,Kochi Garden 3,nature,Popular tourist spot in Kochi offering great views and historical significance.,9.972019,76.278656,Free,90
+Kerala,Kochi,Kochi Temple 4,park,Popular tourist spot in Kochi offering great views and historical significance.,9.95855,76.259889,Free,180
+Kerala,Kochi,Kochi Fort 5,adventure,Popular tourist spot in Kochi offering great views and historical significance.,9.964001,76.228352,INR 20,30
+Kerala,Kochi,Kochi View 6,heritage,Popular tourist spot in Kochi offering great views and historical significance.,9.929655,76.239584,INR 50,120
+Kerala,Kochi,Kochi Falls 7,heritage,Popular tourist spot in Kochi offering great views and historical significance.,9.924375,76.218627,Free,45
+Kerala,Kochi,Kochi Lake 8,park,Popular tourist spot in Kochi offering great views and historical significance.,9.89732,76.310127,INR 50,60
+Kerala,Kochi,Kochi Beach 9,nature,Popular tourist spot in Kochi offering great views and historical significance.,9.911831,76.230031,INR 100,180
+Kerala,Kochi,Kochi Museum 10,beach,Popular tourist spot in Kochi offering great views and historical significance.,9.925863,76.235955,INR 200,180
+Kerala,Thiruvananthapuram,Thiruvananthapuram Attraction 1,beach,Popular tourist spot in Thiruvananthapuram offering great views and historical significance.,8.561293,76.939193,INR 20,30
+Kerala,Thiruvananthapuram,Thiruvananthapuram Point 2,nature,Popular tourist spot in Thiruvananthapuram offering great views and historical significance.,8.550937,76.943301,INR 50,30
+Kerala,Thiruvananthapuram,Thiruvananthapuram Garden 3,heritage,Popular tourist spot in Thiruvananthapuram offering great views and historical significance.,8.502406,76.919209,INR 50,120
+Kerala,Thiruvananthapuram,Thiruvananthapuram Temple 4,heritage,Popular tourist spot in Thiruvananthapuram offering great views and historical significance.,8.474598,76.978634,Free,30
+Kerala,Thiruvananthapuram,Thiruvananthapuram Fort 5,beach,Popular tourist spot in Thiruvananthapuram offering great views and historical significance.,8.478979,76.94042,INR 100,45
+Kerala,Thiruvananthapuram,Thiruvananthapuram View 6,beach,Popular tourist spot in Thiruvananthapuram offering great views and historical significance.,8.495336,76.929089,INR 50,120
+Kerala,Thiruvananthapuram,Thiruvananthapuram Falls 7,park,Popular tourist spot in Thiruvananthapuram offering great views and historical significance.,8.489028,76.967333,INR 50,180
+Kerala,Thiruvananthapuram,Thiruvananthapuram Lake 8,adventure,Popular tourist spot in Thiruvananthapuram offering great views and historical significance.,8.531522,76.919551,INR 100,120
+Kerala,Thiruvananthapuram,Thiruvananthapuram Beach 9,temple,Popular tourist spot in Thiruvananthapuram offering great views and historical significance.,8.543115,76.933101,INR 50,60
+Kerala,Thiruvananthapuram,Thiruvananthapuram Museum 10,beach,Popular tourist spot in Thiruvananthapuram offering great views and historical significance.,8.568149,76.969275,INR 200,90
+Kerala,Munnar,Munnar Attraction 1,nature,Popular tourist spot in Munnar offering great views and historical significance.,10.08979,77.100347,Free,45
+Kerala,Munnar,Munnar Point 2,nature,Popular tourist spot in Munnar offering great views and historical significance.,10.061718,77.048496,INR 100,60
+Kerala,Munnar,Munnar Garden 3,heritage,Popular tourist spot in Munnar offering great views and historical significance.,10.100521,77.06888,INR 200,120
+Kerala,Munnar,Munnar Temple 4,park,Popular tourist spot in Munnar offering great views and historical significance.,10.045794,77.032724,INR 20,45
+Kerala,Munnar,Munnar Fort 5,beach,Popular tourist spot in Munnar offering great views and historical significance.,10.083586,77.031792,INR 200,90
+Kerala,Munnar,Munnar View 6,temple,Popular tourist spot in Munnar offering great views and historical significance.,10.080308,77.056835,Free,90
+Kerala,Munnar,Munnar Falls 7,heritage,Popular tourist spot in Munnar offering great views and historical significance.,10.039629,77.046538,Free,30
+Kerala,Munnar,Munnar Lake 8,temple,Popular tourist spot in Munnar offering great views and historical significance.,10.05601,77.109121,Free,45
+Kerala,Munnar,Munnar Beach 9,temple,Popular tourist spot in Munnar offering great views and historical significance.,10.129595,77.062246,INR 100,90
+Kerala,Munnar,Munnar Museum 10,heritage,Popular tourist spot in Munnar offering great views and historical significance.,10.05989,77.05968,INR 100,90
+Kerala,Alappuzha,Alappuzha Attraction 1,temple,Popular tourist spot in Alappuzha offering great views and historical significance.,9.456824,76.378741,Free,90
+Kerala,Alappuzha,Alappuzha Point 2,nature,Popular tourist spot in Alappuzha offering great views and historical significance.,9.522865,76.309195,INR 50,30
+Kerala,Alappuzha,Alappuzha Garden 3,temple,Popular tourist spot in Alappuzha offering great views and historical significance.,9.47592,76.320579,Free,120
+Kerala,Alappuzha,Alappuzha Temple 4,beach,Popular tourist spot in Alappuzha offering great views and historical significance.,9.499151,76.382062,INR 50,60
+Kerala,Alappuzha,Alappuzha Fort 5,park,Popular tourist spot in Alappuzha offering great views and historical significance.,9.507335,76.290258,INR 20,90
+Kerala,Alappuzha,Alappuzha View 6,park,Popular tourist spot in Alappuzha offering great views and historical significance.,9.450585,76.298489,INR 200,60
+Kerala,Alappuzha,Alappuzha Falls 7,park,Popular tourist spot in Alappuzha offering great views and historical significance.,9.504854,76.289991,Free,60
+Kerala,Alappuzha,Alappuzha Lake 8,nature,Popular tourist spot in Alappuzha offering great views and historical significance.,9.453709,76.289711,Free,60
+Kerala,Alappuzha,Alappuzha Beach 9,beach,Popular tourist spot in Alappuzha offering great views and historical significance.,9.544328,76.387398,INR 200,45
+Kerala,Alappuzha,Alappuzha Museum 10,temple,Popular tourist spot in Alappuzha offering great views and historical significance.,9.514399,76.290449,INR 100,30
+Kerala,Wayanad,Wayanad Attraction 1,adventure,Popular tourist spot in Wayanad offering great views and historical significance.,11.731725,76.09915,Free,45
+Kerala,Wayanad,Wayanad Point 2,heritage,Popular tourist spot in Wayanad offering great views and historical significance.,11.714602,76.15889,INR 50,45
+Kerala,Wayanad,Wayanad Garden 3,park,Popular tourist spot in Wayanad offering great views and historical significance.,11.734391,76.16915,Free,60
+Kerala,Wayanad,Wayanad Temple 4,temple,Popular tourist spot in Wayanad offering great views and historical significance.,11.690855,76.116093,INR 50,120
+Kerala,Wayanad,Wayanad Fort 5,beach,Popular tourist spot in Wayanad offering great views and historical significance.,11.702919,76.149747,INR 100,180
+Kerala,Wayanad,Wayanad View 6,nature,Popular tourist spot in Wayanad offering great views and historical significance.,11.662133,76.126009,INR 50,120
+Kerala,Wayanad,Wayanad Falls 7,beach,Popular tourist spot in Wayanad offering great views and historical significance.,11.685314,76.173285,INR 100,120
+Kerala,Wayanad,Wayanad Lake 8,beach,Popular tourist spot in Wayanad offering great views and historical significance.,11.636755,76.179723,INR 50,120
+Kerala,Wayanad,Wayanad Beach 9,temple,Popular tourist spot in Wayanad offering great views and historical significance.,11.711722,76.08393,INR 50,45
+Kerala,Wayanad,Wayanad Museum 10,nature,Popular tourist spot in Wayanad offering great views and historical significance.,11.669409,76.142657,INR 20,60
+Kerala,Thekkady,Thekkady Attraction 1,nature,Popular tourist spot in Thekkady offering great views and historical significance.,9.608496,77.163377,INR 100,30
+Kerala,Thekkady,Thekkady Point 2,temple,Popular tourist spot in Thekkady offering great views and historical significance.,9.55522,77.155767,INR 20,90
+Kerala,Thekkady,Thekkady Garden 3,park,Popular tourist spot in Thekkady offering great views and historical significance.,9.637078,77.185426,INR 100,90
+Kerala,Thekkady,Thekkady Temple 4,beach,Popular tourist spot in Thekkady offering great views and historical significance.,9.598938,77.111222,Free,45
+Kerala,Thekkady,Thekkady Fort 5,beach,Popular tourist spot in Thekkady offering great views and historical significance.,9.609332,77.209761,INR 200,30
+Kerala,Thekkady,Thekkady View 6,adventure,Popular tourist spot in Thekkady offering great views and historical significance.,9.621993,77.128646,INR 200,30
+Kerala,Thekkady,Thekkady Falls 7,beach,Popular tourist spot in Thekkady offering great views and historical significance.,9.589746,77.19518,INR 20,180
+Kerala,Thekkady,Thekkady Lake 8,nature,Popular tourist spot in Thekkady offering great views and historical significance.,9.559556,77.181021,Free,60
+Kerala,Thekkady,Thekkady Beach 9,nature,Popular tourist spot in Thekkady offering great views and historical significance.,9.553877,77.158898,INR 50,90
+Kerala,Thekkady,Thekkady Museum 10,heritage,Popular tourist spot in Thekkady offering great views and historical significance.,9.562757,77.183266,INR 200,30
+Kerala,Kumarakom,Kumarakom Attraction 1,beach,Popular tourist spot in Kumarakom offering great views and historical significance.,9.582601,76.382306,INR 100,60
+Kerala,Kumarakom,Kumarakom Point 2,temple,Popular tourist spot in Kumarakom offering great views and historical significance.,9.64991,76.413416,Free,60
+Kerala,Kumarakom,Kumarakom Garden 3,heritage,Popular tourist spot in Kumarakom offering great views and historical significance.,9.612712,76.457823,INR 20,45
+Kerala,Kumarakom,Kumarakom Temple 4,temple,Popular tourist spot in Kumarakom offering great views and historical significance.,9.605013,76.474339,INR 50,30
+Kerala,Kumarakom,Kumarakom Fort 5,park,Popular tourist spot in Kumarakom offering great views and historical significance.,9.567525,76.450363,INR 200,30
+Kerala,Kumarakom,Kumarakom View 6,temple,Popular tourist spot in Kumarakom offering great views and historical significance.,9.593091,76.4418,INR 100,60
+Kerala,Kumarakom,Kumarakom Falls 7,heritage,Popular tourist spot in Kumarakom offering great views and historical significance.,9.621769,76.382788,Free,60
+Kerala,Kumarakom,Kumarakom Lake 8,park,Popular tourist spot in Kumarakom offering great views and historical significance.,9.590692,76.428017,INR 50,30
+Kerala,Kumarakom,Kumarakom Beach 9,nature,Popular tourist spot in Kumarakom offering great views and historical significance.,9.588413,76.461308,INR 200,180
+Kerala,Kumarakom,Kumarakom Museum 10,heritage,Popular tourist spot in Kumarakom offering great views and historical significance.,9.605159,76.451101,INR 100,30
+Kerala,Kovalam,Kovalam Attraction 1,adventure,Popular tourist spot in Kovalam offering great views and historical significance.,8.383707,77.011868,INR 50,90
+Kerala,Kovalam,Kovalam Point 2,heritage,Popular tourist spot in Kovalam offering great views and historical significance.,8.430693,76.997044,INR 20,120
+Kerala,Kovalam,Kovalam Garden 3,nature,Popular tourist spot in Kovalam offering great views and historical significance.,8.390629,76.97182,INR 100,45
+Kerala,Kovalam,Kovalam Temple 4,heritage,Popular tourist spot in Kovalam offering great views and historical significance.,8.355766,77.004615,Free,120
+Kerala,Kovalam,Kovalam Fort 5,nature,Popular tourist spot in Kovalam offering great views and historical significance.,8.355587,76.993668,Free,180
+Kerala,Kovalam,Kovalam View 6,nature,Popular tourist spot in Kovalam offering great views and historical significance.,8.367513,76.941739,INR 50,45
+Kerala,Kovalam,Kovalam Falls 7,temple,Popular tourist spot in Kovalam offering great views and historical significance.,8.394926,77.01161,INR 100,90
+Kerala,Kovalam,Kovalam Lake 8,adventure,Popular tourist spot in Kovalam offering great views and historical significance.,8.408563,76.975344,INR 100,60
+Kerala,Kovalam,Kovalam Beach 9,temple,Popular tourist spot in Kovalam offering great views and historical significance.,8.413288,76.948268,INR 50,120
+Kerala,Kovalam,Kovalam Museum 10,park,Popular tourist spot in Kovalam offering great views and historical significance.,8.39687,76.92986,INR 100,30
+Kerala,Varkala,Varkala Attraction 1,heritage,Popular tourist spot in Varkala offering great views and historical significance.,8.780409,76.753039,INR 50,60
+Kerala,Varkala,Varkala Point 2,heritage,Popular tourist spot in Varkala offering great views and historical significance.,8.763494,76.661965,INR 50,120
+Kerala,Varkala,Varkala Garden 3,park,Popular tourist spot in Varkala offering great views and historical significance.,8.74301,76.671426,INR 50,90
+Kerala,Varkala,Varkala Temple 4,park,Popular tourist spot in Varkala offering great views and historical significance.,8.712861,76.726194,INR 20,45
+Kerala,Varkala,Varkala Fort 5,adventure,Popular tourist spot in Varkala offering great views and historical significance.,8.770934,76.661621,Free,90
+Kerala,Varkala,Varkala View 6,park,Popular tourist spot in Varkala offering great views and historical significance.,8.763723,76.699288,INR 100,180
+Kerala,Varkala,Varkala Falls 7,park,Popular tourist spot in Varkala offering great views and historical significance.,8.720432,76.734233,INR 50,90
+Kerala,Varkala,Varkala Lake 8,park,Popular tourist spot in Varkala offering great views and historical significance.,8.766915,76.749683,Free,180
+Kerala,Varkala,Varkala Beach 9,nature,Popular tourist spot in Varkala offering great views and historical significance.,8.761723,76.676245,INR 50,180
+Kerala,Varkala,Varkala Museum 10,park,Popular tourist spot in Varkala offering great views and historical significance.,8.71478,76.697318,INR 100,180
+Kerala,Kozhikode,Kozhikode Attraction 1,adventure,Popular tourist spot in Kozhikode offering great views and historical significance.,11.308637,75.781309,INR 50,45
+Kerala,Kozhikode,Kozhikode Point 2,beach,Popular tourist spot in Kozhikode offering great views and historical significance.,11.240914,75.787589,INR 100,45
+Kerala,Kozhikode,Kozhikode Garden 3,temple,Popular tourist spot in Kozhikode offering great views and historical significance.,11.211516,75.769453,INR 20,45
+Kerala,Kozhikode,Kozhikode Temple 4,heritage,Popular tourist spot in Kozhikode offering great views and historical significance.,11.245823,75.810969,INR 20,90
+Kerala,Kozhikode,Kozhikode Fort 5,heritage,Popular tourist spot in Kozhikode offering great views and historical significance.,11.295049,75.74411,INR 200,30
+Kerala,Kozhikode,Kozhikode View 6,adventure,Popular tourist spot in Kozhikode offering great views and historical significance.,11.22208,75.789935,INR 200,90
+Kerala,Kozhikode,Kozhikode Falls 7,nature,Popular tourist spot in Kozhikode offering great views and historical significance.,11.261748,75.821254,INR 50,60
+Kerala,Kozhikode,Kozhikode Lake 8,temple,Popular tourist spot in Kozhikode offering great views and historical significance.,11.299245,75.783336,INR 50,30
+Kerala,Kozhikode,Kozhikode Beach 9,temple,Popular tourist spot in Kozhikode offering great views and historical significance.,11.24146,75.782803,INR 200,90
+Kerala,Kozhikode,Kozhikode Museum 10,beach,Popular tourist spot in Kozhikode offering great views and historical significance.,11.212091,75.802561,INR 50,60
+Kerala,Thrissur,Thrissur Attraction 1,park,Popular tourist spot in Thrissur offering great views and historical significance.,10.523077,76.172946,Free,45
+Kerala,Thrissur,Thrissur Point 2,nature,Popular tourist spot in Thrissur offering great views and historical significance.,10.494991,76.178983,INR 200,180
+Kerala,Thrissur,Thrissur Garden 3,park,Popular tourist spot in Thrissur offering great views and historical significance.,10.501848,76.169641,INR 200,45
+Kerala,Thrissur,Thrissur Temple 4,temple,Popular tourist spot in Thrissur offering great views and historical significance.,10.563207,76.182592,INR 100,90
+Kerala,Thrissur,Thrissur Fort 5,park,Popular tourist spot in Thrissur offering great views and historical significance.,10.577056,76.242565,INR 20,90
+Kerala,Thrissur,Thrissur View 6,temple,Popular tourist spot in Thrissur offering great views and historical significance.,10.571213,76.250667,INR 200,45
+Kerala,Thrissur,Thrissur Falls 7,nature,Popular tourist spot in Thrissur offering great views and historical significance.,10.53725,76.175993,INR 20,120
+Kerala,Thrissur,Thrissur Lake 8,beach,Popular tourist spot in Thrissur offering great views and historical significance.,10.526383,76.237627,INR 50,45
+Kerala,Thrissur,Thrissur Beach 9,nature,Popular tourist spot in Thrissur offering great views and historical significance.,10.572168,76.243648,INR 50,30
+Kerala,Thrissur,Thrissur Museum 10,adventure,Popular tourist spot in Thrissur offering great views and historical significance.,10.559028,76.240678,INR 50,60
+Kerala,Palakkad,Palakkad Attraction 1,park,Popular tourist spot in Palakkad offering great views and historical significance.,10.821749,76.638029,INR 20,60
+Kerala,Palakkad,Palakkad Point 2,adventure,Popular tourist spot in Palakkad offering great views and historical significance.,10.835338,76.632149,INR 100,30
+Kerala,Palakkad,Palakkad Garden 3,beach,Popular tourist spot in Palakkad offering great views and historical significance.,10.741406,76.622906,INR 20,180
+Kerala,Palakkad,Palakkad Temple 4,park,Popular tourist spot in Palakkad offering great views and historical significance.,10.752936,76.627744,INR 200,60
+Kerala,Palakkad,Palakkad Fort 5,temple,Popular tourist spot in Palakkad offering great views and historical significance.,10.820789,76.630878,INR 20,60
+Kerala,Palakkad,Palakkad View 6,adventure,Popular tourist spot in Palakkad offering great views and historical significance.,10.751335,76.66273,INR 50,180
+Kerala,Palakkad,Palakkad Falls 7,adventure,Popular tourist spot in Palakkad offering great views and historical significance.,10.746356,76.643761,Free,120
+Kerala,Palakkad,Palakkad Lake 8,nature,Popular tourist spot in Palakkad offering great views and historical significance.,10.753952,76.614407,INR 50,45
+Kerala,Palakkad,Palakkad Beach 9,adventure,Popular tourist spot in Palakkad offering great views and historical significance.,10.760475,76.704636,INR 20,60
+Kerala,Palakkad,Palakkad Museum 10,park,Popular tourist spot in Palakkad offering great views and historical significance.,10.783456,76.607607,INR 50,180
+Kerala,Kannur,Kannur Attraction 1,beach,Popular tourist spot in Kannur offering great views and historical significance.,11.843474,75.329512,INR 50,90
+Kerala,Kannur,Kannur Point 2,beach,Popular tourist spot in Kannur offering great views and historical significance.,11.831971,75.362407,INR 50,30
+Kerala,Kannur,Kannur Garden 3,adventure,Popular tourist spot in Kannur offering great views and historical significance.,11.832216,75.408034,INR 200,60
+Kerala,Kannur,Kannur Temple 4,adventure,Popular tourist spot in Kannur offering great views and historical significance.,11.920018,75.385988,INR 20,45
+Kerala,Kannur,Kannur Fort 5,park,Popular tourist spot in Kannur offering great views and historical significance.,11.918671,75.349532,Free,90
+Kerala,Kannur,Kannur View 6,heritage,Popular tourist spot in Kannur offering great views and historical significance.,11.905294,75.341979,Free,30
+Kerala,Kannur,Kannur Falls 7,park,Popular tourist spot in Kannur offering great views and historical significance.,11.871123,75.3594,INR 50,30
+Kerala,Kannur,Kannur Lake 8,heritage,Popular tourist spot in Kannur offering great views and historical significance.,11.838671,75.336281,INR 100,90
+Kerala,Kannur,Kannur Beach 9,park,Popular tourist spot in Kannur offering great views and historical significance.,11.848853,75.35049,INR 100,120
+Kerala,Kannur,Kannur Museum 10,temple,Popular tourist spot in Kannur offering great views and historical significance.,11.867401,75.411816,INR 20,60
+Kerala,Kasaragod,Kasaragod Attraction 1,nature,Popular tourist spot in Kasaragod offering great views and historical significance.,12.466615,74.979396,INR 50,45
+Kerala,Kasaragod,Kasaragod Point 2,adventure,Popular tourist spot in Kasaragod offering great views and historical significance.,12.522683,74.937749,INR 50,180
+Kerala,Kasaragod,Kasaragod Garden 3,beach,Popular tourist spot in Kasaragod offering great views and historical significance.,12.548134,74.98624,INR 100,30
+Kerala,Kasaragod,Kasaragod Temple 4,temple,Popular tourist spot in Kasaragod offering great views and historical significance.,12.514793,74.940485,Free,90
+Kerala,Kasaragod,Kasaragod Fort 5,beach,Popular tourist spot in Kasaragod offering great views and historical significance.,12.539642,75.015137,INR 200,30
+Kerala,Kasaragod,Kasaragod View 6,temple,Popular tourist spot in Kasaragod offering great views and historical significance.,12.499354,75.016778,Free,120
+Kerala,Kasaragod,Kasaragod Falls 7,adventure,Popular tourist spot in Kasaragod offering great views and historical significance.,12.481542,74.945159,INR 50,45
+Kerala,Kasaragod,Kasaragod Lake 8,park,Popular tourist spot in Kasaragod offering great views and historical significance.,12.556856,74.958271,Free,30
+Kerala,Kasaragod,Kasaragod Beach 9,beach,Popular tourist spot in Kasaragod offering great views and historical significance.,12.484097,74.94242,INR 50,60
+Kerala,Kasaragod,Kasaragod Museum 10,beach,Popular tourist spot in Kasaragod offering great views and historical significance.,12.556205,75.015105,INR 100,120
+Kerala,Idukki,Idukki Attraction 1,adventure,Popular tourist spot in Idukki offering great views and historical significance.,9.890031,76.942034,INR 20,120
+Kerala,Idukki,Idukki Point 2,nature,Popular tourist spot in Idukki offering great views and historical significance.,9.828475,76.968768,INR 20,30
+Kerala,Idukki,Idukki Garden 3,temple,Popular tourist spot in Idukki offering great views and historical significance.,9.833416,76.978434,INR 100,90
+Kerala,Idukki,Idukki Temple 4,beach,Popular tourist spot in Idukki offering great views and historical significance.,9.855243,76.951803,INR 200,30
+Kerala,Idukki,Idukki Fort 5,beach,Popular tourist spot in Idukki offering great views and historical significance.,9.892761,76.970907,INR 200,90
+Kerala,Idukki,Idukki View 6,beach,Popular tourist spot in Idukki offering great views and historical significance.,9.824725,76.934857,INR 20,30
+Kerala,Idukki,Idukki Falls 7,beach,Popular tourist spot in Idukki offering great views and historical significance.,9.850494,76.939721,Free,90
+Kerala,Idukki,Idukki Lake 8,beach,Popular tourist spot in Idukki offering great views and historical significance.,9.808598,76.944535,Free,30
+Kerala,Idukki,Idukki Beach 9,heritage,Popular tourist spot in Idukki offering great views and historical significance.,9.894929,76.995362,INR 20,180
+Kerala,Idukki,Idukki Museum 10,beach,Popular tourist spot in Idukki offering great views and historical significance.,9.86643,76.973755,INR 200,90
+Kerala,Athirappilly,Athirappilly Attraction 1,beach,Popular tourist spot in Athirappilly offering great views and historical significance.,10.311844,76.588576,INR 20,30
+Kerala,Athirappilly,Athirappilly Point 2,park,Popular tourist spot in Athirappilly offering great views and historical significance.,10.304581,76.616031,INR 200,45
+Kerala,Athirappilly,Athirappilly Garden 3,beach,Popular tourist spot in Athirappilly offering great views and historical significance.,10.254846,76.553849,INR 200,120
+Kerala,Athirappilly,Athirappilly Temple 4,nature,Popular tourist spot in Athirappilly offering great views and historical significance.,10.296717,76.563359,INR 100,45
+Kerala,Athirappilly,Athirappilly Fort 5,park,Popular tourist spot in Athirappilly offering great views and historical significance.,10.254559,76.548173,Free,180
+Kerala,Athirappilly,Athirappilly View 6,park,Popular tourist spot in Athirappilly offering great views and historical significance.,10.235798,76.560826,INR 100,120
+Kerala,Athirappilly,Athirappilly Falls 7,adventure,Popular tourist spot in Athirappilly offering great views and historical significance.,10.280611,76.566203,INR 20,60
+Kerala,Athirappilly,Athirappilly Lake 8,nature,Popular tourist spot in Athirappilly offering great views and historical significance.,10.305215,76.527555,INR 100,30
+Kerala,Athirappilly,Athirappilly Beach 9,heritage,Popular tourist spot in Athirappilly offering great views and historical significance.,10.324244,76.547365,INR 200,120
+Kerala,Athirappilly,Athirappilly Museum 10,temple,Popular tourist spot in Athirappilly offering great views and historical significance.,10.270571,76.531702,INR 200,30
+Kerala,Vagamon,Vagamon Attraction 1,adventure,Popular tourist spot in Vagamon offering great views and historical significance.,9.693361,76.924479,INR 20,90
+Kerala,Vagamon,Vagamon Point 2,temple,Popular tourist spot in Vagamon offering great views and historical significance.,9.697848,76.908145,INR 50,60
+Kerala,Vagamon,Vagamon Garden 3,nature,Popular tourist spot in Vagamon offering great views and historical significance.,9.737578,76.918439,Free,180
+Kerala,Vagamon,Vagamon Temple 4,beach,Popular tourist spot in Vagamon offering great views and historical significance.,9.716384,76.8641,INR 200,120
+Kerala,Vagamon,Vagamon Fort 5,heritage,Popular tourist spot in Vagamon offering great views and historical significance.,9.649066,76.859665,INR 200,60
+Kerala,Vagamon,Vagamon View 6,beach,Popular tourist spot in Vagamon offering great views and historical significance.,9.666368,76.875444,INR 100,30
+Kerala,Vagamon,Vagamon Falls 7,nature,Popular tourist spot in Vagamon offering great views and historical significance.,9.715514,76.899439,INR 20,120
+Kerala,Vagamon,Vagamon Lake 8,beach,Popular tourist spot in Vagamon offering great views and historical significance.,9.71746,76.902921,INR 20,180
+Kerala,Vagamon,Vagamon Beach 9,temple,Popular tourist spot in Vagamon offering great views and historical significance.,9.715727,76.939865,Free,180
+Kerala,Vagamon,Vagamon Museum 10,nature,Popular tourist spot in Vagamon offering great views and historical significance.,9.690172,76.915001,INR 50,45
+Kerala,Bekal,Bekal Attraction 1,adventure,Popular tourist spot in Bekal offering great views and historical significance.,12.400146,75.0339,INR 200,120
+Kerala,Bekal,Bekal Point 2,park,Popular tourist spot in Bekal offering great views and historical significance.,12.384364,75.007217,Free,30
+Kerala,Bekal,Bekal Garden 3,temple,Popular tourist spot in Bekal offering great views and historical significance.,12.429775,75.07459,INR 100,30
+Kerala,Bekal,Bekal Temple 4,adventure,Popular tourist spot in Bekal offering great views and historical significance.,12.384388,75.077787,INR 50,120
+Kerala,Bekal,Bekal Fort 5,park,Popular tourist spot in Bekal offering great views and historical significance.,12.406895,75.036588,INR 100,60
+Kerala,Bekal,Bekal View 6,adventure,Popular tourist spot in Bekal offering great views and historical significance.,12.374772,75.034494,INR 100,120
+Kerala,Bekal,Bekal Falls 7,heritage,Popular tourist spot in Bekal offering great views and historical significance.,12.432765,75.00976,INR 20,90
+Kerala,Bekal,Bekal Lake 8,park,Popular tourist spot in Bekal offering great views and historical significance.,12.418138,75.046496,INR 50,60
+Kerala,Bekal,Bekal Beach 9,beach,Popular tourist spot in Bekal offering great views and historical significance.,12.41495,74.992059,INR 50,90
+Kerala,Bekal,Bekal Museum 10,temple,Popular tourist spot in Bekal offering great views and historical significance.,12.36103,75.066248,INR 50,30
+Kerala,Ponmudi,Ponmudi Attraction 1,beach,Popular tourist spot in Ponmudi offering great views and historical significance.,8.797675,77.14582,INR 50,180
+Kerala,Ponmudi,Ponmudi Point 2,nature,Popular tourist spot in Ponmudi offering great views and historical significance.,8.738508,77.146203,INR 20,45
+Kerala,Ponmudi,Ponmudi Garden 3,heritage,Popular tourist spot in Ponmudi offering great views and historical significance.,8.806667,77.140455,INR 200,180
+Kerala,Ponmudi,Ponmudi Temple 4,temple,Popular tourist spot in Ponmudi offering great views and historical significance.,8.720902,77.102174,INR 100,45
+Kerala,Ponmudi,Ponmudi Fort 5,beach,Popular tourist spot in Ponmudi offering great views and historical significance.,8.777777,77.099587,INR 200,45
+Kerala,Ponmudi,Ponmudi View 6,temple,Popular tourist spot in Ponmudi offering great views and historical significance.,8.710733,77.078562,Free,90
+Kerala,Ponmudi,Ponmudi Falls 7,nature,Popular tourist spot in Ponmudi offering great views and historical significance.,8.79284,77.113428,INR 20,180
+Kerala,Ponmudi,Ponmudi Lake 8,nature,Popular tourist spot in Ponmudi offering great views and historical significance.,8.793946,77.074915,INR 20,45
+Kerala,Ponmudi,Ponmudi Beach 9,beach,Popular tourist spot in Ponmudi offering great views and historical significance.,8.802951,77.157611,INR 200,120
+Kerala,Ponmudi,Ponmudi Museum 10,park,Popular tourist spot in Ponmudi offering great views and historical significance.,8.75684,77.118641,Free,30
+Kerala,Poovar,Poovar Attraction 1,nature,Popular tourist spot in Poovar offering great views and historical significance.,8.313772,77.099699,INR 200,30
+Kerala,Poovar,Poovar Point 2,park,Popular tourist spot in Poovar offering great views and historical significance.,8.291221,77.082314,INR 100,60
+Kerala,Poovar,Poovar Garden 3,park,Popular tourist spot in Poovar offering great views and historical significance.,8.275888,77.111723,INR 50,180
+Kerala,Poovar,Poovar Temple 4,beach,Popular tourist spot in Poovar offering great views and historical significance.,8.365277,77.108019,INR 100,30
+Kerala,Poovar,Poovar Fort 5,park,Popular tourist spot in Poovar offering great views and historical significance.,8.298571,77.03232,INR 100,60
+Kerala,Poovar,Poovar View 6,adventure,Popular tourist spot in Poovar offering great views and historical significance.,8.297682,77.079695,Free,30
+Kerala,Poovar,Poovar Falls 7,heritage,Popular tourist spot in Poovar offering great views and historical significance.,8.297572,77.048519,INR 100,60
+Kerala,Poovar,Poovar Lake 8,adventure,Popular tourist spot in Poovar offering great views and historical significance.,8.36286,77.090221,Free,180
+Kerala,Poovar,Poovar Beach 9,park,Popular tourist spot in Poovar offering great views and historical significance.,8.268786,77.048068,INR 200,45
+Kerala,Poovar,Poovar Museum 10,nature,Popular tourist spot in Poovar offering great views and historical significance.,8.278797,77.049698,INR 200,90
