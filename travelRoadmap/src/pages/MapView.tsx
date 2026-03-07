@@ -38,7 +38,7 @@ export default function MapView() {
 
     const routePoints: [number, number][] = [
         [stayLat, stayLng],
-        ...filteredPlaces.map(p => [p.lat, p.lng] as [number, number]),
+        ...filteredPlaces.map((p: any) => [p.latitude || p.lat, p.longitude || p.lng] as [number, number]),
     ];
 
     const dayColors = ['#18465a', '#9ec1d7', '#10b981', '#65403a', '#ef4444', '#6366f1', '#14b8a6'];
@@ -79,12 +79,12 @@ export default function MapView() {
                             <Popup><strong>Your Stay</strong><br />{trip.selectedStay}</Popup>
                         </Marker>
                         {/* Place markers */}
-                        {filteredPlaces.map(place => (
-                            <Marker key={place.id} position={[place.lat, place.lng]} icon={placeIcon}>
+                        {filteredPlaces.map((place: any, idx: number) => (
+                            <Marker key={place.place_id || place.id || idx} position={[place.latitude || place.lat, place.longitude || place.lng]} icon={placeIcon}>
                                 <Popup>
                                     <strong>{place.name}</strong><br />
-                                    {place.category} · {place.visitTime}<br />
-                                    Entry: ₹{place.entryFee}
+                                    {place.category || place.travel_type} · {place.avg_visit_time || place.visitTime}<br />
+                                    Entry: ₹{place.entry_fee || place.entryFee}
                                 </Popup>
                             </Marker>
                         ))}

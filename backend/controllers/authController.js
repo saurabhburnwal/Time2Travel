@@ -77,17 +77,34 @@ exports.loginValidation = [
 // ── GET /api/auth/me ─────────────────────────────────────────────────────────
 exports.getMe = async (req, res, next) => {
     try {
+        const cookieToken = req.cookies?.tt_token;
+        const authHeader = req.headers['authorization'];
+        const headerToken = authHeader?.startsWith('Bearer ') ? authHeader.split(' ')[1] : null;
+        const token = cookieToken || headerToken;
+
+        if (!token) {
+            return res.status(200).json({ success: false, message: 'No session found.' });
+        }
+
+        let decoded;
+        try {
+            decoded = jwt.verify(token, process.env.JWT_SECRET);
+        } catch (err) {
+            res.clearCookie('tt_token', { httpOnly: true, sameSite: 'strict' });
+            return res.status(200).json({ success: false, message: 'Session expired or invalid.' });
+        }
+
         const result = await query(
             `SELECT u.user_id, u.name, u.email, u.phone, u.gender, r.role_name, u.is_email_verified
              FROM users u
              LEFT JOIN roles r ON u.role_id = r.role_id
              WHERE u.user_id = $1 AND u.is_active = true`,
-            [req.user.userId]
+            [decoded.userId]
         );
 
         if (result.rows.length === 0) {
             clearAuthCookie(res);
-            return res.status(404).json({ success: false, message: 'User not found.' });
+            return res.status(200).json({ success: false, message: 'User not found.' });
         }
 
         const user = result.rows[0];
@@ -113,7 +130,7 @@ exports.register = async (req, res, next) => {
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ success: false, errors: errors.array() });
+            return res.status(200).json({ success: false, errors: errors.array(), message: 'Validation failed.' });
         }
 
         const { name, email, password, phone, gender, role } = req.body;
@@ -121,7 +138,7 @@ exports.register = async (req, res, next) => {
         // Check if user already exists
         const existing = await query('SELECT user_id FROM users WHERE email = $1', [email]);
         if (existing.rows.length > 0) {
-            return res.status(409).json({ success: false, message: 'Email already registered.' });
+            return res.status(200).json({ success: false, message: 'Email already registered.' });
         }
 
         // Hash password
@@ -179,7 +196,7 @@ exports.login = async (req, res, next) => {
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ success: false, errors: errors.array() });
+            return res.status(200).json({ success: false, errors: errors.array(), message: 'Validation failed.' });
         }
 
         const { email, password } = req.body;
@@ -195,23 +212,23 @@ exports.login = async (req, res, next) => {
         );
 
         if (result.rows.length === 0) {
-            return res.status(404).json({ success: false, message: 'Email not registered.' });
+            return res.status(200).json({ success: false, message: 'Email not registered.' });
         }
 
         const user = result.rows[0];
 
         if (!user.is_active) {
-            return res.status(403).json({ success: false, message: 'Account is deactivated. Contact admin.' });
+            return res.status(200).json({ success: false, message: 'Account is deactivated. Contact admin.' });
         }
 
         const isMatch = await bcrypt.compare(password, user.password_hash);
         if (!isMatch) {
-            return res.status(401).json({ success: false, message: 'Invalid password.' });
+            return res.status(200).json({ success: false, message: 'Invalid password.' });
         }
 
         // Block login if email not verified
         if (!user.is_email_verified) {
-            return res.status(403).json({
+            return res.status(200).json({
                 success: false,
                 message: 'email_not_verified',
                 email: user.email,

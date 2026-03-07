@@ -14,7 +14,7 @@ router.post('/register', registerValidation, register);
 router.post('/login', loginValidation, login);
 
 // GET /api/auth/me  — verify session cookie and return current user
-router.get('/me', verifyToken, getMe);
+router.get('/me', getMe);
 
 // POST /api/auth/logout — clear the HttpOnly session cookie
 router.post('/logout', logout);

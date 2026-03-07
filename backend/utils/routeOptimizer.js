@@ -154,23 +154,6 @@ const generateFastest = (places) => {
 };
 
 /**
- * SCENIC: Sort by highest entry fee (popular/iconic first), then NNA within each cluster
- */
-const generateScenic = (places) => {
-    const sorted = [...places].sort((a, b) => parseFloat(b.entry_fee || 0) - parseFloat(a.entry_fee || 0));
-    const ordered = nearestNeighborSort(sorted);
-    return {
-        style: 'scenic',
-        label: 'Scenic Route',
-        description: 'Prioritises iconic & top-rated attractions, then connects them efficiently.',
-        icon: '🏔️',
-        orderedPlaces: ordered,
-        days: groupIntoDays(ordered),
-        totalDistanceKm: totalRouteDistance(ordered),
-    };
-};
-
-/**
  * BUDGET: Exclude places above ₹50 entry fee first (free places), then add paid ones
  */
 const generateBudget = (places, budgetPerDay = 500) => {
@@ -192,51 +175,20 @@ const generateBudget = (places, budgetPerDay = 500) => {
     };
 };
 
-/**
- * BALANCED: Alternate between high-value and low-cost places each day for variety
- */
-const generateBalanced = (places) => {
-    const sorted = [...places].sort((a, b) => parseFloat(b.entry_fee || 0) - parseFloat(a.entry_fee || 0));
-    const mid = Math.ceil(sorted.length / 2);
-    const highValue = sorted.slice(0, mid);
-    const lowCost = sorted.slice(mid);
-
-    // Interleave for variety
-    const interleaved = [];
-    const maxLen = Math.max(highValue.length, lowCost.length);
-    for (let i = 0; i < maxLen; i++) {
-        if (i < highValue.length) interleaved.push(highValue[i]);
-        if (i < lowCost.length) interleaved.push(lowCost[i]);
-    }
-
-    const ordered = nearestNeighborSort(interleaved);
-    return {
-        style: 'balanced',
-        label: 'Balanced Route',
-        description: 'Evenly mixes iconic spots with budget-friendly gems each day for a rich experience.',
-        icon: '⚖️',
-        orderedPlaces: ordered,
-        days: groupIntoDays(ordered),
-        totalDistanceKm: totalRouteDistance(ordered),
-    };
-};
-
 // ===== MAIN EXPORT =====
 /**
- * Generate all 4 roadmap options for a set of places.
+ * Generate roadmap options for a set of places.
  * @param {Array} places - Place records from DB
- * @returns {Object} - { fastest, scenic, budget, balanced }
+ * @returns {Object} - { fastest, budget }
  */
 const generateAllRoadmaps = (places) => {
     if (!places || places.length === 0) {
-        return { fastest: null, scenic: null, budget: null, balanced: null };
+        return { fastest: null, budget: null };
     }
 
     return {
         fastest: generateFastest(places),
-        scenic: generateScenic(places),
         budget: generateBudget(places),
-        balanced: generateBalanced(places),
     };
 };
 

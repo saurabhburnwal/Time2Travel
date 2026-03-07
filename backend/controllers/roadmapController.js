@@ -45,7 +45,20 @@ exports.generateRoadmap = async (req, res, next) => {
             placesParams = [dest.destination_id];
         }
 
-        const placesResult = await query(placesQuery, placesParams);
+        let placesResult = await query(placesQuery, placesParams);
+
+        // Fallback: If no places found for this specific travel type, ignore the filter and fetch all places for the destination
+        if (placesResult.rowCount === 0 && travelType) {
+            placesQuery = `
+                SELECT p.place_id, p.name, p.latitude, p.longitude, p.entry_fee, p.avg_visit_time,
+                       tt.name AS travel_type
+                FROM places p
+                LEFT JOIN travel_types tt ON p.travel_type_id = tt.travel_type_id
+                WHERE p.destination_id = $1
+            `;
+            placesParams = [dest.destination_id];
+            placesResult = await query(placesQuery, placesParams);
+        }
 
         if (placesResult.rowCount === 0) {
             return res.status(404).json({ success: false, message: `No places found for '${destination}'.` });
@@ -93,16 +106,28 @@ exports.generateRoadmap = async (req, res, next) => {
 // ===== SAVE SELECTED ROADMAP =====
 exports.saveRoadmap = async (req, res, next) => {
     try {
-        const { destination_id, roadmap_type, total_distance, estimated_cost, places, hotel_id } = req.body;
+        const { destination, route_style, total_distance_km, estimated_cost, ordered_places, stay_type, selected_stay } = req.body;
 
-        if (!destination_id || !roadmap_type) {
-            return res.status(400).json({ success: false, message: 'destination_id and roadmap_type are required.' });
+        if (!destination || !route_style) {
+            return res.status(400).json({ success: false, message: 'destination and route_style are required.' });
         }
 
-        // Find or insert roadmap type
+        // 1. Fetch destination info
+        const destResult = await query(
+            `SELECT destination_id FROM destinations WHERE LOWER(name) = LOWER($1)`,
+            [destination]
+        );
+
+        if (destResult.rowCount === 0) {
+            return res.status(404).json({ success: false, message: `Destination '${destination}' not found in database.` });
+        }
+
+        const destination_id = destResult.rows[0].destination_id;
+
+        // Find or insert roadmap type (route_style)
         const typeResult = await query(
             `SELECT roadmap_type_id FROM roadmap_types WHERE LOWER(type_name) = LOWER($1)`,
-            [roadmap_type]
+            [route_style]
         );
 
         let roadmap_type_id;
@@ -111,7 +136,7 @@ exports.saveRoadmap = async (req, res, next) => {
         } else {
             const newType = await query(
                 `INSERT INTO roadmap_types (type_name) VALUES ($1) RETURNING roadmap_type_id`,
-                [roadmap_type]
+                [route_style]
             );
             roadmap_type_id = newType.rows[0].roadmap_type_id;
         }
@@ -120,32 +145,40 @@ exports.saveRoadmap = async (req, res, next) => {
         const rmResult = await query(
             `INSERT INTO roadmaps (user_id, destination_id, roadmap_type_id, total_distance, estimated_cost)
              VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-            [req.user.userId, destination_id, roadmap_type_id, total_distance || 0, estimated_cost || 0]
+            [req.user.userId, destination_id, roadmap_type_id, total_distance_km || 0, estimated_cost || 0]
         );
 
         const roadmap = rmResult.rows[0];
 
         // Insert roadmap places (day-wise)
-        if (places && places.length > 0) {
-            for (const p of places) {
+        if (ordered_places && ordered_places.length > 0) {
+            for (const p of ordered_places) {
                 await query(
                     `INSERT INTO roadmap_places (roadmap_id, place_id, day_number, visit_order, estimated_start_time, estimated_end_time)
                      VALUES ($1, $2, $3, $4, $5, $6)`,
-                    [roadmap.roadmap_id, p.place_id, p.day_number, p.visit_order, p.estimated_start || null, p.estimated_end || null]
+                    [roadmap.roadmap_id, p.place_id, p.day_number || 1, p.visitOrder || 1, p.estimatedStart || null, p.estimatedEnd || null]
                 );
             }
         }
 
         // Insert accommodation if hotel selected
-        if (hotel_id) {
-            await query(
-                `INSERT INTO roadmap_accommodations (roadmap_id, hotel_id, day_number) VALUES ($1, $2, $3)`,
-                [roadmap.roadmap_id, hotel_id, 1]
+        if (stay_type === 'hotel' && selected_stay) {
+            const hotelResult = await query(
+                `SELECT hotel_id FROM hotels WHERE LOWER(name) = LOWER($1) AND destination_id = $2`,
+                [selected_stay, destination_id]
             );
+            if (hotelResult.rowCount > 0) {
+                const hotel_id = hotelResult.rows[0].hotel_id;
+                await query(
+                    `INSERT INTO roadmap_accommodations (roadmap_id, hotel_id, day_number) VALUES ($1, $2, $3)`,
+                    [roadmap.roadmap_id, hotel_id, 1]
+                );
+            }
         }
 
         res.status(201).json({ success: true, message: 'Roadmap saved.', roadmapId: roadmap.roadmap_id });
     } catch (err) {
+        console.error("Save Roadmap Error: ", err);
         next(err);
     }
 };

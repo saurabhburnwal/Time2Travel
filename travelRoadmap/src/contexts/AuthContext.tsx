@@ -112,6 +112,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             // Do NOT log the user in — they need to verify their email first
             return { success: true, requiresVerification: true, email: result.email };
         }
+        if (result && result.error) {
+            return { success: false, error: result.error };
+        }
         return { success: false, error: 'registration_failed' };
     };
 

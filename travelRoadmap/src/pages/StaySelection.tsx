@@ -77,11 +77,7 @@ export default function StaySelection() {
     };
 
     const proceedToGenerate = () => {
-        setGenerating(true);
-        setTimeout(() => {
-            setGenerating(false);
-            navigate('/roadmap-options');
-        }, 2000);
+        navigate('/roadmap-options');
     };
 
     const handleAuthSuccess = () => {
