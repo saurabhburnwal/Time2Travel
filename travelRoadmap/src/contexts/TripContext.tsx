@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Place } from '../lib/supabaseService';
 
 interface TripState {
@@ -44,13 +44,30 @@ const initialTrip: TripState = {
 const TripContext = createContext<TripContextType | undefined>(undefined);
 
 export function TripProvider({ children }: { children: ReactNode }) {
-    const [trip, setTrip] = useState<TripState>(initialTrip);
+    const [trip, setTrip] = useState<TripState>(() => {
+        const savedData = localStorage.getItem('tripData');
+        if (savedData) {
+            try {
+                return JSON.parse(savedData);
+            } catch (err) {
+                console.error("Failed to parse trip data from local storage", err);
+            }
+        }
+        return initialTrip;
+    });
+
+    useEffect(() => {
+        localStorage.setItem('tripData', JSON.stringify(trip));
+    }, [trip]);
 
     const updateTrip = (updates: Partial<TripState>) => {
         setTrip(prev => ({ ...prev, ...updates }));
     };
 
-    const resetTrip = () => setTrip(initialTrip);
+    const resetTrip = () => {
+        setTrip(initialTrip);
+        localStorage.removeItem('tripData');
+    };
 
     return (
         <TripContext.Provider value={{ trip, updateTrip, resetTrip }}>

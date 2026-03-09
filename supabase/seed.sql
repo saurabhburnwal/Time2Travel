@@ -1,9 +1,10 @@
+SET session_replication_role = replica;
 
 --
 -- PostgreSQL database dump
 --
 
--- \restrict Q2uRDgoUdPC43UAQoiaYyLcJUQEQV66yV70YVoyvUaRV9mexv7kJx6rBW4SZHvX
+-- \restrict B2n1JaqlXtkGvRfVf7BzzxWkjY2XhWKf6RbwUC8W64lRUcXNfGOGHjkx5zlDNRR
 
 -- Dumped from database version 17.6
 -- Dumped by pg_dump version 17.6
@@ -22,12 +23,6 @@ SET row_security = off;
 
 --
 -- Data for Name: audit_log_entries; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
---
-
-
-
---
--- Data for Name: custom_oauth_providers; Type: TABLE DATA; Schema: auth; Owner: supabase_auth_admin
 --
 
 
@@ -273,6 +268,9 @@ INSERT INTO "public"."destinations" ("destination_id", "name", "state", "descrip
 -- Data for Name: roadmap_types; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO "public"."roadmap_types" ("roadmap_type_id", "type_name") VALUES
+	(1, 'Fastest Route'),
+	(2, 'Budget Friendly');
 
 
 --
@@ -289,20 +287,48 @@ INSERT INTO "public"."roles" ("role_id", "role_name") VALUES
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO "public"."users" ("user_id", "name", "email", "password_hash", "phone", "gender", "role_id", "is_active", "created_at") VALUES
-	(1, 'Admin', 'admin@timetotravel.com', '$2a$10$TIU4BmFmV1LKEwMRjWct5OyLBM.UQtdE94hDh5IhR8nTzpP/oe6Vu', '9000000000', 'OTHER', 1, true, '2026-02-22 11:41:59.385273+00');
+INSERT INTO "public"."users" ("user_id", "name", "email", "password_hash", "phone", "gender", "role_id", "is_active", "created_at", "is_email_verified", "verification_token", "token_expires_at") VALUES
+	(2, 'Saurabh', 'saurabh@gmail.com', '$2a$10$cU6VFv80WpC.kp4s0PM5MuZX3EA82gxvf6Fj.91DqThR2ftJ2zXD6', '9933669860', 'MALE', 2, true, '2026-03-03 07:26:55.598338+00', false, NULL, NULL),
+	(4, 'rehan', 'rehan@gmail.com', '$2a$10$XKcuw1it3Np2l8ms6bQq8ecBU506C0ZJfw65EY3zm4tEveqj9fkdS', '9935255432', 'MALE', 3, true, '2026-03-03 07:59:49.18962+00', false, NULL, NULL),
+	(5, 'Test Verifier', 'testverify2@example.com', '$2a$10$9avFzX3vSEcUToonVJ8e7.eTIfWE8.ZLrThsQULD3eyYj0xQqYRAW', NULL, 'OTHER', 2, true, '2026-03-06 17:40:53.027865+00', false, '4bc02bf2c5eac197a1c8153e8f7bc664314d440b9f1cc92459be23cdad4aff59', '2026-03-07 17:40:53.027+00'),
+	(6, 'Saurabh Burnwal', 'saurabhburnwal00@gmail.com', '$2a$10$1TgCyIq3vTrnK3WpW4A/TOfamdca0dItE3EdK9bCcHQsoiWByvqD2', '+919933669860', 'MALE', 2, true, '2026-03-06 18:03:08.208128+00', true, NULL, NULL),
+	(7, 'JJJ', 'kryptonraiderx@gmail.com', '$2a$10$n7Ua.aZekTLw7lij1/OWEeTAdvfA4xEPs.og8y9bSyl/CsUZyHq/W', '939394334', 'MALE', 2, true, '2026-03-06 18:23:26.538387+00', true, NULL, NULL),
+	(8, 'Dev', 'devsaurabhburnwal@gmail.com', '$2a$10$JXvvj3M9ceG4RPoQ0A3PXOrjhOzRXHwFCzbVaVLXIK27MnEEw8MtO', '9933669860', 'MALE', 2, true, '2026-03-06 18:44:59.418119+00', true, NULL, NULL),
+	(9, 'rehan', 'rehaninamdar819@gmail.com', '$2a$10$6W0MN6lgO/47q77eZq8iwOfG/2rggGmOPWekXsBMVVqjr0QRzWPs6', '951124250', 'MALE', 2, true, '2026-03-07 02:34:34.825524+00', false, '460f19e978b8ba946364ba25e5515c7bd80685ca86065f938825700724c14baf', '2026-03-08 02:41:46.578+00'),
+	(10, 'Dummy User', 'dummy2@test.com', '$2a$10$mVGSOOXMmvc.FvHmdDA2f.pzIFCKRPuvWSc0MRjqtFnbuefnV2gh.', '9876543210', 'OTHER', 2, true, '2026-03-07 02:55:17.851648+00', false, 'fdc34bdc51ed983d73e0a53eca88247e8d1780d3d7550d5c81275b78772c7061', '2026-03-08 02:55:17.851+00'),
+	(1, 'Admin', 'admin@timetotravel.com', '$2a$10$CVeRVVPXIxfBdNKhTToLIOG.wxxEQW1E26HoUO2phBrbQzqnFEZ4.', '9000000000', 'OTHER', 1, true, '2026-02-22 11:41:59.385273+00', false, NULL, NULL);
 
 
 --
 -- Data for Name: roadmaps; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO "public"."roadmaps" ("roadmap_id", "user_id", "destination_id", "roadmap_type_id", "total_distance", "estimated_cost", "created_at") VALUES
+	(1, 6, 83, 1, 31.44, 6987.28, '2026-03-07 03:54:45.646275+00'),
+	(2, 6, 83, 2, 58.42, 7311.04, '2026-03-07 03:56:01.521157+00'),
+	(3, 6, 83, 1, 30.00, 6000.00, '2026-03-07 04:01:33.048798+00'),
+	(4, 6, 83, 1, 30.00, 6000.00, '2026-03-07 04:02:27.537836+00'),
+	(5, 6, 5, 2, 90.37, 20347.40, '2026-03-07 04:08:50.753874+00'),
+	(6, 6, 5, 2, 90.37, 20347.40, '2026-03-07 04:08:52.542212+00'),
+	(7, 6, 5, 2, 90.37, 20347.40, '2026-03-07 04:08:59.785385+00'),
+	(8, 6, 83, 1, 30.00, 6000.00, '2026-03-07 04:10:02.359645+00'),
+	(9, 6, 83, 1, 31.44, 6987.28, '2026-03-07 04:25:30.144664+00'),
+	(10, 6, 83, 1, 31.44, 6987.28, '2026-03-07 04:26:56.682469+00'),
+	(11, 6, 83, 1, 31.44, 6987.28, '2026-03-07 04:27:29.096934+00'),
+	(12, 6, 83, 2, 58.42, 7311.04, '2026-03-07 04:37:20.971206+00'),
+	(13, 6, 83, 1, 31.44, 6987.28, '2026-03-07 04:37:20.971366+00'),
+	(14, 6, 1, 2, 190.37, 15507.40, '2026-03-07 04:39:40.008883+00');
 
 
 --
 -- Data for Name: expenses; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO "public"."expenses" ("expense_id", "roadmap_id", "accommodation", "food", "transport", "entry_fees", "currency", "last_updated") VALUES
+	(1, 8, 1500.00, 1000.00, 500.00, 200.00, 'INR', '2026-03-07 04:10:36.369076+00'),
+	(2, 12, 4500.00, 1500.00, 701.04, 610.00, 'INR', '2026-03-07 04:37:21.044518+00'),
+	(3, 13, 4500.00, 1500.00, 377.28, 610.00, 'INR', '2026-03-07 04:37:21.044749+00'),
+	(4, 14, 5400.00, 2700.00, 3807.40, 3600.00, 'INR', '2026-03-07 04:39:40.035685+00');
 
 
 --
@@ -320,12 +346,17 @@ INSERT INTO "public"."group_types" ("group_type_id", "type_name") VALUES
 -- Data for Name: host_profiles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO "public"."host_profiles" ("host_id", "user_id", "destination_id", "max_guests", "provides_food", "verified", "voluntary_min_amount", "is_active") VALUES
+	(1, 4, 41, 3, true, true, 0.00, true);
 
 
 --
 -- Data for Name: host_registrations; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO "public"."host_registrations" ("id", "user_id", "name", "phone", "state", "destination", "address", "description", "amenities", "property_type", "max_guests", "provides_food", "pricing_info", "image_urls", "status", "rejection_reason", "created_at", "updated_at") VALUES
+	(2, 4, 'rehan', '9935255432', 'Goa', 'Vasco da Gama', 'Qayemat se Qayemat tak', 'Wallah', '{breakfast,food,wifi,parking}', 'Villa', 3, true, 'Free', '{host_image_1772524863239_0.jpg}', 'approved', NULL, '2026-03-03 08:01:03.2593+00', '2026-03-03 08:01:39.028135+00'),
+	(3, NULL, 'sudeepa', '+91 996547255 ', 'Tamil Nadu', 'Rameswaram', '#3 local street', 'homestay', '{}', 'House', 1, false, '', '{}', 'approved', NULL, '2026-03-04 04:01:27.773543+00', '2026-03-04 04:01:55.726176+00');
 
 
 --
@@ -2736,12 +2767,138 @@ INSERT INTO "public"."places" ("place_id", "destination_id", "travel_type_id", "
 -- Data for Name: roadmap_accommodations; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO "public"."roadmap_accommodations" ("accommodation_id", "roadmap_id", "hotel_id", "day_number", "check_in_time") VALUES
+	(1, 4, 2278, 1, NULL),
+	(2, 5, 46, 1, NULL),
+	(3, 6, 46, 1, NULL),
+	(4, 7, 46, 1, NULL),
+	(5, 8, 2278, 1, NULL),
+	(6, 9, 2278, 1, NULL),
+	(7, 10, 2278, 1, NULL),
+	(8, 11, 2278, 1, NULL),
+	(9, 12, 2278, 1, NULL),
+	(10, 13, 2278, 1, NULL),
+	(11, 14, 10, 1, NULL);
 
 
 --
 -- Data for Name: roadmap_places; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO "public"."roadmap_places" ("id", "roadmap_id", "place_id", "day_number", "visit_order", "estimated_start_time", "estimated_end_time") VALUES
+	(1, 1, 1993, 1, 1, NULL, NULL),
+	(2, 1, 2002, 1, 1, NULL, NULL),
+	(3, 1, 1999, 1, 1, NULL, NULL),
+	(4, 1, 1994, 1, 1, NULL, NULL),
+	(5, 1, 2001, 1, 1, NULL, NULL),
+	(6, 1, 2000, 1, 1, NULL, NULL),
+	(7, 1, 1995, 1, 1, NULL, NULL),
+	(8, 1, 1997, 1, 1, NULL, NULL),
+	(9, 1, 1996, 1, 1, NULL, NULL),
+	(10, 1, 1998, 1, 1, NULL, NULL),
+	(11, 2, 1994, 1, 1, NULL, NULL),
+	(12, 2, 1999, 1, 1, NULL, NULL),
+	(13, 2, 2002, 1, 1, NULL, NULL),
+	(14, 2, 1996, 1, 1, NULL, NULL),
+	(15, 2, 1998, 1, 1, NULL, NULL),
+	(16, 2, 1995, 1, 1, NULL, NULL),
+	(17, 2, 2000, 1, 1, NULL, NULL),
+	(18, 2, 1993, 1, 1, NULL, NULL),
+	(19, 2, 2001, 1, 1, NULL, NULL),
+	(20, 2, 1997, 1, 1, NULL, NULL),
+	(21, 3, 1, 1, 1, NULL, NULL),
+	(22, 4, 1, 1, 1, NULL, NULL),
+	(23, 5, 41, 1, 1, NULL, NULL),
+	(24, 5, 45, 1, 1, NULL, NULL),
+	(25, 5, 44, 1, 1, NULL, NULL),
+	(26, 5, 49, 1, 1, NULL, NULL),
+	(27, 5, 43, 1, 1, NULL, NULL),
+	(28, 5, 50, 1, 1, NULL, NULL),
+	(29, 5, 48, 1, 1, NULL, NULL),
+	(30, 5, 46, 1, 1, NULL, NULL),
+	(31, 5, 47, 1, 1, NULL, NULL),
+	(32, 5, 42, 1, 1, NULL, NULL),
+	(33, 6, 41, 1, 1, NULL, NULL),
+	(34, 6, 45, 1, 1, NULL, NULL),
+	(35, 6, 44, 1, 1, NULL, NULL),
+	(36, 6, 49, 1, 1, NULL, NULL),
+	(37, 6, 43, 1, 1, NULL, NULL),
+	(38, 6, 50, 1, 1, NULL, NULL),
+	(39, 6, 48, 1, 1, NULL, NULL),
+	(40, 6, 46, 1, 1, NULL, NULL),
+	(41, 6, 47, 1, 1, NULL, NULL),
+	(42, 6, 42, 1, 1, NULL, NULL),
+	(43, 7, 41, 1, 1, NULL, NULL),
+	(44, 7, 45, 1, 1, NULL, NULL),
+	(45, 7, 44, 1, 1, NULL, NULL),
+	(46, 7, 49, 1, 1, NULL, NULL),
+	(47, 7, 43, 1, 1, NULL, NULL),
+	(48, 7, 50, 1, 1, NULL, NULL),
+	(49, 7, 48, 1, 1, NULL, NULL),
+	(50, 7, 46, 1, 1, NULL, NULL),
+	(51, 7, 47, 1, 1, NULL, NULL),
+	(52, 7, 42, 1, 1, NULL, NULL),
+	(53, 8, 1, 1, 1, NULL, NULL),
+	(54, 9, 1993, 1, 1, NULL, NULL),
+	(55, 9, 2002, 1, 1, NULL, NULL),
+	(56, 9, 1999, 1, 1, NULL, NULL),
+	(57, 9, 1994, 1, 1, NULL, NULL),
+	(58, 9, 2001, 1, 1, NULL, NULL),
+	(59, 9, 2000, 1, 1, NULL, NULL),
+	(60, 9, 1995, 1, 1, NULL, NULL),
+	(61, 9, 1997, 1, 1, NULL, NULL),
+	(62, 9, 1996, 1, 1, NULL, NULL),
+	(63, 9, 1998, 1, 1, NULL, NULL),
+	(64, 10, 1993, 1, 1, NULL, NULL),
+	(65, 10, 2002, 1, 1, NULL, NULL),
+	(66, 10, 1999, 1, 1, NULL, NULL),
+	(67, 10, 1994, 1, 1, NULL, NULL),
+	(68, 10, 2001, 1, 1, NULL, NULL),
+	(69, 10, 2000, 1, 1, NULL, NULL),
+	(70, 10, 1995, 1, 1, NULL, NULL),
+	(71, 10, 1997, 1, 1, NULL, NULL),
+	(72, 10, 1996, 1, 1, NULL, NULL),
+	(73, 10, 1998, 1, 1, NULL, NULL),
+	(74, 11, 1993, 1, 1, NULL, NULL),
+	(75, 11, 2002, 1, 1, NULL, NULL),
+	(76, 11, 1999, 1, 1, NULL, NULL),
+	(77, 11, 1994, 1, 1, NULL, NULL),
+	(78, 11, 2001, 1, 1, NULL, NULL),
+	(79, 11, 2000, 1, 1, NULL, NULL),
+	(80, 11, 1995, 1, 1, NULL, NULL),
+	(81, 11, 1997, 1, 1, NULL, NULL),
+	(82, 11, 1996, 1, 1, NULL, NULL),
+	(83, 11, 1998, 1, 1, NULL, NULL),
+	(84, 12, 1994, 1, 1, NULL, NULL),
+	(86, 12, 1999, 1, 1, NULL, NULL),
+	(85, 13, 1993, 1, 1, NULL, NULL),
+	(87, 12, 2002, 1, 1, NULL, NULL),
+	(88, 13, 2002, 1, 1, NULL, NULL),
+	(89, 12, 1996, 1, 1, NULL, NULL),
+	(90, 13, 1999, 1, 1, NULL, NULL),
+	(91, 12, 1998, 1, 1, NULL, NULL),
+	(92, 13, 1994, 1, 1, NULL, NULL),
+	(93, 13, 2001, 1, 1, NULL, NULL),
+	(94, 12, 1995, 1, 1, NULL, NULL),
+	(95, 13, 2000, 1, 1, NULL, NULL),
+	(96, 12, 2000, 1, 1, NULL, NULL),
+	(97, 13, 1995, 1, 1, NULL, NULL),
+	(98, 12, 1993, 1, 1, NULL, NULL),
+	(99, 13, 1997, 1, 1, NULL, NULL),
+	(100, 12, 2001, 1, 1, NULL, NULL),
+	(101, 13, 1996, 1, 1, NULL, NULL),
+	(102, 12, 1997, 1, 1, NULL, NULL),
+	(103, 13, 1998, 1, 1, NULL, NULL),
+	(104, 14, 1, 1, 1, NULL, NULL),
+	(105, 14, 3, 1, 1, NULL, NULL),
+	(106, 14, 2, 1, 1, NULL, NULL),
+	(107, 14, 7, 1, 1, NULL, NULL),
+	(108, 14, 9, 1, 1, NULL, NULL),
+	(109, 14, 4, 1, 1, NULL, NULL),
+	(110, 14, 6, 1, 1, NULL, NULL),
+	(111, 14, 5, 1, 1, NULL, NULL),
+	(112, 14, 8, 1, 1, NULL, NULL),
+	(113, 14, 10, 1, 1, NULL, NULL);
 
 
 --
@@ -2834,7 +2991,7 @@ SELECT pg_catalog.setval('"public"."destinations_destination_id_seq"', 83, true)
 -- Name: expenses_expense_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."expenses_expense_id_seq"', 1, false);
+SELECT pg_catalog.setval('"public"."expenses_expense_id_seq"', 4, true);
 
 
 --
@@ -2848,14 +3005,14 @@ SELECT pg_catalog.setval('"public"."group_types_group_type_id_seq"', 1, false);
 -- Name: host_profiles_host_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."host_profiles_host_id_seq"', 1, false);
+SELECT pg_catalog.setval('"public"."host_profiles_host_id_seq"', 1, true);
 
 
 --
 -- Name: host_registrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."host_registrations_id_seq"', 1, false);
+SELECT pg_catalog.setval('"public"."host_registrations_id_seq"', 3, true);
 
 
 --
@@ -2883,28 +3040,28 @@ SELECT pg_catalog.setval('"public"."reviews_review_id_seq"', 1, false);
 -- Name: roadmap_accommodations_accommodation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."roadmap_accommodations_accommodation_id_seq"', 1, false);
+SELECT pg_catalog.setval('"public"."roadmap_accommodations_accommodation_id_seq"', 11, true);
 
 
 --
 -- Name: roadmap_places_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."roadmap_places_id_seq"', 1, false);
+SELECT pg_catalog.setval('"public"."roadmap_places_id_seq"', 113, true);
 
 
 --
 -- Name: roadmap_types_roadmap_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."roadmap_types_roadmap_type_id_seq"', 1, false);
+SELECT pg_catalog.setval('"public"."roadmap_types_roadmap_type_id_seq"', 2, true);
 
 
 --
 -- Name: roadmaps_roadmap_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."roadmaps_roadmap_id_seq"', 1, false);
+SELECT pg_catalog.setval('"public"."roadmaps_roadmap_id_seq"', 14, true);
 
 
 --
@@ -2939,7 +3096,7 @@ SELECT pg_catalog.setval('"public"."travel_types_travel_type_id_seq"', 1, false)
 -- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."users_user_id_seq"', 1, true);
+SELECT pg_catalog.setval('"public"."users_user_id_seq"', 10, true);
 
 
 --
@@ -2953,5 +3110,6 @@ SELECT pg_catalog.setval('"supabase_functions"."hooks_id_seq"', 1, false);
 -- PostgreSQL database dump complete
 --
 
--- \unrestrict Q2uRDgoUdPC43UAQoiaYyLcJUQEQV66yV70YVoyvUaRV9mexv7kJx6rBW4SZHvX
+-- \unrestrict B2n1JaqlXtkGvRfVf7BzzxWkjY2XhWKf6RbwUC8W64lRUcXNfGOGHjkx5zlDNRR
 
+RESET ALL;
