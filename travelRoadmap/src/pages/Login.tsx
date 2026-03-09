@@ -6,6 +6,7 @@ import AnimatedPage from '../components/AnimatedPage';
 import { useAuth } from '../contexts/AuthContext';
 import { resendVerificationEmail } from '../lib/supabaseService';
 import toast from 'react-hot-toast';
+import { SHA256 } from 'crypto-js';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -24,7 +25,8 @@ export default function Login() {
         setLoading(true);
         setUnverifiedEmail(null);
         try {
-            const res = await login(email, password);
+            const hashedPassword = SHA256(password).toString();
+            const res = await login(email, hashedPassword);
             if (res.success) {
                 toast.success('Welcome back!');
                 // route based on actual role rather than email string

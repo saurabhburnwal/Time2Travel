@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
 import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
+import { SHA256 } from 'crypto-js';
 
 export default function Register() {
     const loc = useLocation();
@@ -26,7 +27,7 @@ export default function Register() {
             phone: form.phone,
             gender: form.gender,
             role: form.role as any,
-            password: form.password,
+            password: SHA256(form.password).toString(),
         });
         if (success && requiresVerification) {
             toast.success('Account created! Please check your email to verify.');

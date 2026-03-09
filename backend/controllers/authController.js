@@ -63,7 +63,7 @@ function generateVerificationToken() {
 exports.registerValidation = [
     body('name').notEmpty().withMessage('Name is required').trim(),
     body('email').isEmail().withMessage('Valid email is required').normalizeEmail(),
-    body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
+    body('password').isLength({ min: 64, max: 64 }).isHexadecimal().withMessage('Password must be securely hashed by the client'),
     body('phone').optional({ checkFalsy: true })
         .matches(/^[0-9+\-\s()]{7,15}$/).withMessage('Invalid phone number'),
     body('gender').optional({ checkFalsy: true }).isIn(['MALE', 'FEMALE', 'OTHER']).withMessage('Gender must be MALE, FEMALE, or OTHER'),
@@ -71,7 +71,7 @@ exports.registerValidation = [
 
 exports.loginValidation = [
     body('email').isEmail().withMessage('Valid email is required').normalizeEmail(),
-    body('password').notEmpty().withMessage('Password is required'),
+    body('password').isLength({ min: 64, max: 64 }).isHexadecimal().withMessage('Password must be securely hashed by the client'),
 ];
 
 // ── GET /api/auth/me ─────────────────────────────────────────────────────────
