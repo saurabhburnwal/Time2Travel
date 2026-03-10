@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Mail, RefreshCw, CheckCircle, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
-import { resendVerificationEmail } from '../lib/supabaseService';
+import { resendVerificationEmail } from '../services/usersService';
 import toast from 'react-hot-toast';
 
 const RESEND_COOLDOWN = 60; // seconds

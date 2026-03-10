@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { getReviewsByRoadmap, getRecentReviews, createReview, updateReview, deleteReview } = require('../controllers/reviewController');
+const { getReviewsByRoadmap, getRecentReviews, createReview, updateReview, deleteReview, getUserReviews } = require('../controllers/reviewController');
 const verifyToken = require('../middleware/auth');
+
+// GET /api/reviews/me — auth required (must be before /:id or /?roadmap_id if the router setup was different, but here it's fine)
+router.get('/me', verifyToken, getUserReviews);
 
 // GET /api/reviews?roadmap_id=1  — public
 router.get('/', getReviewsByRoadmap);

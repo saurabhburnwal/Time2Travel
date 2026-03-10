@@ -4,7 +4,8 @@ import { Home, MapPin, DollarSign, Calendar, ArrowLeft, ChevronRight, Zap, Walle
 import { motion } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
 import { useTrip } from '../contexts/TripContext';
-import { generateRoadmap, saveRoadmapToDB, saveExpenses } from '../lib/supabaseService';
+import { generateRoadmap, saveRoadmapToDB } from '../services/roadmapsService';
+import { saveExpenses } from '../services/expensesService';
 import toast from 'react-hot-toast';
 
 export default function RoadmapOptions() {

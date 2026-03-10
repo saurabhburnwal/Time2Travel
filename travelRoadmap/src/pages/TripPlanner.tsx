@@ -5,7 +5,8 @@ import { motion } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
 import { useTrip } from '../contexts/TripContext';
 
-import { fetchStates, fetchDestinations, fetchTravelTypes, fetchGroupTypes, DBTravelType, DBGroupType } from '../lib/supabaseService';
+import { fetchStates, fetchDestinations, fetchTravelTypes, fetchGroupTypes } from '../services/destinationsService';
+import { DBTravelType, DBGroupType } from '../services/types';
 import toast from 'react-hot-toast';
 
 const TRAVEL_TYPE_ICONS: Record<string, React.ReactNode> = {

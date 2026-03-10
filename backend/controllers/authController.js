@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const { body, validationResult } = require('express-validator');
 const { query } = require('../config/db');
-const { sendVerificationEmail } = require('../utils/emailService');
+const { sendVerificationEmail, sendWelcomeEmail } = require('../utils/emailService');
 
 // ── Cookie config ────────────────────────────────────────────────────────────
 const COOKIE_NAME = 'tt_token';
@@ -306,6 +306,13 @@ exports.verifyEmail = async (req, res, next) => {
             message: 'Email verified successfully! You can now log in.',
             name: user.name,
         });
+
+        // Send welcome email asynchronously after successful verification
+        try {
+            await sendWelcomeEmail(user.name, user.email);
+        } catch (emailErr) {
+            console.error('[authController] Failed to send welcome email:', emailErr.message);
+        }
     } catch (err) {
         next(err);
     }

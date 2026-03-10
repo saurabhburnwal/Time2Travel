@@ -12,6 +12,10 @@ router.post('/generate', verifyToken, generateRoadmap);
 // POST /api/roadmap/save  — save selected roadmap
 router.post('/save', verifyToken, saveRoadmap);
 
+// POST /api/roadmap/email-pdf — email PDF to user (auth required)
+const { emailTripPDF } = require('../controllers/roadmapController');
+router.post('/email-pdf', verifyToken, emailTripPDF);
+
 // GET /api/roadmap/my  — alias used by the frontend to fetch the user's saved roadmaps
 router.get('/my', verifyToken, getMyRoadmaps);
 

@@ -4,7 +4,9 @@ import { LayoutDashboard, Users, Home, MapPin, Search, Check, X, Clock, Star, Ch
 import { motion } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
 import { useAuth } from '../contexts/AuthContext';
-import { fetchAllUsers, fetchAllHosts, fetchDestinationStats, fetchPendingHostRegistrations, approveHostRegistration, rejectHostRegistration, deleteUser, HostRegistrationRecord } from '../lib/supabaseService';
+import { fetchAllUsers, fetchAllHosts, fetchPendingHostRegistrations, approveHostRegistration, rejectHostRegistration, deleteUser } from '../services/adminService';
+import { fetchDestinationStats } from '../services/destinationsService';
+import { HostRegistrationRecord } from '../services/types';
 import toast from 'react-hot-toast';
 
 type Tab = 'overview' | 'users' | 'hosts' | 'pending';

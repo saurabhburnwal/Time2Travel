@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { USER_KEY, clearUserCache, apiGet, apiPost } from '../lib/api';
-import { loginUser, registerUser } from '../lib/supabaseService';
+import { loginUser, registerUser } from '../services/usersService';
 
 // ── Types ──────────────────────────────────────────────────────────────────
 export interface MockUser {
@@ -23,6 +23,7 @@ interface AuthContextType {
     logout: () => Promise<void>;
     isAdmin: boolean;
     isHost: boolean;
+    setUser: (user: MockUser | null) => void;
 }
 
 // ── Helpers ────────────────────────────────────────────────────────────────
@@ -137,6 +138,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 logout,
                 isAdmin: user?.role === 'admin',
                 isHost: user?.role === 'host',
+                setUser,
             }}
         >
             {children}

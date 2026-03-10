@@ -13,26 +13,38 @@ const HERO_IMAGES = [
 
 const HERO_VIDEO_URL = '/hero.mp4';
 
+import { fetchRecentReviews, Review } from '../services/reviewsService';
+
 const TRAVEL_QUOTES = [
     { quote: "The world is a book, and those who do not travel read only one page.", author: "Saint Augustine" },
     { quote: "Travel makes one modest. You see what a tiny place you occupy in the world.", author: "Gustave Flaubert" },
     { quote: "Life is short and the world is wide. Better get started.", author: "Simon Raven" },
 ];
 
-const MOCK_REVIEWS = [
-    { id: 1, userName: 'Aisha Patel', avatar: 'AP', destination: 'Munnar', rating: 5, comment: 'The roadmap saved us so much time! We covered 8 spots in 3 days effortlessly.', date: '2 weeks ago' },
-    { id: 2, userName: 'Rajesh Kumar', avatar: 'RK', destination: 'Hampi', rating: 4, comment: 'Amazing budget planning! Stayed within our Rs.5000 budget and saw all the major ruins.', date: '1 month ago' },
-    { id: 3, userName: 'Sneha Reddy', avatar: 'SR', destination: 'Goa', rating: 5, comment: 'Best travel app for beach destinations! The local host feature was a game changer.', date: '3 weeks ago' },
+const MOCK_REVIEWS_FALLBACK: Review[] = [
+    { review_id: 1, user_name: 'Aisha Patel', rating: 5, comment: 'The roadmap saved us so much time! We covered 8 spots in 3 days effortlessly.', created_at: '2 weeks ago', destination: 'Munnar' },
+    { review_id: 2, user_name: 'Rajesh Kumar', rating: 4, comment: 'Amazing budget planning! Stayed within our Rs.5000 budget and saw all the major ruins.', created_at: '1 month ago', destination: 'Hampi' },
+    { review_id: 3, user_name: 'Sneha Reddy', rating: 5, comment: 'Best travel app for beach destinations! The local host feature was a game changer.', created_at: '3 weeks ago', destination: 'Goa' },
 ];
 export default function Landing() {
     const [quoteIdx, setQuoteIdx] = useState(0);
     const [imgIdx, setImgIdx] = useState(0);
+    const [reviews, setReviews] = useState<Review[]>([]);
 
     useEffect(() => {
         const interval = setInterval(() => {
             setQuoteIdx(i => (i + 1) % TRAVEL_QUOTES.length);
             setImgIdx(i => (i + 1) % HERO_IMAGES.length);
         }, 5000);
+
+        fetchRecentReviews(6).then(data => {
+            if (data && data.length > 0) {
+                setReviews(data);
+            } else {
+                setReviews(MOCK_REVIEWS_FALLBACK);
+            }
+        });
+
         return () => clearInterval(interval);
     }, []);
 
@@ -225,28 +237,32 @@ export default function Landing() {
                     </div>
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {MOCK_REVIEWS.slice(0, 6).map((review, i) => (
-                            <motion.div
-                                key={review.id}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: i * 0.1 }}
-                                className="glass-card p-6 card-hover"
-                            >
-                                <div className="flex items-center gap-3 mb-4">
-                                    <div className="w-11 h-11 rounded-full bg-gradient-to-br from-brand-400 to-ocean-500 flex items-center justify-center text-white font-bold text-sm">
-                                        {review.avatar}
+                        {reviews.slice(0, 6).map((review, i) => {
+                            const avatar = review.user_name ? review.user_name.split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2) : 'AN';
+                            const dateStr = review.created_at.includes('ago') ? review.created_at : new Date(review.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+                            return (
+                                <motion.div
+                                    key={review.review_id || i}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: i * 0.1 }}
+                                    className="glass-card p-6 card-hover"
+                                >
+                                    <div className="flex items-center gap-3 mb-4">
+                                        <div className="w-11 h-11 rounded-full bg-gradient-to-br from-brand-400 to-ocean-500 flex items-center justify-center text-white font-bold text-sm">
+                                            {avatar}
+                                        </div>
+                                        <div>
+                                            <h4 className="font-semibold text-gray-800">{review.user_name || 'Anonymous'}</h4>
+                                            <p className="text-xs text-gray-400">{review.destination || 'General'} · {dateStr}</p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h4 className="font-semibold text-gray-800">{review.userName}</h4>
-                                        <p className="text-xs text-gray-400">{review.destination} · {review.date}</p>
-                                    </div>
-                                </div>
-                                <StarRating rating={review.rating} size={16} />
-                                <p className="text-gray-600 text-sm mt-3 leading-relaxed">{review.comment}</p>
-                            </motion.div>
-                        ))}
+                                    <StarRating rating={review.rating} size={16} />
+                                    <p className="text-gray-600 text-sm mt-3 leading-relaxed">{review.comment}</p>
+                                </motion.div>
+                            );
+                        })}
                     </div>
                 </div>
             </section>

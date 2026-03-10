@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Place } from '../lib/supabaseService';
+import { Place } from '../services/types';
 
 interface TripState {
     state: string;

@@ -1,6 +1,7 @@
 const { query } = require('../config/db');
 const { generateAllRoadmaps } = require('../utils/routeOptimizer');
 const { estimateExpenses } = require('../utils/expenseEstimator');
+const { sendTripConfirmationEmail } = require('../utils/emailService');
 
 // ===== GENERATE ROADMAP OPTIONS =====
 exports.generateRoadmap = async (req, res, next) => {
@@ -99,6 +100,28 @@ exports.generateRoadmap = async (req, res, next) => {
             roadmaps: roadmapsWithExpenses,
         });
     } catch (err) {
+        next(err);
+    }
+};
+
+// ===== EMAIL PDF ITINERARY =====
+exports.emailTripPDF = async (req, res, next) => {
+    try {
+        const { userName, email, tripData, pdfBase64 } = req.body;
+
+        if (!email || !pdfBase64) {
+            return res.status(400).json({ success: false, message: 'Email and PDF data are required.' });
+        }
+
+        const emailSent = await sendTripConfirmationEmail(userName, email, tripData, pdfBase64);
+
+        if (emailSent) {
+            res.json({ success: true, message: 'Trip itinerary emailed successfully.' });
+        } else {
+            res.status(500).json({ success: false, message: 'Failed to send email. Please try again later.' });
+        }
+    } catch (err) {
+        console.error("Email PDF Error: ", err);
         next(err);
     }
 };

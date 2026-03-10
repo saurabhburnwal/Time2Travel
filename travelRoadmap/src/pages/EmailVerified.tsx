@@ -3,7 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { CheckCircle, XCircle, Clock, MapPin, Loader } from 'lucide-react';
 import { motion } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
-import { verifyEmailToken, resendVerificationEmail } from '../lib/supabaseService';
+import { verifyEmailToken, resendVerificationEmail } from '../services/usersService';
 import toast from 'react-hot-toast';
 
 type Status = 'loading' | 'success' | 'already_verified' | 'expired' | 'invalid';

@@ -4,7 +4,8 @@ import { User, Phone, MapPin, Home, Users, ArrowLeft, Check, Upload, X, Image as
 import { motion } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
 import { useAuth } from '../contexts/AuthContext';
-import { fetchStates, fetchDestinations, submitHostRegistration } from '../lib/supabaseService';
+import { fetchStates, fetchDestinations } from '../services/destinationsService';
+import { submitHostRegistration } from '../services/hostsService';
 import toast from 'react-hot-toast';
 
 const AMENITY_OPTIONS = [

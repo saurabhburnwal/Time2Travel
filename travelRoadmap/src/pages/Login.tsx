@@ -4,7 +4,7 @@ import { Mail, Lock, Eye, EyeOff, MapPin, AlertTriangle, RefreshCw } from 'lucid
 import { motion, AnimatePresence } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
 import { useAuth } from '../contexts/AuthContext';
-import { resendVerificationEmail } from '../lib/supabaseService';
+import { resendVerificationEmail } from '../services/usersService';
 import toast from 'react-hot-toast';
 import { SHA256 } from 'crypto-js';
 

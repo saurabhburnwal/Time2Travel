@@ -24,6 +24,28 @@ exports.getReviewsByRoadmap = async (req, res, next) => {
     }
 };
 
+// ===== GET CURRENT USER'S REVIEWS =====
+exports.getUserReviews = async (req, res, next) => {
+    try {
+        const userId = req.user.userId;
+
+        const result = await query(
+            `SELECT rv.review_id, rv.rating, rv.comment, rv.created_at, rv.roadmap_id,
+                    r.destination_id, d.name AS destination, d.state
+             FROM reviews rv
+             LEFT JOIN roadmaps r ON rv.roadmap_id = r.roadmap_id
+             LEFT JOIN destinations d ON r.destination_id = d.destination_id
+             WHERE rv.user_id = $1
+             ORDER BY rv.created_at DESC`,
+            [userId]
+        );
+
+        res.json({ success: true, count: result.rowCount, reviews: result.rows });
+    } catch (err) {
+        next(err);
+    }
+};
+
 // ===== GET RECENT REVIEWS (Landing Page) =====
 exports.getRecentReviews = async (req, res, next) => {
     try {
