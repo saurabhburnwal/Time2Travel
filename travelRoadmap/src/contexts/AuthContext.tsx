@@ -28,15 +28,21 @@ interface AuthContextType {
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 function buildMockUser(raw: any): MockUser {
+    const gender = raw.gender || 'Other';
+    // Normalize gender case (e.g. MALE -> Male)
+    const normalizedGender = gender.charAt(0).toUpperCase() + gender.slice(1).toLowerCase();
+
     return {
         id: raw.userId ?? raw.id,
         name: raw.name,
         email: raw.email,
         phone: raw.phone || '',
-        gender: raw.gender || 'Other',
+        gender: normalizedGender,
         role: raw.role as 'traveler' | 'host' | 'admin',
         avatar: (raw.name as string).substring(0, 2).toUpperCase(),
-        joinedDate: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+        joinedDate: raw.created_at 
+            ? new Date(raw.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+            : new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
     };
 }
 
@@ -138,7 +144,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 logout,
                 isAdmin: user?.role === 'admin',
                 isHost: user?.role === 'host',
-                setUser,
+                setUser: (u: MockUser | null) => {
+                    setUser(u);
+                    if (u) persistUserCache(u);
+                    else clearUserCache();
+                },
             }}
         >
             {children}

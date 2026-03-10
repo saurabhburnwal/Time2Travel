@@ -6,7 +6,7 @@ import AnimatedPage from '../components/AnimatedPage';
 import StarRating from '../components/StarRating';
 import { useAuth } from '../contexts/AuthContext';
 import { fetchMyRoadmaps } from '../services/roadmapsService';
-import { MyRoadmap } from '../services/types';
+import { MyRoadmap, MockUser } from '../services/types';
 import { fetchUserReviews, submitReview, Review } from '../services/reviewsService';
 import { updateUserProfile } from '../services/usersService';
 import toast from 'react-hot-toast';
@@ -58,9 +58,10 @@ export default function Profile() {
     const startEditing = () => {
         if (!user) return;
         setEditName(user.name);
-        setEditPhone(user.phone);
+        setEditPhone(user.phone || '');
         setEditGender(user.gender || '');
         setEditing(true);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     const cancelEditing = () => {
@@ -71,21 +72,23 @@ export default function Profile() {
         if (!user) return;
         setSaving(true);
         try {
-            const success = await updateUserProfile(user.id, {
+            const { success, user: updatedUserData } = await updateUserProfile(user.id, {
                 name: editName,
                 phone: editPhone,
                 gender: editGender,
             });
-            if (success) {
-                setUser({
+            if (success && updatedUserData) {
+                // When we set user, the AuthContext wrapper handles persistence
+                const newUser: MockUser = {
                     ...user,
-                    name: editName,
-                    phone: editPhone,
-                    gender: editGender,
-                    avatar: editName
-                        ? editName.split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2)
+                    name: updatedUserData.name,
+                    phone: updatedUserData.phone || '',
+                    gender: updatedUserData.gender ? (updatedUserData.gender.charAt(0).toUpperCase() + updatedUserData.gender.slice(1).toLowerCase()) : 'Other',
+                    avatar: updatedUserData.name 
+                        ? updatedUserData.name.split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2)
                         : user.avatar,
-                });
+                };
+                setUser(newUser);
                 setEditing(false);
                 toast.success('Profile updated successfully!');
             } else {
@@ -152,7 +155,16 @@ export default function Profile() {
                                 </div>
                             ) : (
                                 <>
-                                    <h1 className="text-3xl font-bold font-display text-gray-800">{user.name}</h1>
+                                    <div className="flex items-center justify-center md:justify-start gap-3">
+                                        <h1 className="text-3xl font-bold font-display text-gray-800">{user.name}</h1>
+                                        <button 
+                                            onClick={startEditing}
+                                            className="p-1.5 rounded-full bg-gray-100 text-gray-500 hover:bg-brand-50 hover:text-brand-600 transition-all shadow-sm"
+                                            title="Edit Profile"
+                                        >
+                                            <Edit size={16} />
+                                        </button>
+                                    </div>
                                     <div className="flex flex-wrap gap-3 mt-2 justify-center md:justify-start">
                                         <span className="text-sm text-gray-500 flex items-center gap-1"><Mail size={14} /> {user.email}</span>
                                         <span className="text-sm text-gray-500 flex items-center gap-1"><Phone size={14} /> {user.phone}</span>

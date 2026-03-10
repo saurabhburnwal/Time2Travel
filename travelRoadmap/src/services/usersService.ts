@@ -85,13 +85,13 @@ export async function verifyEmailToken(token: string): Promise<{
     }
 }
 
-export async function updateUserProfile(userId: number, data: { name?: string; phone?: string; gender?: string }): Promise<boolean> {
+export async function updateUserProfile(userId: number, data: { name?: string; phone?: string; gender?: string }): Promise<{ success: boolean; user?: any }> {
     try {
-        const { success } = await apiPut('/api/users/me', data);
-        return success;
+        const { success, data: result } = await apiPut<{ success: boolean; user: any }>('/api/users/me', data);
+        return { success, user: (result as any)?.user };
     } catch (err) {
         console.warn('updateUserProfile error:', err);
-        return false;
+        return { success: false };
     }
 }
 
