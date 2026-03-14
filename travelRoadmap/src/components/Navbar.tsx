@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function Navbar() {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
-    const { user, isLoggedIn, logout, isAdmin } = useAuth();
+    const { user, isLoggedIn, logout, isAdmin, isHost } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -21,9 +21,22 @@ export default function Navbar() {
 
     const navLinks = [
         { to: '/', label: 'Home' },
-        { to: '/how-it-works', label: 'How It Works' },
-        { to: '/plan', label: 'Plan Trip' },
+        ...(isAdmin
+            ? [
+                { to: '/admin', label: 'Dashboard' },
+            ]
+            : isHost
+                ? [
+                    { to: '/host-dashboard', label: 'Dashboard' },
+                ]
+                : [
+                    { to: '/how-it-works', label: 'How It Works' },
+                    { to: '/plan', label: 'Plan Trip' },
+                ])
     ];
+
+    // Remove the extra Admin link if we already have it in navLinks
+    const showSideAdmin = isAdmin && !navLinks.some(l => l.to === '/admin');
 
     const handleLogout = async () => {
         await logout();
@@ -82,7 +95,7 @@ export default function Navbar() {
                     <div className="hidden md:flex items-center gap-3">
                         {isLoggedIn ? (
                             <div className="flex items-center gap-3">
-                                {isAdmin && (
+                                {showSideAdmin && (
                                     <Link
                                         to="/admin"
                                         className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${isTransparent ? 'text-white/80 hover:text-white hover:bg-white/10' : 'text-gray-600 hover:text-brand-600 hover:bg-brand-50'
@@ -91,8 +104,9 @@ export default function Navbar() {
                                         <LayoutDashboard size={16} /> Admin
                                     </Link>
                                 )}
+
                                 <Link
-                                    to="/profile"
+                                    to={isAdmin ? "/admin/profile" : "/profile"}
                                     className="flex items-center gap-2 group"
                                 >
                                     <div className="w-9 h-9 rounded-full bg-gradient-to-br from-brand-400 to-ocean-500 flex items-center justify-center text-white text-sm font-bold shadow-md group-hover:shadow-lg transition-shadow">
@@ -166,14 +180,15 @@ export default function Navbar() {
                             <div className="border-t border-gray-100 pt-3 mt-3">
                                 {isLoggedIn ? (
                                     <>
-                                        <Link to="/profile" onClick={() => setMobileOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-gray-50">
+                                        <Link to={isAdmin ? "/admin/profile" : "/profile"} onClick={() => setMobileOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-gray-50">
                                             <User size={18} /> Profile
                                         </Link>
-                                        {isAdmin && (
+                                        {showSideAdmin && (
                                             <Link to="/admin" onClick={() => setMobileOpen(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-gray-50">
                                                 <LayoutDashboard size={18} /> Admin Dashboard
                                             </Link>
                                         )}
+
                                         <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 hover:bg-red-50 w-full text-left text-sm font-medium">
                                             <LogOut size={18} /> Logout
                                         </button>
