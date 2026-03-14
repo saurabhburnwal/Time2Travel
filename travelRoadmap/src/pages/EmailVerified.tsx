@@ -14,6 +14,7 @@ export default function EmailVerified() {
 
     const [status, setStatus] = useState<Status>('loading');
     const [name, setName] = useState('');
+    const [role, setRole] = useState('traveler');
     const [expiredEmail, setExpiredEmail] = useState('');
     const [isResending, setIsResending] = useState(false);
     const hasCalledRef = React.useRef(false);
@@ -31,6 +32,7 @@ export default function EmailVerified() {
             if (result.success) {
                 setStatus(result.alreadyVerified ? 'already_verified' : 'success');
                 if (result.name) setName(result.name);
+                if (result.role) setRole(result.role);
             } else if (result.expired) {
                 setStatus('expired');
                 if (result.email) setExpiredEmail(result.email);
@@ -71,14 +73,16 @@ export default function EmailVerified() {
         success: {
             icon: <CheckCircle size={36} className="text-green-500" />,
             title: `Welcome${name ? `, ${name}` : ''}! 🎉`,
-            desc: 'Your email has been verified successfully. You can now log in and start planning your journeys.',
+            desc: role === 'host' 
+                ? 'Your email is verified! Just one more step to start hosting.'
+                : 'Your email has been verified successfully. You can now log in and start planning your journeys.',
             iconBg: 'from-green-100 to-emerald-200',
             action: (
                 <Link
-                    to="/login"
+                    to={role === 'host' ? "/host-register" : "/login"}
                     className="inline-block mt-4 btn-primary text-center px-8 py-3"
                 >
-                    Go to Login →
+                    {role === 'host' ? "Complete Registration →" : "Go to Login →"}
                 </Link>
             ),
         },
@@ -88,8 +92,11 @@ export default function EmailVerified() {
             desc: 'Your email is already verified. Head over to login to continue.',
             iconBg: 'from-green-100 to-emerald-200',
             action: (
-                <Link to="/login" className="inline-block mt-4 btn-primary text-center px-8 py-3">
-                    Go to Login →
+                <Link 
+                    to={role === 'host' ? "/host-register" : "/login"} 
+                    className="inline-block mt-4 btn-primary text-center px-8 py-3"
+                >
+                    {role === 'host' ? "Complete Registration →" : "Go to Login →"}
                 </Link>
             ),
         },

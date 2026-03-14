@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, MapPin, AlertTriangle, RefreshCw } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, MapPin, AlertTriangle, RefreshCw, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
 import { useAuth } from '../contexts/AuthContext';
 import { resendVerificationEmail } from '../services/usersService';
 import toast from 'react-hot-toast';
 import { SHA256 } from 'crypto-js';
+import { getMyHostRegistration } from '../services/hostsService';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -32,6 +33,15 @@ export default function Login() {
                 // route based on actual role rather than email string
                 if (res.user?.role === 'admin') {
                     navigate('/admin');
+                } else if (res.user?.role === 'host') {
+                    // Check if they have an approved registration
+                    const regRes = await getMyHostRegistration();
+                    if (regRes.success && regRes.registration?.status === 'approved') {
+                        navigate('/host-dashboard');
+                    } else {
+                        // Pending or no registration yet
+                        navigate('/host-register');
+                    }
                 } else {
                     navigate('/plan');
                 }
@@ -145,7 +155,12 @@ export default function Login() {
                         </div>
 
                         <div>
-                            <label className="floating-label">Password</label>
+                            <div className="flex justify-between mb-1">
+                                <label className="floating-label !static !mb-0 !transform-none !text-xs !bg-transparent">Password</label>
+                                <Link to="/forgot-password" className="text-xs font-semibold text-brand-600 hover:text-brand-800 transition-colors">
+                                    Forgot Password?
+                                </Link>
+                            </div>
                             <div className="relative">
                                 <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
                                 <input
@@ -163,12 +178,6 @@ export default function Login() {
                         </button>
                     </form>
 
-                    {/* Quick Login Hint */}
-                    <div className="mt-6 p-4 bg-brand-50 rounded-xl text-sm">
-                        <p className="font-semibold text-brand-700 mb-1">Quick Login</p>
-                        <p className="text-brand-600"><strong>Admin:</strong> admin@timetotravel.com / 123456</p>
-                        <p className="text-brand-600"><strong>Traveler:</strong> any email / any password</p>
-                    </div>
 
                     <p className="text-center text-gray-500 text-sm mt-6">
                         New here?{' '}

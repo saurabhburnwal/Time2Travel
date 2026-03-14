@@ -40,8 +40,9 @@ export async function registerUser(
         const { success, data } = await apiPost<{ requiresVerification?: boolean; email?: string; success?: boolean; message?: string }>('/api/auth/register', {
             name: userData.name,
             email: userData.email,
-            ...(userData.phone ? { phone: userData.phone } : {}),
+            phone: userData.phone,
             gender: (userData.gender || 'OTHER').toUpperCase(),
+            role: userData.role || 'traveler',
             password: userData.password || 'changeme',
         });
         if (success) {
@@ -73,6 +74,7 @@ export async function verifyEmailToken(token: string): Promise<{
     expired?: boolean;
     email?: string;
     name?: string;
+    role?: string;
 }> {
     try {
         const { success, data } = await apiGet<any>(
@@ -92,6 +94,33 @@ export async function updateUserProfile(userId: number, data: { name?: string; p
     } catch (err) {
         console.warn('updateUserProfile error:', err);
         return { success: false };
+    }
+}
+
+export async function forgotPassword(email: string): Promise<{ success: boolean; message: string }> {
+    try {
+        const { success, data } = await apiPost<{ success: boolean; message: string }>('/api/auth/forgot-password', { email });
+        return { success, message: data?.message || 'Failed to request reset.' };
+    } catch (err: any) {
+        return { success: false, message: err.message || 'An error occurred.' };
+    }
+}
+
+export async function verifyResetOTP(email: string, otp: string): Promise<{ success: boolean; message: string; resetToken?: string }> {
+    try {
+        const { success, data } = await apiPost<{ success: boolean; message: string; resetToken?: string }>('/api/auth/verify-otp', { email, otp });
+        return { success, message: data?.message || 'Verification failed.', resetToken: data?.resetToken };
+    } catch (err: any) {
+         return { success: false, message: err.message || 'An error occurred.' };
+    }
+}
+
+export async function resetPassword(resetToken: string, newPassword: string): Promise<{ success: boolean; message: string }> {
+    try {
+        const { success, data } = await apiPost<{ success: boolean; message: string }>('/api/auth/reset-password', { resetToken, newPassword });
+        return { success, message: data?.message || 'Reset failed.' };
+    } catch (err: any) {
+        return { success: false, message: err.message || 'An error occurred.' };
     }
 }
 
