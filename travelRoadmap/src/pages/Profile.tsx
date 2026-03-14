@@ -10,6 +10,7 @@ import { MyRoadmap, MockUser } from '../services/types';
 import { fetchUserReviews, submitReview, Review } from '../services/reviewsService';
 import { updateUserProfile } from '../services/usersService';
 import { getSafetyContacts, addSafetyContact, deleteSafetyContact, AppSafetyContact } from '../services/safetyService';
+import { getUserHostReviews, HostReviewData } from '../services/hostReviewService';
 import toast from 'react-hot-toast';
 import HostProfile from './HostProfile';
 
@@ -18,6 +19,7 @@ export default function Profile() {
     const navigate = useNavigate();
     const [roadmaps, setRoadmaps] = useState<MyRoadmap[]>([]);
     const [userReviews, setUserReviews] = useState<Review[]>([]);
+    const [userHostReviews, setUserHostReviews] = useState<HostReviewData[]>([]);
     const [loading, setLoading] = useState(true);
 
     // Edit profile state
@@ -50,9 +52,10 @@ export default function Profile() {
                 navigate('/admin/profile');
                 return;
             }
-            Promise.all([fetchMyRoadmaps(), fetchUserReviews()]).then(([tripsData, reviewsData]) => {
+            Promise.all([fetchMyRoadmaps(), fetchUserReviews(), getUserHostReviews()]).then(([tripsData, reviewsData, hostReviewsData]) => {
                 setRoadmaps(tripsData);
                 setUserReviews(reviewsData);
+                setUserHostReviews(hostReviewsData);
                 setLoading(false);
             });
             fetchContacts();
@@ -278,6 +281,7 @@ export default function Profile() {
                                 <div className="space-y-4">
                                     {roadmaps.map((trip, i) => {
                                         const existingReview = userReviews.find(r => r.roadmap_id === trip.roadmap_id);
+                                        const existingHostReview = userHostReviews.find(r => r.roadmap_id === trip.roadmap_id);
                                         const isReviewing = reviewingTripId === trip.roadmap_id;
 
                                         return (
@@ -297,7 +301,7 @@ export default function Profile() {
                                                         <span className="text-xs text-gray-400">{new Date(trip.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                                                     </div>
                                                     <div className="flex items-center gap-2">
-                                                        {trip.stay_type === 'host' && (
+                                                        {trip.stay_type === 'host' && !existingHostReview && (
                                                             <Link to={`/host-feedback/${trip.roadmap_id}`} className="text-xs font-semibold text-green-600 bg-green-50 hover:bg-green-100 px-3 py-1.5 rounded-full whitespace-nowrap transition-colors flex items-center gap-1">
                                                                 <Home size={12} /> Review Host
                                                             </Link>

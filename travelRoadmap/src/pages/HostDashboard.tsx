@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 import { getHostProfile } from '../services/hostProfileService';
 import { getHostProperties } from '../services/hostPropertyService';
 import { getHostBookings } from '../services/hostBookingService';
-import { getHostReviews } from '../services/hostReviewService';
+import { getHostReviews, HostReviewData } from '../services/hostReviewService';
+import { getHostEarnings, HostEarningsData } from '../services/hostEarningsService';
 import HostNav from '../components/HostNav';
-import { Loader2, Home, Users, Clock, Star, BadgeCheck, DollarSign, Calendar, ChevronRight } from 'lucide-react';
+import { 
+    Loader2, Home, Users, Clock, Star, BadgeCheck, 
+    DollarSign, Calendar, ChevronRight, Activity, TrendingUp 
+} from 'lucide-react';
 import type { DBHostProfile, AppHostProperty, AppHostBooking } from '../services/supabaseClient';
 
 export default function HostDashboard() {
@@ -17,8 +21,10 @@ export default function HostDashboard() {
     const [profile, setProfile] = useState<DBHostProfile | null>(null);
     const [properties, setProperties] = useState<AppHostProperty[]>([]);
     const [bookings, setBookings] = useState<AppHostBooking[]>([]);
+    const [reviews, setReviews] = useState<HostReviewData[]>([]);
     const [avgRating, setAvgRating] = useState(0);
     const [registrationCount, setRegistrationCount] = useState(0);
+    const [earningsData, setEarningsData] = useState<HostEarningsData | null>(null);
 
     useEffect(() => {
         if (!user) return;
@@ -28,28 +34,29 @@ export default function HostDashboard() {
             try {
                 const { getMyHostRegistrations } = await import('../services/hostsService');
                 
-                // Fetch everything in parallel for maximum speed
                 const hostProfile = await getHostProfile(user.id);
                 const regRes = await getMyHostRegistrations();
                 
                 setProfile(hostProfile);
                 
                 if (hostProfile) {
-                    const [props, bks, revs] = await Promise.all([
+                    const [props, bks, revs, earnings] = await Promise.all([
                         getHostProperties(hostProfile.host_id),
                         getHostBookings(hostProfile.host_id),
-                        getHostReviews(user.name)
+                        getHostReviews(hostProfile.host_id),
+                        getHostEarnings(hostProfile.host_id)
                     ]);
                     
                     setProperties(props);
                     setBookings(bks);
+                    setReviews(revs);
+                    setEarningsData(earnings);
                     
                     if (revs.length > 0) {
                         const total = revs.reduce((sum, r) => sum + r.overall_rating, 0);
                         setAvgRating(total / revs.length);
                     }
                 } else if (regRes.success && regRes.registrations.length > 0) {
-                    // Handle transition/pending state - no profile yet but has registrations
                     const mainReg = regRes.registrations[0];
                     setProfile({
                         host_id: -1,
@@ -79,7 +86,6 @@ export default function HostDashboard() {
                     })));
                 }
 
-                // Always update the registration count state if we have the data
                 if (regRes.success) {
                     setRegistrationCount(regRes.registrations.length);
                 }
@@ -95,8 +101,9 @@ export default function HostDashboard() {
 
     if (loading) {
         return (
-            <div className="min-h-screen pt-24 pb-12 bg-slate-50 flex items-center justify-center">
-                <Loader2 className="w-10 h-10 animate-spin text-brand-500" />
+            <div className="min-h-screen pt-24 pb-12 bg-slate-50 flex flex-col items-center justify-center">
+                <Loader2 className="animate-spin text-brand-500 mb-4" size={48} />
+                <p className="text-slate-400 font-bold uppercase tracking-[0.3em] text-[10px]">Loading Dashboard...</p>
             </div>
         );
     }
@@ -107,188 +114,122 @@ export default function HostDashboard() {
                 <div className="w-20 h-20 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mb-6">
                     <Users size={40} />
                 </div>
-                <h2 className="text-2xl font-black text-gray-800 tracking-tight">Host Profile Not Found</h2>
+                <h2 className="text-2xl font-bold text-gray-800 tracking-tight">Host Profile Not Found</h2>
                 <p className="text-gray-500 mt-2 mb-8 text-center max-w-xs">It seems you haven't applied for a host account yet or your application is being processed.</p>
                 <a href="/host-registration" className="btn-primary px-8">Complete Registration</a>
             </div>
         );
     }
 
-    const activePropertiesCount = properties.filter(p => p.isActive).length;
     const pendingBookings = bookings.filter(b => b.status === 'pending');
     const checkedInGuests = bookings.filter(b => b.status === 'checked_in');
+    const totalEarnings = earningsData?.totalContributions || 0;
     
-    // Animation variants
-    const container = {
-        hidden: { opacity: 0 },
-        show: {
-            opacity: 1,
-            transition: { staggerChildren: 0.1 }
-        }
-    };
-
+    // Calculate stays this month
+    const staysThisMonth = bookings.filter(b => {
+        if (!b.createdAt) return false;
+        const d = new Date(b.createdAt);
+        return d.getMonth() === new Date().getMonth() && d.getFullYear() === new Date().getFullYear();
+    }).length;
+    
     return (
         <div className="min-h-screen bg-slate-50 pt-20">
             <HostNav />
             
-            <div className="section-container py-8 max-w-7xl">
+            <div className="section-container py-8 max-w-7xl mx-auto">
                 {/* Host Status Banner */}
                 {!profile.verified ? (
                     <motion.div 
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="mb-10 p-6 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-[32px] flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm"
+                        className="mb-8 p-4 bg-amber-50 border border-amber-200 rounded-2xl flex items-center justify-between gap-4 shadow-sm"
                     >
-                        <div className="flex items-center gap-5">
-                            <div className="w-16 h-16 bg-white text-amber-600 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm border border-amber-100 italic font-black text-2xl">
+                        <div className="flex items-center gap-4">
+                            <div className="w-10 h-10 bg-white text-amber-600 rounded-xl flex items-center justify-center border border-amber-100 font-bold text-lg">
                                 !
                             </div>
                             <div>
-                                <h3 className="text-xl font-black text-amber-900 tracking-tight">Host Verification Pending</h3>
-                                <p className="text-amber-700 font-medium">Your account is currently under review by our admin team. You can still set up your profile and properties!</p>
+                                <h3 className="text-sm font-bold text-amber-900">Verification Pending</h3>
+                                <p className="text-amber-700 text-xs mt-0.5">Your account is under admin review. You can still set up properties.</p>
                             </div>
-                        </div>
-                        <div className="flex items-center gap-3">
-                            <span className="px-4 py-2 bg-amber-100 text-amber-700 rounded-xl font-black text-[10px] uppercase tracking-widest border border-amber-200">Processing</span>
-                            <button className="text-sm font-black text-amber-800 hover:underline uppercase tracking-widest">Help Center →</button>
                         </div>
                     </motion.div>
                 ) : (
                     <motion.div 
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="mb-10 p-6 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-[32px] flex items-center gap-5 shadow-sm"
+                        className="mb-8 p-4 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-center gap-4 shadow-sm"
                     >
-                        <div className="w-16 h-16 bg-white text-emerald-600 rounded-3xl flex items-center justify-center flex-shrink-0 shadow-sm border border-emerald-100">
-                            <BadgeCheck size={32} />
+                        <div className="w-10 h-10 bg-white text-emerald-600 rounded-xl flex items-center justify-center border border-emerald-100">
+                            <BadgeCheck size={20} />
                         </div>
                         <div>
-                            <h3 className="text-xl font-black text-emerald-900 tracking-tight">Verified Host Status</h3>
-                            <p className="text-emerald-700 font-medium">Your profile is verified and active. You are now visible to travelers searching for stays!</p>
+                            <h3 className="text-sm font-bold text-emerald-900">Verified Host</h3>
+                            <p className="text-emerald-700 text-xs mt-0.5">Your profile is active and visible to travelers.</p>
                         </div>
                     </motion.div>
                 )}
 
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
-                    <div className="space-y-2">
-                        <div className="flex items-center gap-3 mb-2">
-                             <span className="px-3 py-1 bg-brand-100 text-brand-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-brand-200">Host Dashboard</span>
-                             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                        </div>
-                        <h1 className="text-6xl font-black text-gray-900 tracking-tighter leading-tight">
-                            Welcome back,<br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-ocean-600">{user?.name.split(' ')[0]}</span>
-                        </h1>
-                        <p className="text-gray-400 font-medium text-lg">Manage your properties, guests, and track your performance.</p>
-                    </div>
-
-                    <div className="flex flex-wrap gap-4">
-                        <a href="/host-properties" className="group flex items-center gap-3 bg-white border-2 border-slate-100 p-4 rounded-2xl hover:border-brand-500 hover:shadow-xl hover:shadow-brand-500/5 transition-all">
-                             <div className="w-12 h-12 bg-slate-50 text-slate-400 group-hover:bg-brand-50 group-hover:text-brand-600 rounded-xl flex items-center justify-center transition-colors">
-                                <Home size={24} />
-                             </div>
-                             <div className="text-left">
-                                <p className="text-xs font-black text-gray-400 uppercase tracking-widest">Inventory</p>
-                                <p className="text-sm font-black text-gray-900">Manage Properties</p>
-                             </div>
-                        </a>
-                        <a href="/host-guests" className="group flex items-center gap-3 bg-white border-2 border-slate-100 p-4 rounded-2xl hover:border-cyan-500 hover:shadow-xl hover:shadow-cyan-500/5 transition-all">
-                             <div className="w-12 h-12 bg-slate-50 text-slate-400 group-hover:bg-cyan-50 group-hover:text-cyan-600 rounded-xl flex items-center justify-center transition-colors">
-                                <Users size={24} />
-                             </div>
-                             <div className="text-left">
-                                <p className="text-xs font-black text-gray-400 uppercase tracking-widest">Audience</p>
-                                <p className="text-sm font-black text-gray-900">Manage Guests</p>
-                             </div>
-                        </a>
+                {/* Hero Section - Matching Admin Dashboard */}
+                <div className="relative h-48 rounded-3xl overflow-hidden shadow-lg group bg-slate-900 mb-8">
+                    <img 
+                        src="/images/bg.png" 
+                        alt="Dashboard Banner" 
+                        className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 to-transparent" />
+                    <div className="relative h-full flex flex-col justify-center px-10">
+                        <h1 className="text-3xl font-bold text-white mb-2">Welcome Back, {user?.name.split(' ')[0]}</h1>
+                        <p className="text-slate-200 text-sm max-w-md">Your hosting dashboard. You have {pendingBookings.length} pending stay requests.</p>
                     </div>
                 </div>
 
-                {/* Stats Grid */}
-                <motion.div 
-                    variants={container}
-                    initial="hidden"
-                    animate="show"
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16"
-                >
-                    <StatCard 
-                        title="Registrations" 
-                        value={registrationCount || properties.length} 
-                        subtitle={`${registrationCount || properties.length} property registrations done`}
-                        icon={<Home size={24} />} 
-                        color="from-brand-500 to-brand-700"
-                    />
-                    <StatCard 
-                        title="New Inquiries" 
-                        value={pendingBookings.length} 
-                        subtitle="Awaiting your response"
-                        icon={<Clock size={24} />} 
-                        color="from-amber-500 to-orange-600"
-                    />
-                    <StatCard 
-                        title="Active Guests" 
-                        value={checkedInGuests.length} 
-                        subtitle="Currently staying"
-                        icon={<Users size={24} />} 
-                        color="from-cyan-500 to-blue-600"
-                    />
-                    <StatCard 
-                        title="Avg Rating" 
-                        value={avgRating > 0 ? avgRating.toFixed(1) : "N/A"} 
-                        subtitle={avgRating > 0 ? "From verified reviews" : "No reviews yet"}
-                        icon={<Star size={24} />} 
-                        color="from-yellow-400 to-amber-500"
-                    />
-                </motion.div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-                    {/* Main Content Area */}
-                    <div className="lg:col-span-8 space-y-10">
-                        {/* Recent Bookings */}
-                        <div className="bg-white rounded-[40px] shadow-sm border border-slate-100 overflow-hidden">
-                            <div className="p-8 border-b border-slate-50 flex justify-between items-center bg-slate-50/20">
-                                <div>
-                                    <h2 className="text-2xl font-black text-gray-900 tracking-tight">Recent Guest Inquiries</h2>
-                                    <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1 italic">Last 5 activities</p>
-                                </div>
-                                <a href="/host-guests" className="px-5 py-2.5 bg-brand-50 text-brand-600 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-brand-100 transition-all border border-brand-100">
-                                    View Register →
-                                </a>
+                {/* Stat Cards - Matching Admin Dashboard Layout */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                    {[
+                        { label: 'Active Properties', value: registrationCount || properties.length, color: 'text-brand-500', bg: 'bg-brand-50', icon: <Home size={18} /> },
+                        { label: 'New Inquiries', value: pendingBookings.length, color: 'text-amber-500', bg: 'bg-amber-50', icon: <Clock size={18} /> },
+                        { label: 'Total Guests', value: bookings.length, color: 'text-cyan-500', bg: 'bg-cyan-50', icon: <Users size={18} /> },
+                        { label: 'Avg Rating', value: avgRating > 0 ? avgRating.toFixed(1) : "N/A", color: 'text-yellow-500', bg: 'bg-yellow-50', icon: <Star size={18} /> },
+                    ].map((stat) => (
+                        <div key={stat.label} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all">
+                            <div className={`w-10 h-10 rounded-xl ${stat.bg} ${stat.color} flex items-center justify-center mb-4`}>
+                                {stat.icon}
                             </div>
-                            <div className="overflow-x-auto">
-                                <table className="w-full text-left border-collapse">
-                                    <thead>
-                                        <tr className="bg-slate-50/50">
-                                            <th className="py-4 px-8 text-[10px] font-black text-gray-400 uppercase tracking-widest">Guest Info</th>
-                                            <th className="py-4 px-8 text-[10px] font-black text-gray-400 uppercase tracking-widest">Property</th>
-                                            <th className="py-4 px-8 text-[10px] font-black text-gray-400 uppercase tracking-widest">Timeline</th>
-                                            <th className="py-4 px-8 text-[10px] font-black text-gray-400 uppercase tracking-widest text-right">Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-slate-50">
+                            <p className="text-2xl font-bold text-slate-900">{stat.value}</p>
+                            <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">{stat.label}</p>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Main Content Grid */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    {/* Left Column */}
+                    <div className="lg:col-span-8 flex flex-col gap-6">
+                        {/* Guest Inquiries List */}
+                        <div className="bg-white rounded-3xl border border-slate-100 shadow-sm flex-1">
+                            <div className="p-8 border-b border-slate-50 flex justify-between items-center">
+                                <h3 className="text-md font-bold text-slate-900 flex items-center gap-2">
+                                    <Activity className="text-brand-500" size={18} /> Recent Stay Requests
+                                </h3>
+                                <button onClick={() => navigate('/host-guests')} className="text-xs font-bold text-brand-600 hover:text-brand-700">
+                                    View Register →
+                                </button>
+                            </div>
+                            <div className="p-4">
+                                {bookings.length > 0 ? (
+                                    <div className="space-y-2">
                                         {bookings.slice(0, 5).map(b => (
-                                            <tr key={b.id} className="group hover:bg-slate-50/30 transition-colors">
-                                                <td className="py-6 px-8">
-                                                    <div className="flex items-center gap-4">
-                                                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand-50 to-brand-100 text-brand-600 flex items-center justify-center font-black text-lg border border-brand-200">
-                                                            {b.travelerName.charAt(0)}
-                                                        </div>
-                                                        <div>
-                                                            <p className="font-black text-gray-900 group-hover:text-brand-600 transition-colors">{b.travelerName}</p>
-                                                            <p className="text-xs text-gray-400 font-bold">{b.travelerEmail}</p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td className="py-6 px-8">
-                                                    <p className="text-sm font-black text-gray-700">{b.propertyName}</p>
-                                                    <p className="text-[10px] text-gray-400 font-bold uppercase">Stay ID: #{b.id.toString().slice(-4)}</p>
-                                                </td>
-                                                <td className="py-6 px-8">
-                                                    <p className="text-sm font-black text-gray-600">Day {b.checkInDay} → {b.checkOutDay}</p>
-                                                    <p className="text-[10px] text-brand-500 font-bold uppercase tracking-tighter">Verified Booking</p>
-                                                </td>
-                                                <td className="py-6 px-8 text-right">
-                                                    <span className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest border
+                                            <div key={b.id} className="flex items-center gap-4 p-3 rounded-2xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
+                                                <div className="w-10 h-10 rounded-xl bg-slate-100 text-slate-500 flex items-center justify-center font-bold">
+                                                    {b.travelerName.charAt(0)}
+                                                </div>
+                                                <div className="flex-1">
+                                                    <p className="text-sm font-bold text-slate-800">{b.travelerName}</p>
+                                                    <p className="text-[10px] text-slate-400 font-medium">For: {b.propertyName} (Day {b.checkInDay}-{b.checkOutDay})</p>
+                                                </div>
+                                                <div className="text-right flex items-center gap-3">
+                                                    <span className={`px-2.5 py-1 rounded-lg text-[9px] font-bold uppercase tracking-wider border
                                                         ${b.status === 'pending' ? 'bg-amber-50 text-amber-600 border-amber-100' :
                                                          b.status === 'confirmed' ? 'bg-blue-50 text-blue-600 border-blue-100' :
                                                          b.status === 'checked_in' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
@@ -296,163 +237,113 @@ export default function HostDashboard() {
                                                          'bg-rose-50 text-rose-600 border-rose-100'}`}>
                                                         {b.status.replace('_', ' ')}
                                                     </span>
-                                                </td>
-                                            </tr>
+                                                    <ChevronRight size={14} className="text-slate-300" />
+                                                </div>
+                                            </div>
                                         ))}
-                                        {bookings.length === 0 && (
-                                            <tr>
-                                                <td colSpan={4} className="py-24 text-center">
-                                                    <div className="flex flex-col items-center gap-4 opacity-30">
-                                                        <Users size={64} className="text-slate-300" />
-                                                        <div>
-                                                            <p className="text-xl font-black text-slate-400">No Guest Activity Yet</p>
-                                                            <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mt-1">Your stays are waiting for travelers!</p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        )}
-                                    </tbody>
-                                </table>
+                                    </div>
+                                ) : (
+                                    <div className="py-12 text-center text-slate-400">
+                                        <Users size={32} className="mx-auto mb-3 opacity-20" />
+                                        <p className="text-sm font-medium">No active guest requests.</p>
+                                    </div>
+                                )}
                             </div>
                         </div>
 
-                        {/* Recent Reviews Summary */}
-                        <div className="bg-white rounded-[40px] shadow-sm border border-slate-100 p-8">
-                            <div className="flex justify-between items-center mb-8">
-                                <h2 className="text-2xl font-black text-gray-900 tracking-tight flex items-center gap-3">
-                                    <Star className="text-yellow-400" size={24} /> Recent Reviews
-                                </h2>
-                                <a href="/host-reviews" className="text-xs font-black text-brand-600 uppercase tracking-widest hover:underline italic">Read All Feedback →</a>
+                        {/* Recent Reviews Map (Replacing system activity flow from Admin) */}
+                        <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-8">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-md font-bold text-slate-900 flex items-center gap-2">
+                                    <Star className="text-yellow-400" size={18} /> Guest Feedback
+                                </h3>
+                                <button onClick={() => navigate('/host-reviews')} className="text-xs font-bold text-brand-600 hover:text-brand-700">
+                                    Read All →
+                                </button>
                             </div>
                             
-                            {avgRating === 0 ? (
-                                <div className="py-10 text-center bg-slate-50 rounded-3xl border border-dashed border-slate-200">
-                                    <p className="text-gray-400 font-black uppercase tracking-widest text-xs italic">Awaiting your first guest review</p>
+                            {reviews.length === 0 ? (
+                                <div className="py-8 text-center bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                                    <p className="text-slate-400 text-sm font-medium">Awaiting your first guest review.</p>
                                 </div>
                             ) : (
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                     <div className="p-6 bg-slate-50 rounded-3xl flex items-center justify-between">
-                                        <div>
-                                            <p className="text-sm font-black text-gray-900">Guest Satisfaction</p>
-                                            <p className="text-xs font-bold text-gray-400 uppercase mt-1">Based on recent stays</p>
-                                        </div>
-                                        <div className="text-right">
-                                            <p className="text-4xl font-black text-brand-600 italic">{(avgRating / 5 * 100).toFixed(0)}%</p>
-                                            <div className="flex gap-0.5 mt-1 justify-end">
-                                                {[...Array(5)].map((_, i) => (
-                                                    <Star key={i} size={10} className={i < Math.floor(avgRating) ? 'fill-yellow-400 text-yellow-400' : 'text-slate-200'} />
-                                                ))}
+                                <div className="space-y-4">
+                                    {reviews.slice(0, 3).map(review => (
+                                        <div key={review.id} className="p-4 rounded-2xl hover:bg-slate-50 border border-slate-100 transition-colors">
+                                            <div className="flex items-center justify-between mb-2">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="w-6 h-6 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center text-[10px] font-bold">
+                                                        {review.reviewer_name.charAt(0)}
+                                                    </div>
+                                                    <p className="text-xs font-bold text-slate-800">{review.reviewer_name}</p>
+                                                </div>
+                                                <div className="flex gap-0.5 text-yellow-400">
+                                                    {[...Array(5)].map((_, i) => (
+                                                        <Star key={i} size={10} fill={i < review.overall_rating ? "currentColor" : "none"} className={i >= review.overall_rating ? "text-slate-200" : ""} />
+                                                    ))}
+                                                </div>
                                             </div>
+                                            <p className="text-xs text-slate-600 line-clamp-2 pl-8">"{review.notes}"</p>
                                         </div>
-                                     </div>
-                                     <div className="p-6 bg-brand-600 text-white rounded-3xl flex items-center justify-between">
-                                        <div>
-                                            <p className="text-sm font-black">Performance Tier</p>
-                                            <p className="text-xs font-bold text-white/60 uppercase mt-1 tracking-widest">Calculated Rank</p>
-                                        </div>
-                                        <div className="text-right">
-                                            <p className="text-2xl font-black uppercase italic italic tracking-tighter">Rising Star</p>
-                                            <p className="text-[10px] font-black uppercase opacity-60">Tier 2 Host</p>
-                                        </div>
-                                     </div>
+                                    ))}
                                 </div>
                             )}
                         </div>
                     </div>
 
-                    {/* Sidebar / Quick View */}
-                    <div className="lg:col-span-4 space-y-8">
-                        {/* Financial Snapshot */}
-                        <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-[40px] p-8 text-white relative overflow-hidden shadow-2xl">
-                             <DollarSign className="absolute -bottom-6 -right-6 text-white/5" size={160} />
-                             <h3 className="text-lg font-black uppercase tracking-widest text-brand-400 mb-6 italic">Earnings Overview</h3>
-                             <div className="space-y-6">
-                                <div>
-                                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 italic">Expected Payout</p>
-                                    <p className="text-5xl font-black tracking-tighter italic">₹0.00</p>
-                                </div>
-                                <div className="pt-6 border-t border-white/5 space-y-4">
-                                     <div className="flex justify-between items-center text-sm font-black">
-                                        <span className="text-slate-400">Stays This Month</span>
-                                        <span>0 Stays</span>
-                                     </div>
-                                     <div className="flex justify-between items-center text-sm font-black">
-                                        <span className="text-slate-400">Pending Settlements</span>
-                                        <span>₹0.00</span>
-                                     </div>
-                                </div>
-                                <button onClick={() => navigate('/host-earnings')} className="w-full py-4 bg-brand-500 hover:bg-brand-600 text-white rounded-2xl font-black text-sm uppercase tracking-widest transition-all shadow-lg shadow-brand-500/20">
-                                    Full Statements →
-                                </button>
-                             </div>
+                    {/* Right Column - Status/Earnings */}
+                    <div className="lg:col-span-4 flex flex-col gap-6">
+                        {/* Financial Snapshot - Matches dark mode "Server Status" card of AdminDashboard */}
+                        <div className="bg-slate-900 p-8 rounded-3xl text-white shadow-xl flex flex-col relative overflow-hidden">
+                            <TrendingUp className="absolute -bottom-4 -right-4 text-white/5" size={120} />
+                            <h3 className="text-sm font-bold mb-6 flex items-center gap-2 text-brand-400 relative z-10">
+                                <DollarSign size={16} /> Earnings Summary
+                            </h3>
+                            
+                            <div className="mb-8 relative z-10">
+                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Total Accumulated</p>
+                                <p className="text-3xl font-bold tracking-tight">₹{totalEarnings.toLocaleString()}</p>
+                            </div>
+
+                            <div className="space-y-3 flex-1 relative z-10">
+                                {[
+                                    { label: 'Stays This Month', status: `${staysThisMonth} Events`, color: 'text-white' },
+                                    { label: 'Settled', status: `₹${(earningsData?.settledAmount || 0).toLocaleString()}`, color: 'text-emerald-400' },
+                                    { label: 'Pending', status: `₹${(earningsData?.pendingAmount || 0).toLocaleString()}`, color: 'text-brand-400' },
+                                ].map(item => (
+                                    <div key={item.label} className="flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/10">
+                                        <span className="text-[9px] font-bold uppercase tracking-wider text-white/40">{item.label}</span>
+                                        <span className={`text-[10px] font-bold ${item.color}`}>{item.status}</span>
+                                    </div>
+                                ))}
+                            </div>
+                            
+                            <button onClick={() => navigate('/host-earnings')} className="mt-6 w-full py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors relative z-10">
+                                Financial Reports
+                            </button>
                         </div>
 
-                        {/* Availability Snapshot */}
-                        <div className="bg-white rounded-[40px] p-8 shadow-sm border border-slate-100">
-                            <h3 className="text-lg font-black text-gray-900 tracking-tight mb-6 flex items-center gap-2">
-                                <Calendar size={20} className="text-brand-500" /> Current Availability
+                        {/* Calendar Widget */}
+                        <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm flex-1">
+                            <h3 className="text-sm font-bold text-slate-900 mb-6 flex items-center gap-2">
+                                <Calendar className="text-brand-500" size={16} /> Schedule
                             </h3>
                             <div className="space-y-4">
-                                 <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                                     <div className="flex items-center gap-3">
-                                        <div className="w-2 h-2 rounded-full bg-emerald-500" />
-                                        <span className="text-xs font-black text-gray-700 uppercase tracking-widest">Accepting Guests</span>
-                                     </div>
-                                     <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-100 uppercase tracking-tighter">Active</span>
-                                 </div>
-                                 <div className="p-4 rounded-2xl border border-dashed border-slate-200">
-                                     <p className="text-xs font-medium text-gray-500 leading-relaxed italic">
-                                        "Hosting is more than just providing a bed; it's about sharing a part of your world."
-                                     </p>
-                                 </div>
-                                 <button onClick={() => navigate('/host-availability')} className="w-full py-3 border-2 border-slate-100 hover:border-brand-500 hover:text-brand-600 text-gray-400 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all italic">
-                                     Adjust Calendar ✨
-                                 </button>
-                            </div>
-                        </div>
-
-                        {/* Hosting Performance Tips */}
-                        <div className="bg-gradient-to-br from-brand-600 to-ocean-600 rounded-[40px] p-8 text-white">
-                            <h3 className="text-lg font-black mb-4 italic">Host Academy</h3>
-                            <div className="space-y-4">
-                                <div className="flex gap-3">
-                                    <span className="text-xl">✨</span>
-                                    <p className="text-xs font-bold leading-relaxed opacity-90">High-quality photos increase booking rates by <span className="underline italic">40%</span></p>
+                                <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                                        <span className="text-[10px] font-bold text-slate-700 uppercase tracking-wider">Accepting Stays</span>
+                                    </div>
+                                    <span className="text-[9px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded tracking-wider border border-emerald-100 uppercase">Live</span>
                                 </div>
-                                <div className="flex gap-3">
-                                    <span className="text-xl">💬</span>
-                                    <p className="text-xs font-bold leading-relaxed opacity-90">Response time under <span className="underline italic">2 hours</span> boosts your profile rank</p>
-                                </div>
+                                <button onClick={() => navigate('/host-availability')} className="w-full py-3 border border-slate-200 hover:border-brand-500 hover:text-brand-600 text-slate-500 rounded-xl text-xs font-bold transition-all">
+                                    Update Calendar
+                                </button>
                             </div>
-                            <button className="mt-8 text-xs font-black uppercase tracking-widest border-b border-white hover:opacity-75 transition-opacity italic">View Success Guide →</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    );
-}
-
-function StatCard({ title, value, subtitle, icon, color }: { title: string, value: string | number, subtitle: string, icon: React.ReactNode, color: string }) {
-    return (
-        <motion.div 
-            variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }} 
-            className="bg-white p-6 rounded-[32px] shadow-sm border border-slate-100 flex flex-col gap-6 group hover:shadow-xl transition-all relative overflow-hidden"
-        >
-            <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${color} opacity-[0.03] -mr-8 -mt-8 rounded-full transition-all group-hover:scale-150`} />
-            <div className="flex justify-between items-start">
-                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${color} text-white flex items-center justify-center shadow-lg transform group-hover:rotate-6 transition-transform`}>
-                    {icon}
-                </div>
-                <div className="text-right">
-                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest italic">{title}</p>
-                    <p className="text-3xl font-black text-gray-900 mt-1 italic tracking-tighter">{value}</p>
-                </div>
-            </div>
-            <div className="pt-4 border-t border-slate-50">
-                 <p className="text-[10px] font-bold text-gray-500 italic uppercase tracking-widest leading-none">{subtitle}</p>
-            </div>
-        </motion.div>
     );
 }

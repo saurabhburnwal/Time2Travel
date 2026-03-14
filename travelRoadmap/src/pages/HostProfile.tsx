@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import { getHostProfile } from '../services/hostProfileService';
 import { getHostProperties } from '../services/hostPropertyService';
 import { getMyHostRegistration } from '../services/hostsService';
+import { getHostReviews, HostReviewData } from '../services/hostReviewService';
+import { getHostEarnings, HostEarningsData } from '../services/hostEarningsService';
 import { DBHostProfile, AppHostProperty } from '../services/supabaseClient';
 import { MockUser } from '../services/types';
 
@@ -16,6 +18,8 @@ export default function HostProfile({ user }: HostProfileProps) {
     const [profile, setProfile] = useState<DBHostProfile | null>(null);
     const [properties, setProperties] = useState<AppHostProperty[]>([]);
     const [registration, setRegistration] = useState<any>(null);
+    const [earningsData, setEarningsData] = useState<HostEarningsData | null>(null);
+    const [avgRating, setAvgRating] = useState(0);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -30,8 +34,18 @@ export default function HostProfile({ user }: HostProfileProps) {
             setRegistration(reg.registration);
             
             if (p) {
-                const props = await getHostProperties(p.host_id);
+                const [props, earnings, revs] = await Promise.all([
+                    getHostProperties(p.host_id),
+                    getHostEarnings(p.host_id),
+                    getHostReviews(p.host_id)
+                ]);
                 setProperties(props);
+                setEarningsData(earnings);
+                
+                if (revs && revs.length > 0) {
+                    const total = revs.reduce((sum, r) => sum + r.overall_rating, 0);
+                    setAvgRating(total / revs.length);
+                }
             }
             setLoading(false);
         };
@@ -63,11 +77,11 @@ export default function HostProfile({ user }: HostProfileProps) {
                     <p className="text-sm text-gray-500 mt-1">Guest Capacity</p>
                 </div>
                 <div className="glass-card p-5 text-center">
-                    <p className="text-3xl font-bold gradient-text">4.8</p>
+                    <p className="text-3xl font-bold gradient-text">{avgRating > 0 ? avgRating.toFixed(1) : 'New'}</p>
                     <p className="text-sm text-gray-500 mt-1">Host Rating</p>
                 </div>
                 <div className="glass-card p-5 text-center">
-                    <p className="text-3xl font-bold gradient-text">₹0</p>
+                    <p className="text-3xl font-bold gradient-text">₹{earningsData?.totalContributions?.toLocaleString() || '0'}</p>
                     <p className="text-sm text-gray-500 mt-1">Total Earnings</p>
                 </div>
             </div>

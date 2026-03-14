@@ -30,6 +30,8 @@ export default function HostEarnings() {
             // Mock empty data for pending hosts
             setEarningsData({
                 totalContributions: 0,
+                settledAmount: 0,
+                pendingAmount: 0,
                 monthlyBreakdown: [],
                 propertyBreakdown: [],
                 avgContribution: 0
@@ -57,94 +59,94 @@ export default function HostEarnings() {
         <div className="min-h-screen bg-slate-50 pt-20">
             <HostNav />
             
-            <div className="section-container py-10 max-w-7xl">
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
-                    <div className="space-y-2">
-                        <div className="flex items-center gap-3 mb-2">
-                             <span className="px-3 py-1 bg-brand-100 text-brand-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-brand-200">Revenue Management</span>
-                             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                {/* Hero Section */}
+                <div className="relative h-48 rounded-3xl overflow-hidden shadow-lg group bg-slate-900 mb-8 max-w-7xl mx-auto xl:px-0 px-4">
+                    <img 
+                        src="/images/bg.png" 
+                        alt="Earnings Dashboard" 
+                        className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 to-transparent" />
+                    <div className="relative h-full flex flex-col justify-center px-10">
+                         <div className="flex items-center gap-3 mb-2">
+                             <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                             <span className="text-[10px] font-bold uppercase tracking-wider text-brand-400">Revenue Management</span>
                         </div>
-                        <h1 className="text-6xl font-black text-gray-900 tracking-tighter italic">Earnings</h1>
-                        <p className="text-gray-400 font-medium text-lg">Track your hospitality contributions and financial performance.</p>
-                    </div>
-
-                    <div className="flex items-center gap-4 bg-white p-2 rounded-[24px] border border-slate-100 shadow-sm">
-                         <button className="px-6 py-3 bg-brand-600 text-white rounded-[18px] text-xs font-black uppercase tracking-widest shadow-lg shadow-brand-500/20">Monthly</button>
-                         <button className="px-6 py-3 text-slate-400 rounded-[18px] text-xs font-black uppercase tracking-widest hover:text-slate-600 transition-colors">Quarterly</button>
-                         <button className="px-6 py-3 text-slate-400 rounded-[18px] text-xs font-black uppercase tracking-widest hover:text-slate-600 transition-colors">Yearly</button>
+                        <h1 className="text-3xl font-bold text-white mb-2">Earnings Report</h1>
+                        <p className="text-slate-200 text-sm max-w-md">Track your hospitality contributions and financial performance.</p>
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16">
-                    <div className="md:col-span-2 bg-gradient-to-br from-slate-900 to-slate-800 rounded-[40px] p-10 text-white relative overflow-hidden shadow-2xl">
-                        <IndianRupee className="absolute -bottom-10 -right-10 text-white/5" size={240} />
+            <div className="section-container max-w-7xl">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                    <div className="md:col-span-2 bg-slate-900 rounded-3xl p-8 text-white relative overflow-hidden shadow-xl">
+                        <IndianRupee className="absolute -bottom-10 -right-10 text-white/5" size={200} />
                         <div className="relative z-10">
-                            <p className="text-brand-400 mb-2 font-black uppercase tracking-widest italic text-sm">
-                                Total Accumulated
+                            <p className="text-brand-400 mb-2 font-bold uppercase tracking-wider text-sm flex items-center gap-2">
+                                <IndianRupee size={16} /> Total Accumulated
                             </p>
-                            <h2 className="text-7xl font-black tracking-tighter italic">₹{totalContributions.toLocaleString()}</h2>
-                            <div className="mt-8 pt-8 border-t border-white/10 flex items-center gap-6">
-                                <div>
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 italic">Settled Balance</p>
-                                    <p className="text-xl font-black tracking-tight">₹{(totalContributions * 0.9).toLocaleString()}</p>
+                            <h2 className="text-5xl font-bold tracking-tight mb-8">₹{totalContributions.toLocaleString()}</h2>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-1">Settled Balance</p>
+                                    <p className="text-xl font-bold tracking-tight text-emerald-400">₹{(earningsData.settledAmount || 0).toLocaleString()}</p>
                                 </div>
-                                <div>
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 italic">Pending</p>
-                                    <p className="text-xl font-black tracking-tight">₹{(totalContributions * 0.1).toLocaleString()}</p>
+                                <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-1">Pending</p>
+                                    <p className="text-xl font-bold tracking-tight text-brand-400">₹{(earningsData.pendingAmount || 0).toLocaleString()}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <div className="bg-white rounded-[40px] p-10 shadow-sm border border-slate-100 flex flex-col justify-between group hover:shadow-xl transition-all">
-                        <div className="w-16 h-16 bg-slate-50 text-slate-300 rounded-[20px] flex items-center justify-center border border-slate-100 transition-all group-hover:bg-brand-50 group-hover:text-brand-600 group-hover:rotate-6">
-                            <TrendingUp size={32} />
+                    <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between hover:shadow-md transition-all">
+                        <div className="w-10 h-10 bg-brand-50 text-brand-500 rounded-xl flex items-center justify-center border border-brand-100">
+                            <TrendingUp size={20} />
                         </div>
-                        <div className="mt-8">
-                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 italic">Contribution / Guest</p>
-                            <h3 className="text-4xl font-black text-gray-900 tracking-tighter italic">₹{Math.round(avgContribution).toLocaleString()}</h3>
-                            <p className="text-[10px] text-emerald-500 font-bold uppercase mt-2 tracking-tighter">↑ 4% this week</p>
+                        <div className="mt-6">
+                            <p className="text-3xl font-bold text-gray-900 tracking-tight">₹{Math.round(avgContribution).toLocaleString()}</p>
+                            <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Contribution / Guest</p>
+                            <p className="text-[10px] text-emerald-500 font-bold uppercase mt-2">↑ 4% this week</p>
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-[40px] p-10 shadow-sm border border-slate-100 flex flex-col justify-between group hover:shadow-xl transition-all">
-                        <div className="w-16 h-16 bg-slate-50 text-slate-300 rounded-[20px] flex items-center justify-center border border-slate-100 transition-all group-hover:bg-ocean-50 group-hover:text-ocean-600 group-hover:-rotate-6">
-                            <Home size={32} />
+                    <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between hover:shadow-md transition-all">
+                        <div className="w-10 h-10 bg-ocean-50 text-ocean-600 rounded-xl flex items-center justify-center border border-ocean-100">
+                            <Home size={20} />
                         </div>
-                        <div className="mt-8">
-                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 italic">Active Listings</p>
-                            <h3 className="text-4xl font-black text-gray-900 tracking-tighter italic">{propertyBreakdown.length}</h3>
-                            <p className="text-[10px] text-slate-400 font-bold uppercase mt-2 tracking-tighter">Verified inventory</p>
+                        <div className="mt-6">
+                            <p className="text-3xl font-bold text-gray-900 tracking-tight">{propertyBreakdown.length}</p>
+                            <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Active Listings</p>
+                            <p className="text-[10px] text-slate-400 font-bold uppercase mt-2">Verified inventory</p>
                         </div>
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
                     {/* Performance Graph */}
-                    <div className="lg:col-span-8 bg-white rounded-[48px] p-12 shadow-sm border border-slate-100">
-                        <div className="flex items-center justify-between mb-12">
-                            <div>
-                                <h2 className="text-3xl font-black text-gray-900 tracking-tighter italic">Performance</h2>
-                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">Growth overview</p>
-                            </div>
-                            <div className="flex items-center gap-3">
-                                <span className="w-3 h-3 rounded-full bg-brand-500" />
-                                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Net Revenue</span>
+                    <div className="lg:col-span-3 bg-white rounded-3xl p-8 shadow-sm border border-slate-100">
+                        <div className="flex items-center justify-between mb-8">
+                            <h2 className="text-md font-bold text-slate-900 flex items-center gap-2">
+                                <TrendingUp className="text-brand-500" size={18} /> Performance Growth
+                            </h2>
+                            <div className="flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-brand-500" />
+                                <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400">Net Revenue</span>
                             </div>
                         </div>
                         
                         {monthlyBreakdown.length === 0 ? (
-                            <div className="h-[400px] flex flex-col items-center justify-center text-slate-300 gap-6 bg-slate-50/50 rounded-[40px] border-2 border-dashed border-slate-100">
-                                <div className="w-20 h-20 bg-white rounded-3xl flex items-center justify-center shadow-sm">
-                                    <BarChart3 size={40} className="opacity-20" />
+                            <div className="h-[300px] flex flex-col items-center justify-center text-slate-300 gap-4 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                                <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm border border-slate-100">
+                                    <BarChart3 size={24} className="opacity-40" />
                                 </div>
                                 <div className="text-center">
-                                    <p className="text-xl font-black italic tracking-tight">Financial data pending</p>
-                                    <p className="text-sm font-bold uppercase tracking-widest mt-1 opacity-60">Awaiting your first stay event</p>
+                                    <p className="text-xl font-bold tracking-tight">Financial data pending</p>
+                                     <p className="text-sm font-medium uppercase tracking-wider mt-1 opacity-60">Awaiting your first stay event</p>
                                 </div>
                             </div>
                         ) : (
-                            <div className="h-[400px] flex items-end gap-6 px-4">
+                            <div className="h-[300px] flex items-end gap-2 mt-8 overflow-x-auto pb-4">
                                 {monthlyBreakdown.map((item, index) => {
                                     const heightPercentage = (item.amount / maxMonthly) * 100;
                                     const dateObj = new Date(item.month + '-01');
@@ -165,7 +167,7 @@ export default function HostEarnings() {
                                                     ₹{item.amount.toLocaleString()}
                                                 </div>
                                             </div>
-                                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] italic">{monthLabel}</span>
+                                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{monthLabel}</span>
                                         </div>
                                     );
                                 })}
@@ -174,39 +176,34 @@ export default function HostEarnings() {
                     </div>
 
                     {/* Breakdown Sidebar */}
-                    <div className="lg:col-span-4 space-y-10">
-                        <div className="bg-white rounded-[48px] p-10 shadow-sm border border-slate-100 h-full">
-                            <h2 className="text-2xl font-black text-gray-900 tracking-tighter italic mb-8">Top Revenue</h2>
+                    <div className="lg:col-span-1 flex flex-col">
+                        <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 flex-1">
+                            <h2 className="text-md font-bold text-slate-900 mb-6 flex items-center gap-2">
+                                <IndianRupee className="text-brand-500" size={18} /> Top Revenue
+                            </h2>
                             
                             {propertyBreakdown.length === 0 ? (
-                                <div className="space-y-4 opacity-20">
-                                    {[...Array(3)].map((_, i) => (
-                                        <div key={i} className="h-20 bg-slate-100 rounded-[28px] animate-pulse" />
+                                <div className="space-y-3 opacity-40">
+                                    {[1, 2, 3].map(i => (
+                                        <div key={i} className="h-20 bg-slate-50 rounded-2xl animate-pulse border border-slate-100" />
                                     ))}
                                 </div>
                             ) : (
-                                <div className="space-y-6">
+                                <div className="space-y-3">
                                     {propertyBreakdown.sort((a,b) => b.amount - a.amount).map((prop) => (
-                                        <div key={prop.propertyId} className="group p-6 bg-slate-50 rounded-[32px] border border-transparent hover:border-brand-100 hover:bg-white transition-all">
+                                        <div key={prop.propertyId} className="group p-4 bg-slate-50 rounded-2xl border border-transparent hover:border-brand-100 hover:bg-white transition-all">
                                             <div className="flex justify-between items-start mb-2">
-                                                 <p className="text-[10px] font-black text-brand-600 uppercase tracking-widest italic">Inventory ID #{prop.propertyId.toString().slice(-4)}</p>
-                                                 <span className="text-[10px] font-black text-slate-400 italic">{(prop.amount / totalContributions * 100).toFixed(0)}% Share</span>
+                                                 <p className="text-[10px] font-bold text-brand-600 uppercase tracking-wider">Inventory ID #{prop.propertyId.toString().slice(-4)}</p>
+                                                 <span className="text-[10px] font-medium text-slate-400">{(prop.amount / totalContributions * 100).toFixed(0)}% Share</span>
                                             </div>
                                             <div className="flex justify-between items-end">
-                                                <div className="font-black text-gray-900 text-lg tracking-tight group-hover:text-brand-600 transition-colors truncate pr-4">{prop.propertyName}</div>
-                                                <div className="font-black text-brand-600 italic">₹{prop.amount.toLocaleString()}</div>
+                                                <div className="font-bold text-gray-900 text-sm group-hover:text-brand-600 transition-colors truncate pr-4">{prop.propertyName}</div>
+                                                <div className="font-bold text-brand-600 text-sm">₹{prop.amount.toLocaleString()}</div>
                                             </div>
                                         </div>
                                     ))}
                                 </div>
                             )}
-
-                             <div className="mt-12 p-8 bg-gradient-to-br from-brand-600 to-ocean-600 rounded-[32px] text-white">
-                                <p className="text-xs font-black uppercase tracking-widest mb-2 italic">Pro Tip</p>
-                                <p className="text-sm font-medium leading-relaxed opacity-90 italic">
-                                    "Transparent contribution models increase guest trust and lead to 25% higher payouts on average."
-                                </p>
-                             </div>
                         </div>
                     </div>
                 </div>

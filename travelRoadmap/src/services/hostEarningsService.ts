@@ -2,6 +2,8 @@ import { supabase } from './supabaseClient';
 
 export interface HostEarningsData {
     totalContributions: number;
+    settledAmount: number;
+    pendingAmount: number;
     monthlyBreakdown: { month: string; amount: number }[];
     propertyBreakdown: { propertyId: number; propertyName: string; amount: number }[];
     avgContribution: number;
@@ -15,6 +17,7 @@ export async function getHostEarnings(host_id: number): Promise<HostEarningsData
                 contribution_received,
                 created_at,
                 property_id,
+                status,
                 host_properties (property_name)
             `)
             .eq('host_id', host_id)
@@ -22,10 +25,12 @@ export async function getHostEarnings(host_id: number): Promise<HostEarningsData
 
         if (error) {
             console.warn('getHostEarnings error:', error);
-            return { totalContributions: 0, monthlyBreakdown: [], propertyBreakdown: [], avgContribution: 0 };
+            return { totalContributions: 0, settledAmount: 0, pendingAmount: 0, monthlyBreakdown: [], propertyBreakdown: [], avgContribution: 0 };
         }
 
         let totalContributions = 0;
+        let settledAmount = 0;
+        let pendingAmount = 0;
         const monthlyMap: Record<string, number> = {};
         const propertyMap: Record<number, { name: string; amount: number }> = {};
         let validContributionsCount = 0;
@@ -35,6 +40,12 @@ export async function getHostEarnings(host_id: number): Promise<HostEarningsData
             if (amount > 0) {
                 totalContributions += amount;
                 validContributionsCount++;
+
+                if (row.status === 'completed') {
+                    settledAmount += amount;
+                } else {
+                    pendingAmount += amount;
+                }
 
                 const date = new Date(row.created_at);
                 const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
@@ -62,12 +73,14 @@ export async function getHostEarnings(host_id: number): Promise<HostEarningsData
 
         return {
             totalContributions,
+            settledAmount,
+            pendingAmount,
             monthlyBreakdown,
             propertyBreakdown,
             avgContribution
         };
     } catch (err) {
         console.warn('getHostEarnings exception:', err);
-        return { totalContributions: 0, monthlyBreakdown: [], propertyBreakdown: [], avgContribution: 0 };
+        return { totalContributions: 0, settledAmount: 0, pendingAmount: 0, monthlyBreakdown: [], propertyBreakdown: [], avgContribution: 0 };
     }
 }
