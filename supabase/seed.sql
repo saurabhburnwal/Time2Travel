@@ -4,7 +4,7 @@ SET session_replication_role = replica;
 -- PostgreSQL database dump
 --
 
--- \restrict syvxsJnUdL9tbXzZ9Od63Yg4d8zLoeKTehRfgW8SRVcdi00ODUC2JwuGOGKpZNT
+-- \restrict l3h4YdSnejIQ3WFJs7BQC5dlb55YLLbOhQqnUVgZW6VfdaQKJbUIxqO0H4Wscwa
 
 -- Dumped from database version 17.6
 -- Dumped by pg_dump version 17.6
@@ -303,8 +303,8 @@ INSERT INTO "public"."users" ("user_id", "name", "email", "password_hash", "phon
 	(9, 'rehan', 'rehaninamdar819@gmail.com', '$2a$10$6W0MN6lgO/47q77eZq8iwOfG/2rggGmOPWekXsBMVVqjr0QRzWPs6', '951124250', 'MALE', 2, true, '2026-03-07 02:34:34.825524+00', false, '460f19e978b8ba946364ba25e5515c7bd80685ca86065f938825700724c14baf', '2026-03-08 02:41:46.578+00', NULL, NULL),
 	(10, 'Dummy User', 'dummy2@test.com', '$2a$10$mVGSOOXMmvc.FvHmdDA2f.pzIFCKRPuvWSc0MRjqtFnbuefnV2gh.', '9876543210', 'OTHER', 2, true, '2026-03-07 02:55:17.851648+00', false, 'fdc34bdc51ed983d73e0a53eca88247e8d1780d3d7550d5c81275b78772c7061', '2026-03-08 02:55:17.851+00', NULL, NULL),
 	(1, 'Admin', 'admin@timetotravel.com', '$2a$10$enYJ7REdnpWcta4hrE22NOrPgfTtfpn17vQsdwhCW0rkyGR2wcPcm', '9000000000', 'OTHER', 1, true, '2026-02-22 11:41:59.385273+00', true, NULL, NULL, NULL, NULL),
-	(12, 'Sudeepa', 'sudeepasanthanam2004@gmail.com', '$2a$10$qKcwdJB.o3U4TjsSe7KiT.bj5q/NcZVOVQ8Y2vw12QOVNb/cTsC..', '9945899322', 'FEMALE', 3, true, '2026-03-14 02:59:57.274583+00', true, NULL, NULL, NULL, NULL),
-	(13, 'Deepu Sudeepa', 'sudeepa.santhanam@mca.christuniversity.in', '$2a$10$iYBlws0655i1m/LC43h5b.iYcFcp5vRMT8xh/3.0M1CmjhunI3WjW', '9954788622', 'FEMALE', 2, true, '2026-03-14 03:06:26.612979+00', true, NULL, NULL, NULL, NULL);
+	(13, 'Deepu Sudeepa', 'sudeepa.santhanam@mca.christuniversity.in', '$2a$10$iYBlws0655i1m/LC43h5b.iYcFcp5vRMT8xh/3.0M1CmjhunI3WjW', '9954788622', 'FEMALE', 2, true, '2026-03-14 03:06:26.612979+00', true, NULL, NULL, NULL, NULL),
+	(12, 'Sudeepa', 'sudeepasanthanam2004@gmail.com', '$2a$10$qKcwdJB.o3U4TjsSe7KiT.bj5q/NcZVOVQ8Y2vw12QOVNb/cTsC..', '9945899322', 'FEMALE', 3, true, '2026-03-14 02:59:57.274583+00', true, NULL, NULL, NULL, NULL);
 
 
 --
@@ -335,7 +335,8 @@ INSERT INTO "public"."roadmaps" ("roadmap_id", "user_id", "destination_id", "roa
 	(21, 13, 41, 2, 11.15, 3233.80, '2026-03-14 11:20:36.115748+00', false, 'host', 'rehan'),
 	(22, 13, 41, 1, 19.81, 3337.72, '2026-03-14 11:20:42.409786+00', false, 'host', 'rehan'),
 	(23, 13, 41, 2, 11.15, 3233.80, '2026-03-14 11:20:54.678334+00', true, 'host', 'rehan'),
-	(24, 13, 83, 2, 47.32, 2577.84, '2026-03-14 11:44:27.242259+00', true, 'host', 'Sudeepa');
+	(24, 13, 83, 2, 47.32, 2577.84, '2026-03-14 11:44:27.242259+00', true, 'host', 'Sudeepa'),
+	(25, 13, 83, 2, 47.32, 2577.84, '2026-03-14 20:46:03.602129+00', false, 'host', 'Sudeepa');
 
 
 --
@@ -356,7 +357,8 @@ INSERT INTO "public"."expenses" ("expense_id", "roadmap_id", "accommodation", "f
 	(11, 21, 0.00, 3000.00, 133.80, 100.00, 'INR', '2026-03-14 11:20:36.144926+00'),
 	(12, 22, 0.00, 3000.00, 237.72, 100.00, 'INR', '2026-03-14 11:20:42.443997+00'),
 	(13, 23, 0.00, 3000.00, 133.80, 100.00, 'INR', '2026-03-14 11:20:54.70862+00'),
-	(14, 24, 0.00, 1500.00, 567.84, 510.00, 'INR', '2026-03-14 11:44:27.279733+00');
+	(14, 24, 0.00, 1500.00, 567.84, 510.00, 'INR', '2026-03-14 11:44:27.279733+00'),
+	(15, 25, 0.00, 1500.00, 567.84, 510.00, 'INR', '2026-03-14 20:46:03.703191+00');
 
 
 --
@@ -393,7 +395,8 @@ INSERT INTO "public"."host_properties" ("property_id", "host_id", "destination_i
 --
 
 INSERT INTO "public"."host_bookings" ("booking_id", "property_id", "host_id", "traveler_id", "roadmap_id", "check_in_day", "check_out_day", "status", "contribution_received", "host_notes", "created_at") VALUES
-	(1, 1, 3, 13, 24, NULL, NULL, 'completed', 500.00, NULL, '2026-03-14 11:44:27.268729');
+	(1, 1, 3, 13, 24, NULL, NULL, 'completed', 500.00, NULL, '2026-03-14 11:44:27.268729'),
+	(2, 1, 3, 13, 25, NULL, NULL, 'completed', NULL, NULL, '2026-03-14 20:46:03.670154');
 
 
 --
@@ -410,11 +413,14 @@ INSERT INTO "public"."host_registrations" ("id", "user_id", "name", "phone", "st
 -- Data for Name: host_reviews; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO "public"."host_reviews" ("id", "user_id", "roadmap_id", "host_name", "property_type", "cleanliness_rating", "communication_rating", "overall_rating", "notes", "created_at", "hospitality_rating", "payment_amount") VALUES
-	(1, 13, 23, 'Rehan', 'cottage', 5, 4, 4, 'good food and goos cottage to stay', '2026-03-14 11:22:23.592751', NULL, 0.00),
-	(2, 13, 23, 'rehan', 'guesthouse', 4, 4, 4, NULL, '2026-03-14 11:39:30.398153', NULL, 0.00),
-	(3, 13, 24, 'sudeepa', 'homestay', 5, 5, 5, NULL, '2026-03-14 11:45:58.509276', 5, 700.00),
-	(4, 13, 24, 'sudeepa', 'homestay', 5, 5, 5, NULL, '2026-03-14 15:02:13.326313', 5, 701.00);
+INSERT INTO "public"."host_reviews" ("id", "user_id", "roadmap_id", "host_name", "property_type", "cleanliness_rating", "communication_rating", "hospitality_rating", "overall_rating", "payment_amount", "notes", "created_at") VALUES
+	(1, 13, 23, 'Rehan', 'cottage', 5, 4, NULL, 4, 0.00, 'good food and goos cottage to stay', '2026-03-14 11:22:23.592751'),
+	(2, 13, 23, 'rehan', 'guesthouse', 4, 4, NULL, 4, 0.00, NULL, '2026-03-14 11:39:30.398153'),
+	(3, 13, 24, 'sudeepa', 'homestay', 5, 5, 5, 5, 700.00, NULL, '2026-03-14 11:45:58.509276'),
+	(4, 13, 24, 'sudeepa', 'homestay', 5, 5, 5, 5, 701.00, NULL, '2026-03-14 15:02:13.326313'),
+	(5, 13, 24, 'sudeepa', 'homestay', 5, 5, 5, 5, 200.00, NULL, '2026-03-14 20:50:11.312322'),
+	(6, 13, 24, 'sudeepa', 'homestay', 5, 5, 5, 5, 200.00, 'amazinggg', '2026-03-14 21:04:33.025581'),
+	(7, 13, 24, 'sudeepa', 'homestay', 5, 5, 5, 5, 203.00, 'wowowww', '2026-03-14 21:06:43.518387');
 
 
 --
@@ -2827,7 +2833,9 @@ INSERT INTO "public"."places" ("place_id", "destination_id", "travel_type_id", "
 
 INSERT INTO "public"."reviews" ("review_id", "user_id", "roadmap_id", "rating", "comment", "created_at") VALUES
 	(1, 13, 17, 5, 'amazing stay
-', '2026-03-14 04:22:45.677875+00');
+', '2026-03-14 04:22:45.677875+00'),
+	(2, 13, 24, 5, 'wowowow
+', '2026-03-14 20:49:50.085733+00');
 
 
 --
@@ -3060,7 +3068,16 @@ INSERT INTO "public"."roadmap_places" ("id", "roadmap_id", "place_id", "day_numb
 	(203, 24, 1995, 1, 1, NULL, NULL),
 	(204, 24, 2000, 1, 1, NULL, NULL),
 	(205, 24, 1993, 1, 1, NULL, NULL),
-	(206, 24, 2001, 1, 1, NULL, NULL);
+	(206, 24, 2001, 1, 1, NULL, NULL),
+	(207, 25, 1994, 1, 1, NULL, NULL),
+	(208, 25, 1999, 1, 1, NULL, NULL),
+	(209, 25, 2002, 1, 1, NULL, NULL),
+	(210, 25, 1996, 1, 1, NULL, NULL),
+	(211, 25, 1998, 1, 1, NULL, NULL),
+	(212, 25, 1995, 1, 1, NULL, NULL),
+	(213, 25, 2000, 1, 1, NULL, NULL),
+	(214, 25, 1993, 1, 1, NULL, NULL),
+	(215, 25, 2001, 1, 1, NULL, NULL);
 
 
 --
@@ -3155,7 +3172,7 @@ SELECT pg_catalog.setval('"public"."destinations_destination_id_seq"', 83, true)
 -- Name: expenses_expense_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."expenses_expense_id_seq"', 14, true);
+SELECT pg_catalog.setval('"public"."expenses_expense_id_seq"', 15, true);
 
 
 --
@@ -3169,7 +3186,7 @@ SELECT pg_catalog.setval('"public"."group_types_group_type_id_seq"', 1, false);
 -- Name: host_bookings_booking_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."host_bookings_booking_id_seq"', 1, true);
+SELECT pg_catalog.setval('"public"."host_bookings_booking_id_seq"', 2, true);
 
 
 --
@@ -3197,7 +3214,7 @@ SELECT pg_catalog.setval('"public"."host_registrations_id_seq"', 6, true);
 -- Name: host_reviews_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."host_reviews_id_seq"', 4, true);
+SELECT pg_catalog.setval('"public"."host_reviews_id_seq"', 7, true);
 
 
 --
@@ -3225,7 +3242,7 @@ SELECT pg_catalog.setval('"public"."places_place_id_seq"', 2392, true);
 -- Name: reviews_review_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."reviews_review_id_seq"', 1, true);
+SELECT pg_catalog.setval('"public"."reviews_review_id_seq"', 2, true);
 
 
 --
@@ -3239,7 +3256,7 @@ SELECT pg_catalog.setval('"public"."roadmap_accommodations_accommodation_id_seq"
 -- Name: roadmap_places_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."roadmap_places_id_seq"', 206, true);
+SELECT pg_catalog.setval('"public"."roadmap_places_id_seq"', 215, true);
 
 
 --
@@ -3253,7 +3270,7 @@ SELECT pg_catalog.setval('"public"."roadmap_types_roadmap_type_id_seq"', 2, true
 -- Name: roadmaps_roadmap_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"public"."roadmaps_roadmap_id_seq"', 24, true);
+SELECT pg_catalog.setval('"public"."roadmaps_roadmap_id_seq"', 25, true);
 
 
 --
@@ -3302,6 +3319,6 @@ SELECT pg_catalog.setval('"supabase_functions"."hooks_id_seq"', 1, false);
 -- PostgreSQL database dump complete
 --
 
--- \unrestrict syvxsJnUdL9tbXzZ9Od63Yg4d8zLoeKTehRfgW8SRVcdi00ODUC2JwuGOGKpZNT
+-- \unrestrict l3h4YdSnejIQ3WFJs7BQC5dlb55YLLbOhQqnUVgZW6VfdaQKJbUIxqO0H4Wscwa
 
 RESET ALL;

@@ -160,8 +160,8 @@ Wipes all data, re-runs every migration file in order, then applies `seed.sql`. 
 ### Save your current data changes
 If you've added data through the app or Supabase Studio and want to persist it for the next reset:
 ```bash
-supabase db dump --data-only -f supabase/seed.sql
-```
+npx supabase db dump --local --data-only > supabase/seed.sql```
+
 This overwrites `seed.sql` with the current state of your database. **Run this before every `db reset`** if you want to keep your data.
 
 ### Apply new migrations without reset
