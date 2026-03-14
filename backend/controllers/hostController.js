@@ -2,7 +2,7 @@ const { query } = require('../config/db');
 
 exports.getHostsByDestination = async (req, res, next) => {
     try {
-        const { destination_id } = req.query;
+        const { destination_id, destination } = req.query;
 
         let sql = `
             SELECT hp.host_id, hp.max_guests, hp.provides_food, hp.verified,
@@ -18,11 +18,11 @@ exports.getHostsByDestination = async (req, res, next) => {
         const params = [];
 
         if (destination_id) {
-            sql += ` AND hp.destination_id = $1`;
             params.push(destination_id);
-        } else {
-            // Optional: for non-admins, we might require destination_id, but the frontend admin
-            // dashboard calls this without destination_id to get ALL hosts.
+            sql += ` AND hp.destination_id = $${params.length}`;
+        } else if (destination) {
+            params.push(`%${destination}%`);
+            sql += ` AND d.name ILIKE $${params.length}`;
         }
 
         sql += ` ORDER BY hp.verified DESC, hp.voluntary_min_amount ASC`;

@@ -138,14 +138,15 @@ const groupIntoDays = (orderedPlaces) => {
 // ===== ROADMAP STYLES =====
 
 /**
- * FASTEST: Pure NNA — shortest total path
+ * FASTEST: Pure NNA — shortest total path, limited to realistic spots per trip
  */
-const generateFastest = (places) => {
-    const ordered = nearestNeighborSort(places);
+const generateFastest = (places, days = 3) => {
+    const maxSpots = Math.min(places.length, days * 4); // max 4 spots/day
+    const ordered = nearestNeighborSort(places).slice(0, maxSpots);
     return {
         style: 'fastest',
         label: 'Fastest Route',
-        description: 'Optimised shortest path covering all attractions with minimum travel time.',
+        description: 'Optimised shortest path covering top attractions with minimum travel time.',
         icon: '⚡',
         orderedPlaces: ordered,
         days: groupIntoDays(ordered),
@@ -155,14 +156,17 @@ const generateFastest = (places) => {
 
 /**
  * BUDGET: Exclude places above ₹50 entry fee first (free places), then add paid ones
+ * Limited to realistic spots based on trip days
  */
-const generateBudget = (places, budgetPerDay = 500) => {
+const generateBudget = (places, days = 3) => {
+    const maxSpots = Math.min(places.length, days * 3); // budget = 3 spots/day (more relaxed)
     const free = places.filter(p => parseFloat(p.entry_fee || 0) <= 50);
-    const paid = places.filter(p => parseFloat(p.entry_fee || 0) > 50);
+    const paid = places.filter(p => parseFloat(p.entry_fee || 0) > 50)
+        .sort((a, b) => parseFloat(a.entry_fee || 0) - parseFloat(b.entry_fee || 0));
 
     // Prefer free & cheap places, append paid ones after
     const combined = [...nearestNeighborSort(free), ...nearestNeighborSort(paid)];
-    const ordered = combined;
+    const ordered = combined.slice(0, maxSpots);
 
     return {
         style: 'budget',
@@ -179,16 +183,17 @@ const generateBudget = (places, budgetPerDay = 500) => {
 /**
  * Generate roadmap options for a set of places.
  * @param {Array} places - Place records from DB
+ * @param {number} days  - Number of trip days (to limit spots realistically)
  * @returns {Object} - { fastest, budget }
  */
-const generateAllRoadmaps = (places) => {
+const generateAllRoadmaps = (places, days = 3) => {
     if (!places || places.length === 0) {
         return { fastest: null, budget: null };
     }
 
     return {
-        fastest: generateFastest(places),
-        budget: generateBudget(places),
+        fastest: generateFastest(places, days),
+        budget: generateBudget(places, days),
     };
 };
 

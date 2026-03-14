@@ -67,11 +67,11 @@ exports.generateRoadmap = async (req, res, next) => {
 
         const places = placesResult.rows;
 
-        // 3. Generate 4 roadmap options using NNA
-        const roadmaps = generateAllRoadmaps(places);
+        // 3. Generate roadmap options using NNA, limited by trip days
+        const roadmaps = generateAllRoadmaps(places, parseInt(days));
 
         // 4. Estimate expenses for each roadmap style
-        const stayPerNight = accommodationPerNight || 1500; // default mid-range hotel cost
+        const stayPerNight = (accommodationPerNight !== undefined && accommodationPerNight !== null) ? Number(accommodationPerNight) : 1500; // default mid-range hotel cost if missing
 
         const expenseStyle = budget < 3000 ? 'budget' : budget < 8000 ? 'standard' : 'premium';
 
@@ -126,6 +126,45 @@ exports.emailTripPDF = async (req, res, next) => {
     }
 };
 
+const createHostBookingIfSelected = async (roadmap, userId) => {
+    if (roadmap.stay_type === 'host' && roadmap.selected_stay) {
+        try {
+            // Ensure table exists safely
+            await query(`
+                CREATE TABLE IF NOT EXISTS host_bookings (
+                    booking_id SERIAL PRIMARY KEY,
+                    host_id INTEGER REFERENCES host_profiles(host_id),
+                    property_id INTEGER REFERENCES host_properties(property_id),
+                    traveler_id INTEGER REFERENCES users(user_id),
+                    roadmap_id INTEGER REFERENCES roadmaps(roadmap_id),
+                    check_in_day DATE,
+                    check_out_day DATE,
+                    status VARCHAR(50) DEFAULT 'pending',
+                    contribution_received DECIMAL(10,2) DEFAULT 0,
+                    host_notes TEXT,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+            `);
+
+            const propRes = await query(`SELECT property_id, host_id FROM host_properties WHERE property_name = $1`, [roadmap.selected_stay]);
+            if (propRes.rowCount > 0) {
+                const { property_id, host_id } = propRes.rows[0];
+
+                const existBook = await query(`SELECT booking_id FROM host_bookings WHERE roadmap_id = $1 AND traveler_id = $2`, [roadmap.roadmap_id, userId]);
+                if (existBook.rowCount === 0) {
+                    await query(
+                        `INSERT INTO host_bookings (host_id, property_id, traveler_id, roadmap_id, status)
+                         VALUES ($1, $2, $3, $4, 'pending')`,
+                        [host_id, property_id, userId, roadmap.roadmap_id]
+                    );
+                }
+            }
+        } catch (bokErr) {
+            console.warn('Error creating host booking:', bokErr.message);
+        }
+    }
+};
+
 // ===== SAVE SELECTED ROADMAP =====
 exports.saveRoadmap = async (req, res, next) => {
     try {
@@ -137,15 +176,20 @@ exports.saveRoadmap = async (req, res, next) => {
 
         // 1. Fetch destination info
         const destResult = await query(
-            `SELECT destination_id FROM destinations WHERE LOWER(name) = LOWER($1)`,
+            `SELECT destination_id FROM destinations WHERE LOWER(name) = LOWER($1) LIMIT 1`,
             [destination]
         );
 
-        if (destResult.rowCount === 0) {
-            return res.status(404).json({ success: false, message: `Destination '${destination}' not found in database.` });
+        let destination_id;
+        if (destResult.rowCount > 0) {
+            destination_id = destResult.rows[0].destination_id;
+        } else {
+            const newDest = await query(
+                `INSERT INTO destinations (name) VALUES ($1) RETURNING destination_id`,
+                [destination]
+            );
+            destination_id = newDest.rows[0].destination_id;
         }
-
-        const destination_id = destResult.rows[0].destination_id;
 
         // Find or insert roadmap type (route_style)
         const typeResult = await query(
@@ -164,11 +208,15 @@ exports.saveRoadmap = async (req, res, next) => {
             roadmap_type_id = newType.rows[0].roadmap_type_id;
         }
 
+        // Make sure the columns exist if they don't already
+        await query(`ALTER TABLE roadmaps ADD COLUMN IF NOT EXISTS stay_type VARCHAR(20)`);
+        await query(`ALTER TABLE roadmaps ADD COLUMN IF NOT EXISTS selected_stay VARCHAR(200)`);
+
         // Insert roadmap
         const rmResult = await query(
-            `INSERT INTO roadmaps (user_id, destination_id, roadmap_type_id, total_distance, estimated_cost)
-             VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-            [req.user.userId, destination_id, roadmap_type_id, total_distance_km || 0, estimated_cost || 0]
+            `INSERT INTO roadmaps (user_id, destination_id, roadmap_type_id, total_distance, estimated_cost, stay_type, selected_stay)
+             VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
+            [req.user.userId, destination_id, roadmap_type_id, total_distance_km || 0, estimated_cost || 0, stay_type || null, selected_stay || null]
         );
 
         const roadmap = rmResult.rows[0];
@@ -199,6 +247,9 @@ exports.saveRoadmap = async (req, res, next) => {
             }
         }
 
+        // AUTO-BOOK if host
+        await createHostBookingIfSelected(roadmap, req.user.userId);
+
         res.status(201).json({ success: true, message: 'Roadmap saved.', roadmapId: roadmap.roadmap_id });
     } catch (err) {
         console.error("Save Roadmap Error: ", err);
@@ -212,7 +263,8 @@ exports.getMyRoadmaps = async (req, res, next) => {
         const result = await query(
             `SELECT r.roadmap_id, r.created_at, r.total_distance, r.estimated_cost,
                     d.name AS destination, d.state,
-                    rt.type_name AS roadmap_type
+                    rt.type_name AS roadmap_type,
+                    r.stay_type, r.selected_stay
              FROM roadmaps r
              LEFT JOIN destinations d ON r.destination_id = d.destination_id
              LEFT JOIN roadmap_types rt ON r.roadmap_type_id = rt.roadmap_type_id
@@ -303,6 +355,36 @@ exports.deleteRoadmap = async (req, res, next) => {
         }
 
         res.json({ success: true, message: 'Roadmap deleted.' });
+    } catch (err) {
+        next(err);
+    }
+};
+
+// ===== MARK ROADMAP AS COMPLETED =====
+exports.completeRoadmap = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+
+        // Ensure is_completed column exists (safe to run multiple times)
+        await query(`ALTER TABLE roadmaps ADD COLUMN IF NOT EXISTS is_completed BOOLEAN DEFAULT FALSE`);
+        await query(`ALTER TABLE roadmaps ADD COLUMN IF NOT EXISTS stay_type VARCHAR(20)`);
+        await query(`ALTER TABLE roadmaps ADD COLUMN IF NOT EXISTS selected_stay VARCHAR(200)`);
+
+        const result = await query(
+            `UPDATE roadmaps SET is_completed = TRUE WHERE roadmap_id = $1 AND user_id = $2 RETURNING *`,
+            [id, req.user.userId]
+        );
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({ success: false, message: 'Roadmap not found.' });
+        }
+
+        const roadmap = result.rows[0];
+
+        // Ensure host booking exists (in case it wasn't caught during save)
+        await createHostBookingIfSelected(roadmap, req.user.userId);
+
+        res.json({ success: true, message: 'Trip marked as completed.', roadmap });
     } catch (err) {
         next(err);
     }

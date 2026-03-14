@@ -5,6 +5,7 @@ const {
     getAllHostRegistrations,
     updateRegistrationStatus,
     getMyRegistration,
+    getMyRegistrations,
     deleteRegistration
 } = require('../controllers/hostRegistrationController');
 const verifyToken = require('../middleware/auth');
@@ -23,8 +24,11 @@ router.get('/pending', verifyToken, requireRole('admin'), (req, res, next) => {
     getAllHostRegistrations(req, res, next);
 });
 
-// GET /api/host-registrations/me  — get my registration status (logged in users)
-router.get('/me', verifyToken, getMyRegistration);
+// GET /api/host-registrations/my  — get my recent registration status
+router.get('/my', verifyToken, getMyRegistration);
+
+// GET /api/host-registrations/my-all  — get all my registrations
+router.get('/my-all', verifyToken, getMyRegistrations);
 
 // PATCH /api/host-registrations/:id  — update registration status (admin only)
 router.patch('/:id', verifyToken, requireRole('admin'), updateRegistrationStatus);

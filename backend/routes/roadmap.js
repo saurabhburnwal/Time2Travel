@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { generateRoadmap, saveRoadmap, getMyRoadmaps, getRoadmapById, deleteRoadmap } = require('../controllers/roadmapController');
+const { generateRoadmap, saveRoadmap, getMyRoadmaps, getRoadmapById, deleteRoadmap, completeRoadmap } = require('../controllers/roadmapController');
 const verifyToken = require('../middleware/auth');
 
 // IMPORTANT: Named routes must come BEFORE the /:id wildcard to avoid
@@ -24,6 +24,9 @@ router.get('/', verifyToken, getMyRoadmaps);
 
 // GET /api/roadmap/:id  — get roadmap detail with itinerary
 router.get('/:id', verifyToken, getRoadmapById);
+
+// PATCH /api/roadmap/:id/complete — mark roadmap as completed
+router.patch('/:id/complete', verifyToken, completeRoadmap);
 
 // DELETE /api/roadmap/:id  — delete roadmap (user can only delete their own)
 router.delete('/:id', verifyToken, deleteRoadmap);

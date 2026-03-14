@@ -103,6 +103,105 @@ exports.createReview = async (req, res, next) => {
     }
 };
 
+// ===== SUBMIT HOST REVIEW =====
+exports.createHostReview = async (req, res, next) => {
+    try {
+        const { roadmap_id, host_name, property_type, cleanliness_rating, communication_rating, hospitality_rating, overall_rating, payment_amount, notes } = req.body;
+
+        if (!roadmap_id || !host_name || !overall_rating) {
+            return res.status(400).json({ success: false, message: 'roadmap_id, host_name, and overall_rating are required.' });
+        }
+
+        // Create table safely if it doesn't exist
+        await query(`
+            CREATE TABLE IF NOT EXISTS host_reviews (
+                id SERIAL PRIMARY KEY,
+                user_id INTEGER REFERENCES users(user_id),
+                roadmap_id INTEGER REFERENCES roadmaps(roadmap_id),
+                host_name VARCHAR(200),
+                property_type VARCHAR(50),
+                cleanliness_rating INTEGER,
+                communication_rating INTEGER,
+                hospitality_rating INTEGER,
+                overall_rating INTEGER,
+                payment_amount DECIMAL(10,2) DEFAULT 0,
+                notes TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        `);
+
+        // Handle schema evolution safely
+        await query(`ALTER TABLE host_reviews ADD COLUMN IF NOT EXISTS hospitality_rating INTEGER`);
+        await query(`ALTER TABLE host_reviews ADD COLUMN IF NOT EXISTS payment_amount DECIMAL(10,2) DEFAULT 0`);
+
+        // Verify the user owns this roadmap
+        const rmCheck = await query(
+            `SELECT roadmap_id FROM roadmaps WHERE roadmap_id = $1 AND user_id = $2`,
+            [roadmap_id, req.user.userId]
+        );
+
+        if (rmCheck.rowCount === 0) {
+            return res.status(403).json({ success: false, message: 'You can only review hosts for your own roadmaps.' });
+        }
+
+        const result = await query(
+            `INSERT INTO host_reviews 
+             (user_id, roadmap_id, host_name, property_type, cleanliness_rating, communication_rating, hospitality_rating, overall_rating, payment_amount, notes) 
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`,
+            [
+                req.user.userId, 
+                roadmap_id, 
+                host_name, 
+                property_type || 'homestay', 
+                cleanliness_rating || 5, 
+                communication_rating || 5, 
+                hospitality_rating || 5,
+                overall_rating, 
+                payment_amount || 0,
+                notes || null
+            ]
+        );
+
+        res.status(201).json({ success: true, message: 'Host review submitted.', review: result.rows[0] });
+    } catch (err) {
+        next(err);
+    }
+};
+
+// ===== GET HOST REVIEWS =====
+exports.getHostReviews = async (req, res, next) => {
+    try {
+        const { host_name } = req.query;
+        if (!host_name) return res.status(400).json({ success: false, message: 'host_name query param is required.' });
+
+        // Check if table exists first
+        const tableCheck = await query(`
+            SELECT EXISTS (
+                SELECT FROM information_schema.tables 
+                WHERE table_name = 'host_reviews'
+            );
+        `);
+
+        if (!tableCheck.rows[0].exists) {
+            return res.json({ success: true, reviews: [] });
+        }
+
+        const result = await query(`
+            SELECT hr.*, u.name as reviewer_name, d.name as destination_name
+            FROM host_reviews hr
+            JOIN users u ON hr.user_id = u.user_id
+            JOIN roadmaps r ON hr.roadmap_id = r.roadmap_id
+            JOIN destinations d ON r.destination_id = d.destination_id
+            WHERE hr.host_name = $1
+            ORDER BY hr.created_at DESC
+        `, [host_name]);
+
+        res.json({ success: true, reviews: result.rows });
+    } catch (err) {
+        next(err);
+    }
+};
+
 // ===== EDIT OWN REVIEW =====
 exports.updateReview = async (req, res, next) => {
     try {

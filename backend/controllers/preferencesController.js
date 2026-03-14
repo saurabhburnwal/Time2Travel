@@ -3,6 +3,9 @@ const { query } = require('../config/db');
 // ===== GET OWN PREFERENCES =====
 exports.getMyPreferences = async (req, res, next) => {
     try {
+        // Ensure destination_id exists
+        await query(`ALTER TABLE travel_preferences ADD COLUMN IF NOT EXISTS destination_id INTEGER REFERENCES destinations(destination_id)`);
+
         const result = await query(
             `SELECT tp.preference_id, tp.days, tp.budget,
                     tt.name AS travel_type, gt.type_name AS group_type,
@@ -25,10 +28,31 @@ exports.getMyPreferences = async (req, res, next) => {
 // ===== SAVE NEW PREFERENCE =====
 exports.savePreference = async (req, res, next) => {
     try {
-        const { travel_type_id, destination_id, days, budget, group_type_id } = req.body;
+        // Ensure destination_id exists
+        await query(`ALTER TABLE travel_preferences ADD COLUMN IF NOT EXISTS destination_id INTEGER REFERENCES destinations(destination_id)`);
+
+        let { travel_type_id, destination_id, days, budget, group_type_id, destination, travel_type, group_type } = req.body;
 
         if (!days || !budget) {
             return res.status(400).json({ success: false, message: 'days and budget are required.' });
+        }
+
+        // Look up destination by name if ID was not provided
+        if (!destination_id && destination) {
+            const destResult = await query(`SELECT destination_id FROM destinations WHERE LOWER(name) = LOWER($1)`, [destination]);
+            if (destResult.rowCount > 0) destination_id = destResult.rows[0].destination_id;
+        }
+
+        // Look up travel_type by name if ID was not provided
+        if (!travel_type_id && travel_type) {
+            const ttResult = await query(`SELECT travel_type_id FROM travel_types WHERE LOWER(name) = LOWER($1)`, [travel_type]);
+            if (ttResult.rowCount > 0) travel_type_id = ttResult.rows[0].travel_type_id;
+        }
+
+        // Look up group_type by name if ID was not provided
+        if (!group_type_id && group_type) {
+            const gtResult = await query(`SELECT group_type_id FROM group_types WHERE LOWER(type_name) = LOWER($1)`, [group_type]);
+            if (gtResult.rowCount > 0) group_type_id = gtResult.rows[0].group_type_id;
         }
 
         const result = await query(
@@ -47,6 +71,9 @@ exports.savePreference = async (req, res, next) => {
 // ===== UPDATE PREFERENCE =====
 exports.updatePreference = async (req, res, next) => {
     try {
+        // Ensure destination_id exists
+        await query(`ALTER TABLE travel_preferences ADD COLUMN IF NOT EXISTS destination_id INTEGER REFERENCES destinations(destination_id)`);
+
         const { id } = req.params;
         const { travel_type_id, destination_id, days, budget, group_type_id } = req.body;
 

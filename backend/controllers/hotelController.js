@@ -59,3 +59,34 @@ exports.getHotelById = async (req, res, next) => {
         next(err);
     }
 };
+
+// ===== ADD CUSTOM HOTEL (user-entered) =====
+exports.addCustomHotel = async (req, res, next) => {
+    try {
+        const { name, address, destination, latitude, longitude, price_per_night } = req.body;
+
+        if (!name || !destination) {
+            return res.status(400).json({ success: false, message: 'name and destination are required.' });
+        }
+
+        // Resolve destination
+        const destRes = await query(
+            `SELECT destination_id FROM destinations WHERE LOWER(name) = LOWER($1) LIMIT 1`,
+            [destination]
+        );
+        if (destRes.rowCount === 0) {
+            return res.status(404).json({ success: false, message: `Destination '${destination}' not found.` });
+        }
+        const destination_id = destRes.rows[0].destination_id;
+
+        const result = await query(
+            `INSERT INTO hotels (destination_id, name, price_per_night, rating, latitude, longitude)
+             VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+            [destination_id, name, price_per_night || 0, 3.0, latitude || 0, longitude || 0]
+        );
+
+        res.status(201).json({ success: true, hotel: result.rows[0] });
+    } catch (err) {
+        next(err);
+    }
+};

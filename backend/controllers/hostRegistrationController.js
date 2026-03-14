@@ -1,4 +1,5 @@
 const { query } = require('../config/db');
+const { sendHostApprovalEmail } = require('../utils/emailService');
 
 // ===== SUBMIT HOST REGISTRATION =====
 exports.submitHostRegistration = async (req, res, next) => {
@@ -149,6 +150,7 @@ exports.updateRegistrationStatus = async (req, res, next) => {
             }
 
             // Provision host_profiles using safe SELECT → INSERT or UPDATE
+            let hostId = null;
             if (registration.user_id && destId) {
                 const existing = await query(
                     `SELECT host_id FROM host_profiles WHERE user_id = $1`,
@@ -156,6 +158,7 @@ exports.updateRegistrationStatus = async (req, res, next) => {
                 );
 
                 if (existing.rowCount > 0) {
+                    hostId = existing.rows[0].host_id;
                     // Update existing profile
                     await query(
                         `UPDATE host_profiles
@@ -169,13 +172,50 @@ exports.updateRegistrationStatus = async (req, res, next) => {
                     );
                 } else {
                     // Insert new profile
-                    await query(
+                    const newProfile = await query(
                         `INSERT INTO host_profiles
                              (user_id, destination_id, max_guests, provides_food, voluntary_min_amount, verified, is_active)
-                         VALUES ($1, $2, $3, $4, 0, true, true)`,
+                         VALUES ($1, $2, $3, $4, 0, true, true)
+                         RETURNING host_id`,
                         [registration.user_id, destId, registration.max_guests || 1, registration.provides_food || false]
                     );
+                    hostId = newProfile.rows[0].host_id;
                 }
+
+                // ALSO provision a record in HOST_PROPERTIES so it shows up in dashboard instantly
+                if (hostId) {
+                    await query(
+                        `INSERT INTO HOST_PROPERTIES 
+                         (host_id, destination_id, property_name, address, max_guests, provides_food, voluntary_min_amount, is_active)
+                         VALUES ($1, $2, $3, $4, $5, $6, $7, true)`,
+                        [
+                            hostId, 
+                            destId, 
+                            registration.name, 
+                            registration.address, 
+                            registration.max_guests || 1, 
+                            registration.provides_food || false,
+                            registration.pricing_info ? parseFloat(registration.pricing_info.replace(/[^0-9.]/g, '')) || 0 : 0
+                        ]
+                    );
+                }
+            }
+
+            // --- SEND APPROVAL EMAIL ---
+            try {
+                // If registration record doesn't have email, fetch it from users table
+                let userEmail = registration.email;
+                if (!userEmail && registration.user_id) {
+                    const uRes = await query(`SELECT email FROM users WHERE user_id = $1`, [registration.user_id]);
+                    userEmail = uRes.rows[0]?.email;
+                }
+
+                if (userEmail) {
+                    await sendHostApprovalEmail(registration.name, userEmail);
+                }
+            } catch (mailErr) {
+                console.warn('Failed to send host approval email:', mailErr.message);
+                // Don't fail the whole request if email fails
             }
         }
 
@@ -190,7 +230,7 @@ exports.updateRegistrationStatus = async (req, res, next) => {
     }
 };
 
-// ===== GET MY REGISTRATION STATUS =====
+// ===== GET MY REGISTRATION STATUS (Single/Recent) =====
 exports.getMyRegistration = async (req, res, next) => {
     try {
         const result = await query(
@@ -211,6 +251,25 @@ exports.getMyRegistration = async (req, res, next) => {
         res.json({
             success: true,
             registration: result.rows[0]
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
+// ===== GET ALL MY REGISTRATIONS =====
+exports.getMyRegistrations = async (req, res, next) => {
+    try {
+        const result = await query(
+            `SELECT * FROM host_registrations 
+             WHERE user_id = $1 
+             ORDER BY created_at DESC`,
+            [req.user.userId]
+        );
+
+        res.json({
+            success: true,
+            registrations: result.rows
         });
     } catch (err) {
         next(err);

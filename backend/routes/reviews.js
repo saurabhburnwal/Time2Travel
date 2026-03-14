@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const { getReviewsByRoadmap, getRecentReviews, createReview, updateReview, deleteReview, getUserReviews } = require('../controllers/reviewController');
+const { getReviewsByRoadmap, getRecentReviews, createReview, createHostReview, updateReview, deleteReview, getUserReviews, getHostReviews } = require('../controllers/reviewController');
 const verifyToken = require('../middleware/auth');
 
-// GET /api/reviews/me — auth required (must be before /:id or /?roadmap_id if the router setup was different, but here it's fine)
+// GET /api/reviews/me — auth required
 router.get('/me', verifyToken, getUserReviews);
+
+// GET /api/reviews/host?host_name=...  — public
+router.get('/host', getHostReviews);
 
 // GET /api/reviews?roadmap_id=1  — public
 router.get('/', getReviewsByRoadmap);
@@ -14,6 +17,9 @@ router.get('/recent', getRecentReviews);
 
 // POST /api/reviews  — auth required
 router.post('/', verifyToken, createReview);
+
+// POST /api/reviews/host — auth required
+router.post('/host', verifyToken, createHostReview);
 
 // PUT /api/reviews/:id  — auth required (own reviews only)
 router.put('/:id', verifyToken, updateReview);
