@@ -266,9 +266,10 @@ exports.verifyEmail = async (req, res, next) => {
 
         // Look up user by token
         const result = await query(
-            `SELECT user_id, name, email, is_email_verified, token_expires_at
-             FROM users
-             WHERE verification_token = $1`,
+            `SELECT u.user_id, u.name, u.email, u.is_email_verified, u.token_expires_at, r.role_name
+             FROM users u
+             LEFT JOIN roles r ON u.role_id = r.role_id
+             WHERE u.verification_token = $1`,
             [token]
         );
 
@@ -305,6 +306,7 @@ exports.verifyEmail = async (req, res, next) => {
             success: true,
             message: 'Email verified successfully! You can now log in.',
             name: user.name,
+            role: (user.role_name || 'traveler').toLowerCase()
         });
 
         // Send welcome email asynchronously after successful verification
@@ -367,4 +369,127 @@ exports.resendVerification = async (req, res, next) => {
 exports.logout = (req, res) => {
     clearAuthCookie(res);
     res.json({ success: true, message: 'Logged out successfully.' });
+};
+
+// ── GET /api/auth/forgot-password ─────────────────────────────────────────────
+exports.forgotPassword = async (req, res, next) => {
+    try {
+        const { email } = req.body;
+        if (!email) {
+            return res.status(400).json({ success: false, message: 'Email is required.' });
+        }
+
+        const result = await query(
+            `SELECT user_id, name, email FROM users WHERE email = $1 AND is_active = true`,
+            [email.toLowerCase()]
+        );
+
+        // Always return 200 to prevent email enumeration
+        if (result.rows.length === 0) {
+            return res.json({ success: true, message: 'If that email is registered, a reset code has been sent.' });
+        }
+
+        const user = result.rows[0];
+
+        // Generate 6-digit OTP
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        // Set expiry to 15 minutes from now
+        const otpExpiresAt = new Date(Date.now() + 15 * 60 * 1000);
+
+        // Store OTP in database
+        await query(
+            `UPDATE users SET reset_otp = $1, reset_otp_expiry = $2 WHERE user_id = $3`,
+            [otp, otpExpiresAt, user.user_id]
+        );
+
+        // Send Email
+        try {
+            const { sendPasswordResetOTP } = require('../utils/emailService');
+            await sendPasswordResetOTP(user.email, user.name, otp);
+        } catch (emailErr) {
+            console.error('[authController] Failed to send reset OTP email:', emailErr.message);
+            // Optionally, we could return an error here so the user knows the email failed to send
+            // return res.status(500).json({ success: false, message: 'Failed to send email. Please try again later.' });
+        }
+
+        res.json({ success: true, message: 'If that email is registered, a reset code has been sent.' });
+    } catch (err) {
+        next(err);
+    }
+};
+
+// ── POST /api/auth/verify-otp ─────────────────────────────────────────────────
+exports.verifyOTP = async (req, res, next) => {
+    try {
+        const { email, otp } = req.body;
+        if (!email || !otp) {
+            return res.status(400).json({ success: false, message: 'Email and OTP are required.' });
+        }
+
+        const result = await query(
+            `SELECT user_id, reset_otp, reset_otp_expiry FROM users WHERE email = $1`,
+            [email.toLowerCase()]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(400).json({ success: false, message: 'Invalid OTP or email.' });
+        }
+
+        const user = result.rows[0];
+
+        // Check if OTP matches and is not expired
+        if (user.reset_otp !== otp || !user.reset_otp_expiry || new Date() > new Date(user.reset_otp_expiry)) {
+            return res.status(400).json({ success: false, message: 'Invalid or expired OTP.' });
+        }
+
+        // OTP is valid.  Return a temporary token to authorize the password reset request
+        // This token is short-lived and exclusively for resetting the password.
+        const resetToken = jwt.sign(
+            { userId: user.user_id, purpose: 'password_reset' },
+            process.env.JWT_SECRET,
+            { expiresIn: '15m' } 
+        );
+
+        res.json({ success: true, message: 'OTP verified.', resetToken });
+    } catch (err) {
+        next(err);
+    }
+};
+
+// ── POST /api/auth/reset-password ─────────────────────────────────────────────
+exports.resetPassword = async (req, res, next) => {
+    try {
+        const { resetToken, newPassword } = req.body;
+        
+        if (!resetToken || !newPassword) {
+            return res.status(400).json({ success: false, message: 'Reset token and new password are required.' });
+        }
+
+        // Verify the temporary reset token
+        let decoded;
+        try {
+            decoded = jwt.verify(resetToken, process.env.JWT_SECRET);
+            if (decoded.purpose !== 'password_reset') {
+                 throw new Error('Invalid token purpose');
+            }
+        } catch (err) {
+            return res.status(400).json({ success: false, message: 'Invalid or expired reset session. Please request a new code.' });
+        }
+
+        // Hash new password
+        const salt = await bcrypt.genSalt(10);
+        const password_hash = await bcrypt.hash(newPassword, salt);
+
+        // Update password and clear OTP fields
+        await query(
+            `UPDATE users 
+             SET password_hash = $1, reset_otp = NULL, reset_otp_expiry = NULL 
+             WHERE user_id = $2`,
+            [password_hash, decoded.userId]
+        );
+
+        res.json({ success: true, message: 'Password has been successfully reset. You can now log in.' });
+    } catch (err) {
+        next(err);
+    }
 };

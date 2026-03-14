@@ -17,6 +17,7 @@ const hostRegistrationRoutes = require('./routes/hostRegistrations');
 const expenseRoutes = require('./routes/expenses');
 const safetyRoutes = require('./routes/safety');
 const reviewRoutes = require('./routes/reviews');
+const adminRoutes = require('./routes/admin');
 
 // ===== MIDDLEWARE IMPORTS =====
 const errorHandler = require('./middleware/errorHandler');
@@ -80,6 +81,7 @@ app.use('/api/expenses', expenseRoutes);
 // Module 7: Safety & Reviews
 app.use('/api/safety', safetyRoutes);
 app.use('/api/reviews', reviewRoutes);
+app.use('/api/admin', adminRoutes);
 
 // ===== 404 HANDLER =====
 app.use((req, res) => {

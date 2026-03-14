@@ -38,16 +38,49 @@ exports.getMe = async (req, res, next) => {
 // ===== UPDATE OWN PROFILE =====
 exports.updateMe = async (req, res, next) => {
     try {
-        const { name, phone, gender } = req.body;
+        const { name, email, phone, gender, password, currentPassword } = req.body;
+        const userId = req.user.userId;
+
+        // If a new password is provided, verify the current password first
+        if (password) {
+            if (!currentPassword) {
+                return res.status(400).json({ success: false, message: 'Current password is required to set a new password.' });
+            }
+
+            const userRes = await query(`SELECT password_hash FROM users WHERE user_id = $1`, [userId]);
+            if (userRes.rows.length === 0) {
+                 return res.status(404).json({ success: false, message: 'User not found.' });
+            }
+
+            const isMatch = await require('bcryptjs').compare(currentPassword, userRes.rows[0].password_hash);
+            if (!isMatch) {
+                return res.status(400).json({ success: false, message: 'Incorrect current password.' });
+            }
+            
+            // Hash the new password
+            const salt = await require('bcryptjs').genSalt(10);
+            const password_hash = await require('bcryptjs').hash(password, salt);
+
+            await query(`UPDATE users SET password_hash = $1 WHERE user_id = $2`, [password_hash, userId]);
+        }
+
+        // If email is being changed, check for uniqueness (optional but good practice)
+        if (email) {
+            const emailCheck = await query(`SELECT user_id FROM users WHERE email = $1 AND user_id != $2`, [email, userId]);
+            if (emailCheck.rows.length > 0) {
+                return res.status(400).json({ success: false, message: 'Email is already in use by another account.' });
+            }
+        }
 
         const result = await query(
             `UPDATE users SET
                 name = COALESCE($1, name),
-                phone = COALESCE($2, phone),
-                gender = COALESCE($3, gender)
-             WHERE user_id = $4
+                email = COALESCE($2, email),
+                phone = COALESCE($3, phone),
+                gender = COALESCE($4, gender)
+             WHERE user_id = $5
              RETURNING user_id, name, email, phone, gender`,
-            [name || null, phone || null, gender ? gender.toUpperCase() : null, req.user.userId]
+            [name || null, email || null, phone || null, gender ? gender.toUpperCase() : null, userId]
         );
 
         res.json({ success: true, message: 'Profile updated.', user: result.rows[0] });

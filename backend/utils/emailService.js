@@ -73,7 +73,7 @@ async function sendWelcomeEmail(name, email) {
                     </ul>
                 </div>
                 <p style="text-align: center;">
-                    <a href="http://localhost:5173/plan" class="cta">🗺️ Plan Your First Trip</a>
+                    <a href="${process.env.FRONTEND_URL || 'http://localhost:3000'}/plan" class="cta">🗺️ Plan Your First Trip</a>
                 </p>
                 <p style="color: #888; font-size: 13px;">If you didn't create this account, you can safely ignore this email.</p>
             </div>
@@ -175,7 +175,7 @@ async function sendTripConfirmationEmail(name, email, tripData, pdfBuffer) {
                 <p>📎 <strong>Your trip itinerary PDF is attached below.</strong> Save it to your phone for offline access during your trip!</p>
 
                 <p style="text-align: center;">
-                    <a href="http://localhost:5173/plan" class="cta">🗺️ Plan Another Trip</a>
+                    <a href="${process.env.FRONTEND_URL || 'http://localhost:3000'}/plan" class="cta">🗺️ Plan Another Trip</a>
                 </p>
 
                 <p style="color: #888; font-size: 13px;">
@@ -221,7 +221,7 @@ async function sendTripConfirmationEmail(name, email, tripData, pdfBuffer) {
  * @param {string} token     The verification token
  */
 async function sendVerificationEmail(toEmail, name, token) {
-    const baseUrl = process.env.APP_BASE_URL || 'http://localhost:5173';
+    const baseUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
     const verifyUrl = `${baseUrl}/email-verified?token=${encodeURIComponent(token)}`;
 
     const htmlBody = `
@@ -319,4 +319,150 @@ async function sendVerificationEmail(toEmail, name, token) {
     }
 }
 
-module.exports = { sendWelcomeEmail, sendTripConfirmationEmail, sendVerificationEmail };
+/**
+ * Send an email to a host when their registration is approved.
+ */
+async function sendHostApprovalEmail(name, email) {
+    const baseUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+    const profileUrl = `${baseUrl}/profile`;
+
+    const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7fa; margin: 0; padding: 0; }
+            .container { max-width: 600px; margin: 40px auto; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+            .header { background: linear-gradient(135deg, #059669, #10b981); padding: 40px 30px; text-align: center; }
+            .header h1 { color: #ffffff; font-size: 28px; margin: 0 0 8px 0; }
+            .header p { color: rgba(255,255,255,0.85); font-size: 14px; margin: 0; }
+            .body { padding: 36px 30px; }
+            .body h2 { color: #059669; font-size: 22px; margin: 0 0 16px 0; }
+            .body p { color: #555; font-size: 15px; line-height: 1.7; margin: 0 0 16px 0; }
+            .cta { display: inline-block; background: linear-gradient(135deg, #059669, #10b981); color: #fff !important; text-decoration: none; padding: 14px 32px; border-radius: 12px; font-size: 15px; font-weight: 600; margin: 16px 0; }
+            .footer { background: #f8fafc; padding: 24px 30px; text-align: center; border-top: 1px solid #eee; }
+            .footer p { color: #999; font-size: 12px; margin: 4px 0; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>🏠 Host Approved!</h1>
+                <p>Welcome to the Time2Travel Host Community</p>
+            </div>
+            <div class="body">
+                <h2>Congratulations, ${name}! 🎉</h2>
+                <p>We are thrilled to inform you that your host registration has been <strong>successfully approved</strong> by our admin team.</p>
+                <p>Your profile is now active, and you can start managing your properties, viewing your earnings, and welcoming travelers to your beautiful destination.</p>
+                <p style="text-align: center;">
+                    <a href="${profileUrl}" class="cta">🚀 Manage Your Host Profile</a>
+                </p>
+                <p>We're excited to have you with us. If you have any questions or need help setting up your property details, feel free to reach out to our host support team.</p>
+                <p>Happy Hosting!</p>
+            </div>
+            <div class="footer">
+                <p>Time2Travel — Budget Constrained Intelligent Travel Roadmap System</p>
+                <p>Contact us: <a href="mailto:ttimettottravel@gmail.com" style="color: #059669;">ttimettottravel@gmail.com</a></p>
+            </div>
+        </div>
+    </body>
+    </html>
+    `;
+
+    try {
+        await transporter.sendMail({
+            from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+            to: email,
+            subject: `Registration Successful! Welcome to Time2Travel, ${name} 🏠`,
+            html,
+        });
+        console.log(`📧 Host approval email sent to ${email}`);
+        return true;
+    } catch (err) {
+        console.error(`❌ Failed to send host approval email to ${email}:`, err.message);
+        return false;
+    }
+}
+
+/**
+ * Send an OTP for password reset.
+ */
+async function sendPasswordResetOTP(toEmail, name, otp) {
+    const htmlBody = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reset your Time2Travel Password</title>
+</head>
+<body style="margin:0;padding:0;background:#f0f4f8;font-family:'Segoe UI',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f4f8;padding:40px 0;">
+    <tr>
+      <td align="center">
+        <table width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.08);">
+          <tr>
+            <td style="background:linear-gradient(135deg,#f59e0b,#d97706);padding:32px 40px;text-align:center;">
+              <h1 style="margin:0;color:#fff;font-size:26px;font-weight:800;letter-spacing:-0.5px;">🔐 Password Reset</h1>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:40px 40px 32px;">
+              <h2 style="margin:0 0 12px;color:#1e293b;font-size:22px;">Here is your verification code</h2>
+              <p style="margin:0 0 20px;color:#475569;font-size:15px;line-height:1.6;">
+                Hi <strong>${name}</strong>,<br/>
+                We received a request to reset the password for your Time2Travel account. 
+                Enter the following 6-digit code to continue.
+              </p>
+              
+              <div style="text-align:center;margin:32px 0;">
+                <span style="display:inline-block;background:#f8fafc;color:#1e293b;font-weight:800;font-size:32px;padding:16px 40px;border-radius:12px;letter-spacing:6px;border:2px dashed #cbd5e1;">
+                  ${otp}
+                </span>
+              </div>
+
+              <p style="margin:0 0 8px;color:#ef4444;font-size:13px;font-weight:600;text-align:center;">
+                This code will expire in 15 minutes.
+              </p>
+              <p style="margin:0;color:#94a3b8;font-size:12px;text-align:center;">
+                If you didn't request a password reset, you can safely ignore this email. Your password will not be changed.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td style="background:#f8fafc;padding:20px 40px;border-top:1px solid #e2e8f0;text-align:center;">
+              <p style="margin:0;color:#94a3b8;font-size:12px;">© 2026 Time2Travel · SPD Project · MCA TRIMESTER III</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`;
+
+    try {
+        await transporter.sendMail({
+            from: process.env.SMTP_FROM_EMAIL || '"Time2Travel" <no-reply@time2travel.app>',
+            to: toEmail,
+            subject: '🔐 Your Time2Travel Password Reset Code',
+            html: htmlBody,
+            text: `Hi ${name},\n\nYour password reset code is: ${otp}\n\nThis code expires in 15 minutes.\n\nIf you didn't request a reset, ignore this email.`,
+        });
+        console.log(`[emailService] 📧 Password reset OTP sent to ${toEmail}`);
+        return true;
+    } catch (err) {
+        console.error(`❌ Failed to send reset OTP to ${toEmail}:`, err.message);
+        throw err;
+    }
+}
+
+module.exports = {
+    sendWelcomeEmail,
+    sendTripConfirmationEmail,
+    sendVerificationEmail,
+    sendHostApprovalEmail,
+    sendPasswordResetOTP
+};
