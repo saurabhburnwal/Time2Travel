@@ -20,7 +20,6 @@ export default function Navbar() {
     }, []);
 
     const navLinks = [
-        { to: '/', label: 'Home' },
         ...(isAdmin
             ? [
                 { to: '/admin', label: 'Dashboard' },
@@ -30,6 +29,7 @@ export default function Navbar() {
                     { to: '/host-dashboard', label: 'Dashboard' },
                 ]
                 : [
+                    { to: '/', label: 'Home' },
                     { to: '/how-it-works', label: 'How It Works' },
                     { to: '/plan', label: 'Plan Trip' },
                 ])

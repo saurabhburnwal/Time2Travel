@@ -5,7 +5,10 @@ import { getHostProfile } from '../services/hostProfileService';
 import { getHostProperties, addHostProperty, updateHostProperty, togglePropertyStatus, deleteHostProperty } from '../services/hostPropertyService';
 import { supabase, AppHostProperty, DBHostProfile } from '../services/supabaseClient';
 import HostNav from '../components/HostNav';
-import { Loader2, Plus, Edit2, Trash2, MapPin, Users, Utensils, IndianRupee, X, Home, Clock } from 'lucide-react';
+import { 
+    Loader2, Home, MapPin, Users, Utensils, IndianRupee, 
+    Plus, Edit2, Trash2, Clock, CheckCircle, Coffee, X 
+} from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function HostProperties() {
@@ -171,47 +174,57 @@ export default function HostProperties() {
     return (
         <div className="min-h-screen bg-slate-50 pt-20">
             <HostNav />
-            <div className="section-container py-10 max-w-7xl">
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-                    <div className="space-y-2">
-                        <div className="flex items-center gap-3 mb-2">
-                             <span className="px-3 py-1 bg-brand-100 text-brand-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-brand-200">Portfolio</span>
+            <div className="section-container max-w-7xl">
+                {/* Hero Section */}
+                <div className="relative h-48 rounded-3xl overflow-hidden shadow-lg group bg-slate-900 mb-8 xl:px-0 px-4">
+                    <img 
+                        src="/images/bg.png" 
+                        alt="Properties Dashboard" 
+                        className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 to-transparent" />
+                    <div className="relative h-full flex items-center justify-between px-10">
+                        <div className="flex flex-col justify-center">
+                             <div className="flex items-center gap-3 mb-2">
+                                 <span className="w-2 h-2 rounded-full bg-brand-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+                                 <span className="text-[10px] font-bold uppercase tracking-wider text-brand-400">Portfolio</span>
+                            </div>
+                            <h1 className="text-3xl font-bold text-white mb-2">My Properties</h1>
+                            <p className="text-slate-200 text-sm max-w-md">Manage your listings, track approvals, and update property details.</p>
                         </div>
-                        <h1 className="text-5xl font-black text-gray-900 tracking-tighter">My Properties</h1>
-                        <p className="text-gray-400 font-medium text-lg">Manage your listings, track approvals, and update property details.</p>
+                        <button 
+                            onClick={() => openModal()}
+                            className="bg-brand-600 hover:bg-brand-700 text-white px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all shadow-xl shadow-brand-500/20 active:scale-95 z-10"
+                        >
+                            <Plus size={16} /> Add Listing
+                        </button>
                     </div>
-                    <button 
-                        onClick={() => openModal()}
-                        className="bg-brand-600 hover:bg-brand-700 text-white px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest flex items-center gap-3 transition-all shadow-xl shadow-brand-500/20 active:scale-95"
-                    >
-                        <Plus size={20} /> Add New Listing
-                    </button>
                 </div>
 
                 {properties.length === 0 ? (
-                    <div className="bg-white rounded-[40px] p-20 text-center shadow-sm border border-slate-100 max-w-3xl mx-auto">
-                        <div className="w-24 h-24 bg-slate-50 text-slate-200 rounded-[32px] flex items-center justify-center mx-auto mb-8 border border-slate-100">
-                            <Home size={48} />
+                    <div className="bg-white rounded-3xl p-16 text-center shadow-sm border border-slate-100 max-w-3xl mx-auto mb-12">
+                        <div className="w-20 h-20 bg-slate-50 text-slate-300 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-slate-100">
+                            <Home size={40} />
                         </div>
-                        <h3 className="text-3xl font-black text-gray-900 mb-4 tracking-tight">No properties discovered yet</h3>
-                        <p className="text-gray-400 mb-10 leading-relaxed font-medium text-lg">Your hosting journey begins with your first property. Showcase your local stay and start connecting with incredible travelers.</p>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-3 tracking-tight">No properties discovered yet</h3>
+                        <p className="text-gray-500 mb-8 text-sm max-w-md mx-auto">Your hosting journey begins with your first property. Showcase your local stay and start connecting with travelers.</p>
                         <button 
                             onClick={() => openModal()}
-                            className="px-10 py-5 bg-brand-600 text-white rounded-2xl font-black uppercase tracking-widest hover:bg-brand-700 transition-all shadow-lg"
+                            className="px-6 py-3 bg-brand-600 text-white rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-brand-700 transition-all shadow-lg"
                         >
                             Start Hosting Now
                         </button>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                         {properties.map(property => (
                             <motion.div 
                                 key={property.id} 
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                className="bg-white rounded-[40px] border border-slate-100 overflow-hidden group hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500"
+                                initial={{ opacity: 0, scale: 0.98 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                className="bg-white rounded-3xl border border-slate-100 overflow-hidden group hover:shadow-lg transition-all duration-300"
                             >
-                                <div className="h-64 bg-slate-100 relative overflow-hidden">
+                                <div className="h-48 bg-slate-100 relative overflow-hidden">
                                      {/* Mock image background */}
                                     <div className="absolute inset-0 bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center">
                                         <Home size={64} className="text-white/50" />
@@ -220,15 +233,15 @@ export default function HostProperties() {
                                     
                                     <div className="absolute top-6 left-6 z-20 flex flex-wrap gap-2">
                                         {(property as any).isPending ? (
-                                            <span className="px-4 py-2 rounded-xl bg-amber-500 text-white text-[10px] font-black uppercase tracking-widest shadow-lg flex items-center gap-2 border border-amber-400 animate-pulse">
+                                            <span className="px-4 py-2 rounded-xl bg-amber-500 text-white text-[10px] font-bold uppercase tracking-wider shadow-lg flex items-center gap-2 border border-amber-400 animate-pulse">
                                                 <Clock size={12} /> Pending Approval
                                             </span>
                                         ) : (property as any).isRejected ? (
-                                            <span className="px-4 py-2 rounded-xl bg-rose-600 text-white text-[10px] font-black uppercase tracking-widest shadow-lg border border-rose-500">
+                                            <span className="px-4 py-2 rounded-xl bg-rose-600 text-white text-[10px] font-bold uppercase tracking-wider shadow-lg border border-rose-500">
                                                 Application Rejected
                                             </span>
                                         ) : (
-                                            <span className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg border ${property.isActive ? 'bg-emerald-500 text-white border-emerald-400' : 'bg-slate-500 text-white border-slate-400'}`}>
+                                            <span className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-wider shadow-lg border ${property.isActive ? 'bg-emerald-500 text-white border-emerald-400' : 'bg-slate-500 text-white border-slate-400'}`}>
                                                 {property.isActive ? 'Live & Active' : 'Offline / Hidden'}
                                             </span>
                                         )}
@@ -237,9 +250,9 @@ export default function HostProperties() {
                                     <div className="absolute bottom-6 left-6 z-20">
                                         <div className="flex items-center gap-2 mb-2">
                                              <MapPin size={14} className="text-brand-400" />
-                                             <p className="text-[10px] font-black text-brand-400 uppercase tracking-widest leading-none">{property.destinationName}</p>
+                                             <p className="text-[10px] font-bold text-brand-400 uppercase tracking-wider leading-none">{property.destinationName}</p>
                                         </div>
-                                        <h3 className="text-2xl font-black text-white tracking-tight">{property.name}</h3>
+                                        <h3 className="text-2xl font-bold text-white tracking-tight">{property.name}</h3>
                                     </div>
 
                                     <div className="absolute top-6 right-6 z-20">
@@ -250,51 +263,54 @@ export default function HostProperties() {
                                     </div>
                                 </div>
 
-                                <div className="p-8">
-                                    <div className="flex items-center gap-6 mb-8">
-                                        <div className="flex flex-col">
-                                            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Capacity</span>
-                                            <span className="flex items-center gap-2 text-sm font-black text-gray-800 italic"><Users size={16} className="text-brand-500"/> {property.maxGuests} Guests</span>
-                                        </div>
-                                        {property.providesFood && (
-                                            <div className="flex flex-col">
-                                                <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Catering</span>
-                                                <span className="flex items-center gap-2 text-sm font-black text-emerald-600 italic"><Utensils size={16}/> Meals Included</span>
-                                            </div>
-                                        )}
+                                <div className="p-6">
+                                    <h3 className="text-xl font-bold text-gray-900 tracking-tight mb-2 truncate">{property.name}</h3>
+                                    <div className="flex items-start gap-2 text-slate-500 mb-6">
+                                        <MapPin size={14} className="mt-0.5 flex-shrink-0 text-brand-500" />
+                                        <p className="text-sm line-clamp-2">{property.address}</p>
                                     </div>
 
-                                    <div className="p-6 bg-slate-50 rounded-[32px] mb-8 border border-slate-100 flex items-center justify-between">
+                                    <div className="grid grid-cols-2 gap-3 mb-6">
+                                        <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 flex flex-col gap-1">
+                                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5"><Users size={12} /> Capacity</span>
+                                            <span className="text-sm font-bold text-slate-900">Up to {property.maxGuests} guests</span>
+                                        </div>
+                                        <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 flex flex-col gap-1">
+                                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5"><Coffee size={12} /> Dining</span>
+                                            <span className="text-sm font-bold text-slate-900">{property.providesFood ? 'Included' : 'Self-catered'}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="flex items-center justify-between pt-6 border-t border-slate-100">
                                         <div>
-                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 italic">Contribution Model</p>
-                                            <p className="font-black text-gray-900 text-lg italic">
+                                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 italic">Contribution Model</p>
+                                            <p className="font-bold text-gray-900 text-lg italic">
                                                 {property.voluntaryMinAmount ? `₹${property.voluntaryMinAmount} / night` : 'Pay as you feel'}
                                             </p>
                                         </div>
-                                        <div className="w-12 h-12 bg-white text-brand-600 rounded-2xl flex items-center justify-center shadow-sm border border-slate-100 italic font-black text-xl">
-                                            ₹
+                                        
+                                        <div className="flex gap-2">
+                                            {(property as any).isPending ? (
+                                                <button disabled className="p-2.5 text-slate-300 rounded-xl bg-slate-50 border border-slate-100 flex-shrink-0 cursor-not-allowed">
+                                                    <Edit2 size={16} />
+                                                </button>
+                                            ) : (
+                                                <button onClick={() => openModal(property as AppHostProperty)} className="p-2.5 text-slate-400 hover:text-brand-600 rounded-xl hover:bg-brand-50 border border-transparent hover:border-brand-100 transition-colors flex-shrink-0">
+                                                    <Edit2 size={16} />
+                                                </button>
+                                            )}
+                                            <button 
+                                                onClick={() => handleDelete(property.id)} 
+                                                className="p-2.5 text-slate-400 hover:text-rose-600 rounded-xl hover:bg-rose-50 border border-transparent hover:border-rose-100 transition-colors flex-shrink-0"
+                                            >
+                                                <Trash2 size={16} />
+                                            </button>
                                         </div>
-                                    </div>
-
-                                    <div className="flex gap-4">
-                                        <button 
-                                            onClick={() => openModal(property)} 
-                                            disabled={(property as any).isPending || (property as any).isRejected}
-                                            className="flex-1 py-4 rounded-2xl border-2 border-slate-100 text-gray-400 font-black text-xs uppercase tracking-widest hover:border-brand-500 hover:text-brand-600 transition-all flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed group/edit"
-                                        >
-                                            <Edit2 size={16} className="group-hover/edit:rotate-12 transition-transform" /> Edit Config
-                                        </button>
-                                        <button 
-                                            onClick={() => handleDelete(property.id)} 
-                                            className="w-14 h-14 rounded-2xl bg-rose-50 text-rose-500 flex items-center justify-center hover:bg-rose-600 hover:text-white transition-all border border-rose-100 shadow-sm active:scale-95"
-                                        >
-                                            <Trash2 size={20} />
-                                        </button>
                                     </div>
                                     
                                     {(property as any).isRejected && (
                                         <div className="mt-6 p-4 bg-rose-50 rounded-2xl border border-rose-100">
-                                            <p className="text-[10px] font-black text-rose-600 uppercase tracking-widest mb-1">Rejection Status</p>
+                                            <p className="text-[10px] font-bold text-rose-600 uppercase tracking-wider mb-1">Rejection Status</p>
                                             <p className="text-xs text-rose-500 font-medium leading-relaxed italic">
                                                 {(property as any).rejectionReason || "Common issues: invalid address for tourism or incomplete details. Please contact support."}
                                             </p>
@@ -317,7 +333,7 @@ export default function HostProperties() {
                     >
                         <div className="px-8 py-6 flex justify-between items-center bg-white border-b border-gray-100">
                             <div>
-                                <h2 className="text-2xl font-black text-gray-900">{editingProperty ? 'Edit Property' : 'Add New Property'}</h2>
+                                <h2 className="text-2xl font-bold text-gray-900">{editingProperty ? 'Edit Property' : 'Add New Property'}</h2>
                                 <p className="text-sm text-gray-500">Provide details about your local stay experience</p>
                             </div>
                             <button onClick={() => setIsModalOpen(false)} className="w-10 h-10 rounded-full hover:bg-slate-100 flex items-center justify-center transition-colors">

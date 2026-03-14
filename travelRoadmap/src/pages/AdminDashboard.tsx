@@ -36,6 +36,17 @@ interface TableConfig {
 }
 
 const TABLE_CONFIGS: Record<string, TableConfig> = {
+    users: {
+        key: 'users',
+        label: 'Users',
+        icon: <Users size={18} />,
+        tableName: 'users',
+        fields: [
+            { key: 'name', label: 'Name', type: 'text' },
+            { key: 'email', label: 'Email', type: 'text' },
+            { key: 'password', label: 'Password', type: 'text' },
+        ]
+    },
     destinations: {
         key: 'destinations',
         label: 'Destinations',
@@ -369,9 +380,9 @@ export default function AdminDashboard() {
         { key: 'host_properties', label: 'Property Listings', icon: <Home size={16} />, category: 'Hosts' },
         { key: 'bookings', label: 'Stay Bookings', icon: <CreditCard size={16} />, category: 'Hosts' },
         
-        { key: 'destinations', label: 'Global Destinations', icon: <MapPin size={16} />, category: 'Directory' },
-        { key: 'hotels', label: 'Stay Partners', icon: <Home size={16} />, category: 'Directory' },
-        { key: 'places', label: 'Points of Interest', icon: <Compass size={16} />, category: 'Directory' },
+        { key: 'destinations', label: 'Destinations', icon: <MapPin size={16} />, category: 'Directory' },
+        { key: 'hotels', label: 'Hotels', icon: <Home size={16} />, category: 'Directory' },
+        { key: 'places', label: 'Places', icon: <Compass size={16} />, category: 'Directory' },
         { key: 'reviews', label: 'User Feedback', icon: <MessageSquare size={16} />, category: 'Directory' },
         
         { key: 'roadmaps', label: 'Trip Roadmaps', icon: <Map size={16} />, category: 'Travel' },
@@ -583,10 +594,7 @@ export default function AdminDashboard() {
                                                             </div>
                                                         ))}
                                                     </div>
-                                                    <div className="mt-8 p-4 bg-brand-500 rounded-2xl text-center">
-                                                         <p className="text-[9px] font-bold uppercase tracking-wider opacity-60">System Version</p>
-                                                         <p className="text-sm font-bold">Stable v2.4.0</p>
-                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
