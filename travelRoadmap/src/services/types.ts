@@ -87,6 +87,9 @@ export interface LocalHost {
     lng: number;
     foodIncluded: boolean;
     verified: boolean;
+    email?: string;
+    phone?: string;
+    suggestedContribution?: number;
 }
 
 export interface MyRoadmap {
@@ -100,6 +103,8 @@ export interface MyRoadmap {
     estimated_cost: number;
     created_at: string;
     total_distance_km: number;
+    stay_type?: string;
+    selected_stay?: string;
 }
 
 export interface HostRegistrationData {

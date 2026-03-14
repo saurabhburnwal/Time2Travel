@@ -6,7 +6,7 @@ import AnimatedPage from '../components/AnimatedPage';
 import StarRating from '../components/StarRating';
 import { useTrip } from '../contexts/TripContext';
 import { useAuth } from '../contexts/AuthContext';
-import { emailTripPDF } from '../services/roadmapsService';
+import { emailTripPDF, markRoadmapComplete, savePreference } from '../services/roadmapsService';
 import { generateTripPDF, generateTripPDFBase64 } from '../lib/TripPDFDocument';
 import { MapContainer, TileLayer, Marker, Polyline } from 'react-leaflet';
 import { Icon } from 'leaflet';
@@ -49,9 +49,20 @@ export default function FinalReview() {
     const [isEmailingPDF, setIsEmailingPDF] = useState(false);
 
     const places = trip.places || [];
-    const center = { lat: trip.stayLat || 10.0889, lng: trip.stayLng || 77.0595 };
-    const stayLat = center.lat;
-    const stayLng = center.lng;
+    const stayLat = trip.stayLat || 0;
+    const stayLng = trip.stayLng || 0;
+    // Compute dynamic center from stay + places
+    const center = (() => {
+        const pts: [number, number][] = [];
+        if (stayLat && stayLng) pts.push([stayLat, stayLng]);
+        places.forEach((p: any) => {
+            const lat = parseFloat(p.latitude || p.lat || 0);
+            const lng = parseFloat(p.longitude || p.lng || 0);
+            if (lat && lng) pts.push([lat, lng]);
+        });
+        if (pts.length === 0) return { lat: 10.8505, lng: 76.2711 };
+        return { lat: pts.reduce((s, p) => s + p[0], 0) / pts.length, lng: pts.reduce((s, p) => s + p[1], 0) / pts.length };
+    })();
 
     const routePoints: [number, number][] = [
         [stayLat, stayLng],
@@ -86,9 +97,21 @@ export default function FinalReview() {
                 transportMode: trip.transportMode,
                 selectedRoadmap: trip.selectedRoadmap,
                 places: trip.places,
-                mapElementId: 'trip-map-container' // Optional, if map is rendered
+                mapElementId: 'trip-map-container'
             });
             toast.success('Itinerary downloaded successfully!');
+
+            // Mark the trip as completed in the database
+            if (trip.selectedRoadmap?.roadmap_id) {
+                await markRoadmapComplete(trip.selectedRoadmap.roadmap_id);
+                await savePreference({
+                    destination: trip.destination,
+                    travel_type: trip.travelType,
+                    group_type: trip.groupType,
+                    days: trip.days,
+                    budget: trip.budget
+                });
+            }
         } catch (error) {
             console.error('Failed to generate PDF:', error);
             toast.error('Failed to generate PDF. Please try again.');

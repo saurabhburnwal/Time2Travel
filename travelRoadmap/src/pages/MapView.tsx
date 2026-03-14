@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Download, Layers } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
-import { Icon } from 'leaflet';
+import { Icon, LatLngBounds } from 'leaflet';
 import { motion } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
 import { useTrip } from '../contexts/TripContext';
@@ -27,18 +27,42 @@ export default function MapView() {
     const [selectedDay, setSelectedDay] = useState(0); // 0 = all
 
     const places = trip.places || [];
-    const center = { lat: trip.stayLat || 10.0889, lng: trip.stayLng || 77.0595 };
-    const stayLat = center.lat;
-    const stayLng = center.lng;
+
+    // Use stay coordinates if available, otherwise compute center from places
+    const stayLat = trip.stayLat || 0;
+    const stayLng = trip.stayLng || 0;
+
+    // Compute center dynamically from all available coordinates
+    const center = useMemo(() => {
+        const allPoints: [number, number][] = [];
+        if (stayLat && stayLng) allPoints.push([stayLat, stayLng]);
+        places.forEach((p: any) => {
+            const lat = parseFloat(p.latitude || p.lat || 0);
+            const lng = parseFloat(p.longitude || p.lng || 0);
+            if (lat && lng) allPoints.push([lat, lng]);
+        });
+        if (allPoints.length === 0) return { lat: 10.8505, lng: 76.2711 }; // Kerala default if nothing
+        const avgLat = allPoints.reduce((sum, p) => sum + p[0], 0) / allPoints.length;
+        const avgLng = allPoints.reduce((sum, p) => sum + p[1], 0) / allPoints.length;
+        return { lat: avgLat, lng: avgLng };
+    }, [stayLat, stayLng, places]);
+
     const placesPerDay = Math.ceil(places.length / trip.days);
 
     const filteredPlaces = selectedDay === 0
         ? places
         : places.slice((selectedDay - 1) * placesPerDay, selectedDay * placesPerDay);
 
+    // Filter out places with invalid coordinates
+    const validPlaces = filteredPlaces.filter((p: any) => {
+        const lat = parseFloat(p.latitude || p.lat || 0);
+        const lng = parseFloat(p.longitude || p.lng || 0);
+        return lat !== 0 && lng !== 0;
+    });
+
     const routePoints: [number, number][] = [
-        [stayLat, stayLng],
-        ...filteredPlaces.map((p: any) => [p.latitude || p.lat, p.longitude || p.lng] as [number, number]),
+        ...(stayLat && stayLng ? [[stayLat, stayLng] as [number, number]] : []),
+        ...validPlaces.map((p: any) => [parseFloat(p.latitude || p.lat), parseFloat(p.longitude || p.lng)] as [number, number]),
     ];
 
     const dayColors = ['#18465a', '#9ec1d7', '#10b981', '#65403a', '#ef4444', '#6366f1', '#14b8a6'];
@@ -75,12 +99,14 @@ export default function MapView() {
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
                         {/* Stay marker */}
-                        <Marker position={[stayLat, stayLng]} icon={stayIcon}>
-                            <Popup><strong>Your Stay</strong><br />{trip.selectedStay}</Popup>
-                        </Marker>
+                        {stayLat !== 0 && stayLng !== 0 && (
+                            <Marker position={[stayLat, stayLng]} icon={stayIcon}>
+                                <Popup><strong>Your Stay</strong><br />{trip.selectedStay}</Popup>
+                            </Marker>
+                        )}
                         {/* Place markers */}
-                        {filteredPlaces.map((place: any, idx: number) => (
-                            <Marker key={place.place_id || place.id || idx} position={[place.latitude || place.lat, place.longitude || place.lng]} icon={placeIcon}>
+                        {validPlaces.map((place: any, idx: number) => (
+                            <Marker key={place.place_id || place.id || idx} position={[parseFloat(place.latitude || place.lat), parseFloat(place.longitude || place.lng)]} icon={placeIcon}>
                                 <Popup>
                                     <strong>{place.name}</strong><br />
                                     {place.category || place.travel_type} · {place.avg_visit_time || place.visitTime}<br />
@@ -89,7 +115,9 @@ export default function MapView() {
                             </Marker>
                         ))}
                         {/* Route line */}
-                        <Polyline positions={routePoints} color={dayColors[(selectedDay || 1) - 1] || '#7c3aed'} weight={3} opacity={0.7} dashArray="8 6" />
+                        {routePoints.length >= 2 && (
+                            <Polyline positions={routePoints} color={dayColors[(selectedDay || 1) - 1] || '#7c3aed'} weight={3} opacity={0.7} dashArray="8 6" />
+                        )}
                     </MapContainer>
                 </div>
 
@@ -97,7 +125,7 @@ export default function MapView() {
                 <div className="glass-card p-5 mt-6">
                     <div className="flex flex-wrap gap-6">
                         <div className="flex items-center gap-2"><div className="w-4 h-4 bg-red-500 rounded-full" /><span className="text-sm text-gray-600">Your Stay</span></div>
-                        <div className="flex items-center gap-2"><div className="w-4 h-4 bg-blue-500 rounded-full" /><span className="text-sm text-gray-600">Tourist Spots ({filteredPlaces.length})</span></div>
+                        <div className="flex items-center gap-2"><div className="w-4 h-4 bg-blue-500 rounded-full" /><span className="text-sm text-gray-600">Tourist Spots ({validPlaces.length})</span></div>
                         <div className="flex items-center gap-2"><div className="w-8 h-0.5 bg-brand-500 border-dashed border-t-2 border-brand-500" /><span className="text-sm text-gray-600">Route Path</span></div>
                     </div>
                 </div>

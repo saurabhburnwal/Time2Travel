@@ -184,6 +184,49 @@ export interface DBTravelPreference {
     group_type_id: number;
 }
 
+export interface DBHostProperty {
+    property_id: number;
+    host_id: number;
+    destination_id: number;
+    property_name: string;
+    address: string | null;
+    max_guests: number;
+    provides_food: boolean;
+    voluntary_min_amount: number | null;
+    is_active: boolean;
+    created_at: string;
+    // Joined fields
+    destination_name?: string;
+}
+
+export interface DBHostBooking {
+    booking_id: number;
+    property_id: number;
+    host_id: number;
+    traveler_id: number;
+    roadmap_id: number | null;
+    check_in_day: number;
+    check_out_day: number;
+    status: string;
+    contribution_received: number | null;
+    host_notes: string | null;
+    created_at: string;
+    // Joined fields
+    property_name?: string;
+    traveler_name?: string;
+    traveler_email?: string;
+    traveler_phone?: string;
+    group_type_name?: string;
+}
+
+export interface DBHostUnavailability {
+    unavailability_id: number;
+    host_id: number;
+    property_id: number;
+    blocked_date: string;
+    reason: string | null;
+}
+
 // ======================== HELPERS ========================
 
 /** Cache for destination name → id lookups (avoids repeated queries) */
@@ -252,4 +295,42 @@ export interface AppUser {
     avatar: string;
     joinedDate: string;
     gender?: string;
+}
+
+export interface AppHostProperty {
+    id: number;
+    name: string;
+    destinationId: number;
+    destinationName: string;
+    address: string;
+    maxGuests: number;
+    providesFood: boolean;
+    voluntaryMinAmount: number | null;
+    isActive: boolean;
+}
+
+export interface AppHostBooking {
+    id: number;
+    propertyId: number;
+    propertyName: string;
+    travelerId: number;
+    travelerName: string;
+    travelerEmail: string;
+    travelerPhone: string;
+    groupTypeName?: string;
+    roadmapId: number | null;
+    checkInDay: number;
+    checkOutDay: number;
+    status: 'pending' | 'confirmed' | 'checked_in' | 'completed' | 'cancelled';
+    contributionReceived: number | null;
+    hostNotes: string;
+    createdAt: string;
+}
+
+export interface AppHostUnavailability {
+    id: number;
+    propertyId: number;
+    propertyName?: string;
+    blockedDate: string;
+    reason: string;
 }

@@ -1,5 +1,6 @@
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Shield, TrendingDown, Building2, Car, Bike, Bus, Train, Truck } from 'lucide-react';
+import { ArrowLeft, Shield, TrendingDown, Building2, Car, Bike, Bus, Train, Truck, Ticket } from 'lucide-react';
 import { motion } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
 import { useTrip } from '../contexts/TripContext';
@@ -20,7 +21,23 @@ export default function ExpenseBreakdown() {
 
     const accommodation = trip.stayType === 'hotel' ? trip.hotelPrice * trip.days : 0;
     const transport = selectedMode.ratePerDay * trip.days;
-    const entryFees = 80 * trip.days;
+
+    // Calculate real entry fees from trip.places instead of hardcoded ₹80/day
+    const entryFees = useMemo(() => {
+        const places = trip.places || [];
+        if (places.length === 0) return 0;
+        return places.reduce((sum: number, p: any) => {
+            const fee = parseFloat(p.entryFee || p.entry_fee || 0);
+            return sum + fee;
+        }, 0);
+    }, [trip.places]);
+
+    const entryFeeNote = useMemo(() => {
+        const places = trip.places || [];
+        const count = places.filter((p: any) => parseFloat(p.entryFee || p.entry_fee || 0) > 0).length;
+        if (count === 0) return 'All places have free entry';
+        return `${count} paid place${count > 1 ? 's' : ''} across ${trip.days} days`;
+    }, [trip.places, trip.days]);
 
     const expenses = [
         {
@@ -43,8 +60,8 @@ export default function ExpenseBreakdown() {
             label: 'Entry Fees',
             amount: entryFees,
             color: 'from-green-400 to-emerald-600',
-            icon: <Car size={18} className="text-green-500" />,
-            note: `₹80/day × ${trip.days} days`,
+            icon: <Ticket size={18} className="text-green-500" />,
+            note: entryFeeNote,
         },
     ];
 

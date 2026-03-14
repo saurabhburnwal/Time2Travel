@@ -44,7 +44,7 @@ export default function RoadmapOptions() {
                         icon,
                         desc: rm.description || '',
                         totalDistance: `${rm.totalDistanceKm} km`,
-                        estimatedCost: rm.expenses?.total || (trip.budget * 0.8), // fallback
+                        estimatedCost: rm.expenses?.total || 0,
                         placesCount: rm.orderedPlaces?.length || 0,
                         intensity,
                         gradient,
@@ -89,7 +89,7 @@ export default function RoadmapOptions() {
                 });
             }
             updateTrip({
-                selectedRoadmap: { type: rm.type, ...rm.rawData },
+                selectedRoadmap: { type: rm.type, roadmap_id: saveRes.roadmapId, ...rm.rawData },
                 places: rm.rawData.orderedPlaces || []
             });
             navigate('/itinerary');

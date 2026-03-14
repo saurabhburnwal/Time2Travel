@@ -1,4 +1,4 @@
-import { apiGet, apiPost } from '../lib/api';
+import { apiGet, apiPost, apiPatch } from '../lib/api';
 import { MyRoadmap } from './types';
 
 export async function generateRoadmap(data: {
@@ -24,6 +24,9 @@ export async function savePreference(data: {
     destination_id?: number;
     travel_type_id?: number;
     group_type_id?: number;
+    destination?: string;
+    travel_type?: string;
+    group_type?: string;
     days: number;
     budget: number;
 }): Promise<void> {
@@ -94,4 +97,14 @@ export async function fetchMyRoadmaps(): Promise<MyRoadmap[]> {
         console.warn('fetchMyRoadmaps error:', err);
     }
     return [];
+}
+
+export async function markRoadmapComplete(roadmapId: number): Promise<boolean> {
+    try {
+        const { success } = await apiPatch(`/api/roadmap/${roadmapId}/complete`, {});
+        return success;
+    } catch (err) {
+        console.warn('markRoadmapComplete error:', err);
+        return false;
+    }
 }

@@ -5,6 +5,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
 import { useTrip } from '../contexts/TripContext';
 
+// Haversine distance calculation (km)
+function haversineDistance(lat1: number, lng1: number, lat2: number, lng2: number): number {
+    const R = 6371;
+    const dLat = ((lat2 - lat1) * Math.PI) / 180;
+    const dLng = ((lng2 - lng1) * Math.PI) / 180;
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) *
+        Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
 export default function Itinerary() {
     const { trip } = useTrip();
     const navigate = useNavigate();
@@ -13,17 +26,39 @@ export default function Itinerary() {
     const places = trip.places || [];
     const placesPerDay = Math.ceil(places.length / trip.days);
 
-    // Build day-wise itinerary
+    // Build day-wise itinerary with real distances
     const itinerary = Array.from({ length: trip.days }, (_, dayIdx) => {
         const dayPlaces = places.slice(dayIdx * placesPerDay, (dayIdx + 1) * placesPerDay);
-        return dayPlaces.map((place, i) => {
+        return dayPlaces.map((place: any, i: number) => {
             const startHour = 8 + i * 2;
             const h = startHour > 12 ? startHour - 12 : startHour;
             const ampm = startHour >= 12 ? 'PM' : 'AM';
+
+            // Calculate real distance from previous point
+            let distance = '—';
+            if (i === 0) {
+                // Distance from stay to first place
+                const plat = parseFloat(place.latitude || place.lat || 0);
+                const plng = parseFloat(place.longitude || place.lng || 0);
+                if (trip.stayLat && trip.stayLng && plat && plng) {
+                    distance = `${haversineDistance(trip.stayLat, trip.stayLng, plat, plng).toFixed(1)} km`;
+                }
+            } else {
+                // Distance from previous place
+                const prevPlace: any = dayPlaces[i - 1];
+                const prevLat = parseFloat(prevPlace.latitude || prevPlace.lat || 0);
+                const prevLng = parseFloat(prevPlace.longitude || prevPlace.lng || 0);
+                const curLat = parseFloat(place.latitude || place.lat || 0);
+                const curLng = parseFloat(place.longitude || place.lng || 0);
+                if (prevLat && prevLng && curLat && curLng) {
+                    distance = `${haversineDistance(prevLat, prevLng, curLat, curLng).toFixed(1)} km`;
+                }
+            }
+
             return {
                 time: `${h}:00 ${ampm}`,
                 place,
-                distance: `${(1 + Math.random() * 5).toFixed(1)} km`,
+                distance,
             };
         });
     });
@@ -99,14 +134,14 @@ export default function Itinerary() {
                                                             <div className="flex justify-between items-start mb-2">
                                                                 <div>
                                                                     <h4 className="font-bold text-gray-800">{item.place.name}</h4>
-                                                                    <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">{item.place.category}</span>
+                                                                    <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">{item.place.category || item.place.travel_type}</span>
                                                                 </div>
                                                                 <span className="text-sm font-semibold text-brand-600 bg-brand-50 px-3 py-1 rounded-full">{item.time}</span>
                                                             </div>
                                                             <div className="flex flex-wrap gap-4 mt-3 text-sm text-gray-500">
-                                                                <div className="flex items-center gap-1"><Clock size={14} /> {item.place.visitTime}</div>
+                                                                <div className="flex items-center gap-1"><Clock size={14} /> {item.place.visitTime || `${item.place.avg_visit_time || 60} min`}</div>
                                                                 <div className="flex items-center gap-1"><MapPin size={14} /> {item.distance}</div>
-                                                                <div className="flex items-center gap-1"><DollarSign size={14} /> ₹{item.place.entryFee}</div>
+                                                                <div className="flex items-center gap-1"><DollarSign size={14} /> ₹{item.place.entryFee || item.place.entry_fee || 0}</div>
                                                             </div>
                                                         </div>
                                                     </div>

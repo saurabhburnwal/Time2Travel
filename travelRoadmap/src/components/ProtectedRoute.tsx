@@ -46,3 +46,18 @@ export function AdminRoute() {
 
     return <Outlet />;
 }
+
+/**
+ * HostRoute — requires the user to be logged in AND have the 'host' role.
+ * Non-host authenticated users are redirected to the plan page.
+ */
+export function HostRoute() {
+    const { isLoggedIn, isLoading, isHost } = useAuth();
+    const location = useLocation();
+
+    if (isLoading) return <AuthLoadingSpinner />;
+    if (!isLoggedIn) return <Navigate to="/login" state={{ from: location }} replace />;
+    if (!isHost) return <Navigate to="/plan" replace />;
+
+    return <Outlet />;
+}

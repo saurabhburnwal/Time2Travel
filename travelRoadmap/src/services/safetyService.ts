@@ -1,11 +1,4 @@
-/**
- * safetyService.ts
- *
- * Fetches emergency/safety contacts from Supabase.
- * Schema: contact_id, user_id (FK), name, phone
- */
-
-import { supabase } from './supabaseClient';
+import { apiGet, apiPost, apiDelete } from '../lib/api';
 
 export interface AppSafetyContact {
     id: number;
@@ -24,17 +17,13 @@ const DEFAULT_EMERGENCY_CONTACTS: AppSafetyContact[] = [
 ];
 
 /** Fetch safety contacts — merges default emergency numbers with user-specific contacts */
-export async function getSafetyContacts(userId?: number): Promise<AppSafetyContact[]> {
+export async function getSafetyContacts(): Promise<AppSafetyContact[]> {
     const contacts = [...DEFAULT_EMERGENCY_CONTACTS];
 
-    if (userId) {
-        const { data, error } = await supabase
-            .from('safety_contacts')
-            .select('*')
-            .eq('user_id', userId);
-
-        if (!error && data) {
-            data.forEach((row: any) => {
+    try {
+        const { success, data } = await apiGet<{ contacts: any[] }>('/api/safety/contacts');
+        if (success && data?.contacts) {
+            data.contacts.forEach((row: any) => {
                 contacts.push({
                     id: row.contact_id,
                     name: row.name || 'Contact',
@@ -42,7 +31,34 @@ export async function getSafetyContacts(userId?: number): Promise<AppSafetyConta
                 });
             });
         }
+    } catch (err) {
+        console.warn('Failed to fetch user safety contacts:', err);
     }
 
     return contacts;
+}
+
+export async function addSafetyContact(name: string, phone: string): Promise<{ success: boolean, contact?: AppSafetyContact }> {
+    try {
+        const { success, data } = await apiPost<{ contact: any }>('/api/safety/contacts', { name, phone });
+        if (success && data?.contact) {
+            return {
+                success,
+                contact: { id: data.contact.contact_id, name: data.contact.name, number: data.contact.phone }
+            };
+        }
+    } catch (err) {
+        console.warn('Failed to add safety contact:', err);
+    }
+    return { success: false };
+}
+
+export async function deleteSafetyContact(id: number): Promise<boolean> {
+    try {
+        const { success } = await apiDelete(`/api/safety/contacts/${id}`);
+        return success;
+    } catch (err) {
+        console.warn('Failed to delete safety contact:', err);
+        return false;
+    }
 }
