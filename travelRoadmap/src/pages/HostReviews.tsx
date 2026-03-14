@@ -24,7 +24,7 @@ export default function HostReviews() {
         setProfile(hostProfile);
         
         if (hostProfile) {
-            const data = await getHostReviews(user!.name);
+            const data = await getHostReviews(hostProfile.host_id);
             setReviews(data);
         }
         setLoading(false);
@@ -51,67 +51,88 @@ export default function HostReviews() {
         <div className="min-h-screen bg-slate-50 pt-20">
             <HostNav />
             
-            <div className="section-container py-10 max-w-7xl">
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
-                    <div className="space-y-2">
-                        <div className="flex items-center gap-3 mb-2">
-                             <span className="px-3 py-1 bg-brand-100 text-brand-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-brand-200">Public Sentiment</span>
-                             <span className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse" />
+                {/* Hero Section */}
+                <div className="relative h-48 rounded-3xl overflow-hidden shadow-lg group bg-slate-900 mb-8 max-w-7xl mx-auto xl:px-0 px-4">
+                    <img 
+                        src="/images/bg.png" 
+                        alt="Reviews Dashboard" 
+                        className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 to-transparent" />
+                    <div className="relative h-full flex flex-col justify-center px-10">
+                         <div className="flex items-center gap-3 mb-2">
+                             <span className="w-2 h-2 rounded-full bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.5)]" />
+                             <span className="text-[10px] font-bold uppercase tracking-wider text-brand-400">Public Sentiment</span>
                         </div>
-                        <h1 className="text-6xl font-black text-gray-900 tracking-tighter italic">Reviews</h1>
-                        <p className="text-gray-400 font-medium text-lg">Detailed feedback and accolades from your global visitors.</p>
+                        <h1 className="text-3xl font-bold text-white mb-2">Guest Feedback</h1>
+                        <p className="text-slate-200 text-sm max-w-md">Detailed feedback and accolades from your global visitors.</p>
+                    </div>
+                </div>
+
+            <div className="section-container max-w-7xl">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                    <div className="md:col-span-2 bg-slate-900 rounded-3xl p-8 text-white relative overflow-hidden shadow-xl">
+                        <Star className="absolute -bottom-10 -right-10 text-white/5" size={200} />
+                        <div className="relative z-10">
+                            <p className="text-brand-400 mb-2 font-bold uppercase tracking-wider text-sm flex items-center gap-2">
+                                <Star size={16} /> Hospitaliy Excellence
+                            </p>
+                            <h2 className="text-5xl font-bold tracking-tight mb-8">{avgRating}</h2>
+                            <div className="flex text-yellow-400 gap-2">
+                                {[...Array(5)].map((_, i) => (
+                                    <Star key={i} size={24} fill={i < Math.round(Number(avgRating)) ? 'currentColor' : 'none'} className={i < Math.round(Number(avgRating)) ? 'text-yellow-400' : 'text-white/20'} strokeWidth={2.5} />
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between hover:shadow-md transition-all">
+                        <div className="w-10 h-10 bg-brand-50 text-brand-500 rounded-xl flex items-center justify-center border border-brand-100">
+                            <Star size={20} />
+                        </div>
+                        <div className="mt-6">
+                            <p className="text-3xl font-bold text-gray-900 tracking-tight">{avgRating}</p>
+                            <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Average Rating</p>
+                        </div>
                     </div>
 
-                    <div className="bg-white px-6 py-4 rounded-[32px] border border-slate-100 shadow-sm flex items-center gap-6">
-                         <div>
-                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-0.5">Global Score</p>
-                            <p className="text-2xl font-black text-slate-900 underline decoration-yellow-400 decoration-4 underline-offset-4">{avgRating}</p>
-                         </div>
-                         <div className="w-[1px] h-8 bg-slate-100" />
-                         <div>
-                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-0.5">Total Count</p>
-                            <p className="text-2xl font-black text-slate-900 italic">{totalReviews}</p>
-                         </div>
+                    <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between hover:shadow-md transition-all">
+                        <div className="w-10 h-10 bg-ocean-50 text-ocean-600 rounded-xl flex items-center justify-center border border-ocean-100">
+                            <CheckCircle size={20} />
+                        </div>
+                        <div className="mt-6">
+                            <p className="text-3xl font-bold text-gray-900 tracking-tight">{totalReviews}</p>
+                            <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mt-1">Total Reviews</p>
+                        </div>
                     </div>
                 </div>
 
                 {totalReviews === 0 ? (
-                    <div className="bg-white rounded-[40px] p-24 text-center shadow-sm border border-slate-100 max-w-3xl mx-auto">
-                        <div className="w-24 h-24 bg-slate-50 text-slate-200 rounded-[32px] flex items-center justify-center mx-auto mb-8 border border-slate-100">
-                            <Star size={48} />
+                    <div className="bg-white rounded-3xl p-16 text-center shadow-sm border border-slate-100 max-w-3xl mx-auto">
+                        <div className="w-20 h-20 bg-slate-50 text-slate-300 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-slate-100">
+                            <Star size={40} />
                         </div>
-                        <h3 className="text-3xl font-black text-gray-900 mb-4 tracking-tighter italic">First impression pending</h3>
-                        <p className="text-gray-400 font-medium text-lg leading-relaxed mb-8">Once you conclude your first hosting event, reviews from your guests will illuminate this space.</p>
-                        <div className="inline-flex items-center gap-3 px-6 py-3 bg-brand-50 text-brand-600 rounded-xl text-xs font-black uppercase tracking-widest border border-brand-100">
-                             <CheckCircle size={16} /> Trust scores start after 1 stay
+                        <h3 className="text-2xl font-bold text-gray-900 mb-3 tracking-tight">First impression pending</h3>
+                        <p className="text-gray-500 text-sm leading-relaxed mb-8 max-w-md mx-auto">Once you conclude your first hosting event, reviews from your guests will appear here.</p>
+                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-50 text-brand-600 rounded-lg text-[10px] font-bold uppercase tracking-wider border border-brand-100">
+                             <CheckCircle size={14} /> Trust scores start after 1 stay
                         </div>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
-                        <div className="lg:col-span-4 bg-slate-900 rounded-[48px] p-12 text-white flex flex-col items-center justify-center text-center relative overflow-hidden shadow-2xl">
-                            <Star className="absolute -top-10 -right-10 text-white/5" size={200} />
-                            <h2 className="text-[10px] font-black text-brand-400 uppercase tracking-[0.2em] mb-8 italic">Hospitality Excellence</h2>
-                            <div className="text-9xl font-black tracking-tighter mb-6 italic">{avgRating}</div>
-                            <div className="flex text-yellow-400 gap-2 mb-8 bg-white/5 p-4 rounded-[32px] backdrop-blur-md border border-white/10">
-                                {[...Array(5)].map((_, i) => (
-                                    <Star key={i} size={28} fill={i < Math.round(Number(avgRating)) ? 'currentColor' : 'none'} className={i < Math.round(Number(avgRating)) ? 'text-yellow-400' : 'text-white/20'} strokeWidth={2.5} />
-                                ))}
-                            </div>
-                            <p className="text-sm font-black text-slate-400 uppercase tracking-widest">Aggregate across {totalReviews} events</p>
-                        </div>
-                        
-                        <div className="lg:col-span-8 bg-white rounded-[48px] p-12 shadow-sm border border-slate-100">
-                            <div className="flex items-center justify-between mb-12">
-                                <div>
-                                    <h2 className="text-3xl font-black text-gray-900 tracking-tighter italic">Score Distribution</h2>
-                                    <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">Quality breakdown</p>
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-12">
+                        <div className="lg:col-span-12 bg-white rounded-3xl p-8 shadow-sm border border-slate-100 flex flex-col md:flex-row items-center gap-12">
+                            <div className="flex-1 w-full max-w-2xl">
+                                <div className="flex items-center justify-between mb-8">
+                                    <div>
+                                        <h2 className="text-md font-bold text-slate-900 flex items-center gap-2">
+                                            <BarChart2 className="text-brand-500" size={18} /> Score Distribution
+                                        </h2>
+                                    </div>
                                 </div>
-                                <BarChart2 className="text-slate-200" size={32} />
-                            </div>
-                            <div className="space-y-8">
+                                <div className="space-y-4">
                                 {distribution.map((item) => (
                                     <div key={item.stars} className="flex items-center gap-10">
-                                        <div className="flex items-center justify-end gap-2 w-16 text-sm font-black text-gray-400 italic">
+                                        <div className="flex items-center justify-end gap-2 w-16 text-sm font-bold text-gray-400">
                                             {item.stars} <Star size={14} className="text-yellow-400" fill="currentColor" />
                                         </div>
                                         <div className="flex-1 h-3 bg-slate-50 rounded-full overflow-hidden border border-slate-100">
@@ -122,18 +143,26 @@ export default function HostReviews() {
                                                 className="h-full bg-gradient-to-r from-yellow-400 to-brand-500 rounded-full"
                                             />
                                         </div>
-                                        <div className="w-16 text-right text-xs font-black text-slate-900 italic tracking-tighter">{item.percentage.toFixed(0)}%</div>
+                                        <div className="w-16 text-right text-xs font-bold text-slate-900 tracking-tight">{item.percentage.toFixed(0)}%</div>
                                     </div>
                                 ))}
+                                </div>
+                            </div>
+                            
+                            <div className="w-px h-32 bg-slate-100 hidden md:block mx-4" />
+                            
+                            <div className="text-center md:text-left">
+                                <p className="text-4xl font-bold tracking-tight text-gray-900">{avgRating}</p>
+                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-2">Aggregate across {totalReviews} reviews</p>
                             </div>
                         </div>
                     </div>
                 )}
 
-                <div className="max-w-5xl mx-auto space-y-10">
+                <div className="max-w-7xl mx-auto space-y-6">
                     <div className="flex items-center justify-between px-2">
-                        <h2 className="text-3xl font-black text-gray-900 tracking-tighter italic">Live Feedback</h2>
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Chronological stream</span>
+                        <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Live Feedback</h2>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Chronological stream</span>
                     </div>
 
                     <div className="grid grid-cols-1 gap-8">
@@ -159,8 +188,8 @@ export default function HostReviews() {
                                         <div className="flex-1">
                                             <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-6">
                                                 <div>
-                                                    <h3 className="font-black text-gray-900 text-2xl tracking-tight italic">{review.reviewer_name}</h3>
-                                                    <p className="text-[10px] font-black text-gray-400 mt-1 uppercase tracking-widest italic">{new Date(review.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                                                    <h3 className="font-bold text-gray-900 text-xl tracking-tight">{review.reviewer_name}</h3>
+                                                    <p className="text-[10px] font-medium text-gray-400 mt-1 uppercase tracking-wider">{new Date(review.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
                                                 </div>
                                                 <div className="flex text-yellow-400 gap-1 bg-slate-50 p-3 rounded-2xl border border-slate-100">
                                                     {[...Array(5)].map((_, i) => (
@@ -168,32 +197,32 @@ export default function HostReviews() {
                                                     ))}
                                                 </div>
                                             </div>
-                                            <p className="text-gray-700 leading-relaxed italic text-xl tracking-tight mb-8">
+                                            <p className="text-gray-700 leading-relaxed text-lg tracking-tight mb-8">
                                                 "{review.notes}"
                                             </p>
 
                                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                                                 <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100">
-                                                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 flex items-center gap-1.5"><Shield size={10} className="text-blue-500" /> Cleanliness</p>
+                                                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 flex items-center gap-1.5"><Shield size={10} className="text-blue-500" /> Cleanliness</p>
                                                     <div className="flex text-yellow-500">
                                                         {[...Array(5)].map((_, i) => <Star key={i} size={10} fill={i < review.cleanliness_rating ? 'currentColor' : 'none'} className={i >= review.cleanliness_rating ? 'text-slate-200' : ''} />)}
                                                     </div>
                                                 </div>
                                                 <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100">
-                                                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 flex items-center gap-1.5"><MessageSquare size={10} className="text-green-500" /> Comm.</p>
+                                                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 flex items-center gap-1.5"><MessageSquare size={10} className="text-green-500" /> Comm.</p>
                                                     <div className="flex text-yellow-500">
                                                         {[...Array(5)].map((_, i) => <Star key={i} size={10} fill={i < review.communication_rating ? 'currentColor' : 'none'} className={i >= review.communication_rating ? 'text-slate-200' : ''} />)}
                                                     </div>
                                                 </div>
                                                 <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100">
-                                                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 flex items-center gap-1.5"><Heart size={10} className="text-rose-500" /> Hospitality</p>
+                                                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1 flex items-center gap-1.5"><Heart size={10} className="text-rose-500" /> Hospitality</p>
                                                     <div className="flex text-yellow-500">
                                                         {[...Array(5)].map((_, i) => <Star key={i} size={10} fill={i < review.hospitality_rating ? 'currentColor' : 'none'} className={i >= review.hospitality_rating ? 'text-slate-200' : ''} />)}
                                                     </div>
                                                 </div>
                                                 <div className="bg-indigo-50 p-3 rounded-2xl border border-indigo-100">
-                                                    <p className="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-1 flex items-center gap-1.5"><DollarSign size={10} /> Contribution</p>
-                                                    <p className="text-xs font-black text-indigo-700 tracking-tighter">₹{review.payment_amount}</p>
+                                                    <p className="text-[10px] font-bold text-indigo-400 uppercase tracking-wider mb-1 flex items-center gap-1.5"><DollarSign size={10} /> Contribution</p>
+                                                    <p className="text-xs font-bold text-indigo-700 tracking-tight">₹{review.payment_amount}</p>
                                                 </div>
                                             </div>
                                             

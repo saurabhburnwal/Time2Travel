@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getReviewsByRoadmap, getRecentReviews, createReview, createHostReview, updateReview, deleteReview, getUserReviews, getHostReviews } = require('../controllers/reviewController');
+const { getReviewsByRoadmap, getRecentReviews, createReview, createHostReview, updateReview, deleteReview, getUserReviews, getHostReviews, getUserHostReviews } = require('../controllers/reviewController');
 const verifyToken = require('../middleware/auth');
 
 // GET /api/reviews/me — auth required
@@ -8,6 +8,9 @@ router.get('/me', verifyToken, getUserReviews);
 
 // GET /api/reviews/host?host_name=...  — public
 router.get('/host', getHostReviews);
+
+// GET /api/reviews/host/me — auth required
+router.get('/host/me', verifyToken, getUserHostReviews);
 
 // GET /api/reviews?roadmap_id=1  — public
 router.get('/', getReviewsByRoadmap);

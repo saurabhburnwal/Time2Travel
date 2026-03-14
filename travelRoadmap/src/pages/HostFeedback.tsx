@@ -74,6 +74,7 @@ export default function HostFeedback() {
         try {
             const { success } = await apiPost('/api/reviews/host', {
                 roadmap_id: parseInt(roadmapId || '0'),
+                host_id: tripInfo?.host_id || null,
                 host_name: form.hostName,
                 property_type: form.propertyType,
                 cleanliness_rating: form.cleanliness,

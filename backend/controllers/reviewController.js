@@ -106,10 +106,10 @@ exports.createReview = async (req, res, next) => {
 // ===== SUBMIT HOST REVIEW =====
 exports.createHostReview = async (req, res, next) => {
     try {
-        const { roadmap_id, host_name, property_type, cleanliness_rating, communication_rating, hospitality_rating, overall_rating, payment_amount, notes } = req.body;
+        const { roadmap_id, host_id, host_name, property_type, cleanliness_rating, communication_rating, hospitality_rating, overall_rating, payment_amount, notes } = req.body;
 
-        if (!roadmap_id || !host_name || !overall_rating) {
-            return res.status(400).json({ success: false, message: 'roadmap_id, host_name, and overall_rating are required.' });
+        if (!roadmap_id || !overall_rating) {
+            return res.status(400).json({ success: false, message: 'roadmap_id and overall_rating are required.' });
         }
 
         // Create table safely if it doesn't exist
@@ -146,12 +146,13 @@ exports.createHostReview = async (req, res, next) => {
 
         const result = await query(
             `INSERT INTO host_reviews 
-             (user_id, roadmap_id, host_name, property_type, cleanliness_rating, communication_rating, hospitality_rating, overall_rating, payment_amount, notes) 
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`,
+             (user_id, roadmap_id, host_id, host_name, property_type, cleanliness_rating, communication_rating, hospitality_rating, overall_rating, payment_amount, notes) 
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`,
             [
                 req.user.userId, 
                 roadmap_id, 
-                host_name, 
+                host_id || null,
+                host_name || 'Host', 
                 property_type || 'homestay', 
                 cleanliness_rating || 5, 
                 communication_rating || 5, 
@@ -162,6 +163,18 @@ exports.createHostReview = async (req, res, next) => {
             ]
         );
 
+        const payment = parseFloat(payment_amount) || 0;
+        if (payment > 0) {
+            // Update the booking to record the contribution so it reflects in earnings
+            // Assuming roadmap_id implicitly matches the host_bookings for the user's trip
+            await query(
+                `UPDATE host_bookings 
+                 SET contribution_received = $1 
+                 WHERE roadmap_id = $2`,
+                [payment, roadmap_id]
+            );
+        }
+
         res.status(201).json({ success: true, message: 'Host review submitted.', review: result.rows[0] });
     } catch (err) {
         next(err);
@@ -171,8 +184,8 @@ exports.createHostReview = async (req, res, next) => {
 // ===== GET HOST REVIEWS =====
 exports.getHostReviews = async (req, res, next) => {
     try {
-        const { host_name } = req.query;
-        if (!host_name) return res.status(400).json({ success: false, message: 'host_name query param is required.' });
+        const { host_id } = req.query;
+        if (!host_id) return res.status(400).json({ success: false, message: 'host_id query param is required.' });
 
         // Check if table exists first
         const tableCheck = await query(`
@@ -191,10 +204,40 @@ exports.getHostReviews = async (req, res, next) => {
             FROM host_reviews hr
             JOIN users u ON hr.user_id = u.user_id
             JOIN roadmaps r ON hr.roadmap_id = r.roadmap_id
-            JOIN destinations d ON r.destination_id = d.destination_id
-            WHERE hr.host_name = $1
+            LEFT JOIN destinations d ON r.destination_id = d.destination_id
+            WHERE hr.host_id = $1 OR hr.roadmap_id IN (SELECT roadmap_id FROM host_bookings WHERE host_id = $1)
             ORDER BY hr.created_at DESC
-        `, [host_name]);
+        `, [host_id]);
+
+        res.json({ success: true, reviews: result.rows });
+    } catch (err) {
+        next(err);
+    }
+};
+
+// ===== GET USER'S HOST REVIEWS =====
+exports.getUserHostReviews = async (req, res, next) => {
+    try {
+        const tableCheck = await query(`
+            SELECT EXISTS (
+                SELECT FROM information_schema.tables 
+                WHERE table_name = 'host_reviews'
+            );
+        `);
+
+        if (!tableCheck.rows[0].exists) {
+            return res.json({ success: true, reviews: [] });
+        }
+
+        const result = await query(`
+            SELECT hr.*, u.name as reviewer_name, d.name as destination_name
+            FROM host_reviews hr
+            JOIN users u ON hr.user_id = u.user_id
+            JOIN roadmaps r ON hr.roadmap_id = r.roadmap_id
+            JOIN destinations d ON r.destination_id = d.destination_id
+            WHERE hr.user_id = $1
+            ORDER BY hr.created_at DESC
+        `, [req.user.userId]);
 
         res.json({ success: true, reviews: result.rows });
     } catch (err) {

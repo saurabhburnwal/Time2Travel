@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS host_reviews (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(user_id),
     roadmap_id INTEGER REFERENCES roadmaps(roadmap_id),
+    host_id INTEGER REFERENCES host_profiles(host_id),
     host_name VARCHAR(200),
     property_type VARCHAR(50),
     cleanliness_rating INTEGER,
@@ -17,6 +18,9 @@ CREATE TABLE IF NOT EXISTS host_reviews (
     notes TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Ensure host_id exists for older DB versions
+ALTER TABLE host_reviews ADD COLUMN IF NOT EXISTS host_id INTEGER REFERENCES host_profiles(host_id);
 
 -- 2. Add destination_id to travel_preferences (was added at runtime in preferencesController.js)
 ALTER TABLE travel_preferences ADD COLUMN IF NOT EXISTS destination_id INTEGER REFERENCES destinations(destination_id);

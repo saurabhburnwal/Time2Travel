@@ -7,6 +7,7 @@ import StarRating from '../components/StarRating';
 import { useTrip } from '../contexts/TripContext';
 import { useAuth } from '../contexts/AuthContext';
 import { emailTripPDF, markRoadmapComplete, savePreference } from '../services/roadmapsService';
+import { apiPost } from '../lib/api';
 import { generateTripPDF, generateTripPDFBase64 } from '../lib/TripPDFDocument';
 import { MapContainer, TileLayer, Marker, Polyline } from 'react-leaflet';
 import { Icon } from 'leaflet';
@@ -43,6 +44,7 @@ export default function FinalReview() {
     const navigate = useNavigate();
     const [reviewRating, setReviewRating] = useState(0);
     const [reviewComment, setReviewComment] = useState('');
+    const [isSubmittingReview, setIsSubmittingReview] = useState(false);
     const [showSafety, setShowSafety] = useState(false);
     const [reviewSubmitted, setReviewSubmitted] = useState(false);
     const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
@@ -69,10 +71,28 @@ export default function FinalReview() {
         ...places.map((p: any) => [p.latitude || p.lat, p.longitude || p.lng] as [number, number]),
     ];
 
-    const handleSubmitReview = () => {
+    const handleSubmitReview = async () => {
         if (reviewRating === 0) { toast.error('Please select a rating'); return; }
-        setReviewSubmitted(true);
-        toast.success('Thank you for your review!');
+        
+        setIsSubmittingReview(true);
+        try {
+            const { success } = await apiPost('/api/reviews', {
+                roadmap_id: trip.selectedRoadmap?.roadmap_id,
+                rating: reviewRating,
+                comment: reviewComment
+            });
+
+            if (success) {
+                setReviewSubmitted(true);
+                toast.success('Thank you for your review!');
+            } else {
+                toast.error('Failed to submit review');
+            }
+        } catch (error) {
+            toast.error('An error occurred submitting the review');
+        } finally {
+            setIsSubmittingReview(false);
+        }
     };
 
     const handleNewTrip = () => {
@@ -287,8 +307,8 @@ export default function FinalReview() {
                                     placeholder="Share your experience with Time2Travel..."
                                     className="input-field min-h-[100px] resize-none mb-4"
                                 />
-                                <button onClick={handleSubmitReview} className="btn-primary w-full text-center justify-center">
-                                    Submit Review
+                                <button onClick={handleSubmitReview} disabled={isSubmittingReview} className="btn-primary w-full text-center justify-center flex items-center gap-2">
+                                    {isSubmittingReview ? <><Loader2 size={18} className="animate-spin"/> Submitting...</> : "Submit Review"}
                                 </button>
                             </>
                         )}

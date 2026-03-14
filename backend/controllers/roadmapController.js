@@ -286,11 +286,14 @@ exports.getRoadmapById = async (req, res, next) => {
 
         const rmResult = await query(
             `SELECT r.roadmap_id, r.created_at, r.total_distance, r.estimated_cost,
-                    d.name AS destination, d.state, d.description,
-                    rt.type_name AS roadmap_type
+                    r.stay_type, r.selected_stay,
+                    d.name AS destination, d.state, d.description, d.destination_id,
+                    rt.type_name AS roadmap_type,
+                    hb.host_id
              FROM roadmaps r
              LEFT JOIN destinations d ON r.destination_id = d.destination_id
              LEFT JOIN roadmap_types rt ON r.roadmap_type_id = rt.roadmap_type_id
+             LEFT JOIN host_bookings hb ON r.roadmap_id = hb.roadmap_id
              WHERE r.roadmap_id = $1 AND r.user_id = $2`,
             [id, req.user.userId]
         );
