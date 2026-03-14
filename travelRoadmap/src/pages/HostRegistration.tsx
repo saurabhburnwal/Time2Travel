@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, Phone, MapPin, Home, Users, ArrowLeft, Check, Upload, X, Image as ImageIcon, Utensils, Wifi, Car, Coffee, Waves, Dumbbell } from 'lucide-react';
+import { User, Phone, MapPin, Home, Users, ArrowLeft, Check, Upload, X, Image as ImageIcon, Utensils, Wifi, Car, Coffee, Waves, Dumbbell, Clock, AlertTriangle, XCircle, Loader2, Plus, Star, Shield } from 'lucide-react';
 import { motion } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
 import { useAuth } from '../contexts/AuthContext';
 import { fetchStates, fetchDestinations } from '../services/destinationsService';
-import { submitHostRegistration } from '../services/hostsService';
+import { submitHostRegistration, getMyHostRegistrations } from '../services/hostsService';
 import toast from 'react-hot-toast';
 
 const AMENITY_OPTIONS = [
@@ -27,6 +27,9 @@ export default function HostRegistration() {
     const { user, isLoggedIn } = useAuth();
     const [submitted, setSubmitted] = useState(false);
     const [submitting, setSubmitting] = useState(false);
+    const [loadingStatus, setLoadingStatus] = useState(true);
+    const [registrations, setRegistrations] = useState<any[]>([]);
+    const [showForm, setShowForm] = useState(false);
     const [states, setStates] = useState<string[]>([]);
     const [destinations, setDestinations] = useState<string[]>([]);
     const [imagePreviews, setImagePreviews] = useState<string[]>([]);
@@ -36,6 +39,31 @@ export default function HostRegistration() {
         description: '', amenities: [] as string[], propertyType: '',
         maxGuests: 1, providesFood: false, pricingInfo: '',
     });
+
+    // Check for existing registrations
+    useEffect(() => {
+        if (!isLoggedIn) {
+            setLoadingStatus(false);
+            return;
+        }
+
+        const checkStatus = async () => {
+            setLoadingStatus(true);
+            const res = await getMyHostRegistrations();
+            if (res.success) {
+                setRegistrations(res.registrations);
+                // If they have no registrations, show form by default
+                if (res.registrations.length === 0) {
+                    setShowForm(true);
+                }
+            } else {
+                setShowForm(true);
+            }
+            setLoadingStatus(false);
+        };
+
+        checkStatus();
+    }, [isLoggedIn]);
 
     useEffect(() => {
         (async () => {
@@ -48,7 +76,7 @@ export default function HostRegistration() {
         if (!form.state) { setDestinations([]); return; }
         (async () => {
             const d = await fetchDestinations(form.state);
-            setDestinations(d);
+            setDestinations(d || []);
         })();
     }, [form.state]);
 
@@ -65,61 +93,6 @@ export default function HostRegistration() {
 
     const update = (key: string, value: any) => setForm(p => ({ ...p, [key]: value }));
 
-    const toggleAmenity = (id: string) => {
-        setForm(p => ({
-            ...p,
-            amenities: p.amenities.includes(id)
-                ? p.amenities.filter(a => a !== id)
-                : [...p.amenities, id],
-        }));
-    };
-
-    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const files = e.target.files;
-        if (!files) return;
-
-        const remaining = MAX_IMAGES - imagePreviews.length;
-        if (remaining <= 0) {
-            toast.error(`Maximum ${MAX_IMAGES} images allowed`);
-            return;
-        }
-
-        const newFiles = Array.from(files).slice(0, remaining);
-        const invalidFiles: string[] = [];
-
-        newFiles.forEach(file => {
-            // Validate file type
-            if (!file.type.startsWith('image/')) {
-                invalidFiles.push(`${file.name}: Not an image file`);
-                return;
-            }
-            // Validate file size
-            if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
-                invalidFiles.push(`${file.name}: Exceeds ${MAX_FILE_SIZE_MB}MB limit`);
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                if (ev.target?.result) {
-                    setImagePreviews(prev => [...prev, ev.target!.result as string]);
-                }
-            };
-            reader.readAsDataURL(file);
-        });
-
-        if (invalidFiles.length > 0) {
-            toast.error(invalidFiles.join('\n'));
-        }
-
-        // Reset input
-        e.target.value = '';
-    };
-
-    const removeImage = (index: number) => {
-        setImagePreviews(prev => prev.filter((_, i) => i !== index));
-    };
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -128,8 +101,8 @@ export default function HostRegistration() {
         if (!form.phone.trim()) { toast.error('Please enter your phone number'); return; }
         if (!form.state) { toast.error('Please select a state'); return; }
         if (!form.destination) { toast.error('Please select a destination'); return; }
-        if (!form.description.trim()) { toast.error('Please describe your accommodation'); return; }
-        if (!form.propertyType) { toast.error('Please select a property type'); return; }
+        if (!form.address.trim()) { toast.error('Please enter your location/address'); return; }
+        if (!form.description.trim()) { toast.error('Please share a bit about yourself'); return; }
 
         setSubmitting(true);
         try {
@@ -141,15 +114,20 @@ export default function HostRegistration() {
                 destination: form.destination,
                 address: form.address,
                 description: form.description,
-                amenities: form.amenities,
-                property_type: form.propertyType,
-                max_guests: form.maxGuests,
-                provides_food: form.providesFood || form.amenities.includes('food'),
-                pricing_info: form.pricingInfo,
-                image_urls: imagePreviews.slice(0, 3).map((_, i) => `host_image_${Date.now()}_${i}.jpg`), // References
+                // These are now handled later in property registration
+                amenities: [],
+                property_type: 'Pending Setup',
+                max_guests: 1,
+                provides_food: false,
+                pricing_info: '',
+                image_urls: [], 
             });
+            setShowForm(false);
             setSubmitted(true);
-            toast.success('Host registration submitted for approval!');
+            toast.success('Application submitted! Our team will review your profile.');
+            // Refresh list
+            const res = await getMyHostRegistrations();
+            if (res.success) setRegistrations(res.registrations);
         } catch {
             toast.error('Submission failed. Please try again.');
         } finally {
@@ -157,19 +135,11 @@ export default function HostRegistration() {
         }
     };
 
-    if (submitted) {
+    if (loadingStatus) {
         return (
-            <AnimatedPage className="page-bg pt-28 pb-16 min-h-screen flex items-center justify-center">
-                <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="text-center max-w-md">
-                    <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-6">
-                        <Check size={40} className="text-green-600" />
-                    </div>
-                    <h2 className="text-3xl font-bold font-display mb-3">Registration Submitted!</h2>
-                    <p className="text-gray-500 mb-3">Your host profile has been submitted for admin review.</p>
-                    <p className="text-sm text-gray-400 mb-8">You'll be notified once your registration is approved (typically within 24-48 hours).</p>
-                    <button onClick={() => navigate('/')} className="btn-primary">Back to Home</button>
-                </motion.div>
-            </AnimatedPage>
+            <div className="min-h-screen pt-24 pb-12 bg-slate-50 flex items-center justify-center">
+                <Loader2 className="w-10 h-10 animate-spin text-brand-500" />
+            </div>
         );
     }
 
@@ -179,211 +149,212 @@ export default function HostRegistration() {
                 <div className="deco-blob deco-blob-1 animate-pulse-soft" />
             </div>
 
-            <div className="section-container max-w-3xl relative z-10">
-                <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-brand-600 mb-6"><ArrowLeft size={18} /> Back</button>
+            <div className="section-container max-w-4xl relative z-10">
+                <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-brand-600 mb-8 font-bold hover:gap-3 transition-all">
+                    <ArrowLeft size={18} /> Back
+                </button>
 
-                <div className="text-center mb-10">
-                    <h1 className="text-4xl font-bold font-display mb-2">
-                        Become a <span className="gradient-text">Local Host</span>
+                <div className="text-center mb-12">
+                    <h1 className="text-5xl font-black text-gray-900 tracking-tighter mb-4">
+                        Join our <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-ocean-600">Local Host Community</span>
                     </h1>
-                    <p className="text-gray-500">Open your home to travelers and share your culture</p>
+                    <p className="text-gray-500 text-lg max-w-2xl mx-auto">
+                        Share your local expertise and culture. Apply today and start hosting travelers from around the world.
+                    </p>
                 </div>
 
-                <div className="glass-card p-8">
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        {/* Section 1: Personal Info */}
-                        <div>
-                            <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-                                <User size={18} className="text-brand-500" /> Personal Information
-                            </h3>
-                            <div className="grid md:grid-cols-2 gap-4">
-                                <div>
-                                    <label className="floating-label">Full Name *</label>
-                                    <div className="relative">
-                                        <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-                                        <input type="text" value={form.name} onChange={e => update('name', e.target.value)} placeholder="Your name" className="input-field pl-11" />
+                {/* Existing Registrations List */}
+                {registrations.length > 0 && (
+                    <div className="space-y-6 mb-16">
+                        <div className="flex items-center justify-between mb-4">
+                            <h2 className="text-2xl font-black text-gray-900 flex items-center gap-2">
+                                <Shield className="text-brand-500" size={24} /> Application Status
+                            </h2>
+                        </div>
+                        <div className="grid grid-cols-1 gap-4">
+                            {registrations.map((reg) => (
+                                <div key={reg.id} className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 flex flex-col md:flex-row md:items-center justify-between group hover:shadow-xl hover:shadow-brand-500/5 transition-all relative overflow-hidden">
+                                     <div className={`absolute left-0 top-0 w-2 h-full ${
+                                        reg.status === 'approved' ? 'bg-emerald-500' :
+                                        reg.status === 'rejected' ? 'bg-rose-500' :
+                                        'bg-brand-500'
+                                    }`} />
+                                    
+                                    <div className="flex items-center gap-6">
+                                        <div className={`w-16 h-16 rounded-2xl flex items-center justify-center shadow-inner ${
+                                            reg.status === 'approved' ? 'bg-emerald-50 text-emerald-600' :
+                                            reg.status === 'rejected' ? 'bg-rose-50 text-rose-600' :
+                                            'bg-brand-50 text-brand-600'
+                                        }`}>
+                                            {reg.status === 'approved' ? <Check size={32} /> : 
+                                             reg.status === 'rejected' ? <XCircle size={32} /> : 
+                                             <Clock size={32} className="animate-pulse" />}
+                                        </div>
+                                        <div>
+                                            <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Status: {reg.status}</p>
+                                            <h3 className="font-black text-gray-900 text-2xl tracking-tight uppercase">Applied for {reg.destination}</h3>
+                                            <p className="text-sm font-bold text-gray-500 flex items-center gap-1 mt-1 italic">
+                                                Submitted on {new Date(reg.created_at).toLocaleDateString()}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-6 md:mt-0">
+                                        {reg.status === 'approved' ? (
+                                            <button onClick={() => navigate('/host-dashboard')} className="px-8 py-3 bg-brand-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-brand-700 transition-all shadow-lg shadow-brand-500/20">
+                                                Go to Dashboard →
+                                            </button>
+                                        ) : reg.status === 'rejected' ? (
+                                            <div className="text-right">
+                                                <p className="text-xs text-rose-500 font-bold uppercase mb-2">Reason: {reg.rejection_reason || 'Guidelines not met'}</p>
+                                                <button onClick={() => setShowForm(true)} className="text-brand-600 font-black text-xs uppercase tracking-widest hover:underline">
+                                                    Try Again →
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <div className="text-right">
+                                                <span className="text-xs font-black text-brand-600 uppercase tracking-widest italic animate-pulse">Under Review</span>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
-                                <div>
-                                    <label className="floating-label">Phone *</label>
-                                    <div className="relative">
-                                        <Phone size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-                                        <input type="tel" value={form.phone} onChange={e => update('phone', e.target.value)} placeholder="+91 98765 43210" className="input-field pl-11" />
-                                    </div>
-                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {/* Registration Form */}
+                {showForm && (
+                    <div className="bg-white rounded-[48px] shadow-2xl shadow-brand-500/10 p-8 md:p-12 border border-slate-50 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 p-8 opacity-5">
+                             <User size={120} />
+                        </div>
+
+                        <div className="flex items-center gap-4 mb-10 relative z-10">
+                            <div className="w-14 h-14 bg-brand-50 text-brand-600 rounded-2xl flex items-center justify-center font-black text-2xl shadow-inner italic">
+                                !
+                            </div>
+                            <div>
+                                <h2 className="text-3xl font-black text-gray-900 tracking-tight">Host Application</h2>
+                                <p className="text-gray-500 font-medium">Please provide your basic information to get started</p>
                             </div>
                         </div>
 
-                        <div className="border-t border-gray-100" />
+                        <form onSubmit={handleSubmit} className="space-y-10 relative z-10">
+                            {/* Personal Details */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Full Name *</label>
+                                    <div className="relative group">
+                                        <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-brand-500 transition-colors" size={18} />
+                                        <input
+                                            type="text"
+                                            required
+                                            value={form.name}
+                                            onChange={(e) => setForm({ ...form, name: e.target.value })}
+                                            className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none transition-all font-bold text-gray-700"
+                                            placeholder="Your Name"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Phone Number *</label>
+                                    <div className="relative group">
+                                        <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-brand-500 transition-colors" size={18} />
+                                        <input
+                                            type="tel"
+                                            required
+                                            value={form.phone}
+                                            onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                                            className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none transition-all font-bold text-gray-700"
+                                            placeholder="Contact Number"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
 
-                        {/* Section 2: Location */}
-                        <div>
-                            <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-                                <MapPin size={18} className="text-brand-500" /> Location
-                            </h3>
-                            <div className="grid md:grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <label className="floating-label">State *</label>
-                                    <select value={form.state} onChange={e => { update('state', e.target.value); update('destination', ''); }} className="select-field">
-                                        <option value="">Select state</option>
+                            {/* Location */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">State *</label>
+                                    <select
+                                        required
+                                        value={form.state}
+                                        onChange={(e) => setForm({ ...form, state: e.target.value, destination: '' })}
+                                        className="w-full px-4 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:border-ocean-500 outline-none transition-all font-bold text-gray-700 appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20fill%3D%27none%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20stroke%3D%27%236B7280%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%20stroke-width%3D%271.5%27%20d%3D%27M6%208l4%204%204-4%27%2F%3E%3C%2Fsvg%3E')] bg-[length:20px_20px] bg-[right_1rem_center] bg-no-repeat"
+                                    >
+                                        <option value="">Select State</option>
                                         {states.map(s => <option key={s} value={s}>{s}</option>)}
                                     </select>
                                 </div>
-                                <div>
-                                    <label className="floating-label">Destination *</label>
-                                    <select value={form.destination} onChange={e => update('destination', e.target.value)} className="select-field" disabled={!form.state}>
-                                        <option value="">Select destination</option>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Destination *</label>
+                                    <select
+                                        required
+                                        value={form.destination}
+                                        onChange={(e) => setForm({ ...form, destination: e.target.value })}
+                                        disabled={!form.state}
+                                        className="w-full px-4 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:border-ocean-500 outline-none transition-all font-bold text-gray-700 disabled:opacity-50 appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20fill%3D%27none%27%20viewBox%3D%270%200%2020%2020%27%3E%3Cpath%20stroke%3D%27%236B7280%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%20stroke-width%3D%271.5%27%20d%3D%27M6%208l4%204%204-4%27%2F%3E%3C%2Fsvg%3E')] bg-[length:20px_20px] bg-[right_1rem_center] bg-no-repeat"
+                                    >
+                                        <option value="">Select Destination</option>
                                         {destinations.map(d => <option key={d} value={d}>{d}</option>)}
                                     </select>
                                 </div>
                             </div>
-                            <div>
-                                <label className="floating-label">Address</label>
-                                <div className="relative">
-                                    <Home size={18} className="absolute left-4 top-4 text-gray-400" />
-                                    <textarea value={form.address} onChange={e => update('address', e.target.value)} placeholder="Your home address" className="input-field pl-11 min-h-[80px] resize-none" />
-                                </div>
-                            </div>
-                        </div>
 
-                        <div className="border-t border-gray-100" />
-
-                        {/* Section 3: Property Details */}
-                        <div>
-                            <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-                                <Home size={18} className="text-brand-500" /> Property Details
-                            </h3>
-
-                            <div className="mb-4">
-                                <label className="floating-label">Property Type *</label>
-                                <div className="flex flex-wrap gap-2 mt-2">
-                                    {PROPERTY_TYPES.map(type => (
-                                        <button
-                                            key={type}
-                                            type="button"
-                                            onClick={() => update('propertyType', type)}
-                                            className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${form.propertyType === type
-                                                ? 'bg-brand-500 text-white shadow-md'
-                                                : 'bg-gray-50 border-2 border-gray-200 text-gray-600 hover:border-brand-300'}`}
-                                        >
-                                            {type}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div className="mb-4">
-                                <label className="floating-label">Accommodation Description *</label>
-                                <textarea
-                                    value={form.description}
-                                    onChange={e => update('description', e.target.value)}
-                                    placeholder="Describe your property, rooms, surroundings, and what makes it special for travelers..."
-                                    className="input-field min-h-[120px] resize-none"
-                                    maxLength={500}
-                                />
-                                <p className="text-xs text-gray-400 mt-1 text-right">{form.description.length}/500</p>
-                            </div>
-
-                            <div className="grid md:grid-cols-2 gap-4">
-                                <div>
-                                    <label className="floating-label">Max Guests</label>
-                                    <div className="flex items-center gap-3 mt-2">
-                                        {[1, 2, 3, 4, 5, 6].map(n => (
-                                            <button key={n} type="button" onClick={() => update('maxGuests', n)} className={`w-11 h-11 rounded-xl font-bold text-sm transition-all ${form.maxGuests === n ? 'bg-gradient-to-r from-brand-500 to-ocean-500 text-white shadow-lg' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
-                                                {n}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                                <div>
-                                    <label className="floating-label">Pricing Info</label>
-                                    <input type="text" value={form.pricingInfo} onChange={e => update('pricingInfo', e.target.value)} className="input-field mt-2" placeholder="e.g., Free / ₹500 per night / Voluntary" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="border-t border-gray-100" />
-
-                        {/* Section 4: Amenities */}
-                        <div>
-                            <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-                                <Wifi size={18} className="text-brand-500" /> Amenities Offered
-                            </h3>
-                            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                                {AMENITY_OPTIONS.map(amenity => (
-                                    <button
-                                        key={amenity.id}
-                                        type="button"
-                                        onClick={() => toggleAmenity(amenity.id)}
-                                        className={`flex items-center gap-2 p-3 rounded-xl text-sm font-medium transition-all duration-300 ${form.amenities.includes(amenity.id)
-                                            ? 'bg-brand-500 text-white shadow-md'
-                                            : 'bg-gray-50 border-2 border-gray-200 text-gray-600 hover:border-brand-300'}`}
-                                    >
-                                        {amenity.icon}
-                                        {amenity.label}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className="border-t border-gray-100" />
-
-                        {/* Section 5: Image Upload */}
-                        <div>
-                            <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-                                <ImageIcon size={18} className="text-brand-500" /> Property Images
-                            </h3>
-                            <p className="text-sm text-gray-500 mb-4">Upload up to {MAX_IMAGES} photos of your property (JPG, PNG, WebP — max {MAX_FILE_SIZE_MB}MB each)</p>
-
-                            {/* Image Preview Grid */}
-                            {imagePreviews.length > 0 && (
-                                <div className="grid grid-cols-3 md:grid-cols-5 gap-3 mb-4">
-                                    {imagePreviews.map((preview, i) => (
-                                        <div key={i} className="relative group aspect-square rounded-xl overflow-hidden border-2 border-gray-100">
-                                            <img src={preview} alt={`Preview ${i + 1}`} className="w-full h-full object-cover" />
-                                            <button
-                                                type="button"
-                                                onClick={() => removeImage(i)}
-                                                className="absolute top-1 right-1 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-md"
-                                            >
-                                                <X size={12} />
-                                            </button>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-
-                            {/* Upload Button */}
-                            {imagePreviews.length < MAX_IMAGES && (
-                                <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-xl p-6 cursor-pointer hover:border-brand-400 hover:bg-brand-50/30 transition-all group">
-                                    <Upload size={32} className="text-gray-400 group-hover:text-brand-500 mb-2 transition-colors" />
-                                    <span className="text-sm font-medium text-gray-500 group-hover:text-brand-600">Click to upload images</span>
-                                    <span className="text-xs text-gray-400 mt-1">{imagePreviews.length}/{MAX_IMAGES} uploaded</span>
-                                    <input
-                                        type="file"
-                                        accept="image/jpeg,image/png,image/webp"
-                                        multiple
-                                        onChange={handleImageUpload}
-                                        className="hidden"
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Current Address *</label>
+                                <div className="relative group">
+                                    <MapPin className="absolute left-4 top-4 text-gray-400 group-focus-within:text-ocean-500 transition-colors" size={18} />
+                                    <textarea
+                                        required
+                                        rows={2}
+                                        value={form.address}
+                                        onChange={(e) => setForm({ ...form, address: e.target.value })}
+                                        className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 border border-slate-100 focus:bg-white focus:border-ocean-500 focus:ring-4 focus:ring-ocean-500/10 outline-none transition-all font-bold text-gray-700 resize-none"
+                                        placeholder="Where are you located?"
                                     />
-                                </label>
-                            )}
-                        </div>
+                                </div>
+                            </div>
 
-                        {/* Submit */}
-                        <button
-                            type="submit"
-                            disabled={submitting}
-                            className="btn-primary w-full text-center justify-center text-lg py-4"
-                        >
-                            {submitting ? 'Submitting...' : 'Submit Registration'}
-                        </button>
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">About You & Why you want to host *</label>
+                                <textarea
+                                    required
+                                    rows={4}
+                                    value={form.description}
+                                    onChange={(e) => setForm({ ...form, description: e.target.value })}
+                                    className="w-full px-6 py-5 rounded-[28px] bg-slate-50 border border-slate-100 focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none transition-all font-bold text-gray-700 min-h-[120px] resize-none"
+                                    placeholder="Tell us a little bit about yourself..."
+                                />
+                            </div>
 
-                        <p className="text-xs text-gray-400 text-center">
-                            Your registration will be reviewed by our admin team. You'll receive confirmation within 24-48 hours.
-                        </p>
-                    </form>
-                </div>
+                            {/* Submit */}
+                            <div className="pt-4">
+                                <button
+                                    type="submit"
+                                    disabled={submitting}
+                                    className="w-full py-5 bg-gradient-to-r from-brand-600 to-ocean-600 text-white rounded-3xl font-black text-lg shadow-2xl shadow-brand-500/40 hover:shadow-brand-500/60 hover:-translate-y-1 transition-all flex items-center justify-center gap-3 disabled:opacity-75 disabled:cursor-not-allowed group"
+                                >
+                                    {submitting ? (
+                                        <>
+                                            <Loader2 className="animate-spin" size={20} />
+                                            Submitting...
+                                        </>
+                                    ) : (
+                                        <>
+                                            Submit Application
+                                            <Check size={20} className="group-hover:scale-125 transition-transform" />
+                                        </>
+                                    )}
+                                </button>
+                                <p className="text-center text-[10px] font-bold text-gray-400 mt-6 uppercase tracking-widest">
+                                    Applications are typically reviewed within <span className="text-brand-600">24 hours</span>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                )}
             </div>
         </AnimatedPage>
     );

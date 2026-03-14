@@ -20,6 +20,9 @@ export async function fetchHostsForDestination(destinationName: string): Promise
                     lng: 0,
                     foodIncluded: !!h.provides_food,
                     verified: !!h.verified,
+                    phone: h.phone || '',
+                    email: h.email || '',
+                    suggestedContribution: h.voluntary_min_amount || 0,
                 }));
         }
     } catch (err) {
@@ -38,3 +41,23 @@ export async function submitHostRegistration(data: HostRegistrationData): Promis
     }
 }
 
+export async function getMyHostRegistration(): Promise<{ success: boolean; registration?: any }> {
+    try {
+        const { success, data } = await apiGet<{ registration: any }>('/api/host-registrations/my');
+        return { success, registration: data?.registration };
+    } catch (err) {
+        console.warn('getMyHostRegistration error:', err);
+        return { success: false };
+    }
+}
+
+export async function getMyHostRegistrations(): Promise<{ success: boolean; registrations: any[] }> {
+    try {
+        const { success, data } = await apiGet<{ registrations: any[] }>('/api/host-registrations/my-all');
+        if (success) return { success: true, registrations: data.registrations || [] };
+        return { success: false, registrations: [] };
+    } catch (err) {
+        console.warn('getMyHostRegistrations error:', err);
+        return { success: false, registrations: [] };
+    }
+}
