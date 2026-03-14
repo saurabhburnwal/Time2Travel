@@ -10,7 +10,7 @@ Time2Travel is a full-stack web application developed as part of the **MCA Trime
 
 The system allows travellers to:
 - Set their destination, budget, days, travel type, and group size
-- Receive **4 intelligent roadmap options** (fastest, scenic, budget-friendly, balanced)
+- Receive **2 intelligent roadmap options** (fastest and budget-friendly)
 - View day-wise itineraries plotted on an interactive map
 - Compare accommodation options (hotels & verified local hosts)
 - Get a complete **expense breakdown** (accommodation, transport, food, entry fees)
