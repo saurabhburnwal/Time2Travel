@@ -3217,12 +3217,6 @@ SELECT pg_catalog.setval('"public"."host_registrations_id_seq"', 6, true);
 SELECT pg_catalog.setval('"public"."host_reviews_id_seq"', 7, true);
 
 
---
--- Name: host_unavailability_unavailability_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('"public"."host_unavailability_unavailability_id_seq"', 1, false);
-
 
 --
 -- Name: hotels_hotel_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
