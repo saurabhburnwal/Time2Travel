@@ -1,4 +1,4 @@
-import { apiGet, apiPost, apiPut } from '../lib/api';
+import { apiGet, apiPost, apiPut, apiDelete, apiPatch } from '../lib/api';
 import { MockUser } from './types';
 
 export async function loginUser(
@@ -121,6 +121,37 @@ export async function resetPassword(resetToken: string, newPassword: string): Pr
         return { success, message: data?.message || 'Reset failed.' };
     } catch (err: any) {
         return { success: false, message: err.message || 'An error occurred.' };
+    }
+}
+
+export async function deleteAccount(): Promise<boolean> {
+    try {
+        const { success } = await apiDelete('/api/users/me');
+        return success;
+    } catch (err) {
+        console.warn('deleteAccount error:', err);
+        return false;
+    }
+}
+
+// Admin only
+export async function fetchAllUsers(): Promise<any[]> {
+    try {
+        const { success, data } = await apiGet<{ users: any[] }>('/api/users');
+        if (success && data.users) return data.users;
+    } catch (err) {
+        console.warn('fetchAllUsers error:', err);
+    }
+    return [];
+}
+
+export async function changeUserStatus(userId: number, isActive: boolean): Promise<boolean> {
+    try {
+        const { success } = await apiPatch(`/api/users/${userId}/status`, { is_active: isActive });
+        return success;
+    } catch (err) {
+        console.warn('changeUserStatus error:', err);
+        return false;
     }
 }
 

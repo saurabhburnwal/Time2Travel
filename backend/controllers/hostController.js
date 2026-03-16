@@ -138,3 +138,46 @@ exports.verifyHost = async (req, res, next) => {
         next(err);
     }
 };
+
+// ===== DELETE HOST ACCOUNT (Host) =====
+exports.deleteHostAccount = async (req, res, next) => {
+    try {
+        const result = await query(
+            `DELETE FROM host_profiles WHERE user_id = $1 RETURNING host_id`,
+            [req.user.userId]
+        );
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({ success: false, message: 'Host profile not found.' });
+        }
+
+        res.json({ success: true, message: 'Your host account has been deleted. You are still a traveler.' });
+    } catch (err) {
+        next(err);
+    }
+};
+
+// ===== DEACTIVATE HOST (Admin) =====
+exports.updateHostStatus = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { is_active } = req.body;
+
+        if (typeof is_active !== 'boolean') {
+            return res.status(400).json({ success: false, message: 'is_active must be a boolean.' });
+        }
+
+        const result = await query(
+            `UPDATE host_profiles SET is_active = $1 WHERE host_id = $2 RETURNING host_id, is_active`,
+            [is_active, id]
+        );
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({ success: false, message: 'Host not found.' });
+        }
+
+        res.json({ success: true, message: `Host ${is_active ? 'activated' : 'deactivated'}.`, host: result.rows[0] });
+    } catch (err) {
+        next(err);
+    }
+};

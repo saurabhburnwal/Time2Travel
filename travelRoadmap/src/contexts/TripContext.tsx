@@ -27,7 +27,7 @@ interface TripContextType {
 const initialTrip: TripState = {
     state: '',
     destination: '',
-    budget: 5000,
+    budget: 30000,
     days: 3,
     travelType: '',
     groupType: '',

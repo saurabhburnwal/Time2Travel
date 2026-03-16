@@ -1,4 +1,4 @@
-import { apiGet, apiPost, apiDelete, apiPut } from '../lib/api';
+import { apiGet, apiPost, apiDelete, apiPut, apiPatch } from '../lib/api';
 import { DBUser, DBHost, HostRegistrationRecord } from './types';
 
 // --- Specific Helper Functions (Legacy/Specific logic) ---
@@ -113,6 +113,26 @@ export async function deleteTableRow(tableName: string, id: any): Promise<boolea
         return success;
     } catch (err) {
         console.warn(`deleteTableRow (${tableName}) error:`, err);
+        return false;
+    }
+}
+
+export async function updateAdminUserStatus(userId: number, isActive: boolean): Promise<boolean> {
+    try {
+        const { success } = await apiPatch(`/api/users/${userId}/status`, { is_active: isActive });
+        return success;
+    } catch (err) {
+        console.warn('updateAdminUserStatus error:', err);
+        return false;
+    }
+}
+
+export async function updateAdminHostStatus(hostId: number, isActive: boolean): Promise<boolean> {
+    try {
+        const { success } = await apiPatch(`/api/hosts/${hostId}/status`, { is_active: isActive });
+        return success;
+    } catch (err) {
+        console.warn('updateAdminHostStatus error:', err);
         return false;
     }
 }

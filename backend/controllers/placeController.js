@@ -34,6 +34,25 @@ exports.getAllPlaces = async (req, res, next) => {
     }
 };
 
+exports.getPlacesByDestinationName = async (req, res, next) => {
+    try {
+        const { destinationName } = req.params;
+        const result = await query(
+            `SELECT p.place_id, p.name, p.latitude, p.longitude, p.entry_fee, p.avg_visit_time,
+                    d.name AS destination, d.state, tt.name AS travel_type
+             FROM places p
+             LEFT JOIN destinations d ON p.destination_id = d.destination_id
+             LEFT JOIN travel_types tt ON p.travel_type_id = tt.travel_type_id
+             WHERE LOWER(d.name) = LOWER($1)
+             ORDER BY p.name`,
+            [destinationName]
+        );
+        res.json({ success: true, count: result.rowCount, places: result.rows });
+    } catch (err) {
+        next(err);
+    }
+};
+
 // ===== GET SINGLE PLACE =====
 exports.getPlaceById = async (req, res, next) => {
     try {

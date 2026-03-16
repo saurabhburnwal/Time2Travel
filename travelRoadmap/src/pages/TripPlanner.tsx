@@ -183,18 +183,38 @@ export default function TripPlanner() {
                             <StepHeader step={3} title="Set Your Budget & Duration" subtitle="Adjust your spending limit and trip length" icon={<DollarSign size={18} className="text-brand-500" />} />
                             <div className="grid md:grid-cols-2 gap-8">
                                 <div>
-                                    <label className="floating-label flex items-center gap-2"><DollarSign size={14} /> Budget (per person)</label>
-                                    <div className="mt-4">
+                                    <div className="flex justify-between items-center mb-2">
+                                        <label className="floating-label flex items-center gap-2"><DollarSign size={14} /> Set Your Budget</label>
+                                        <div className="relative group">
+                                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-500 font-bold text-sm">₹</span>
+                                            <input 
+                                                type="number" 
+                                                value={trip.budget === 0 ? '' : trip.budget}
+                                                onChange={e => {
+                                                    const val = e.target.value === '' ? 0 : Number(e.target.value);
+                                                    updateTrip({ budget: val });
+                                                }}
+                                                className="w-32 pl-7 pr-3 py-2 bg-white border-2 border-gray-100 rounded-xl text-base font-bold text-gray-800 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none transition-all shadow-sm group-hover:border-gray-200"
+                                                placeholder="Amount"
+                                                min="0"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="mt-6">
                                         <input
-                                            type="range" min={2000} max={10000} step={500}
-                                            value={trip.budget}
+                                            type="range" min={2000} max={30000} step={500}
+                                            value={trip.budget || 2000}
                                             onChange={e => updateTrip({ budget: Number(e.target.value) })}
-                                            className="w-full"
+                                            className="w-full accent-brand-500 h-2 bg-gray-100 rounded-lg appearance-none cursor-pointer"
                                         />
-                                        <div className="flex justify-between mt-2">
-                                            <span className="text-xs text-gray-400">Rs. 2,000</span>
-                                            <span className="text-lg font-bold gradient-text">Rs. {trip.budget.toLocaleString()}</span>
-                                            <span className="text-xs text-gray-400">Rs. 10,000</span>
+                                        <div className="flex justify-between mt-3 px-1">
+                                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Min ₹2k</span>
+                                            <div className="text-center">
+                                                <span className="text-sm font-extrabold text-brand-600 bg-brand-50 px-3 py-1 rounded-full border border-brand-100">
+                                                    Current: ₹{Number(trip.budget || 0).toLocaleString()}
+                                                </span>
+                                            </div>
+                                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Max ₹30k</span>
                                         </div>
                                     </div>
                                 </div>

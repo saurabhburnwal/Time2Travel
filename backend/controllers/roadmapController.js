@@ -24,42 +24,18 @@ exports.generateRoadmap = async (req, res, next) => {
 
         const dest = destResult.rows[0];
 
-        // 2. Fetch places for destination (optionally filtered by travel type)
-        let placesQuery, placesParams;
-        if (travelType) {
-            placesQuery = `
-                SELECT p.place_id, p.name, p.latitude, p.longitude, p.entry_fee, p.avg_visit_time,
-                       tt.name AS travel_type
-                FROM places p
-                LEFT JOIN travel_types tt ON p.travel_type_id = tt.travel_type_id
-                WHERE p.destination_id = $1 AND LOWER(tt.name) = LOWER($2)
-            `;
-            placesParams = [dest.destination_id, travelType];
-        } else {
-            placesQuery = `
-                SELECT p.place_id, p.name, p.latitude, p.longitude, p.entry_fee, p.avg_visit_time,
-                       tt.name AS travel_type
-                FROM places p
-                LEFT JOIN travel_types tt ON p.travel_type_id = tt.travel_type_id
-                WHERE p.destination_id = $1
-            `;
-            placesParams = [dest.destination_id];
-        }
+        // 2. Fetch ALL places for the destination
+        // We will prioritize the selected travelType in the optimizer
+        const placesQuery = `
+            SELECT p.place_id, p.name, p.latitude, p.longitude, p.entry_fee, p.avg_visit_time,
+                   tt.name AS travel_type
+            FROM places p
+            LEFT JOIN travel_types tt ON p.travel_type_id = tt.travel_type_id
+            WHERE p.destination_id = $1
+        `;
+        const placesParams = [dest.destination_id];
 
-        let placesResult = await query(placesQuery, placesParams);
-
-        // Fallback: If no places found for this specific travel type, ignore the filter and fetch all places for the destination
-        if (placesResult.rowCount === 0 && travelType) {
-            placesQuery = `
-                SELECT p.place_id, p.name, p.latitude, p.longitude, p.entry_fee, p.avg_visit_time,
-                       tt.name AS travel_type
-                FROM places p
-                LEFT JOIN travel_types tt ON p.travel_type_id = tt.travel_type_id
-                WHERE p.destination_id = $1
-            `;
-            placesParams = [dest.destination_id];
-            placesResult = await query(placesQuery, placesParams);
-        }
+        const placesResult = await query(placesQuery, placesParams);
 
         if (placesResult.rowCount === 0) {
             return res.status(404).json({ success: false, message: `No places found for '${destination}'.` });
@@ -68,7 +44,8 @@ exports.generateRoadmap = async (req, res, next) => {
         const places = placesResult.rows;
 
         // 3. Generate roadmap options using NNA, limited by trip days
-        const roadmaps = generateAllRoadmaps(places, parseInt(days));
+        // We pass travelType so it can be prioritized in the sorting/selection
+        const roadmaps = generateAllRoadmaps(places, parseInt(days), travelType);
 
         // 4. Estimate expenses for each roadmap style
         const stayPerNight = (accommodationPerNight !== undefined && accommodationPerNight !== null) ? Number(accommodationPerNight) : 1500; // default mid-range hotel cost if missing
@@ -389,6 +366,53 @@ exports.completeRoadmap = async (req, res, next) => {
 
         res.json({ success: true, message: 'Trip marked as completed.', roadmap });
     } catch (err) {
+        next(err);
+    }
+};
+// ===== UPDATE ROADMAP PLACES =====
+exports.updateRoadmapPlaces = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { ordered_places } = req.body;
+        const userId = req.user?.userId;
+
+        if (!userId) {
+            return res.status(401).json({ success: false, message: 'Unauthorized' });
+        }
+
+        // Verify ownership
+        const ownership = await query(
+            `SELECT roadmap_id FROM roadmaps WHERE roadmap_id = $1 AND user_id = $2`,
+            [id, userId]
+        );
+
+        if (ownership.rowCount === 0) {
+            return res.status(403).json({ success: false, message: 'Not authorized to edit this roadmap.' });
+        }
+
+        // 1. Delete existing places for this roadmap
+        await query(`DELETE FROM roadmap_places WHERE roadmap_id = $1`, [id]);
+
+        // 2. Insert new ordered_places
+        if (ordered_places && ordered_places.length > 0) {
+            for (let i = 0; i < ordered_places.length; i++) {
+                const p = ordered_places[i];
+                // Handle different property names from frontend
+                const placeId = p.place_id || p.id;
+                const dayNum = p.day_number || 1;
+                const visitOrder = p.visitOrder || (i + 1);
+
+                await query(
+                    `INSERT INTO roadmap_places (roadmap_id, place_id, day_number, visit_order)
+                     VALUES ($1, $2, $3, $4)`,
+                    [id, placeId, dayNum, visitOrder]
+                );
+            }
+        }
+
+        res.json({ success: true, message: 'Roadmap itinerary updated.' });
+    } catch (err) {
+        console.error('updateRoadmapPlaces error:', err);
         next(err);
     }
 };

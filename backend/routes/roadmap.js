@@ -28,6 +28,10 @@ router.get('/:id', verifyToken, getRoadmapById);
 // PATCH /api/roadmap/:id/complete — mark roadmap as completed
 router.patch('/:id/complete', verifyToken, completeRoadmap);
 
+// PATCH /api/roadmap/:id/places — update ordered_places
+const { updateRoadmapPlaces } = require('../controllers/roadmapController');
+router.patch('/:id/places', verifyToken, updateRoadmapPlaces);
+
 // DELETE /api/roadmap/:id  — delete roadmap (user can only delete their own)
 router.delete('/:id', verifyToken, deleteRoadmap);
 

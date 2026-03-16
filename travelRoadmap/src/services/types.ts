@@ -12,13 +12,19 @@ export interface Hotel {
 
 export interface Place {
     id: number;
+    place_id?: number; // Backend uses place_id
     name: string;
-    entryFee: number;
-    visitTime: string;
-    visitMinutes: number;
-    category: string;
+    entryFee?: number;
+    entry_fee?: number;
+    visitTime?: string;
+    visitMinutes?: number;
+    avg_visit_time?: number;
+    category?: string;
+    travel_type?: string;
     lat: number;
     lng: number;
+    latitude?: number;
+    longitude?: number;
 }
 
 export interface DBTravelType {

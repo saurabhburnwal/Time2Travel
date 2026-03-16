@@ -99,12 +99,31 @@ export async function fetchMyRoadmaps(): Promise<MyRoadmap[]> {
     return [];
 }
 
+export async function fetchRoadmapById(id: number): Promise<any> {
+    try {
+        const { success, data } = await apiGet<{ roadmap: any }>(`/api/roadmap/${id}`);
+        if (success && data.roadmap) return data.roadmap;
+    } catch (err) {
+        console.warn('fetchRoadmapById error:', err);
+    }
+    return null;
+}
+
 export async function markRoadmapComplete(roadmapId: number): Promise<boolean> {
     try {
         const { success } = await apiPatch(`/api/roadmap/${roadmapId}/complete`, {});
         return success;
     } catch (err) {
         console.warn('markRoadmapComplete error:', err);
+        return false;
+    }
+}
+export async function updateRoadmapPlaces(roadmapId: number, places: any[]): Promise<boolean> {
+    try {
+        const { success } = await apiPatch(`/api/roadmap/${roadmapId}/places`, { ordered_places: places });
+        return success;
+    } catch (err) {
+        console.warn('updateRoadmapPlaces error:', err);
         return false;
     }
 }

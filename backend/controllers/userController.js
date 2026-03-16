@@ -191,3 +191,35 @@ exports.deleteUser = async (req, res, next) => {
         next(err);
     }
 };
+// ===== DELETE OWN ACCOUNT (User) =====
+exports.deleteMe = async (req, res, next) => {
+    try {
+        const userId = req.user.userId;
+
+        // Optionally: verify current password here if required for security.
+        // For now, simpler implementation:
+        const result = await query(
+            `DELETE FROM users WHERE user_id = $1 RETURNING name`,
+            [userId]
+        );
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({ success: false, message: 'User not found.' });
+        }
+
+        // Logout user from current session
+        const { logout } = require('./authController');
+        if (typeof logout === 'function') {
+            logout(req, res);
+        } else {
+            // Manual logout if import issues
+            res.clearCookie('tt_token', {
+                httpOnly: true,
+                sameSite: 'strict',
+            });
+            res.json({ success: true, message: 'Your account has been permanently deleted.' });
+        }
+    } catch (err) {
+        next(err);
+    }
+};

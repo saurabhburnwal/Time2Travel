@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getMe, updateMe, getAllUsers, updateUserStatus, updateUserRole, deleteUser } = require('../controllers/userController');
+const { getMe, updateMe, deleteMe, getAllUsers, updateUserStatus, updateUserRole, deleteUser } = require('../controllers/userController');
 const verifyToken = require('../middleware/auth');
 const requireRole = require('../middleware/roleCheck');
 
@@ -9,6 +9,9 @@ router.get('/me', verifyToken, getMe);
 
 // PUT /api/users/me  — update own profile
 router.put('/me', verifyToken, updateMe);
+
+// DELETE /api/users/me — delete own account
+router.delete('/me', verifyToken, deleteMe);
 
 // GET /api/users    — admin: all users
 router.get('/', verifyToken, requireRole('admin'), getAllUsers);

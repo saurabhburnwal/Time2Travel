@@ -20,7 +20,8 @@ const haversineDistance = (lat1, lng1, lat2, lng2) => {
         Math.sin(dLng / 2) *
         Math.sin(dLng / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c;
+    const ROAD_MULTIPLIER = 1.25; // Accounting for real road curves vs direct air distance
+    return R * c * ROAD_MULTIPLIER;
 };
 
 /**
@@ -41,30 +42,50 @@ const totalRouteDistance = (places) => {
 
 // ===== NEAREST NEIGHBOR ALGORITHM =====
 /**
- * Greedily sort places into the shortest visiting order
- * starting from the first (lowest ID) place.
+ * Greedily sort places into the shortest visiting order.
+ * can prioritize a preferredType if provided.
  */
-const nearestNeighborSort = (places) => {
+const nearestNeighborSort = (places, preferredType = null) => {
     if (places.length === 0) return [];
     const visited = new Set();
     const route = [];
-    let current = places[0];
+    
+    // Sort local copy to ensure predictable starting point
+    // If preferredType exists, put one of those first
+    const pool = [...places].sort((a, b) => {
+        if (preferredType) {
+            const aMatch = String(a.travel_type).toLowerCase() === preferredType.toLowerCase();
+            const bMatch = String(b.travel_type).toLowerCase() === preferredType.toLowerCase();
+            if (aMatch && !bMatch) return -1;
+            if (!aMatch && bMatch) return 1;
+        }
+        return a.place_id - b.place_id;
+    });
+
+    let current = pool[0];
 
     visited.add(current.place_id);
     route.push(current);
 
-    while (route.length < places.length) {
+    while (route.length < pool.length) {
         let nearest = null;
         let minDist = Infinity;
 
-        for (const place of places) {
+        for (const place of pool) {
             if (!visited.has(place.place_id)) {
-                const dist = haversineDistance(
+                let dist = haversineDistance(
                     parseFloat(current.latitude),
                     parseFloat(current.longitude),
                     parseFloat(place.latitude),
                     parseFloat(place.longitude)
                 );
+
+                // Priority Logic: Discount virtual distance for preferred type
+                // This makes the algorithm more likely to pick these places sooner
+                if (preferredType && String(place.travel_type).toLowerCase() === preferredType.toLowerCase()) {
+                    dist *= 0.6; // 40% distance discount for prioritization
+                }
+
                 if (dist < minDist) {
                     minDist = dist;
                     nearest = place;
@@ -76,18 +97,14 @@ const nearestNeighborSort = (places) => {
             visited.add(nearest.place_id);
             route.push(nearest);
             current = nearest;
+        } else {
+            break;
         }
     }
 
     return route;
 };
 
-// ===== DAY GROUPING =====
-/**
- * Split an ordered route into days.
- * Max visit time per day is 480 minutes (8 hours).
- * Adds estimated start/end times (visit starts 09:00).
- */
 const groupIntoDays = (orderedPlaces) => {
     const MAX_MINUTES_PER_DAY = 480;
     const days = [];
@@ -140,13 +157,13 @@ const groupIntoDays = (orderedPlaces) => {
 /**
  * FASTEST: Pure NNA — shortest total path, limited to realistic spots per trip
  */
-const generateFastest = (places, days = 3) => {
+const generateFastest = (places, days = 3, preferredType = null) => {
     const maxSpots = Math.min(places.length, days * 4); // max 4 spots/day
-    const ordered = nearestNeighborSort(places).slice(0, maxSpots);
+    const ordered = nearestNeighborSort(places, preferredType).slice(0, maxSpots);
     return {
         style: 'fastest',
         label: 'Fastest Route',
-        description: 'Optimised shortest path covering top attractions with minimum travel time.',
+        description: `Optimised path covering ${preferredType ? 'your favorite nodes first' : 'top attractions'} with minimum travel time.`,
         icon: '⚡',
         orderedPlaces: ordered,
         days: groupIntoDays(ordered),
@@ -158,14 +175,14 @@ const generateFastest = (places, days = 3) => {
  * BUDGET: Exclude places above ₹50 entry fee first (free places), then add paid ones
  * Limited to realistic spots based on trip days
  */
-const generateBudget = (places, days = 3) => {
+const generateBudget = (places, days = 3, preferredType = null) => {
     const maxSpots = Math.min(places.length, days * 3); // budget = 3 spots/day (more relaxed)
     const free = places.filter(p => parseFloat(p.entry_fee || 0) <= 50);
     const paid = places.filter(p => parseFloat(p.entry_fee || 0) > 50)
         .sort((a, b) => parseFloat(a.entry_fee || 0) - parseFloat(b.entry_fee || 0));
 
-    // Prefer free & cheap places, append paid ones after
-    const combined = [...nearestNeighborSort(free), ...nearestNeighborSort(paid)];
+    // Prefer free & cheap places, append paid ones after, applying priority to both sets
+    const combined = [...nearestNeighborSort(free, preferredType), ...nearestNeighborSort(paid, preferredType)];
     const ordered = combined.slice(0, maxSpots);
 
     return {
@@ -183,17 +200,18 @@ const generateBudget = (places, days = 3) => {
 /**
  * Generate roadmap options for a set of places.
  * @param {Array} places - Place records from DB
- * @param {number} days  - Number of trip days (to limit spots realistically)
+ * @param {number} days  - Number of trip days
+ * @param {string} preferredType - Category to prioritize
  * @returns {Object} - { fastest, budget }
  */
-const generateAllRoadmaps = (places, days = 3) => {
+const generateAllRoadmaps = (places, days = 3, preferredType = null) => {
     if (!places || places.length === 0) {
         return { fastest: null, budget: null };
     }
 
     return {
-        fastest: generateFastest(places, days),
-        budget: generateBudget(places, days),
+        fastest: generateFastest(places, days, preferredType),
+        budget: generateBudget(places, days, preferredType),
     };
 };
 

@@ -1,6 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const { getHostsByDestination, registerHost, getMyHostProfile, updateMyHostProfile, verifyHost } = require('../controllers/hostController');
+const {
+    getHostsByDestination,
+    registerHost,
+    getMyHostProfile,
+    updateMyHostProfile,
+    verifyHost,
+    deleteHostAccount,
+    updateHostStatus
+} = require('../controllers/hostController');
 const verifyToken = require('../middleware/auth');
 const requireRole = require('../middleware/roleCheck');
 
@@ -16,7 +24,13 @@ router.get('/me', verifyToken, getMyHostProfile);
 // PUT /api/hosts/me  — update own host profile
 router.put('/me', verifyToken, updateMyHostProfile);
 
+// DELETE /api/hosts/me — delete own host account
+router.delete('/me', verifyToken, deleteHostAccount);
+
 // PATCH /api/hosts/:id/verify  — admin: verify/unverify a host
 router.patch('/:id/verify', verifyToken, requireRole('admin'), verifyHost);
+
+// PATCH /api/hosts/:id/status — admin: deactivate/activate host
+router.patch('/:id/status', verifyToken, requireRole('admin'), updateHostStatus);
 
 module.exports = router;

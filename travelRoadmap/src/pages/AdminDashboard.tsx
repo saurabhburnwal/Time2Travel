@@ -6,7 +6,8 @@ import AnimatedPage from '../components/AnimatedPage';
 import { useAuth } from '../contexts/AuthContext';
 import { 
     fetchTableData, addTableRow, updateTableRow, deleteTableRow,
-    fetchPendingHostRegistrations, approveHostRegistration, rejectHostRegistration 
+    fetchPendingHostRegistrations, approveHostRegistration, rejectHostRegistration,
+    updateAdminUserStatus, updateAdminHostStatus
 } from '../services/adminService';
 import { HostRegistrationRecord } from '../services/types';
 import toast from 'react-hot-toast';
@@ -655,9 +656,14 @@ export default function AdminDashboard() {
                                                         <tr className="bg-slate-50/50 border-b border-slate-100">
                                                             <th className="px-6 py-4 text-[9px] font-bold text-slate-400 uppercase tracking-wider">Identity</th>
                                                             {activeTab === 'users' && <>
-                                                                <th className="px-6 py-4 text-[9px] font-bold text-slate-400 uppercase tracking-wider">Contact</th>
-                                                                <th className="px-6 py-4 text-[9px] font-bold text-slate-400 uppercase tracking-wider">Status</th>
-                                                            </>}
+                                                                    <th className="px-6 py-4 text-[9px] font-bold text-slate-400 uppercase tracking-wider">Contact</th>
+                                                                    <th className="px-6 py-4 text-[9px] font-bold text-slate-400 uppercase tracking-wider">Status</th>
+                                                                    <th className="px-6 py-4 text-[9px] font-bold text-slate-400 uppercase tracking-wider">Control</th>
+                                                                </>}
+                                                                {activeTab === 'hosts' && <>
+                                                                    <th className="px-6 py-4 text-[9px] font-bold text-slate-400 uppercase tracking-wider">Status</th>
+                                                                    <th className="px-6 py-4 text-[9px] font-bold text-slate-400 uppercase tracking-wider">Control</th>
+                                                                </>}
                                                             {TABLE_CONFIGS[activeTab]?.fields.map(f => (
                                                                 <th key={f.key} className="px-6 py-4 text-[9px] font-bold text-slate-400 uppercase tracking-wider">{f.label}</th>
                                                             ))}
@@ -728,6 +734,36 @@ export default function AdminDashboard() {
                                                                                 <button onClick={() => handleSave(itemId)} className="p-2 bg-emerald-500 text-white rounded-lg"><Save size={14} /></button>
                                                                             ) : (
                                                                                 <>
+                                                                                    {activeTab === 'users' && (
+                                                                                        <button 
+                                                                                            onClick={async () => {
+                                                                                                const success = await updateAdminUserStatus(itemId, !item.is_active);
+                                                                                                if (success) {
+                                                                                                    toast.success(`User ${!item.is_active ? 'Activated' : 'Deactivated'}`);
+                                                                                                    loadTabData();
+                                                                                                }
+                                                                                            }}
+                                                                                            className={`p-2 rounded-lg border transition-colors ${item.is_active ? 'text-amber-500 hover:bg-amber-50 border-amber-100' : 'text-emerald-500 hover:bg-emerald-50 border-emerald-100'}`}
+                                                                                            title={item.is_active ? 'Deactivate' : 'Activate'}
+                                                                                        >
+                                                                                            <Zap size={14} className={item.is_active ? 'fill-amber-500' : ''} />
+                                                                                        </button>
+                                                                                    )}
+                                                                                    {activeTab === 'hosts' && (
+                                                                                        <button 
+                                                                                            onClick={async () => {
+                                                                                                const success = await updateAdminHostStatus(itemId, !item.is_active);
+                                                                                                if (success) {
+                                                                                                    toast.success(`Host ${!item.is_active ? 'Activated' : 'Deactivated'}`);
+                                                                                                    loadTabData();
+                                                                                                }
+                                                                                            }}
+                                                                                            className={`p-2 rounded-lg border transition-colors ${item.is_active ? 'text-amber-500 hover:bg-amber-50 border-amber-100' : 'text-emerald-500 hover:bg-emerald-50 border-emerald-100'}`}
+                                                                                            title={item.is_active ? 'Deactivate' : 'Activate'}
+                                                                                        >
+                                                                                            <Zap size={14} className={item.is_active ? 'fill-amber-500' : ''} />
+                                                                                        </button>
+                                                                                    )}
                                                                                     {TABLE_CONFIGS[activeTab] && (
                                                                                         <button onClick={() => { setEditingId(itemId); setEditForm(item); }} className="p-2 text-slate-400 hover:text-brand-600 hover:bg-white rounded-lg shadow-sm border border-transparent hover:border-slate-100"><Edit3 size={14} /></button>
                                                                                     )}

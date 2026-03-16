@@ -9,7 +9,6 @@ const TRANSPORT_MODES = [
     { id: 'car', label: 'Car', ratePerDay: 800, icon: <Car size={18} />, desc: '₹800/day' },
     { id: 'bike', label: 'Bike', ratePerDay: 300, icon: <Bike size={18} />, desc: '₹300/day' },
     { id: 'bus', label: 'Bus', ratePerDay: 150, icon: <Bus size={18} />, desc: '₹150/day' },
-    { id: 'train', label: 'Train', ratePerDay: 200, icon: <Train size={18} />, desc: '₹200/day' },
     { id: 'cab', label: 'Cab/Taxi', ratePerDay: 600, icon: <Truck size={18} />, desc: '₹600/day' },
 ];
 

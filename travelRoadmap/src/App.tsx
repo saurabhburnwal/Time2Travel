@@ -22,6 +22,8 @@ import Itinerary from './pages/Itinerary';
 import MapView from './pages/MapView';
 import ExpenseBreakdown from './pages/ExpenseBreakdown';
 import FinalReview from './pages/FinalReview';
+import HostFeedback from './pages/HostFeedback';
+import SavedRoadmap from './pages/SavedRoadmap';
 import Profile from './pages/Profile';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminProfile from './pages/AdminProfile';
@@ -31,7 +33,6 @@ import HostGuests from './pages/HostGuests';
 import HostEarnings from './pages/HostEarnings';
 import HostReviews from './pages/HostReviews';
 import HostAvailability from './pages/HostAvailability';
-import HostFeedback from './pages/HostFeedback';
 
 function AppContent() {
   const location = useLocation();
@@ -71,6 +72,7 @@ function AppContent() {
               <Route path="/expense-breakdown" element={<ExpenseBreakdown />} />
               <Route path="/final-review" element={<FinalReview />} />
               <Route path="/host-feedback/:roadmapId" element={<HostFeedback />} />
+              <Route path="/roadmap/:id" element={<SavedRoadmap />} />
               <Route path="/profile" element={<Profile />} />
             </Route>
 

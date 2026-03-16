@@ -32,6 +32,7 @@ export default function Navbar() {
                     { to: '/', label: 'Home' },
                     { to: '/how-it-works', label: 'How It Works' },
                     { to: '/plan', label: 'Plan Trip' },
+                    ...(isLoggedIn ? [{ to: '/profile', label: 'My Trips' }] : []),
                 ])
     ];
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { User, MapPin, Star, Calendar, DollarSign, Mail, Phone, Shield, Settings, ChevronRight, Map, Plane, Edit, MailOpen, Loader2, Save, X, Home, Navigation, MessageSquare } from 'lucide-react';
+import { User, MapPin, Star, Calendar, DollarSign, Mail, Phone, Shield, Settings, ChevronRight, Map, Plane, Edit, MailOpen, Loader2, Save, X, Home, Navigation, MessageSquare, AlertTriangle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
 import StarRating from '../components/StarRating';
@@ -8,7 +8,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { fetchMyRoadmaps } from '../services/roadmapsService';
 import { MyRoadmap, MockUser } from '../services/types';
 import { fetchUserReviews, submitReview, Review } from '../services/reviewsService';
-import { updateUserProfile } from '../services/usersService';
+import { updateUserProfile, deleteAccount } from '../services/usersService';
 import { getSafetyContacts, addSafetyContact, deleteSafetyContact, AppSafetyContact } from '../services/safetyService';
 import { getUserHostReviews, HostReviewData } from '../services/hostReviewService';
 import toast from 'react-hot-toast';
@@ -150,6 +150,19 @@ export default function Profile() {
                 toast.success('Contact removed');
             } else {
                 toast.error('Failed to remove contact');
+            }
+        }
+    };
+
+    const handleAccountDelete = async () => {
+        if (window.confirm('CRITICAL: Are you sure you want to delete your entire account? This action is permanent and cannot be undone.')) {
+            const success = await deleteAccount();
+            if (success) {
+                toast.success('Account deleted. We are sorry to see you go.');
+                setUser(null);
+                navigate('/');
+            } else {
+                toast.error('Failed to delete account. Please try again or contact support.');
             }
         }
     };
@@ -311,6 +324,9 @@ export default function Profile() {
                                                                 Leave Review
                                                             </button>
                                                         )}
+                                                        <Link to={`/roadmap/${trip.roadmap_id}`} className="p-2 rounded-full bg-gray-50 text-brand-600 hover:bg-brand-500 hover:text-white transition-all shadow-sm" title="View Roadmap Details">
+                                                            <ChevronRight size={18} />
+                                                        </Link>
                                                     </div>
                                                 </div>
 
@@ -455,6 +471,28 @@ export default function Profile() {
                         </div>
                     </>
                 )}
+                {/* Settings & Danger Zone */}
+                <div className="mt-12 pt-12 border-t border-gray-100">
+                    <h3 className="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2">
+                        <Settings className="text-gray-400" size={20} /> Account Settings
+                    </h3>
+                    <div className="glass-card p-6 border-red-50 bg-red-50/10">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div>
+                                <h4 className="font-bold text-red-600 flex items-center gap-2">
+                                    <AlertTriangle size={18} /> Danger Zone
+                                </h4>
+                                <p className="text-sm text-gray-500 mt-1">Permanently remove your account and all associated trip data.</p>
+                            </div>
+                            <button 
+                                onClick={handleAccountDelete}
+                                className="px-6 py-3 bg-white text-red-600 border border-red-200 rounded-xl font-bold text-sm hover:bg-red-600 hover:text-white transition-all shadow-sm"
+                            >
+                                Delete My Account
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </AnimatedPage>
     );

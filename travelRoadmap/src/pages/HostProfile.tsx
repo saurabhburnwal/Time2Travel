@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Home, Users, Star, DollarSign, MapPin, Clock, BadgeCheck, Shield, ExternalLink, MessageSquare, Plus, Loader2 } from 'lucide-react';
+import { Home, Users, Star, DollarSign, MapPin, Clock, BadgeCheck, Shield, ExternalLink, MessageSquare, Plus, Loader2, AlertTriangle, Trash2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { getHostProfile } from '../services/hostProfileService';
 import { getHostProperties } from '../services/hostPropertyService';
-import { getMyHostRegistration } from '../services/hostsService';
+import { getMyHostRegistration, deleteHostAccount } from '../services/hostsService';
 import { getHostReviews, HostReviewData } from '../services/hostReviewService';
 import { getHostEarnings, HostEarningsData } from '../services/hostEarningsService';
 import { DBHostProfile, AppHostProperty } from '../services/supabaseClient';
@@ -201,6 +201,31 @@ export default function HostProfile({ user }: HostProfileProps) {
                         </span>
                         <ExternalLink size={14} className="text-gray-400" />
                     </Link>
+                </div>
+            </div>
+
+            {/* Danger Zone: Delete Host Account */}
+            <div className="glass-card p-6 border-red-50 bg-red-50/10">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <h4 className="font-bold text-red-600 flex items-center gap-2">
+                            <AlertTriangle size={18} /> Host Danger Zone
+                        </h4>
+                        <p className="text-sm text-gray-500 mt-1">Permanently delete your host profile. Your user account remains active.</p>
+                    </div>
+                    <button 
+                        onClick={async () => {
+                            if (window.confirm('Are you sure you want to stop being a host? Your property listings will be removed.')) {
+                                const success = await deleteHostAccount();
+                                if (success) {
+                                    window.location.reload(); // Refresh to update role/UI
+                                }
+                            }
+                        }}
+                        className="px-6 py-3 bg-white text-red-600 border border-red-200 rounded-xl font-bold text-sm hover:bg-red-600 hover:text-white transition-all shadow-sm flex items-center gap-2"
+                    >
+                        <Trash2 size={16} /> Delete Host Account
+                    </button>
                 </div>
             </div>
         </div>

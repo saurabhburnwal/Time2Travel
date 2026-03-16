@@ -1,4 +1,4 @@
-import { apiGet, apiPost } from '../lib/api';
+import { apiGet, apiPost, apiDelete } from '../lib/api';
 import { LocalHost, HostRegistrationData } from './types';
 
 export async function fetchHostsForDestination(destinationName: string): Promise<LocalHost[]> {
@@ -59,5 +59,15 @@ export async function getMyHostRegistrations(): Promise<{ success: boolean; regi
     } catch (err) {
         console.warn('getMyHostRegistrations error:', err);
         return { success: false, registrations: [] };
+    }
+}
+
+export async function deleteHostAccount(): Promise<boolean> {
+    try {
+        const { success } = await apiDelete('/api/hosts/me');
+        return success;
+    } catch (err) {
+        console.warn('deleteHostAccount error:', err);
+        return false;
     }
 }

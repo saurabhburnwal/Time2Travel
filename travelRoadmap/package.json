@@ -5,6 +5,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "predev": "powershell -Command \"Get-NetTCPConnection -LocalPort 3000 -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }\"",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
