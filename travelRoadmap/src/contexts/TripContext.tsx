@@ -16,6 +16,7 @@ interface TripState {
     stayLng: number;
     selectedRoadmap: any | null;
     places: Place[];
+    totalRoadDistance?: number;
 }
 
 interface TripContextType {

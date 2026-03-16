@@ -6,22 +6,31 @@ import AnimatedPage from '../components/AnimatedPage';
 import { useTrip } from '../contexts/TripContext';
 
 const TRANSPORT_MODES = [
-    { id: 'car', label: 'Car', ratePerDay: 800, icon: <Car size={18} />, desc: '₹800/day' },
-    { id: 'bike', label: 'Bike', ratePerDay: 300, icon: <Bike size={18} />, desc: '₹300/day' },
-    { id: 'bus', label: 'Bus', ratePerDay: 150, icon: <Bus size={18} />, desc: '₹150/day' },
-    { id: 'cab', label: 'Cab/Taxi', ratePerDay: 600, icon: <Truck size={18} />, desc: '₹600/day' },
+    { id: 'auto', label: 'Auto Rickshaw', ratePerKm: 15, allowance: 0, icon: <Bike size={18} />, desc: 'Shared/Local transport' },
+    { id: 'cab', label: 'Prime Sedan', ratePerKm: 22, allowance: 300, icon: <Car size={18} />, desc: 'Comfortable private cab' },
+    { id: 'suv', label: 'SUV / Traveler', ratePerKm: 32, allowance: 500, icon: <Truck size={18} />, desc: 'Large groups / Luxury' },
 ];
 
 export default function ExpenseBreakdown() {
     const { trip, updateTrip } = useTrip();
     const navigate = useNavigate();
 
-    const selectedMode = TRANSPORT_MODES.find(m => m.id === trip.transportMode) ?? TRANSPORT_MODES[0];
+    const selectedMode = TRANSPORT_MODES.find(m => m.id === (trip.transportMode || 'cab')) ?? TRANSPORT_MODES[1];
 
-    const accommodation = trip.stayType === 'hotel' ? trip.hotelPrice * trip.days : 0;
-    const transport = selectedMode.ratePerDay * trip.days;
+    const accommodation = trip.stayType === 'hotel' ? (trip.hotelPrice || 1500) * trip.days : 0;
+    
+    // Accurate distance from OSRM if available, otherwise fallback to a rough estimate from places
+    const distanceToUse = trip.totalRoadDistance || (trip.selectedRoadmap?.totalDistanceKm * 1.2) || 0;
+    
+    // Calculate accurate transport: (Distance * Rate) + (Allowance * Days)
+    const baseTransport = (distanceToUse * selectedMode.ratePerKm) + (selectedMode.allowance * trip.days);
+    // Add 8% buffer for tolls/parking
+    const transport = Math.round(baseTransport * 1.08);
 
-    // Calculate real entry fees from trip.places instead of hardcoded ₹80/day
+    const foodRate = trip.budget < 15000 ? 300 : trip.budget < 40000 ? 600 : 1000;
+    const food = foodRate * (trip.days || 1);
+
+    // Calculate real entry fees from trip.places
     const entryFees = useMemo(() => {
         const places = trip.places || [];
         if (places.length === 0) return 0;
@@ -35,8 +44,8 @@ export default function ExpenseBreakdown() {
         const places = trip.places || [];
         const count = places.filter((p: any) => parseFloat(p.entryFee || p.entry_fee || 0) > 0).length;
         if (count === 0) return 'All places have free entry';
-        return `${count} paid place${count > 1 ? 's' : ''} across ${trip.days} days`;
-    }, [trip.places, trip.days]);
+        return `${count} paid place${count > 1 ? 's' : ''} for your group`;
+    }, [trip.places]);
 
     const expenses = [
         {
@@ -45,15 +54,22 @@ export default function ExpenseBreakdown() {
             color: 'from-brand-400 to-brand-600',
             icon: <Building2 size={18} className="text-brand-500" />,
             note: trip.stayType === 'hotel'
-                ? `₹${trip.hotelPrice.toLocaleString()}/night × ${trip.days} nights`
-                : 'Local host stay (free)',
+                ? `₹${(trip.hotelPrice || 1500).toLocaleString()}/night × ${trip.days} nights`
+                : 'Local host stay (Minimal contribution)',
         },
         {
             label: 'Transport',
             amount: transport,
             color: 'from-ocean-400 to-ocean-600',
             icon: selectedMode.icon,
-            note: `${selectedMode.label} · ₹${selectedMode.ratePerDay}/day × ${trip.days} days`,
+            note: `${selectedMode.label} · ₹${selectedMode.ratePerKm}/km × ${distanceToUse.toFixed(1)} km + ₹${selectedMode.allowance}/day allowance + 8% buffer`,
+        },
+        {
+            label: 'Food & Dining',
+            amount: food,
+            color: 'from-orange-400 to-orange-600',
+            icon: <TrendingDown size={18} className="text-orange-500" />,
+            note: `Estimated ₹${foodRate}/day × ${trip.days} days`,
         },
         {
             label: 'Entry Fees',

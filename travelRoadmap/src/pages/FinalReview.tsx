@@ -210,6 +210,7 @@ export default function FinalReview() {
                             <div className="flex items-center gap-2"><Calendar size={16} className="text-ocean-500" /><div><p className="text-gray-400">Duration</p><p className="font-semibold text-gray-800">{trip.days} days</p></div></div>
                             <div className="flex items-center gap-2"><Home size={16} className="text-green-500" /><div><p className="text-gray-400">Stay</p><p className="font-semibold text-gray-800">{trip.selectedStay}</p></div></div>
                             <div className="flex items-center gap-2"><DollarSign size={16} className="text-yellow-500" /><div><p className="text-gray-400">Budget</p><p className="font-semibold text-gray-800">₹{trip.budget.toLocaleString()}</p></div></div>
+                            <div className="flex items-center gap-2"><Map size={16} className="text-brand-600" /><div><p className="text-gray-400">Total Distance</p><p className="font-semibold text-gray-800">{trip.totalRoadDistance ? `${trip.totalRoadDistance.toFixed(1)} km (Road)` : 'Calculating...'}</p></div></div>
                         </div>
                     </div>
 

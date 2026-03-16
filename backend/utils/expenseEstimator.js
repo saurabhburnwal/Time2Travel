@@ -7,18 +7,25 @@
  *  - Entry fees (sum of all place entry fees)
  */
 
-// Per-person daily food cost (INR)
+// Per-person daily food cost (INR) - Refined for accuracy
 const FOOD_COST_PER_PERSON_PER_DAY = {
-    budget: 250,
-    standard: 500,
-    premium: 900,
+    budget: { breakfast: 50, lunch: 100, dinner: 150 },    // total 300
+    standard: { breakfast: 100, lunch: 200, dinner: 300 }, // total 600
+    premium: { breakfast: 200, lunch: 400, dinner: 400 },  // total 1000
 };
 
-// Transport cost per km (INR) — auto/cab
+// Accurate Transport rates (INR per km) - Based on South Indian Taxi/Auto market
 const TRANSPORT_COST_PER_KM = {
-    budget: 8,
-    standard: 12,
-    premium: 20,
+    budget: 15,    // Auto-rickshaw / Shared transport
+    standard: 22,  // Sedan / Prime Cab
+    premium: 32,   // SUV / Luxury
+};
+
+// Driver Daily Allowance (Standard in India for outstation/multi-day trips)
+const DRIVER_ALLOWANCE_PER_DAY = {
+    budget: 0,
+    standard: 300,
+    premium: 500,
 };
 
 // Group size multipliers
@@ -46,26 +53,36 @@ const estimateExpenses = ({ days, accommodationPerNight, totalDistanceKm, places
     const accommodation = parseFloat((accommodationPerNight * days).toFixed(2));
 
     const transportRate = TRANSPORT_COST_PER_KM[style] || TRANSPORT_COST_PER_KM.standard;
-    const transport = parseFloat((totalDistanceKm * transportRate).toFixed(2));
+    const allowanceRate = DRIVER_ALLOWANCE_PER_DAY[style] || 0;
+    
+    // Base transport + Daily Driver Allowance
+    let transport = (totalDistanceKm * transportRate) + (days * allowanceRate);
+    
+    // Add 8% buffer for Tolls, Parking, and Local Detours (Standard in trip planning)
+    transport = transport * 1.08;
+    
+    const transportTotal = parseFloat(transport.toFixed(2));
 
-    const foodDaily = (FOOD_COST_PER_PERSON_PER_DAY[style] || FOOD_COST_PER_PERSON_PER_DAY.standard) * groupSize;
+    const foodConfig = FOOD_COST_PER_PERSON_PER_DAY[style] || FOOD_COST_PER_PERSON_PER_DAY.standard;
+    const foodPerPersonDay = foodConfig.breakfast + foodConfig.lunch + foodConfig.dinner;
+    const foodDaily = foodPerPersonDay * groupSize;
     const food = parseFloat((foodDaily * days).toFixed(2));
 
     const entryFees = places.reduce((sum, p) => sum + parseFloat(p.entry_fee || 0), 0);
     const entryFeesTotal = parseFloat((entryFees * groupSize).toFixed(2));
 
-    const total = parseFloat((accommodation + transport + food + entryFeesTotal).toFixed(2));
+    const total = parseFloat((accommodation + transportTotal + food + entryFeesTotal).toFixed(2));
 
     return {
         accommodation,
-        transport,
+        transport: transportTotal,
         food,
         entryFees: entryFeesTotal,
         total,
         breakdown: {
             accommodationNote: `₹${accommodationPerNight}/night × ${days} nights`,
-            transportNote: `₹${transportRate}/km × ${totalDistanceKm} km`,
-            foodNote: `₹${FOOD_COST_PER_PERSON_PER_DAY[style]}/person/day × ${groupSize} person(s) × ${days} days`,
+            transportNote: `₹${transportRate}/km × ${totalDistanceKm.toFixed(1)} km + ₹${allowanceRate}/day allowance + 8% tolls/parking`,
+            foodNote: `₹${foodPerPersonDay}/person/day × ${groupSize} person(s) × ${days} days`,
             entryNote: `₹${entryFees} entry fees × ${groupSize} person(s)`,
         },
     };

@@ -173,11 +173,15 @@ export default function Itinerary() {
                             <p className="text-gray-500 text-lg">Starting from {trip.selectedStay}</p>
                         </div>
                         
-                        <div className="flex gap-4">
-                            <div className="text-center bg-white/50 backdrop-blur-sm px-4 py-2 rounded-2xl border border-white/50 shadow-sm">
-                                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Distance</p>
-                                <p className="text-lg font-bold text-brand-600">{totalDist.toFixed(0)} km</p>
-                            </div>
+                            <div className="flex gap-4">
+                                <div className="text-center bg-white/50 backdrop-blur-sm px-4 py-2 rounded-2xl border border-white/50 shadow-sm min-w-[100px]">
+                                    <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">
+                                        {trip.totalRoadDistance ? 'Road Distance' : 'Distance'}
+                                    </p>
+                                    <p className="text-lg font-bold text-brand-600">
+                                        {(trip.totalRoadDistance || totalDist).toFixed(1)} km
+                                    </p>
+                                </div>
                             <div className="text-center bg-white/50 backdrop-blur-sm px-4 py-2 rounded-2xl border border-white/50 shadow-sm">
                                 <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Places</p>
                                 <p className="text-lg font-bold text-ocean-600">{places.length}</p>
