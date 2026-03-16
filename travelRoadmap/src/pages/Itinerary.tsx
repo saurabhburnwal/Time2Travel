@@ -32,6 +32,7 @@ export default function Itinerary() {
     const [showAddModal, setShowAddModal] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [hasChanges, setHasChanges] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
     const places = trip.places || [];
 
@@ -121,10 +122,29 @@ export default function Itinerary() {
 
     const dayColors = ['from-brand-500 to-brand-400', 'from-ocean-500 to-cyan-500', 'from-green-500 to-emerald-500', 'from-orange-500 to-warm', 'from-red-500 to-rose-500', 'from-brand-600 to-ocean-600', 'from-teal-500 to-green-500'];
 
-    const filteredAvailable = availablePlaces.filter(p => 
-        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (p.category || '').toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const categories = Array.from(new Set(availablePlaces.map(p => p.category || p.travel_type || 'Other'))).filter(Boolean);
+
+    const filteredAvailable = availablePlaces.filter(p => {
+        const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            (p.category || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+            (p.travel_type || '').toLowerCase().includes(searchQuery.toLowerCase());
+        
+        const matchesCategory = !selectedCategory || 
+            (p.category || p.travel_type || 'Other') === selectedCategory;
+            
+        return matchesSearch && matchesCategory;
+    });
+
+    // Sort: prioritize the trip's selected travel type
+    const finalDisplayAvailable = [...filteredAvailable].sort((a, b) => {
+        const aType = (a.category || a.travel_type || '').toLowerCase();
+        const bType = (b.category || b.travel_type || '').toLowerCase();
+        const pref = (trip.travelType || '').toLowerCase();
+        
+        if (aType === pref && bType !== pref) return -1;
+        if (aType !== pref && bType === pref) return 1;
+        return 0;
+    });
 
     return (
         <AnimatedPage className="page-bg pt-28 pb-16">
@@ -302,15 +322,35 @@ export default function Itinerary() {
                                         </button>
                                     </div>
                                     
-                                    <div className="relative">
-                                        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-brand-400" size={18} />
-                                        <input 
-                                            type="text"
-                                            placeholder="Search by name or category..."
-                                            value={searchQuery}
-                                            onChange={(e) => setSearchQuery(e.target.value)}
-                                            className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-500 shadow-sm transition-all"
-                                        />
+                                    <div className="space-y-4">
+                                        <div className="relative">
+                                            <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-brand-400" size={18} />
+                                            <input 
+                                                type="text"
+                                                placeholder="Search by name or category..."
+                                                value={searchQuery}
+                                                onChange={(e) => setSearchQuery(e.target.value)}
+                                                className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-500 shadow-sm transition-all"
+                                            />
+                                        </div>
+
+                                        <div className="flex flex-wrap gap-2 pt-2">
+                                            <button
+                                                onClick={() => setSelectedCategory(null)}
+                                                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${!selectedCategory ? 'bg-brand-500 text-white border-brand-500 shadow-md' : 'bg-white text-gray-500 border-gray-200 hover:border-brand-300'}`}
+                                            >
+                                                All Categories
+                                            </button>
+                                            {categories.map(cat => (
+                                                <button
+                                                    key={cat}
+                                                    onClick={() => setSelectedCategory(cat)}
+                                                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${selectedCategory === cat ? 'bg-brand-500 text-white border-brand-500 shadow-md' : 'bg-white text-gray-500 border-gray-200 hover:border-brand-300'} ${trip.travelType === cat ? 'ring-2 ring-brand-200' : ''}`}
+                                                >
+                                                    {cat} {trip.travelType === cat && '✨'}
+                                                </button>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
 
@@ -320,14 +360,14 @@ export default function Itinerary() {
                                             <Loader2 className="animate-spin mx-auto text-brand-500 mb-4" size={48} />
                                             <p className="text-gray-500 font-medium">Curating potential stops...</p>
                                         </div>
-                                    ) : filteredAvailable.length === 0 ? (
+                                    ) : finalDisplayAvailable.length === 0 ? (
                                         <div className="text-center py-16 bg-white rounded-3xl border border-dashed border-gray-200">
                                             <MapPin size={48} className="text-gray-200 mx-auto mb-4" />
-                                            <p className="text-gray-500 font-medium">No destinations match your search.</p>
-                                            <button onClick={() => setSearchQuery('')} className="text-brand-600 font-bold mt-2">Clear search</button>
+                                            <p className="text-gray-500 font-medium">No destinations match your filters.</p>
+                                            <button onClick={() => { setSearchQuery(''); setSelectedCategory(null); }} className="text-brand-600 font-bold mt-2">Clear filters</button>
                                         </div>
                                     ) : (
-                                        filteredAvailable.map((place, i) => (
+                                        finalDisplayAvailable.map((place, i) => (
                                             <motion.div 
                                                 key={getPlaceId(place)}
                                                 initial={{ opacity: 0, y: 10 }}
