@@ -1,4 +1,4 @@
-import { apiGet, apiPost, apiPut, apiDelete } from '../lib/api';
+import { apiGet, apiPost, apiPut, apiDelete } from './apiClient';
 
 export interface Review {
     review_id: number;

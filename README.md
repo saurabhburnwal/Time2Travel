@@ -11,9 +11,10 @@ Time2Travel is a comprehensive **MCA Software Project** built to bring local cul
 
 ### What makes it different:
 - **NNA Route Optimization** — Points of Interest are visited in an algorithmically optimal order, minimizing backtracking.
-- **4 Roadmap Styles** — Fastest, Budget, Scenic, and Balanced. Traveler picks one.
+- **4 Roadmap Styles** — Fastest, Budget, Scenic, and Balanced.
+- **Category-Aware Itineraries** — High-priority categories (e.g., Culture, Adventure) are intelligently prioritized in the itinerary generation.
 - **Real Host Ecosystem** — Hosts register, get admin-verified, and manage listings, guests, and earnings from a dedicated dashboard.
-- **End-to-End Financial Sync** — Contributions paid to hosts during checkout directly update their Settled/Pending earnings in real time.
+- **Transport & Budget Calculation** — Automatic estimation of transport costs and total trip budget based on the selected roadmap style.
 - **Secure Auth Flow** — JWT in HttpOnly cookies (XSS-safe), email verification, OTP password reset.
 
 ---
@@ -229,6 +230,35 @@ npm run build        # Production build (outputs to dist/)
 npm run preview      # Preview the production build locally
 ```
 App runs at: `http://localhost:5173`
+
+---
+
+## 🧪 Testing
+
+The project uses a comprehensive testing suite for both the backend (Jest) and frontend (Vitest).
+
+### 🟢 Backend Testing (Jest)
+Located in `backend/tests/`.
+- **Run all tests**: `npm test`
+- **Run with coverage**: `npm run test -- --coverage`
+- **Core Coverage**:
+    - `authController.js`: Registration, Login, and OTP flows.
+    - `roadmapController.js`: NNA generation and trip saving logic.
+    - `destinationController.js`: State and destination fetching.
+    - `userController.js`: Profile management and admin audits.
+
+### 🔵 Frontend Testing (Vitest + JSDOM)
+Located in `travelRoadmap/src/tests/`.
+- **Run all tests**: `npm test`
+- **Run with coverage**: `npm run test -- --coverage`
+- **Core Coverage**:
+    - `ForgotPassword.test.tsx`: End-to-end UI flow for password recovery.
+    - `destinationsService.test.ts`: API interaction for fetching destinations.
+    - `authService.test.ts`: Login and OTP service logic.
+    - `StarRating.test.tsx` & `AnimatedPage.test.tsx`: Shared UI components.
+
+> [!NOTE]
+> Backend tests include a `NODE_ENV=test` check to prevent side effects like sending real emails or starting the Express listener during unit test execution.
 
 ---
 

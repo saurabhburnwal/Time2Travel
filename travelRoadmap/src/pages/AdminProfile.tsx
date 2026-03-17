@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
 import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
-import { getProfile, updateProfile } from '../services/api';
+import { getProfile, updateProfile } from '../services/usersService';
 
 export default function AdminProfile() {
     const { user } = useAuth();

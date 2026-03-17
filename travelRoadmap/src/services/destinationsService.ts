@@ -1,4 +1,4 @@
-import { apiGet } from '../lib/api';
+import { apiGet } from './apiClient';
 import { DBTravelType, DBGroupType, DBDestinationStats } from './types';
 
 export async function fetchStates(): Promise<string[]> {

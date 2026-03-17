@@ -32,7 +32,7 @@ describe('ForgotPassword Component', () => {
       </MemoryRouter>
     );
     expect(screen.getByText('Reset Password')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('hello@example.com')).toBeInTheDocument();
+    expect(screen.getAllByPlaceholderText('hello@example.com')[0]).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /send reset code/i })).toBeInTheDocument();
   });
 
@@ -46,7 +46,7 @@ describe('ForgotPassword Component', () => {
       </MemoryRouter>
     );
 
-    const emailInput = screen.getByPlaceholderText('hello@example.com');
+    const emailInput = screen.getAllByPlaceholderText('hello@example.com')[0];
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
 
     const submitButton = screen.getByRole('button', { name: /send reset code/i });
@@ -54,7 +54,7 @@ describe('ForgotPassword Component', () => {
 
     await waitFor(() => {
       expect(usersService.forgotPassword).toHaveBeenCalledWith('test@example.com');
-      expect(screen.getByText('Verify Code')).toBeInTheDocument();
+      expect(screen.getAllByText('Verify Code')[0]).toBeInTheDocument();
       // Code input field should be present
       expect(screen.getByPlaceholderText('------')).toBeInTheDocument();
     });
@@ -70,7 +70,7 @@ describe('ForgotPassword Component', () => {
       </MemoryRouter>
     );
 
-    const emailInput = screen.getByPlaceholderText('hello@example.com');
+    const emailInput = screen.getAllByPlaceholderText('hello@example.com')[0];
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
 
     const submitButton = screen.getByRole('button', { name: /send reset code/i });
@@ -79,7 +79,7 @@ describe('ForgotPassword Component', () => {
     await waitFor(() => {
       expect(usersService.forgotPassword).toHaveBeenCalledWith('test@example.com');
       // Should still be on step 1
-      expect(screen.getByText('Reset Password')).toBeInTheDocument();
+      expect(screen.getAllByText('Reset Password')[0]).toBeInTheDocument();
     });
   });
 });

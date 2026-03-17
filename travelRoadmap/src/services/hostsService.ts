@@ -1,4 +1,4 @@
-import { apiGet, apiPost, apiDelete } from '../lib/api';
+import { apiGet, apiPost, apiDelete } from './apiClient';
 import { LocalHost, HostRegistrationData } from './types';
 
 export async function fetchHostsForDestination(destinationName: string): Promise<LocalHost[]> {

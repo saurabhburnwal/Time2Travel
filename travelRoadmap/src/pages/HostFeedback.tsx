@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
 import StarRating from '../components/StarRating';
 import { useAuth } from '../contexts/AuthContext';
-import { apiPost, apiGet } from '../lib/api';
+import { apiPost, apiGet } from '../services/apiClient';
 import toast from 'react-hot-toast';
 
 interface HostReviewForm {

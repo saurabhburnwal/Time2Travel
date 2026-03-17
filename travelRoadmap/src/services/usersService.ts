@@ -1,4 +1,4 @@
-import { apiGet, apiPost, apiPut, apiDelete, apiPatch } from '../lib/api';
+import { apiGet, apiPost, apiPut, apiDelete, apiPatch } from './apiClient';
 import { MockUser } from './types';
 
 export async function loginUser(
@@ -153,5 +153,21 @@ export async function changeUserStatus(userId: number, isActive: boolean): Promi
         console.warn('changeUserStatus error:', err);
         return false;
     }
+}
+
+export async function getProfile() {
+    const { success, data } = await apiGet<{ success: boolean; user: any }>('/api/users/me');
+    if (!success || !data?.success) {
+        throw new Error('Failed to fetch profile');
+    }
+    return data.user;
+}
+
+export async function updateProfile(payload: any) {
+    const { success, data } = await apiPut<{ success: boolean; user: any; message?: string }>('/api/users/me', payload);
+    if (!success || !data?.success) {
+        throw new Error(data?.message || 'Failed to update profile');
+    }
+    return data.user;
 }
 

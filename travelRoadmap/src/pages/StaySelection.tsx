@@ -10,7 +10,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { fetchHotelsForDestination } from '../services/hotelsService';
 import { fetchHostsForDestination } from '../services/hostsService';
 import { LocalHost, Hotel } from '../services/types';
-import { apiPost } from '../lib/api';
+import { apiPost } from '../services/apiClient';
 import toast from 'react-hot-toast';
 
 const AMENITY_ICONS: Record<string, React.ReactNode> = {

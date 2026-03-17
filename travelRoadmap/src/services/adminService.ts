@@ -1,4 +1,4 @@
-import { apiGet, apiPost, apiDelete, apiPut, apiPatch } from '../lib/api';
+import { apiGet, apiPost, apiDelete, apiPut, apiPatch } from './apiClient';
 import { DBUser, DBHost, HostRegistrationRecord } from './types';
 
 // --- Specific Helper Functions (Legacy/Specific logic) ---

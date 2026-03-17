@@ -1,4 +1,4 @@
-import { apiGet } from '../lib/api';
+import { apiGet } from './apiClient';
 
 export interface HostReviewData {
     id: number;

@@ -1,4 +1,4 @@
-import { apiGet, apiPost, apiDelete } from '../lib/api';
+import { apiGet, apiPost, apiDelete } from './apiClient';
 
 export interface AppSafetyContact {
     id: number;

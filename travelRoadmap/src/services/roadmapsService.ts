@@ -1,4 +1,4 @@
-import { apiGet, apiPost, apiPatch } from '../lib/api';
+import { apiGet, apiPost, apiPatch } from './apiClient';
 import { MyRoadmap } from './types';
 
 export async function generateRoadmap(data: {

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { USER_KEY, clearUserCache, apiGet, apiPost } from '../lib/api';
+import { USER_KEY, clearUserCache, apiGet, apiPost } from '../services/apiClient';
 import { loginUser, registerUser } from '../services/usersService';
 
 // ── Types ──────────────────────────────────────────────────────────────────

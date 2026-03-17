@@ -92,16 +92,18 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 // ===== START SERVER =====
-app.listen(PORT, () => {
-    console.log('');
-    console.log('╔══════════════════════════════════════════════╗');
-    console.log('║       🌍  Time2Travel Backend API            ║');
-    console.log('╠══════════════════════════════════════════════╣');
-    console.log(`║  Server  : http://localhost:${PORT}               ║`);
-    console.log(`║  Health  : http://localhost:${PORT}/api/health    ║`);
-    console.log('║  Mode    : ' + (process.env.NODE_ENV || 'development') + '                         ║');
-    console.log('╚══════════════════════════════════════════════╝');
-    console.log('');
-});
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(PORT, () => {
+        console.log('');
+        console.log('╔══════════════════════════════════════════════╗');
+        console.log('║       🌍  Time2Travel Backend API            ║');
+        console.log('╠══════════════════════════════════════════════╣');
+        console.log(`║  Server  : http://localhost:${PORT}               ║`);
+        console.log(`║  Health  : http://localhost:${PORT}/api/health    ║`);
+        console.log('║  Mode    : ' + (process.env.NODE_ENV || 'development') + '                         ║');
+        console.log('╚══════════════════════════════════════════════╝');
+        console.log('');
+    });
+}
 
 module.exports = app;

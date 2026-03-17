@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "predev": "powershell -Command \"Get-NetTCPConnection -LocalPort 5000 -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }\"",
+    "predev": "fuser -k 5000/tcp || true",
     "dev": "nodemon server.js",
     "test": "jest --detectOpenHandles"
   },
@@ -22,6 +22,8 @@
     "pg": "^8.11.3"
   },
   "devDependencies": {
-    "nodemon": "^3.0.3"
+    "jest": "^30.3.0",
+    "nodemon": "^3.0.3",
+    "supertest": "^7.2.2"
   }
 }

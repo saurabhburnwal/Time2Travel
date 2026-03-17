@@ -1,4 +1,4 @@
-import { apiGet } from '../lib/api';
+import { apiGet } from './apiClient';
 import { Place } from './types';
 
 export async function fetchAllPlacesForDestination(destinationName: string): Promise<Place[]> {

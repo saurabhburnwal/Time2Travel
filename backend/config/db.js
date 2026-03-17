@@ -9,15 +9,17 @@ const pool = new Pool({
     password: process.env.DB_PASSWORD || 'postgres',
 });
 
-// Test connection on startup
-pool.connect((err, client, release) => {
-    if (err) {
-        console.error('❌ Database connection error:', err.message);
-    } else {
-        console.log('✅ Connected to PostgreSQL database');
-        release();
-    }
-});
+// Test connection on startup (skip in tests)
+if (process.env.NODE_ENV !== 'test') {
+    pool.connect((err, client, release) => {
+        if (err) {
+            console.error('❌ Database connection error:', err.message);
+        } else {
+            console.log('✅ Connected to PostgreSQL database');
+            release();
+        }
+    });
+}
 
 /**
  * Execute a parameterised query

@@ -1,4 +1,4 @@
-import { apiGet } from '../lib/api';
+import { apiGet } from './apiClient';
 import { Hotel } from './types';
 
 export async function fetchHotelsForDestination(destinationName: string): Promise<Hotel[]> {

@@ -5,7 +5,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "predev": "powershell -Command \"Get-NetTCPConnection -LocalPort 3000 -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }\"",
+    "predev": "fuser -k 3000/tcp || true",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
@@ -28,14 +28,19 @@
     "react-router-dom": "^6.22.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@types/crypto-js": "^4.2.2",
     "@types/leaflet": "^1.9.8",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
-    "@vitejs/plugin-react": "^4.0.0",
+    "@vitejs/plugin-react": "^4.7.0",
+    "@vitest/coverage-v8": "^1.6.0",
     "autoprefixer": "^10.4.14",
+    "jsdom": "^22.1.0",
     "postcss": "^8.4.24",
     "tailwindcss": "^3.3.0",
-    "vite": "^4.5.14"
+    "vite": "^4.5.14",
+    "vitest": "^1.6.0"
   }
 }

@@ -5,24 +5,26 @@ const nodemailer = require('nodemailer');
  * Config is loaded from environment variables with sensible defaults.
  */
 const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'smtp.gmail.com',
-    port: parseInt(process.env.SMTP_PORT) || 587,
-    secure: false, // true for 465, false for other ports (STARTTLS)
-    auth: {
-        user: process.env.SMTP_USER || 'ttimettottravel@gmail.com',
-        pass: process.env.SMTP_PASS || '',
-    },
+  host: process.env.SMTP_HOST || 'smtp.gmail.com',
+  port: parseInt(process.env.SMTP_PORT) || 587,
+  secure: false, // true for 465, false for other ports (STARTTLS)
+  auth: {
+    user: process.env.SMTP_USER || 'ttimettottravel@gmail.com',
+    pass: process.env.SMTP_PASS || '',
+  },
 });
 
 const FROM_EMAIL = process.env.SMTP_FROM_EMAIL || 'ttimettottravel@gmail.com';
 const FROM_NAME = process.env.SMTP_FROM_NAME || 'Time2Travel';
 
 /**
- * Verify SMTP connection on startup (non-blocking).
+ * Verify SMTP connection on startup (non-blocking, skip in tests).
  */
-transporter.verify()
-    .then(() => console.log('✅ SMTP email service connected'))
-    .catch((err) => console.error('❌ SMTP connection error:', err.message));
+if (process.env.NODE_ENV !== 'test') {
+    transporter.verify()
+        .then(() => console.log('✅ SMTP email service connected'))
+        .catch((err) => console.error('❌ SMTP connection error:', err.message));
+}
 
 // ======================== EMAIL TEMPLATES ========================
 
@@ -30,7 +32,7 @@ transporter.verify()
  * Send a welcome email to a newly registered user.
  */
 async function sendWelcomeEmail(name, email) {
-    const html = `
+  const html = `
     <!DOCTYPE html>
     <html>
     <head>
@@ -86,19 +88,19 @@ async function sendWelcomeEmail(name, email) {
     </html>
     `;
 
-    try {
-        await transporter.sendMail({
-            from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
-            to: email,
-            subject: `Welcome to Time2Travel, ${name}! 🌍`,
-            html,
-        });
-        console.log(`📧 Welcome email sent to ${email}`);
-        return true;
-    } catch (err) {
-        console.error(`❌ Failed to send welcome email to ${email}:`, err.message);
-        return false;
-    }
+  try {
+    await transporter.sendMail({
+      from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+      to: email,
+      subject: `Welcome to Time2Travel, ${name}! 🌍`,
+      html,
+    });
+    console.log(`📧 Welcome email sent to ${email}`);
+    return true;
+  } catch (err) {
+    console.error(`❌ Failed to send welcome email to ${email}:`, err.message);
+    return false;
+  }
 }
 
 /**
@@ -110,12 +112,12 @@ async function sendWelcomeEmail(name, email) {
  * @param {Buffer|string} pdfBuffer - PDF as a Buffer or base64 string
  */
 async function sendTripConfirmationEmail(name, email, tripData, pdfBuffer) {
-    // Convert base64 to Buffer if needed
-    const attachment = Buffer.isBuffer(pdfBuffer)
-        ? pdfBuffer
-        : Buffer.from(pdfBuffer, 'base64');
+  // Convert base64 to Buffer if needed
+  const attachment = Buffer.isBuffer(pdfBuffer)
+    ? pdfBuffer
+    : Buffer.from(pdfBuffer, 'base64');
 
-    const html = `
+  const html = `
     <!DOCTYPE html>
     <html>
     <head>
@@ -191,26 +193,26 @@ async function sendTripConfirmationEmail(name, email, tripData, pdfBuffer) {
     </html>
     `;
 
-    try {
-        await transporter.sendMail({
-            from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
-            to: email,
-            subject: `Your Trip to ${tripData.destination || 'an amazing place'} is ready! 🗺️`,
-            html,
-            attachments: [
-                {
-                    filename: `Time2Travel_${(tripData.destination || 'Trip').replace(/\s+/g, '_')}_Itinerary.pdf`,
-                    content: attachment,
-                    contentType: 'application/pdf',
-                },
-            ],
-        });
-        console.log(`📧 Trip confirmation email sent to ${email}`);
-        return true;
-    } catch (err) {
-        console.error(`❌ Failed to send trip email to ${email}:`, err.message);
-        return false;
-    }
+  try {
+    await transporter.sendMail({
+      from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+      to: email,
+      subject: `Your Trip to ${tripData.destination || 'an amazing place'} is ready! 🗺️`,
+      html,
+      attachments: [
+        {
+          filename: `Time2Travel_${(tripData.destination || 'Trip').replace(/\s+/g, '_')}_Itinerary.pdf`,
+          content: attachment,
+          contentType: 'application/pdf',
+        },
+      ],
+    });
+    console.log(`📧 Trip confirmation email sent to ${email}`);
+    return true;
+  } catch (err) {
+    console.error(`❌ Failed to send trip email to ${email}:`, err.message);
+    return false;
+  }
 }
 
 /**
@@ -221,10 +223,10 @@ async function sendTripConfirmationEmail(name, email, tripData, pdfBuffer) {
  * @param {string} token     The verification token
  */
 async function sendVerificationEmail(toEmail, name, token) {
-    const baseUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
-    const verifyUrl = `${baseUrl}/email-verified?token=${encodeURIComponent(token)}`;
+  const baseUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+  const verifyUrl = `${baseUrl}/email-verified?token=${encodeURIComponent(token)}`;
 
-    const htmlBody = `
+  const htmlBody = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -303,30 +305,30 @@ async function sendVerificationEmail(toEmail, name, token) {
 </html>
 `;
 
-    try {
-        await transporter.sendMail({
-            from: process.env.SMTP_FROM_EMAIL || '"Time2Travel" <no-reply@time2travel.app>',
-            to: toEmail,
-            subject: '✅ Verify your Time2Travel email address',
-            html: htmlBody,
-            text: `Hi ${name},\n\nPlease verify your email by visiting:\n${verifyUrl}\n\nThis link expires in 24 hours.\n\nIf you didn't register, ignore this email.`,
-        });
-        console.log(`[emailService] 📧 Verification email sent to ${toEmail}`);
-        return true;
-    } catch (err) {
-        console.error(`❌ Failed to send verification email to ${toEmail}:`, err.message);
-        throw err;
-    }
+  try {
+    await transporter.sendMail({
+      from: process.env.SMTP_FROM_EMAIL || '"Time2Travel" <no-reply@time2travel.app>',
+      to: toEmail,
+      subject: '✅ Verify your Time2Travel email address',
+      html: htmlBody,
+      text: `Hi ${name},\n\nPlease verify your email by visiting:\n${verifyUrl}\n\nThis link expires in 24 hours.\n\nIf you didn't register, ignore this email.`,
+    });
+    console.log(`[emailService] 📧 Verification email sent to ${toEmail}`);
+    return true;
+  } catch (err) {
+    console.error(`❌ Failed to send verification email to ${toEmail}:`, err.message);
+    throw err;
+  }
 }
 
 /**
  * Send an email to a host when their registration is approved.
  */
 async function sendHostApprovalEmail(name, email) {
-    const baseUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
-    const profileUrl = `${baseUrl}/profile`;
+  const baseUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+  const profileUrl = `${baseUrl}/profile`;
 
-    const html = `
+  const html = `
     <!DOCTYPE html>
     <html>
     <head>
@@ -370,26 +372,26 @@ async function sendHostApprovalEmail(name, email) {
     </html>
     `;
 
-    try {
-        await transporter.sendMail({
-            from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
-            to: email,
-            subject: `Registration Successful! Welcome to Time2Travel, ${name} 🏠`,
-            html,
-        });
-        console.log(`📧 Host approval email sent to ${email}`);
-        return true;
-    } catch (err) {
-        console.error(`❌ Failed to send host approval email to ${email}:`, err.message);
-        return false;
-    }
+  try {
+    await transporter.sendMail({
+      from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+      to: email,
+      subject: `Registration Successful! Welcome to Time2Travel, ${name} 🏠`,
+      html,
+    });
+    console.log(`📧 Host approval email sent to ${email}`);
+    return true;
+  } catch (err) {
+    console.error(`❌ Failed to send host approval email to ${email}:`, err.message);
+    return false;
+  }
 }
 
 /**
  * Send an OTP for password reset.
  */
 async function sendPasswordResetOTP(toEmail, name, otp) {
-    const htmlBody = `
+  const htmlBody = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -443,26 +445,26 @@ async function sendPasswordResetOTP(toEmail, name, otp) {
 </html>
 `;
 
-    try {
-        await transporter.sendMail({
-            from: process.env.SMTP_FROM_EMAIL || '"Time2Travel" <no-reply@time2travel.app>',
-            to: toEmail,
-            subject: '🔐 Your Time2Travel Password Reset Code',
-            html: htmlBody,
-            text: `Hi ${name},\n\nYour password reset code is: ${otp}\n\nThis code expires in 15 minutes.\n\nIf you didn't request a reset, ignore this email.`,
-        });
-        console.log(`[emailService] 📧 Password reset OTP sent to ${toEmail}`);
-        return true;
-    } catch (err) {
-        console.error(`❌ Failed to send reset OTP to ${toEmail}:`, err.message);
-        throw err;
-    }
+  try {
+    await transporter.sendMail({
+      from: process.env.SMTP_FROM_EMAIL || '"Time2Travel" <no-reply@time2travel.app>',
+      to: toEmail,
+      subject: '🔐 Your Time2Travel Password Reset Code',
+      html: htmlBody,
+      text: `Hi ${name},\n\nYour password reset code is: ${otp}\n\nThis code expires in 15 minutes.\n\nIf you didn't request a reset, ignore this email.`,
+    });
+    console.log(`[emailService] 📧 Password reset OTP sent to ${toEmail}`);
+    return true;
+  } catch (err) {
+    console.error(`❌ Failed to send reset OTP to ${toEmail}:`, err.message);
+    throw err;
+  }
 }
 
 module.exports = {
-    sendWelcomeEmail,
-    sendTripConfirmationEmail,
-    sendVerificationEmail,
-    sendHostApprovalEmail,
-    sendPasswordResetOTP
+  sendWelcomeEmail,
+  sendTripConfirmationEmail,
+  sendVerificationEmail,
+  sendHostApprovalEmail,
+  sendPasswordResetOTP
 };
