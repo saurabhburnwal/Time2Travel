@@ -208,6 +208,8 @@ SMTP_FROM_EMAIL=your-email@gmail.com
 SMTP_FROM_NAME=Time2Travel
 ```
 
+> **Note:** If `SMTP_PORT=587` times out on Render, try switching to `SMTP_PORT=465` (implicit TLS); Render may block STARTTLS on 587.
+
 > **Gmail App Password**: Go to Google Account → Security → 2-Step Verification → App Passwords. Generate one specifically for this app.
 
 ### Run the server

@@ -25,6 +25,8 @@ const transporter = nodemailer.createTransport({
   port: SMTP_PORT,
   secure: SMTP_PORT === 465,
   family: SMTP_FAMILY,
+  connectionTimeout: 10000,
+  socketTimeout: 10000,
   auth: {
     user: SMTP_USER,
     pass: SMTP_PASS,
@@ -38,9 +40,29 @@ const FROM_NAME = SMTP_FROM_NAME;
  * Verify SMTP connection on startup (non-blocking, skip in tests).
  */
 if (process.env.NODE_ENV !== 'test') {
-    transporter.verify()
-        .then(() => console.log('✅ SMTP email service connected'))
-        .catch((err) => console.error('❌ SMTP connection error:', err.message));
+    const verifyWithTimeout = new Promise((resolve) => {
+        const timeout = setTimeout(() => {
+            console.warn('[emailService] SMTP verification timed out (>5s). Using async fallback.');
+            resolve(false);
+        }, 5000);
+        
+        transporter.verify()
+            .then(() => {
+                clearTimeout(timeout);
+                console.log('✅ SMTP email service connected');
+                resolve(true);
+            })
+            .catch((err) => {
+                clearTimeout(timeout);
+                console.warn(`[emailService] SMTP preliminary check failed: ${err.message}`);
+                console.log('[emailService] Will attempt to send emails with built-in timeouts.');
+                resolve(false);
+            });
+    });
+    
+    verifyWithTimeout.catch(() => {
+        console.warn('[emailService] Unexpected error during SMTP startup verification.');
+    });
 }
 
 // ======================== EMAIL TEMPLATES ========================
