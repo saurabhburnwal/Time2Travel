@@ -26,7 +26,7 @@ Browser (React SPA)
       │
       │  HTTPS Requests (cookie-based JWT)
       ▼
-Express REST API (Node.js) ─── Nodemailer SMTP ──► Gmail
+Express REST API (Node.js) ─── Resend Email API
       │
       │  Parameterized SQL (pg)
       ▼
@@ -58,7 +58,7 @@ for host-specific tables (host_bookings, host_properties etc.)
 | Build Tool | Vite | Fast HMR dev server |
 | Backend | Node.js + Express.js | REST API with cookie-based sessions |
 | Auth | JWT + bcryptjs | HttpOnly secure sessions |
-| Email | Nodemailer (Gmail SMTP) | Verification, Welcome, OTP, Trip PDF |
+| Email | Resend API | Verification, Welcome, OTP, Trip PDF |
 | Database | PostgreSQL via Supabase | Relational model with migrations |
 | DB Client | `pg` (node-postgres) | Direct parameterized queries |
 
@@ -85,7 +85,7 @@ Time2Travel-main/
 │   │   └── errorHandler.js       Global error handler
 │   ├── routes/                   14 route modules
 │   ├── utils/
-│   │   ├── emailService.js       All SMTP templates
+│   │   ├── emailService.js       All email templates + API delivery
 │   │   ├── routeOptimizer.js     NNA + distance algorithms
 │   │   └── expenseEstimator.js   Budget calculations
 │   ├── config/db.js              PostgreSQL pool config
@@ -199,22 +199,17 @@ JWT_SECRET=your_very_long_random_secret_key
 JWT_EXPIRES_IN=7d
 FRONTEND_URL=http://localhost:3000
 APP_BASE_URL=http://localhost:3000
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=465
-SMTP_FAMILY=4
-SMTP_CONNECTION_TIMEOUT_MS=10000
-SMTP_SOCKET_TIMEOUT_MS=10000
-SMTP_USER=your-email@gmail.com
-SMTP_PASS=your-google-app-password
-SMTP_FROM_EMAIL=your-email@gmail.com
-SMTP_FROM_NAME=Time2Travel
+EMAIL_PROVIDER=resend
+RESEND_API_KEY=your-resend-api-key
+RESEND_API_URL=https://api.resend.com/emails
+EMAIL_FROM=you@yourdomain.com
+EMAIL_FROM_NAME=Time2Travel
+EMAIL_SEND_TIMEOUT_MS=10000
 ```
 
-> **Note:** Port 465 (implicit TLS) is the default and recommended for Render. The backend forces IPv4-only DNS resolution to avoid ENETUNREACH errors on Render's IPv6-limited networking.
+> **Note:** Email delivery is API-based (Resend), so SMTP routing issues like `ENETUNREACH` are avoided.
 
-> **SMTP Fallback:** If Gmail SMTP is configured on port 587 and a network timeout/unreachable error occurs, the backend retries once on port 465 automatically.
-
-> **Gmail App Password**: Go to Google Account → Security → 2-Step Verification → App Passwords. Generate one specifically for this app.
+> **Sender Verification:** `EMAIL_FROM` must be a verified sender/domain in your Resend account.
 
 ### Run the server
 ```bash

@@ -1,107 +1,158 @@
-const nodemailer = require('nodemailer');
-const dns = require('dns');
+const https = require('https');
 
-/**
- * Email transporter — uses Gmail SMTP with app password.
- * Config is loaded from environment variables with sensible defaults.
- */
-const SMTP_HOST = process.env.SMTP_HOST || 'smtp.gmail.com';
-const SMTP_PORT = parseInt(process.env.SMTP_PORT || '465', 10);
-const SMTP_USER = process.env.SMTP_USER || '';
-const SMTP_PASS = process.env.SMTP_PASS || '';
-const SMTP_FROM_EMAIL = process.env.SMTP_FROM_EMAIL || process.env.EMAIL_FROM || SMTP_USER;
-const SMTP_FROM_NAME = process.env.SMTP_FROM_NAME || 'Time2Travel';
-const SMTP_FAMILY = parseInt(process.env.SMTP_FAMILY || '4', 10) === 6 ? 6 : 4;
-const SMTP_CONNECTION_TIMEOUT_MS = parseInt(process.env.SMTP_CONNECTION_TIMEOUT_MS || '10000', 10);
-const SMTP_SOCKET_TIMEOUT_MS = parseInt(process.env.SMTP_SOCKET_TIMEOUT_MS || '10000', 10);
-const IS_GMAIL_SMTP = /(^|\.)gmail\.com$/i.test(SMTP_HOST);
+const EMAIL_PROVIDER = (process.env.EMAIL_PROVIDER || 'resend').toLowerCase();
+const RESEND_API_KEY = process.env.RESEND_API_KEY || '';
+const RESEND_API_URL = process.env.RESEND_API_URL || 'https://api.resend.com/emails';
+const EMAIL_FROM = process.env.EMAIL_FROM || process.env.SMTP_FROM_EMAIL || process.env.SMTP_USER || '';
+const EMAIL_FROM_NAME = process.env.EMAIL_FROM_NAME || process.env.SMTP_FROM_NAME || 'Time2Travel';
+const EMAIL_SEND_TIMEOUT_MS = parseInt(process.env.EMAIL_SEND_TIMEOUT_MS || '10000', 10);
 
-if (process.env.NODE_ENV === 'production' && (!SMTP_USER || !SMTP_PASS)) {
-  throw new Error('[emailService] Missing SMTP_USER or SMTP_PASS in production environment.');
+if (process.env.NODE_ENV === 'production') {
+  if (EMAIL_PROVIDER !== 'resend') {
+    throw new Error(`[emailService] Unsupported EMAIL_PROVIDER in production: ${EMAIL_PROVIDER}`);
+  }
+  if (!RESEND_API_KEY) {
+    throw new Error('[emailService] Missing RESEND_API_KEY in production environment.');
+  }
+  if (!EMAIL_FROM) {
+    throw new Error('[emailService] Missing EMAIL_FROM in production environment.');
+  }
 }
 
-if (!SMTP_USER || !SMTP_PASS) {
-  console.warn('[emailService] SMTP_USER/SMTP_PASS not fully configured. Email sending will fail until configured.');
+if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test' && !RESEND_API_KEY) {
+  console.warn('[emailService] RESEND_API_KEY is not configured. Email sending will fail until configured.');
 }
 
-if (process.env.NODE_ENV !== 'test' && SMTP_PORT === 587 && process.env.SMTP_FAMILY !== '4') {
-  console.warn('[emailService] SMTP_PORT=587 detected without explicit SMTP_FAMILY=4. Set SMTP_FAMILY=4 to avoid IPv6 ENETUNREACH on IPv6-limited hosts.');
-}
-
-/**
- * Custom IPv4-only DNS lookup to force IPv4 connections on Render (avoids IPv6 ENETUNREACH).
- */
-const ipv4OnlyLookup = (hostname, options, callback) => {
-  dns.lookup(hostname, { family: 4, all: false }, callback);
-};
-
-const createTransporter = (port = SMTP_PORT) => {
-  return nodemailer.createTransport({
-    host: SMTP_HOST,
-    port,
-    secure: port === 465,
-    lookup: ipv4OnlyLookup,
-    family: SMTP_FAMILY,
-    connectionTimeout: SMTP_CONNECTION_TIMEOUT_MS,
-    socketTimeout: SMTP_SOCKET_TIMEOUT_MS,
-    auth: {
-      user: SMTP_USER,
-      pass: SMTP_PASS,
-    },
-  });
-};
-
-const transporter = createTransporter();
-
-const FROM_EMAIL = SMTP_FROM_EMAIL;
-const FROM_NAME = SMTP_FROM_NAME;
-
-/**
- * Verify SMTP connection on startup (non-blocking, skip in tests).
- */
 if (process.env.NODE_ENV !== 'test') {
-  console.log(`[emailService] SMTP config loaded (host=${SMTP_HOST}, port=${SMTP_PORT}, secure=${SMTP_PORT === 465}, family=${SMTP_FAMILY})`);
-    const verifyWithTimeout = new Promise((resolve) => {
-        const timeout = setTimeout(() => {
-      console.warn('[emailService] SMTP verification timed out (>5s). Continuing startup without blocking email sends.');
-            resolve(false);
-        }, 5000);
-        
-        transporter.verify()
-            .then(() => {
-                clearTimeout(timeout);
-                console.log('✅ SMTP email service connected');
-                resolve(true);
-            })
-            .catch((err) => {
-                clearTimeout(timeout);
-                console.warn(`[emailService] SMTP preliminary check failed: ${err.message}`);
-              console.log('[emailService] Verification is best-effort only; send attempts will still run with SMTP timeouts.');
-                resolve(false);
-            });
-    });
-    
-    verifyWithTimeout.catch(() => {
-        console.warn('[emailService] Unexpected error during SMTP startup verification.');
-    });
+  console.log(`[emailService] Email provider configured (provider=${EMAIL_PROVIDER}, from=${EMAIL_FROM || 'N/A'})`);
 }
 
-function getSmtpErrorMeta(err) {
-  return {
-    code: err?.code || 'UNKNOWN',
-    errno: err?.errno || null,
-    command: err?.command || null,
-    address: err?.address || null,
-    port: err?.port || SMTP_PORT,
-    host: SMTP_HOST,
-    family: SMTP_FAMILY,
+const buildFromHeader = () => `"${EMAIL_FROM_NAME}" <${EMAIL_FROM}>`;
+
+function sendViaResend(payload) {
+  return new Promise((resolve, reject) => {
+    let endpoint;
+    try {
+      endpoint = new URL(RESEND_API_URL);
+    } catch {
+      const err = new Error('[emailService] Invalid RESEND_API_URL configuration.');
+      err.code = 'INVALID_RESEND_API_URL';
+      err.provider = 'resend';
+      return reject(err);
+    }
+
+    const body = JSON.stringify(payload);
+    const request = https.request(
+      {
+        protocol: endpoint.protocol,
+        hostname: endpoint.hostname,
+        port: endpoint.port || (endpoint.protocol === 'https:' ? 443 : 80),
+        path: `${endpoint.pathname}${endpoint.search}`,
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${RESEND_API_KEY}`,
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(body),
+        },
+      },
+      (response) => {
+        let responseBody = '';
+        response.on('data', (chunk) => {
+          responseBody += chunk;
+        });
+
+        response.on('end', () => {
+          const status = response.statusCode || 0;
+          const parsed = responseBody ? (() => {
+            try {
+              return JSON.parse(responseBody);
+            } catch {
+              return null;
+            }
+          })() : null;
+
+          if (status >= 200 && status < 300) {
+            return resolve(parsed || { success: true });
+          }
+
+          const message = parsed?.message || parsed?.error?.message || `Email API request failed with status ${status}`;
+          const err = new Error(message);
+          err.code = parsed?.error?.name || 'EMAIL_API_ERROR';
+          err.status = status;
+          err.provider = 'resend';
+          err.response = parsed;
+          reject(err);
+        });
+      }
+    );
+
+    request.setTimeout(EMAIL_SEND_TIMEOUT_MS, () => {
+      const timeoutError = new Error('Email API request timeout');
+      timeoutError.code = 'ETIMEDOUT';
+      timeoutError.provider = 'resend';
+      request.destroy(timeoutError);
+    });
+
+    request.on('error', (err) => {
+      err.provider = 'resend';
+      reject(err);
+    });
+
+    request.write(body);
+    request.end();
+  });
+}
+
+async function sendEmail({ to, subject, html, text, attachments }) {
+  if (!EMAIL_FROM) {
+    const err = new Error('[emailService] Missing EMAIL_FROM configuration.');
+    err.code = 'EMAIL_FROM_MISSING';
+    err.provider = EMAIL_PROVIDER;
+    throw err;
+  }
+
+  if (EMAIL_PROVIDER !== 'resend') {
+    const err = new Error(`[emailService] Unsupported EMAIL_PROVIDER: ${EMAIL_PROVIDER}`);
+    err.code = 'EMAIL_PROVIDER_UNSUPPORTED';
+    err.provider = EMAIL_PROVIDER;
+    throw err;
+  }
+
+  if (!RESEND_API_KEY) {
+    const err = new Error('[emailService] Missing RESEND_API_KEY configuration.');
+    err.code = 'RESEND_API_KEY_MISSING';
+    err.provider = 'resend';
+    throw err;
+  }
+
+  const payload = {
+    from: buildFromHeader(),
+    to,
+    subject,
+    html,
+    text,
   };
-}
 
-function shouldAttemptGmail465Fallback(err, attemptedPort) {
-  const retryableNetworkCodes = new Set(['ETIMEDOUT', 'ENETUNREACH', 'EHOSTUNREACH', 'ECONNECTION', 'ESOCKET']);
-  const code = err?.code || '';
-  return IS_GMAIL_SMTP && attemptedPort === 587 && retryableNetworkCodes.has(code);
+  if (Array.isArray(attachments) && attachments.length > 0) {
+    payload.attachments = attachments.map((attachment) => {
+      const content = Buffer.isBuffer(attachment.content)
+        ? attachment.content.toString('base64')
+        : attachment.content;
+
+      const normalized = {
+        filename: attachment.filename,
+        content,
+      };
+
+      if (attachment.contentType) {
+        normalized.content_type = attachment.contentType;
+      }
+
+      return normalized;
+    });
+  }
+
+  return sendViaResend(payload);
 }
 
 // ======================== EMAIL TEMPLATES ========================
@@ -167,8 +218,7 @@ async function sendWelcomeEmail(name, email) {
     `;
 
   try {
-    await transporter.sendMail({
-      from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+    await sendEmail({
       to: email,
       subject: `Welcome to Time2Travel, ${name}! 🌍`,
       html,
@@ -272,8 +322,7 @@ async function sendTripConfirmationEmail(name, email, tripData, pdfBuffer) {
     `;
 
   try {
-    await transporter.sendMail({
-      from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+    await sendEmail({
       to: email,
       subject: `Your Trip to ${tripData.destination || 'an amazing place'} is ready! 🗺️`,
       html,
@@ -384,8 +433,7 @@ async function sendVerificationEmail(toEmail, name, token) {
 `;
 
   try {
-    await transporter.sendMail({
-      from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+    await sendEmail({
       to: toEmail,
       subject: '✅ Verify your Time2Travel email address',
       html: htmlBody,
@@ -451,8 +499,7 @@ async function sendHostApprovalEmail(name, email) {
     `;
 
   try {
-    await transporter.sendMail({
-      from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+    await sendEmail({
       to: email,
       subject: `Registration Successful! Welcome to Time2Travel, ${name} 🏠`,
       html,
@@ -524,7 +571,6 @@ async function sendPasswordResetOTP(toEmail, name, otp) {
 `;
 
   const mailOptions = {
-    from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
     to: toEmail,
     subject: '🔐 Your Time2Travel Password Reset Code',
     html: htmlBody,
@@ -532,27 +578,12 @@ async function sendPasswordResetOTP(toEmail, name, otp) {
   };
 
   try {
-    await transporter.sendMail(mailOptions);
+    await sendEmail(mailOptions);
     console.log(`[emailService] 📧 Password reset OTP sent to ${toEmail}`);
     return true;
   } catch (err) {
-    const meta = getSmtpErrorMeta(err);
-    if (shouldAttemptGmail465Fallback(err, SMTP_PORT)) {
-      console.warn(`[emailService] SMTP send failed on port 587 with ${meta.code}. Retrying once on port 465 (TLS).`);
-      try {
-        const fallbackTransporter = createTransporter(465);
-        await fallbackTransporter.sendMail(mailOptions);
-        console.log(`[emailService] 📧 Password reset OTP sent to ${toEmail} via fallback port 465`);
-        return true;
-      } catch (fallbackErr) {
-        const fallbackMeta = getSmtpErrorMeta({ ...fallbackErr, port: 465 });
-        console.error(`[emailService] Fallback send failed: ${fallbackErr.message}`);
-        console.error(`[emailService] Fallback SMTP failure metadata: code=${fallbackMeta.code}, errno=${fallbackMeta.errno}, command=${fallbackMeta.command}, address=${fallbackMeta.address}, port=${fallbackMeta.port}, host=${fallbackMeta.host}, family=${fallbackMeta.family}`);
-        throw fallbackErr;
-      }
-    }
     console.error(`❌ Failed to send reset OTP to ${toEmail}: ${err.message}`);
-    console.error(`[emailService] SMTP send failure metadata: code=${meta.code}, errno=${meta.errno}, command=${meta.command}, address=${meta.address}, port=${meta.port}, host=${meta.host}, family=${meta.family}`);
+    console.error(`[emailService] Email API failure metadata: provider=${err.provider || EMAIL_PROVIDER}, code=${err.code || 'UNKNOWN'}, status=${err.status || 'N/A'}`);
     throw err;
   }
 }
