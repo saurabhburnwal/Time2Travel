@@ -212,6 +212,8 @@ SMTP_FROM_NAME=Time2Travel
 
 > **Note:** Port 465 (implicit TLS) is the default and recommended for Render. The backend forces IPv4-only DNS resolution to avoid ENETUNREACH errors on Render's IPv6-limited networking.
 
+> **SMTP Fallback:** If Gmail SMTP is configured on port 587 and a network timeout/unreachable error occurs, the backend retries once on port 465 automatically.
+
 > **Gmail App Password**: Go to Google Account → Security → 2-Step Verification → App Passwords. Generate one specifically for this app.
 
 ### Run the server

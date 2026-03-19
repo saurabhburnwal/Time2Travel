@@ -14,6 +14,7 @@ const SMTP_FROM_NAME = process.env.SMTP_FROM_NAME || 'Time2Travel';
 const SMTP_FAMILY = parseInt(process.env.SMTP_FAMILY || '4', 10) === 6 ? 6 : 4;
 const SMTP_CONNECTION_TIMEOUT_MS = parseInt(process.env.SMTP_CONNECTION_TIMEOUT_MS || '10000', 10);
 const SMTP_SOCKET_TIMEOUT_MS = parseInt(process.env.SMTP_SOCKET_TIMEOUT_MS || '10000', 10);
+const IS_GMAIL_SMTP = /(^|\.)gmail\.com$/i.test(SMTP_HOST);
 
 if (process.env.NODE_ENV === 'production' && (!SMTP_USER || !SMTP_PASS)) {
   throw new Error('[emailService] Missing SMTP_USER or SMTP_PASS in production environment.');
@@ -34,19 +35,23 @@ const ipv4OnlyLookup = (hostname, options, callback) => {
   dns.lookup(hostname, { family: 4, all: false }, callback);
 };
 
-const transporter = nodemailer.createTransport({
-  host: SMTP_HOST,
-  port: SMTP_PORT,
-  secure: SMTP_PORT === 465,
-  lookup: ipv4OnlyLookup,
-  family: SMTP_FAMILY,
-  connectionTimeout: SMTP_CONNECTION_TIMEOUT_MS,
-  socketTimeout: SMTP_SOCKET_TIMEOUT_MS,
-  auth: {
-    user: SMTP_USER,
-    pass: SMTP_PASS,
-  },
-});
+const createTransporter = (port = SMTP_PORT) => {
+  return nodemailer.createTransport({
+    host: SMTP_HOST,
+    port,
+    secure: port === 465,
+    lookup: ipv4OnlyLookup,
+    family: SMTP_FAMILY,
+    connectionTimeout: SMTP_CONNECTION_TIMEOUT_MS,
+    socketTimeout: SMTP_SOCKET_TIMEOUT_MS,
+    auth: {
+      user: SMTP_USER,
+      pass: SMTP_PASS,
+    },
+  });
+};
+
+const transporter = createTransporter();
 
 const FROM_EMAIL = SMTP_FROM_EMAIL;
 const FROM_NAME = SMTP_FROM_NAME;
@@ -91,6 +96,12 @@ function getSmtpErrorMeta(err) {
     host: SMTP_HOST,
     family: SMTP_FAMILY,
   };
+}
+
+function shouldAttemptGmail465Fallback(err, attemptedPort) {
+  const retryableNetworkCodes = new Set(['ETIMEDOUT', 'ENETUNREACH', 'EHOSTUNREACH', 'ECONNECTION', 'ESOCKET']);
+  const code = err?.code || '';
+  return IS_GMAIL_SMTP && attemptedPort === 587 && retryableNetworkCodes.has(code);
 }
 
 // ======================== EMAIL TEMPLATES ========================
@@ -512,18 +523,34 @@ async function sendPasswordResetOTP(toEmail, name, otp) {
 </html>
 `;
 
+  const mailOptions = {
+    from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
+    to: toEmail,
+    subject: '🔐 Your Time2Travel Password Reset Code',
+    html: htmlBody,
+    text: `Hi ${name},\n\nYour password reset code is: ${otp}\n\nThis code expires in 15 minutes.\n\nIf you didn't request a reset, ignore this email.`,
+  };
+
   try {
-    await transporter.sendMail({
-      from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
-      to: toEmail,
-      subject: '🔐 Your Time2Travel Password Reset Code',
-      html: htmlBody,
-      text: `Hi ${name},\n\nYour password reset code is: ${otp}\n\nThis code expires in 15 minutes.\n\nIf you didn't request a reset, ignore this email.`,
-    });
+    await transporter.sendMail(mailOptions);
     console.log(`[emailService] 📧 Password reset OTP sent to ${toEmail}`);
     return true;
   } catch (err) {
     const meta = getSmtpErrorMeta(err);
+    if (shouldAttemptGmail465Fallback(err, SMTP_PORT)) {
+      console.warn(`[emailService] SMTP send failed on port 587 with ${meta.code}. Retrying once on port 465 (TLS).`);
+      try {
+        const fallbackTransporter = createTransporter(465);
+        await fallbackTransporter.sendMail(mailOptions);
+        console.log(`[emailService] 📧 Password reset OTP sent to ${toEmail} via fallback port 465`);
+        return true;
+      } catch (fallbackErr) {
+        const fallbackMeta = getSmtpErrorMeta({ ...fallbackErr, port: 465 });
+        console.error(`[emailService] Fallback send failed: ${fallbackErr.message}`);
+        console.error(`[emailService] Fallback SMTP failure metadata: code=${fallbackMeta.code}, errno=${fallbackMeta.errno}, command=${fallbackMeta.command}, address=${fallbackMeta.address}, port=${fallbackMeta.port}, host=${fallbackMeta.host}, family=${fallbackMeta.family}`);
+        throw fallbackErr;
+      }
+    }
     console.error(`❌ Failed to send reset OTP to ${toEmail}: ${err.message}`);
     console.error(`[emailService] SMTP send failure metadata: code=${meta.code}, errno=${meta.errno}, command=${meta.command}, address=${meta.address}, port=${meta.port}, host=${meta.host}, family=${meta.family}`);
     throw err;
