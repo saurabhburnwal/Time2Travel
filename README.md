@@ -200,15 +200,14 @@ JWT_EXPIRES_IN=7d
 FRONTEND_URL=http://localhost:3000
 APP_BASE_URL=http://localhost:3000
 SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_FAMILY=4
+SMTP_PORT=465
 SMTP_USER=your-email@gmail.com
 SMTP_PASS=your-google-app-password
 SMTP_FROM_EMAIL=your-email@gmail.com
 SMTP_FROM_NAME=Time2Travel
 ```
 
-> **Note:** If `SMTP_PORT=587` times out on Render, try switching to `SMTP_PORT=465` (implicit TLS); Render may block STARTTLS on 587.
+> **Note:** Port 465 (implicit TLS) is the default and recommended for Render. The backend forces IPv4-only DNS resolution to avoid ENETUNREACH errors on Render's IPv6-limited networking.
 
 > **Gmail App Password**: Go to Google Account → Security → 2-Step Verification → App Passwords. Generate one specifically for this app.
 

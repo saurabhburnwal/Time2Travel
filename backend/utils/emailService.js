@@ -1,16 +1,16 @@
 const nodemailer = require('nodemailer');
+const dns = require('dns');
 
 /**
  * Email transporter — uses Gmail SMTP with app password.
  * Config is loaded from environment variables with sensible defaults.
  */
 const SMTP_HOST = process.env.SMTP_HOST || 'smtp.gmail.com';
-const SMTP_PORT = parseInt(process.env.SMTP_PORT || '587', 10);
+const SMTP_PORT = parseInt(process.env.SMTP_PORT || '465', 10);
 const SMTP_USER = process.env.SMTP_USER || '';
 const SMTP_PASS = process.env.SMTP_PASS || '';
 const SMTP_FROM_EMAIL = process.env.SMTP_FROM_EMAIL || process.env.EMAIL_FROM || SMTP_USER;
 const SMTP_FROM_NAME = process.env.SMTP_FROM_NAME || 'Time2Travel';
-const SMTP_FAMILY = parseInt(process.env.SMTP_FAMILY || (process.env.NODE_ENV === 'production' ? '4' : '0'), 10);
 
 if (process.env.NODE_ENV === 'production' && (!SMTP_USER || !SMTP_PASS)) {
   throw new Error('[emailService] Missing SMTP_USER or SMTP_PASS in production environment.');
@@ -20,11 +20,18 @@ if (!SMTP_USER || !SMTP_PASS) {
   console.warn('[emailService] SMTP_USER/SMTP_PASS not fully configured. Email sending will fail until configured.');
 }
 
+/**
+ * Custom IPv4-only DNS lookup to force IPv4 connections on Render (avoids IPv6 ENETUNREACH).
+ */
+const ipv4OnlyLookup = (hostname, options, callback) => {
+  dns.lookup(hostname, { family: 4, all: false }, callback);
+};
+
 const transporter = nodemailer.createTransport({
   host: SMTP_HOST,
   port: SMTP_PORT,
   secure: SMTP_PORT === 465,
-  family: SMTP_FAMILY,
+  lookup: ipv4OnlyLookup,
   connectionTimeout: 10000,
   socketTimeout: 10000,
   auth: {
