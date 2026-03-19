@@ -47,12 +47,17 @@ describe('usersService', () => {
         });
 
         it('should handle login failures gracefully', async () => {
+             // Suppress console.warn for this test as we expect a failure log
+             const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+             
              const mockError = new Error('Network error');
              (apiPost as any).mockRejectedValue(mockError);
 
              const result = await loginUser('test@example.com', 'wrongpassword');
 
              expect(result.error).toBe('invalid_credentials');
+             expect(consoleSpy).toHaveBeenCalled();
+             consoleSpy.mockRestore();
         });
     });
 

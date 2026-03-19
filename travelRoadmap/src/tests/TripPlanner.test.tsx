@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import TripPlanner from '../pages/TripPlanner';
 import { BrowserRouter } from 'react-router-dom';
@@ -25,17 +25,36 @@ vi.mock('../components/AnimatedPage', () => ({
     default: ({ children, className }: any) => <div className={className} data-testid="animated-page">{children}</div>
 }));
 
-// Robust framer-motion mock
-vi.mock('framer-motion', () => ({
-    __esModule: true,
-    motion: new Proxy({}, {
-        get: (_target, tag) => (props: any) => {
-            const Tag = tag as any;
-            return <Tag {...props} />;
-        }
-    }),
-    AnimatePresence: ({ children }: any) => <>{children}</>
-}));
+// Robust framer-motion mock that filters out animation props to avoid React warnings
+vi.mock('framer-motion', () => {
+    const motionProps = [
+        'initial', 'animate', 'exit', 'transition', 'variants', 
+        'whileHover', 'whileTap', 'whileFocus', 'whileDrag', 'whileInView',
+        'viewport', 'layout', 'layoutId', 'onLayoutAnimationStart', 'onLayoutAnimationComplete',
+        'onUpdate', 'onAnimationStart', 'onAnimationComplete'
+    ];
+    
+    const filterProps = (props: any) => {
+        const filtered: any = {};
+        Object.keys(props).forEach(key => {
+            if (!motionProps.includes(key)) {
+                filtered[key] = props[key];
+            }
+        });
+        return filtered;
+    };
+
+    return {
+        __esModule: true,
+        motion: new Proxy({}, {
+            get: (_target, tag) => (props: any) => {
+                const Tag = tag as any;
+                return <Tag {...filterProps(props)} />;
+            }
+        }),
+        AnimatePresence: ({ children }: any) => <>{children}</>
+    };
+});
 
 // Mock lucide-react icons
 vi.mock('lucide-react', () => {
