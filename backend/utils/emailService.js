@@ -11,6 +11,9 @@ const SMTP_USER = process.env.SMTP_USER || '';
 const SMTP_PASS = process.env.SMTP_PASS || '';
 const SMTP_FROM_EMAIL = process.env.SMTP_FROM_EMAIL || process.env.EMAIL_FROM || SMTP_USER;
 const SMTP_FROM_NAME = process.env.SMTP_FROM_NAME || 'Time2Travel';
+const SMTP_FAMILY = parseInt(process.env.SMTP_FAMILY || '4', 10) === 6 ? 6 : 4;
+const SMTP_CONNECTION_TIMEOUT_MS = parseInt(process.env.SMTP_CONNECTION_TIMEOUT_MS || '10000', 10);
+const SMTP_SOCKET_TIMEOUT_MS = parseInt(process.env.SMTP_SOCKET_TIMEOUT_MS || '10000', 10);
 
 if (process.env.NODE_ENV === 'production' && (!SMTP_USER || !SMTP_PASS)) {
   throw new Error('[emailService] Missing SMTP_USER or SMTP_PASS in production environment.');
@@ -18,6 +21,10 @@ if (process.env.NODE_ENV === 'production' && (!SMTP_USER || !SMTP_PASS)) {
 
 if (!SMTP_USER || !SMTP_PASS) {
   console.warn('[emailService] SMTP_USER/SMTP_PASS not fully configured. Email sending will fail until configured.');
+}
+
+if (process.env.NODE_ENV !== 'test' && SMTP_PORT === 587 && process.env.SMTP_FAMILY !== '4') {
+  console.warn('[emailService] SMTP_PORT=587 detected without explicit SMTP_FAMILY=4. Set SMTP_FAMILY=4 to avoid IPv6 ENETUNREACH on IPv6-limited hosts.');
 }
 
 /**
@@ -32,8 +39,9 @@ const transporter = nodemailer.createTransport({
   port: SMTP_PORT,
   secure: SMTP_PORT === 465,
   lookup: ipv4OnlyLookup,
-  connectionTimeout: 10000,
-  socketTimeout: 10000,
+  family: SMTP_FAMILY,
+  connectionTimeout: SMTP_CONNECTION_TIMEOUT_MS,
+  socketTimeout: SMTP_SOCKET_TIMEOUT_MS,
   auth: {
     user: SMTP_USER,
     pass: SMTP_PASS,
@@ -47,9 +55,10 @@ const FROM_NAME = SMTP_FROM_NAME;
  * Verify SMTP connection on startup (non-blocking, skip in tests).
  */
 if (process.env.NODE_ENV !== 'test') {
+  console.log(`[emailService] SMTP config loaded (host=${SMTP_HOST}, port=${SMTP_PORT}, secure=${SMTP_PORT === 465}, family=${SMTP_FAMILY})`);
     const verifyWithTimeout = new Promise((resolve) => {
         const timeout = setTimeout(() => {
-            console.warn('[emailService] SMTP verification timed out (>5s). Using async fallback.');
+      console.warn('[emailService] SMTP verification timed out (>5s). Continuing startup without blocking email sends.');
             resolve(false);
         }, 5000);
         
@@ -62,7 +71,7 @@ if (process.env.NODE_ENV !== 'test') {
             .catch((err) => {
                 clearTimeout(timeout);
                 console.warn(`[emailService] SMTP preliminary check failed: ${err.message}`);
-                console.log('[emailService] Will attempt to send emails with built-in timeouts.');
+              console.log('[emailService] Verification is best-effort only; send attempts will still run with SMTP timeouts.');
                 resolve(false);
             });
     });
@@ -70,6 +79,18 @@ if (process.env.NODE_ENV !== 'test') {
     verifyWithTimeout.catch(() => {
         console.warn('[emailService] Unexpected error during SMTP startup verification.');
     });
+}
+
+function getSmtpErrorMeta(err) {
+  return {
+    code: err?.code || 'UNKNOWN',
+    errno: err?.errno || null,
+    command: err?.command || null,
+    address: err?.address || null,
+    port: err?.port || SMTP_PORT,
+    host: SMTP_HOST,
+    family: SMTP_FAMILY,
+  };
 }
 
 // ======================== EMAIL TEMPLATES ========================
@@ -502,7 +523,9 @@ async function sendPasswordResetOTP(toEmail, name, otp) {
     console.log(`[emailService] 📧 Password reset OTP sent to ${toEmail}`);
     return true;
   } catch (err) {
-    console.error(`❌ Failed to send reset OTP to ${toEmail}:`, err.message);
+    const meta = getSmtpErrorMeta(err);
+    console.error(`❌ Failed to send reset OTP to ${toEmail}: ${err.message}`);
+    console.error(`[emailService] SMTP send failure metadata: code=${meta.code}, errno=${meta.errno}, command=${meta.command}, address=${meta.address}, port=${meta.port}, host=${meta.host}, family=${meta.family}`);
     throw err;
   }
 }

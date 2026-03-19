@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const authRoutes = require('../routes/auth');
 const authController = require('../controllers/authController');
 const { query } = require('../config/db');
+const emailService = require('../utils/emailService');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -125,6 +126,30 @@ describe('Auth Controller', () => {
                 query.mockResolvedValueOnce({ rows: [] });
                 const res = await request(app).post('/api/auth/forgot-password').send({ email: 'none@ex.com' });
                 expect(res.statusCode).toEqual(200);
+            });
+
+            it('should return success even when OTP email send fails for an existing user', async () => {
+                query.mockResolvedValueOnce({ rows: [{ user_id: 1, name: 'John', email: 'john@example.com' }] })
+                    .mockResolvedValueOnce({ rows: [] });
+
+                const emailError = new Error('connect ENETUNREACH 2404:6800:4003:c00::6c:587 - Local (:::0)');
+                emailError.code = 'ENETUNREACH';
+                emailError.address = '2404:6800:4003:c00::6c';
+                emailError.port = 587;
+                emailService.sendPasswordResetOTP.mockRejectedValueOnce(emailError);
+
+                const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+                const res = await request(app)
+                    .post('/api/auth/forgot-password')
+                    .send({ email: 'john@example.com' });
+
+                expect(res.statusCode).toEqual(200);
+                expect(res.body.success).toBe(true);
+                expect(emailService.sendPasswordResetOTP).toHaveBeenCalledWith('john@example.com', 'John', expect.any(String));
+                expect(consoleErrorSpy).toHaveBeenCalledWith(expect.stringContaining('[authController] Failed to send reset OTP email:'));
+
+                consoleErrorSpy.mockRestore();
             });
         });
 

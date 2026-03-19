@@ -404,7 +404,10 @@ exports.forgotPassword = async (req, res, next) => {
             const { sendPasswordResetOTP } = require('../utils/emailService');
             await sendPasswordResetOTP(user.email, user.name, otp);
         } catch (emailErr) {
-            console.error('[authController] Failed to send reset OTP email:', emailErr.message);
+            const emailErrorCode = emailErr?.code || 'UNKNOWN';
+            const emailErrorAddress = emailErr?.address || 'N/A';
+            const emailErrorPort = emailErr?.port || process.env.SMTP_PORT || 'N/A';
+            console.error(`[authController] Failed to send reset OTP email: ${emailErr.message} (code=${emailErrorCode}, address=${emailErrorAddress}, port=${emailErrorPort})`);
             // Optionally, we could return an error here so the user knows the email failed to send
             // return res.status(500).json({ success: false, message: 'Failed to send email. Please try again later.' });
         }
