@@ -201,6 +201,7 @@ FRONTEND_URL=http://localhost:3000
 APP_BASE_URL=http://localhost:3000
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
+SMTP_FAMILY=4
 SMTP_USER=your-email@gmail.com
 SMTP_PASS=your-google-app-password
 SMTP_FROM_EMAIL=your-email@gmail.com

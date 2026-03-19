@@ -10,6 +10,7 @@ const SMTP_USER = process.env.SMTP_USER || '';
 const SMTP_PASS = process.env.SMTP_PASS || '';
 const SMTP_FROM_EMAIL = process.env.SMTP_FROM_EMAIL || process.env.EMAIL_FROM || SMTP_USER;
 const SMTP_FROM_NAME = process.env.SMTP_FROM_NAME || 'Time2Travel';
+const SMTP_FAMILY = parseInt(process.env.SMTP_FAMILY || (process.env.NODE_ENV === 'production' ? '4' : '0'), 10);
 
 if (process.env.NODE_ENV === 'production' && (!SMTP_USER || !SMTP_PASS)) {
   throw new Error('[emailService] Missing SMTP_USER or SMTP_PASS in production environment.');
@@ -23,6 +24,7 @@ const transporter = nodemailer.createTransport({
   host: SMTP_HOST,
   port: SMTP_PORT,
   secure: SMTP_PORT === 465,
+  family: SMTP_FAMILY,
   auth: {
     user: SMTP_USER,
     pass: SMTP_PASS,
