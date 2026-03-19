@@ -94,13 +94,16 @@ app.use(errorHandler);
 // ===== START SERVER =====
 if (process.env.NODE_ENV !== 'test') {
     app.listen(PORT, () => {
+        const innerWidth = 46;
+        const formatLine = (content = '') => `║${String(content).padEnd(innerWidth, ' ')}║`;
+
         console.log('');
         console.log('╔══════════════════════════════════════════════╗');
-        console.log('║       🌍  Time2Travel Backend API            ║');
+        console.log(formatLine('       🌍  Time2Travel Backend API'));
         console.log('╠══════════════════════════════════════════════╣');
-        console.log(`║  Server  : http://localhost:${PORT}               ║`);
-        console.log(`║  Health  : http://localhost:${PORT}/api/health    ║`);
-        console.log('║  Mode    : ' + (process.env.NODE_ENV || 'development') + '                         ║');
+        console.log(formatLine(`  Server  : http://localhost:${PORT}`));
+        console.log(formatLine(`  Health  : http://localhost:${PORT}/api/health`));
+        console.log(formatLine(`  Mode    : ${process.env.NODE_ENV || 'development'}`));
         console.log('╚══════════════════════════════════════════════╝');
         console.log('');
     });
