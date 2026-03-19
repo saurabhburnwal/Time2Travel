@@ -31,15 +31,29 @@ describe('destinationsService', () => {
     });
 
     describe('fetchDestinations', () => {
-        it('should return sorted destinations on success', async () => {
+        it('should return destinations on success', async () => {
+            const mockDestinations = [
+                { name: 'Baga', best_season: 'Nov-Feb' },
+                { name: 'Anjuna', best_season: 'Nov-Mar' }
+            ];
             (apiGet as any).mockResolvedValueOnce({
                 success: true,
-                data: { destinations: [{ name: 'Baga' }, { name: 'Anjuna' }] }
+                data: { destinations: mockDestinations }
             });
 
             const destinations = await fetchDestinations('Goa');
-            expect(destinations).toEqual(['Anjuna', 'Baga']);
+            expect(destinations).toEqual(mockDestinations);
             expect(apiGet).toHaveBeenCalledWith('/api/lookup/destinations?state=Goa');
+        });
+
+        it('should pass travelType parameter', async () => {
+            (apiGet as any).mockResolvedValueOnce({
+                success: true,
+                data: { destinations: [] }
+            });
+
+            await fetchDestinations('Goa', 'Beach');
+            expect(apiGet).toHaveBeenCalledWith('/api/lookup/destinations?state=Goa&travelType=Beach');
         });
     });
 });

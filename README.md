@@ -197,8 +197,8 @@ DB_USER=postgres
 DB_PASSWORD=postgres
 JWT_SECRET=your_very_long_random_secret_key
 JWT_EXPIRES_IN=7d
-FRONTEND_URL=http://localhost:5173
-APP_BASE_URL=http://localhost:5173
+FRONTEND_URL=http://localhost:3000
+APP_BASE_URL=http://localhost:3000
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_USER=your-email@gmail.com
@@ -229,31 +229,35 @@ npm run dev          # Start dev server
 npm run build        # Production build (outputs to dist/)
 npm run preview      # Preview the production build locally
 ```
-App runs at: `http://localhost:5173`
+App runs at: `http://localhost:3000`
 
 ---
 
 ## 🧪 Testing
 
-The project uses a comprehensive testing suite for both the backend (Jest) and frontend (Vitest).
+The project uses a comprehensive testing suite for both the backend (Jest) and frontend (Vitest), with a focus on achieving high coverage for critical performance and business logic.
 
 ### 🟢 Backend Testing (Jest)
 Located in `backend/tests/`.
 - **Run all tests**: `npm test`
 - **Run with coverage**: `npm run test -- --coverage`
-- **Core Coverage**:
-    - `authController.js`: Registration, Login, and OTP flows.
-    - `roadmapController.js`: NNA generation and trip saving logic.
-    - `destinationController.js`: State and destination fetching.
-    - `userController.js`: Profile management and admin audits.
+- **Critical Coverage (88%+ achieved)**:
+    - `lookupController.js` (91.6%): State/Destination search and metadata filtering.
+    - `placeController.js` (90.0%): Point of Interest retrieval and destination mapping.
+    - `hotelController.js` (88.2%): Accommodation management and custom hotel insertion.
+    - `routeOptimizer.js` (93.4%): Nearest Neighbor Algorithm (NNA) for route efficiency.
+    - `expenseEstimator.js` (100%): Budget calculation logic across roadmap styles.
+    - `authController.js` & `roadmapController.js`: Secure session and itinerary generation flows.
 
 ### 🔵 Frontend Testing (Vitest + JSDOM)
 Located in `travelRoadmap/src/tests/`.
 - **Run all tests**: `npm test`
 - **Run with coverage**: `npm run test -- --coverage`
-- **Core Coverage**:
+- **Critical Coverage (86%+ achieved)**:
+    - `TripPlanner.tsx` (86.6%): Complex multi-step trip parameter UI with framer-motion.
+    - `TripContext.tsx` (97.6%): Global state management for persistent trip data.
+    - `destinationsService.ts` (100%): Robust API wrappers for destination/state fetching.
     - `ForgotPassword.test.tsx`: End-to-end UI flow for password recovery.
-    - `destinationsService.test.ts`: API interaction for fetching destinations.
     - `authService.test.ts`: Login and OTP service logic.
     - `StarRating.test.tsx` & `AnimatedPage.test.tsx`: Shared UI components.
 

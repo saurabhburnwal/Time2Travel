@@ -1,26 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapPin, Compass, Users, DollarSign, Calendar, ChevronRight, Sparkles, Trees, Mountain, Waves, Landmark, Moon, Globe, ArrowRight } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { MapPin, Compass, Users, DollarSign, Calendar, Sparkles, Trees, Mountain, Waves, Landmark, Moon, Globe, ArrowRight, Sun, AlertTriangle, CheckCircle2, Filter } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import AnimatedPage from '../components/AnimatedPage';
 import { useTrip } from '../contexts/TripContext';
+import { DBDestination } from '../services/types';
 
 import { fetchStates, fetchDestinations, fetchTravelTypes, fetchGroupTypes } from '../services/destinationsService';
 import { DBTravelType, DBGroupType } from '../services/types';
 import toast from 'react-hot-toast';
 
 const TRAVEL_TYPE_ICONS: Record<string, React.ReactNode> = {
-    'Nature': <Trees size={20} />,
+    'Nature':    <Trees size={20} />,
     'Adventure': <Mountain size={20} />,
-    'Beach': <Waves size={20} />,
-    'Heritage': <Landmark size={20} />,
+    'Beach':     <Waves size={20} />,
+    'Heritage':  <Landmark size={20} />,
     'Nightlife': <Moon size={20} />,
 };
 
+const TRAVEL_TYPE_COLORS: Record<string, string> = {
+    'Nature':    'bg-emerald-100 text-emerald-700 border-emerald-200',
+    'Adventure': 'bg-orange-100 text-orange-700 border-orange-200',
+    'Beach':     'bg-cyan-100 text-cyan-700 border-cyan-200',
+    'Heritage':  'bg-amber-100 text-amber-700 border-amber-200',
+    'Nightlife': 'bg-purple-100 text-purple-700 border-purple-200',
+};
+
 const GROUP_TYPE_ICONS: Record<string, React.ReactNode> = {
-    'Solo': <Compass size={18} />,
-    'Duo': <Users size={18} />,
-    'Family': <Users size={18} />,
+    'Solo':    <Compass size={18} />,
+    'Duo':     <Users size={18} />,
+    'Family':  <Users size={18} />,
     'Friends': <Users size={18} />,
 };
 
@@ -31,15 +40,45 @@ const DESTINATION_IMAGES = [
     '/images/dest_pondicherry.jpg',
 ];
 
+// ── Season helpers ─────────────────────────────────────────────────────────────
+const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MONTH_SHORT_TO_IDX: Record<string, number> = {
+    jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11
+};
+
+/** Returns true if the current month falls inside the best_season range (e.g. "Nov-Feb") */
+function isInSeason(bestSeason: string | undefined): boolean {
+    if (!bestSeason) return false;
+    const parts = bestSeason.toLowerCase().split('-');
+    if (parts.length !== 2) return false;
+    const start = MONTH_SHORT_TO_IDX[parts[0]?.trim()];
+    const end   = MONTH_SHORT_TO_IDX[parts[1]?.trim()];
+    if (start === undefined || end === undefined) return false;
+    const now = new Date().getMonth(); // 0-based
+    if (start <= end) return now >= start && now <= end;
+    // wraps around year boundary e.g. Nov-Feb
+    return now >= start || now <= end;
+}
+
+/** Format "Nov-Feb" → "Nov – Feb" */
+function formatSeason(s: string): string {
+    return s.replace('-', ' – ');
+}
+
+// ── Component ──────────────────────────────────────────────────────────────────
 export default function TripPlanner() {
     const { trip, updateTrip } = useTrip();
     const navigate = useNavigate();
 
     const [states, setStates] = useState<string[]>([]);
-    const [destinations, setDestinations] = useState<string[]>([]);
+    const [destinations, setDestinations] = useState<DBDestination[]>([]);
     const [travelTypes, setTravelTypes] = useState<DBTravelType[]>([]);
     const [groupTypes, setGroupTypes] = useState<DBGroupType[]>([]);
     const [loading, setLoading] = useState(true);
+    const [destLoading, setDestLoading] = useState(false);
+
+    // Store the full DBDestination of whatever is selected
+    const [selectedDest, setSelectedDest] = useState<DBDestination | null>(null);
 
     useEffect(() => {
         (async () => {
@@ -52,13 +91,44 @@ export default function TripPlanner() {
         })();
     }, []);
 
+    // Refetch destinations whenever state or travelType changes
     useEffect(() => {
-        if (!trip.state) { setDestinations([]); return; }
+        if (!trip.state) { setDestinations([]); setSelectedDest(null); return; }
         (async () => {
-            const d = await fetchDestinations(trip.state);
+            setDestLoading(true);
+            const d = await fetchDestinations(trip.state, trip.travelType || undefined);
             setDestinations(d);
+            // If current destination is still in the list keep it, else clear
+            if (trip.destination) {
+                const found = d.find(x => x.name === trip.destination);
+                setSelectedDest(found || null);
+                if (!found) updateTrip({ destination: '' });
+            }
+            setDestLoading(false);
         })();
-    }, [trip.state]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [trip.state, trip.travelType]);
+
+    // Sort: in-season first, then by place_type_count desc, then alphabetically
+    const sortedDestinations = useMemo(() => {
+        return [...destinations].sort((a, b) => {
+            const aIn = isInSeason(a.best_season) ? 1 : 0;
+            const bIn = isInSeason(b.best_season) ? 1 : 0;
+            if (aIn !== bIn) return bIn - aIn;
+            const aC = a.place_type_count ?? 0;
+            const bC = b.place_type_count ?? 0;
+            if (aC !== bC) return bC - aC;
+            return a.name.localeCompare(b.name);
+        });
+    }, [destinations]);
+
+    // Max place_type_count for affinity bar percentage
+    const maxTypeCount = useMemo(
+        () => Math.max(1, ...destinations.map(d => d.place_type_count ?? 0)),
+        [destinations]
+    );
+
+    const inSeasonCount = useMemo(() => destinations.filter(d => isInSeason(d.best_season)).length, [destinations]);
 
     const canContinue = trip.state && trip.destination;
 
@@ -69,7 +139,6 @@ export default function TripPlanner() {
 
     const travelColors = ['from-green-400 to-emerald-500', 'from-orange-400 to-red-500', 'from-cyan-400 to-blue-500', 'from-amber-400 to-yellow-600', 'from-brand-400 to-ocean-300'];
 
-    // Step indicator component
     const StepHeader = ({ step, title, subtitle, icon }: { step: number; title: string; subtitle: string; icon: React.ReactNode }) => (
         <div className="flex items-center gap-4 mb-5">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-ocean-400 flex items-center justify-center text-white font-bold text-sm shadow-md flex-shrink-0">
@@ -84,7 +153,6 @@ export default function TripPlanner() {
 
     return (
         <AnimatedPage className="page-bg pt-20 pb-16 min-h-screen">
-            {/* Decorative background blobs */}
             <div className="page-decorations">
                 <div className="deco-blob deco-blob-1 animate-pulse-soft" />
                 <div className="deco-blob deco-blob-2 animate-pulse-soft" style={{ animationDelay: '2s' }} />
@@ -127,8 +195,9 @@ export default function TripPlanner() {
                 </div>
 
                 <div className="grid lg:grid-cols-3 gap-8">
-                    {/* Left Column: Main Form */}
+                    {/* ── Left Column: Main Form ── */}
                     <div className="lg:col-span-2 space-y-6">
+
                         {/* Step 1: Travel Type */}
                         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="feature-card">
                             <StepHeader step={1} title="Choose Your Interests" subtitle="What kind of experience are you looking for?" icon={<Compass size={18} className="text-brand-500" />} />
@@ -136,7 +205,7 @@ export default function TripPlanner() {
                                 {travelTypes.map((type, i) => (
                                     <button
                                         key={type.id}
-                                        onClick={() => updateTrip({ travelType: type.name })}
+                                        onClick={() => updateTrip({ travelType: trip.travelType === type.name ? '' : type.name })}
                                         className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium transition-all duration-300 text-sm ${trip.travelType === type.name
                                             ? `bg-gradient-to-r ${travelColors[i % travelColors.length]} text-white shadow-lg scale-105`
                                             : 'bg-gray-50 border-2 border-gray-200 text-gray-600 hover:border-brand-300 hover:bg-brand-50/50'}`}
@@ -146,36 +215,133 @@ export default function TripPlanner() {
                                     </button>
                                 ))}
                             </div>
+                            {trip.travelType && (
+                                <p className="mt-3 text-xs text-brand-600 flex items-center gap-1.5">
+                                    <Filter size={12} /> Destinations are sorted by <strong>{trip.travelType}</strong> place count
+                                </p>
+                            )}
                         </motion.div>
 
                         {/* Step 2: State & Destination */}
                         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="feature-card">
-                            <StepHeader step={2} title="Select Destination" subtitle="Pick your state and city to explore" icon={<MapPin size={18} className="text-brand-500" />} />
-                            <div className="grid md:grid-cols-2 gap-6">
-                                <div>
-                                    <label className="floating-label flex items-center gap-2"><MapPin size={14} /> State</label>
-                                    <select
-                                        value={trip.state}
-                                        onChange={e => { updateTrip({ state: e.target.value, destination: '' }); }}
-                                        className="select-field mt-2"
-                                    >
-                                        <option value="">Select State</option>
-                                        {states.map(s => <option key={s} value={s}>{s}</option>)}
-                                    </select>
-                                </div>
-                                <div>
-                                    <label className="floating-label flex items-center gap-2"><MapPin size={14} /> Destination</label>
-                                    <select
-                                        value={trip.destination}
-                                        onChange={e => updateTrip({ destination: e.target.value })}
-                                        className="select-field mt-2"
-                                        disabled={!trip.state}
-                                    >
-                                        <option value="">Select Destination</option>
-                                        {destinations.map(d => <option key={d} value={d}>{d}</option>)}
-                                    </select>
-                                </div>
+                            <StepHeader step={2} title="Select Destination" subtitle="Pick your state, then choose a city to explore" icon={<MapPin size={18} className="text-brand-500" />} />
+
+                            {/* State selector */}
+                            <div className="mb-5">
+                                <label className="floating-label flex items-center gap-2"><MapPin size={14} /> State</label>
+                                <select
+                                    value={trip.state}
+                                    onChange={e => { updateTrip({ state: e.target.value, destination: '' }); setSelectedDest(null); }}
+                                    className="select-field mt-2"
+                                >
+                                    <option value="">Select State</option>
+                                    {states.map(s => <option key={s} value={s}>{s}</option>)}
+                                </select>
                             </div>
+
+                            {/* Destination card grid */}
+                            {trip.state && (
+                                <div>
+                                    <div className="flex items-center justify-between mb-3">
+                                        <label className="floating-label flex items-center gap-2"><MapPin size={14} /> Destination</label>
+                                        {inSeasonCount > 0 && (
+                                            <span className="text-xs text-emerald-600 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full flex items-center gap-1.5">
+                                                <CheckCircle2 size={11} /> {inSeasonCount} in season now
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    {destLoading ? (
+                                        <div className="flex items-center justify-center py-8 text-gray-400 gap-2">
+                                            <div className="w-4 h-4 border-2 border-brand-400 border-t-transparent rounded-full animate-spin" />
+                                            Loading destinations...
+                                        </div>
+                                    ) : (
+                                        <div className="grid sm:grid-cols-2 gap-2.5 max-h-[420px] overflow-y-auto pr-1 scrollbar-thin">
+                                            <AnimatePresence>
+                                                {sortedDestinations.map((dest, i) => {
+                                                    const inSeason = isInSeason(dest.best_season);
+                                                    const isSelected = trip.destination === dest.name;
+                                                    const affinity = dest.place_type_count ?? 0;
+                                                    const affinityPct = Math.round((affinity / maxTypeCount) * 100);
+
+                                                    return (
+                                                        <motion.button
+                                                            key={dest.name}
+                                                            initial={{ opacity: 0, y: 10 }}
+                                                            animate={{ opacity: 1, y: 0 }}
+                                                            transition={{ delay: i * 0.03 }}
+                                                            onClick={() => {
+                                                                updateTrip({ destination: dest.name });
+                                                                setSelectedDest(dest);
+                                                            }}
+                                                            className={`text-left p-3.5 rounded-xl border-2 transition-all duration-200 w-full
+                                                                ${isSelected
+                                                                    ? 'border-brand-500 bg-brand-50 shadow-md shadow-brand-100'
+                                                                    : 'border-gray-200 bg-white hover:border-brand-300 hover:bg-gray-50'
+                                                                }`}
+                                                        >
+                                                            <div className="flex items-start justify-between gap-2 mb-1.5">
+                                                                <span className={`font-semibold text-sm ${isSelected ? 'text-brand-700' : 'text-gray-800'}`}>
+                                                                    {dest.name}
+                                                                </span>
+                                                                {inSeason ? (
+                                                                    <span className="text-[10px] font-bold bg-emerald-100 text-emerald-700 border border-emerald-200 px-1.5 py-0.5 rounded-full whitespace-nowrap flex items-center gap-1 flex-shrink-0">
+                                                                        <CheckCircle2 size={9} /> In Season
+                                                                    </span>
+                                                                ) : (
+                                                                    <span className="text-[10px] font-medium bg-gray-100 text-gray-500 border border-gray-200 px-1.5 py-0.5 rounded-full whitespace-nowrap flex-shrink-0">
+                                                                        Off Season
+                                                                    </span>
+                                                                )}
+                                                            </div>
+
+                                                            {/* Best season */}
+                                                            {dest.best_season && (
+                                                                <div className="flex items-center gap-1 text-[11px] text-gray-500 mb-1.5">
+                                                                    <Sun size={10} className="text-amber-400" />
+                                                                    Best: {formatSeason(dest.best_season)}
+                                                                </div>
+                                                            )}
+
+                                                            {/* Description snippet */}
+                                                            {dest.description && (
+                                                                <p className={`text-[11px] leading-relaxed mb-2 line-clamp-2 ${isSelected ? 'text-brand-600' : 'text-gray-400'}`}>
+                                                                    {dest.description}
+                                                                </p>
+                                                            )}
+
+                                                            {/* Travel type affinity bar (only when travelType selected) */}
+                                                            {trip.travelType && affinity > 0 && (
+                                                                <div className="mt-1">
+                                                                    <div className="flex justify-between items-center mb-1">
+                                                                        <span className={`text-[10px] font-medium ${TRAVEL_TYPE_COLORS[trip.travelType] || 'bg-gray-100 text-gray-600 border-gray-200'} px-1.5 py-0.5 rounded border`}>
+                                                                            {affinity} {trip.travelType} places
+                                                                        </span>
+                                                                    </div>
+                                                                    <div className="w-full h-1 bg-gray-100 rounded-full overflow-hidden">
+                                                                        <motion.div
+                                                                            initial={{ width: 0 }}
+                                                                            animate={{ width: `${affinityPct}%` }}
+                                                                            transition={{ duration: 0.6, delay: i * 0.02 }}
+                                                                            className="h-full rounded-full bg-gradient-to-r from-brand-400 to-ocean-400"
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                            {trip.travelType && affinity === 0 && (
+                                                                <span className="text-[10px] text-gray-400 mt-1 block">
+                                                                    No {trip.travelType} places
+                                                                </span>
+                                                            )}
+                                                        </motion.button>
+                                                    );
+                                                })}
+                                            </AnimatePresence>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                         </motion.div>
 
                         {/* Step 3: Budget & Days */}
@@ -187,8 +353,8 @@ export default function TripPlanner() {
                                         <label className="floating-label flex items-center gap-2"><DollarSign size={14} /> Set Your Budget</label>
                                         <div className="relative group">
                                             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-500 font-bold text-sm">₹</span>
-                                            <input 
-                                                type="number" 
+                                            <input
+                                                type="number"
                                                 value={trip.budget === 0 ? '' : trip.budget}
                                                 onChange={e => {
                                                     const val = e.target.value === '' ? 0 : Number(e.target.value);
@@ -257,7 +423,7 @@ export default function TripPlanner() {
                         </motion.div>
                     </div>
 
-                    {/* Right Column: Summary + Tips */}
+                    {/* ── Right Column: Summary + Tips ── */}
                     <div className="space-y-6">
                         {/* Live Trip Summary */}
                         <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 }} className="travel-strip text-white">
@@ -274,6 +440,31 @@ export default function TripPlanner() {
                                         <span className="text-gray-300">Destination</span>
                                         <span className="font-semibold text-ocean-200">{trip.destination || '—'}</span>
                                     </div>
+
+                                    {/* Best Season info — shown once destination is selected */}
+                                    {selectedDest?.best_season && (
+                                        <>
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-gray-300 flex items-center gap-1.5">
+                                                    <Sun size={12} className="text-amber-400" /> Best Season
+                                                </span>
+                                                <span className="font-semibold text-ocean-200">{formatSeason(selectedDest.best_season)}</span>
+                                            </div>
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-gray-300">Season Status</span>
+                                                {isInSeason(selectedDest.best_season) ? (
+                                                    <span className="flex items-center gap-1 text-emerald-400 font-semibold text-xs">
+                                                        <CheckCircle2 size={12} /> In Season ✓
+                                                    </span>
+                                                ) : (
+                                                    <span className="flex items-center gap-1 text-amber-400 font-semibold text-xs">
+                                                        <AlertTriangle size={12} /> Off Season
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </>
+                                    )}
+
                                     <div className="flex items-center justify-between">
                                         <span className="text-gray-300">Travel Type</span>
                                         <span className="font-semibold text-ocean-200">{trip.travelType || '—'}</span>
@@ -291,6 +482,27 @@ export default function TripPlanner() {
                                         <span className="font-semibold text-ocean-200">{trip.groupType || '—'}</span>
                                     </div>
                                 </div>
+
+                                {/* Off-season advisory */}
+                                {selectedDest?.best_season && !isInSeason(selectedDest.best_season) && (
+                                    <div className="mt-4 p-3 bg-amber-500/20 border border-amber-400/30 rounded-xl text-xs text-amber-200 flex items-start gap-2">
+                                        <AlertTriangle size={14} className="flex-shrink-0 mt-0.5" />
+                                        <span>
+                                            You're outside the ideal season for {trip.destination}. Best time is <strong>{formatSeason(selectedDest.best_season)}</strong>. Expect different weather & conditions.
+                                        </span>
+                                    </div>
+                                )}
+
+                                {/* Destination description */}
+                                {selectedDest?.description && (
+                                    <div className="mt-4 p-3 bg-white/10 border border-white/20 rounded-xl">
+                                        <p className="text-[10px] text-white/50 font-semibold mb-1.5 uppercase tracking-wide flex items-center gap-1">
+                                            <MapPin size={9} /> About {trip.destination}
+                                        </p>
+                                        <p className="text-xs text-white/80 leading-relaxed line-clamp-4">{selectedDest.description}</p>
+                                    </div>
+                                )}
+
                                 <motion.button
                                     onClick={handleContinue}
                                     disabled={!canContinue}
@@ -309,9 +521,10 @@ export default function TripPlanner() {
                         <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.6 }} className="tip-card">
                             <h4 className="font-bold text-brand-700 mb-3 text-sm uppercase tracking-wide">Travel Tips</h4>
                             <ul className="space-y-2 text-sm text-gray-600">
+                                <li className="flex items-start gap-2"><span className="text-brand-400 mt-0.5">-</span>🟢 In Season destinations have better weather & lower crowds</li>
+                                <li className="flex items-start gap-2"><span className="text-brand-400 mt-0.5">-</span>Select a travel type to see how many matching spots each city has</li>
                                 <li className="flex items-start gap-2"><span className="text-brand-400 mt-0.5">-</span>Budget stays offer great value in South India</li>
                                 <li className="flex items-start gap-2"><span className="text-brand-400 mt-0.5">-</span>3-4 days is ideal for most destinations</li>
-                                <li className="flex items-start gap-2"><span className="text-brand-400 mt-0.5">-</span>Local hosts provide free stays with food</li>
                             </ul>
                         </motion.div>
 

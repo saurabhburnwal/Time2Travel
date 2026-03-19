@@ -37,6 +37,14 @@ export interface DBGroupType {
     name: string;
 }
 
+export interface DBDestination {
+    destination_id: number;
+    name: string;
+    description?: string;
+    best_season?: string;      // e.g. "Nov-Feb"
+    place_type_count?: number; // places matching selected travel type
+}
+
 export interface DBUser {
     id?: number;
     user_id?: number;

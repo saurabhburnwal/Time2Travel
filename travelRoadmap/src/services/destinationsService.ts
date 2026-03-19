@@ -1,5 +1,5 @@
 import { apiGet } from './apiClient';
-import { DBTravelType, DBGroupType, DBDestinationStats } from './types';
+import { DBTravelType, DBGroupType, DBDestinationStats, DBDestination } from './types';
 
 export async function fetchStates(): Promise<string[]> {
     try {
@@ -11,19 +11,21 @@ export async function fetchStates(): Promise<string[]> {
     return [];
 }
 
-export async function fetchDestinations(state: string): Promise<string[]> {
+export async function fetchDestinations(state: string, travelType?: string): Promise<DBDestination[]> {
     try {
-        const { success, data } = await apiGet<{ destinations: Array<{ name: string } | string> }>(
-            `/api/lookup/destinations?state=${encodeURIComponent(state)}`,
-        );
+        let url = `/api/lookup/destinations?state=${encodeURIComponent(state)}`;
+        if (travelType) url += `&travelType=${encodeURIComponent(travelType)}`;
+
+        const { success, data } = await apiGet<{ destinations: DBDestination[] }>(url);
         if (success && data.destinations && data.destinations.length > 0) {
-            return data.destinations.map(d => (typeof d === 'string' ? d : d.name)).sort();
+            return data.destinations;
         }
     } catch (err) {
         console.warn('fetchDestinations error:', err);
     }
     return [];
 }
+
 
 export async function fetchTravelTypes(): Promise<DBTravelType[]> {
     try {

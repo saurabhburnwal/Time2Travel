@@ -1,13 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ChevronDown, Clock, MapPin, DollarSign, Map, ArrowLeft, Loader2, Calendar, Shield, Sparkles, Navigation, Layers } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
-import { Icon } from 'leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
+import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import AnimatedPage from '../components/AnimatedPage';
 import { fetchRoadmapById } from '../services/roadmapsService';
 import toast from 'react-hot-toast';
+
+// Red icon for the stay/base
+const stayIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+    iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34],
+});
+
+// Numbered circular icon for each place
+const createNumberedIcon = (num: number) =>
+    L.divIcon({
+        className: 'custom-marker',
+        html: `
+            <div class="flex items-center justify-center w-8 h-8 rounded-full bg-white border-2 border-brand-500 shadow-xl transform transition-transform hover:scale-110">
+                <span class="text-brand-600 font-bold text-xs">${num}</span>
+            </div>
+        `,
+        iconSize: [32, 32],
+        iconAnchor: [16, 16],
+    });
+
+// Auto-fit bounds component
+function ChangeView({ bounds }: { bounds: L.LatLngBounds | null }) {
+    const map = useMap();
+    useEffect(() => {
+        if (bounds) map.fitBounds(bounds, { padding: [50, 50], maxZoom: 15 });
+    }, [bounds, map]);
+    return null;
+}
 
 export default function SavedRoadmap() {
     const { id } = useParams<{ id: string }>();
@@ -15,19 +44,7 @@ export default function SavedRoadmap() {
     const [roadmap, setRoadmap] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [expandedDay, setExpandedDay] = useState<number | null>(0);
-    const [selectedMapDay, setSelectedMapDay] = useState(0); // 0 = all
-
-    // Leaflet Icons
-    const stayIcon = new Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
-        iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34],
-    });
-    const placeIcon = new Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
-        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
-        iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34],
-    });
+    
 
     useEffect(() => {
         if (!id) return;
@@ -119,77 +136,7 @@ export default function SavedRoadmap() {
                 </div>
 
                 {/* Interactive Map Visualizer */}
-                <div className="glass-card p-6 mb-8">
-                    <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-xl font-bold flex items-center gap-2">
-                            <Map className="text-brand-500" size={20} /> Route Visualization
-                        </h2>
-                        <div className="flex gap-2">
-                            <button 
-                                onClick={() => setSelectedMapDay(0)}
-                                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${selectedMapDay === 0 ? 'bg-brand-500 text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
-                            >
-                                All Days
-                            </button>
-                            {roadmap.itinerary?.map((d: any, i: number) => (
-                                <button 
-                                    key={i}
-                                    onClick={() => setSelectedMapDay(i + 1)}
-                                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${selectedMapDay === i + 1 ? 'bg-brand-500 text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
-                                >
-                                    Day {i + 1}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div className="h-[400px] rounded-2xl overflow-hidden border border-gray-100 shadow-inner relative z-10">
-                        {(() => {
-                            const allPlaces = roadmap.itinerary?.flatMap((d: any) => d.places || []) || [];
-                            const mapPlaces = selectedMapDay === 0 
-                                ? allPlaces 
-                                : (roadmap.itinerary?.find((d: any) => d.day === selectedMapDay)?.places || []);
-                            
-                            const validPoints = mapPlaces.filter((p: any) => parseFloat(p.latitude) && parseFloat(p.longitude));
-                            
-                            // Calculate center or use destination default
-                            const center: [number, number] = validPoints.length > 0 
-                                ? [parseFloat(validPoints[0].latitude), parseFloat(validPoints[0].longitude)]
-                                : [20.5937, 78.9629]; // India center fallback
-
-                            const routePoints: [number, number][] = validPoints.map((p: any) => [parseFloat(p.latitude), parseFloat(p.longitude)]);
-
-                            return (
-                                <MapContainer center={center} zoom={12} className="w-full h-full" scrollWheelZoom={false}>
-                                    <TileLayer
-                                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                                    />
-                                    {validPoints.map((p: any, idx: number) => (
-                                        <Marker key={idx} position={[parseFloat(p.latitude), parseFloat(p.longitude)]} icon={placeIcon}>
-                                            <Popup>
-                                                <div className="p-1">
-                                                    <p className="font-bold text-gray-800">{p.name}</p>
-                                                    <p className="text-xs text-gray-500">{p.travel_type}</p>
-                                                    <p className="text-xs font-bold text-brand-600 mt-1">Visit Time: {p.avg_visit_time}m</p>
-                                                </div>
-                                            </Popup>
-                                        </Marker>
-                                    ))}
-                                    {routePoints.length > 1 && (
-                                        <Polyline 
-                                            positions={routePoints} 
-                                            color="#6366f1" 
-                                            weight={4} 
-                                            opacity={0.6} 
-                                            dashArray="10, 10"
-                                        />
-                                    )}
-                                </MapContainer>
-                            );
-                        })()}
-                    </div>
-                </div>
+                <SavedRoadmapMap roadmap={roadmap} />
 
                 <div className="space-y-4">
                     {roadmap.itinerary?.map((dayObj: any, dayIdx: number) => (
@@ -303,6 +250,195 @@ export default function SavedRoadmap() {
                 )}
             </div>
         </AnimatedPage>
+    );
+}
+
+// ─── Extracted map sub-component so hooks run unconditionally ───────────────
+function SavedRoadmapMap({ roadmap }: { roadmap: any }) {
+    const [selectedMapDay, setSelectedMapDay] = useState(0);
+    const [roadPath, setRoadPath] = useState<[number, number][]>([]);
+    const [isLoadingRoute, setIsLoadingRoute] = useState(false);
+
+    // Collect places for the selected day
+    const mapPlaces = useMemo(() => {
+        const all = roadmap.itinerary?.flatMap((d: any) => d.places || []) || [];
+        return selectedMapDay === 0
+            ? all
+            : (roadmap.itinerary?.find((d: any) => d.day === selectedMapDay)?.places || []);
+    }, [roadmap, selectedMapDay]);
+
+    const validPlaces = useMemo(
+        () => mapPlaces.filter((p: any) => parseFloat(p.latitude) && parseFloat(p.longitude)),
+        [mapPlaces]
+    );
+
+    // Stay coords from first itinerary entry's stay_lat/stay_lng if stored, else skip
+    const stayLat: number = roadmap.stay_lat || 0;
+    const stayLng: number = roadmap.stay_lng || 0;
+
+    const routePoints: [number, number][] = useMemo(() => [
+        ...(stayLat && stayLng ? [[stayLat, stayLng] as [number, number]] : []),
+        ...validPlaces.map((p: any) => [parseFloat(p.latitude), parseFloat(p.longitude)] as [number, number]),
+    ], [stayLat, stayLng, validPlaces]);
+
+    const bounds = useMemo(
+        () => routePoints.length > 0 ? L.latLngBounds(routePoints) : null,
+        [routePoints]
+    );
+
+    const center: [number, number] = useMemo(
+        () => validPlaces.length > 0
+            ? [parseFloat(validPlaces[0].latitude), parseFloat(validPlaces[0].longitude)]
+            : [20.5937, 78.9629],
+        [validPlaces]
+    );
+
+    // Fetch OSRM road-following route
+    useEffect(() => {
+        if (routePoints.length < 2) {
+            setRoadPath(routePoints);
+            return;
+        }
+        const fetchPath = async () => {
+            setIsLoadingRoute(true);
+            try {
+                const coords = routePoints.map(p => `${p[1]},${p[0]}`).join(';');
+                const res = await fetch(`https://router.project-osrm.org/route/v1/driving/${coords}?overview=full&geometries=geojson`);
+                const data = await res.json();
+                if (data.routes?.[0]) {
+                    setRoadPath(data.routes[0].geometry.coordinates.map((c: any) => [c[1], c[0]]));
+                } else {
+                    setRoadPath(routePoints);
+                }
+            } catch {
+                setRoadPath(routePoints);
+            } finally {
+                setIsLoadingRoute(false);
+            }
+        };
+        fetchPath();
+    }, [routePoints]);
+
+    return (
+        <div className="glass-card p-6 mb-8">
+            {/* Header + Day Selector */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                <h2 className="text-xl font-bold flex items-center gap-2">
+                    <Map className="text-brand-500" size={20} /> Route Visualization
+                </h2>
+                <div className="flex gap-2 p-1.5 bg-white/50 backdrop-blur-md rounded-[24px] shadow-sm border border-white overflow-x-auto scrollbar-hide">
+                    <button
+                        onClick={() => setSelectedMapDay(0)}
+                        className={`px-4 py-2 rounded-[18px] font-bold text-xs whitespace-nowrap transition-all flex items-center gap-1.5 ${
+                            selectedMapDay === 0 ? 'bg-gradient-to-r from-brand-500 to-ocean-500 text-white shadow-lg' : 'hover:bg-gray-100 text-gray-500'
+                        }`}
+                    >
+                        <Layers size={13} /> All Days
+                    </button>
+                    {roadmap.itinerary?.map((d: any, i: number) => (
+                        <button
+                            key={i}
+                            onClick={() => setSelectedMapDay(i + 1)}
+                            className={`px-4 py-2 rounded-[18px] font-bold text-xs whitespace-nowrap transition-all ${
+                                selectedMapDay === i + 1 ? 'bg-gradient-to-r from-brand-500 to-ocean-500 text-white shadow-lg' : 'hover:bg-gray-100 text-gray-500'
+                            }`}
+                        >
+                            Day {i + 1}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            {/* Map */}
+            <div className="relative">
+                <div className="glass-card overflow-hidden shadow-2xl border-4 border-white" style={{ height: '500px' }}>
+                    <MapContainer center={center} zoom={12} className="w-full h-full" scrollWheelZoom={true}>
+                        <TileLayer
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                        <ChangeView bounds={bounds} />
+
+                        {/* Stay marker */}
+                        {stayLat !== 0 && stayLng !== 0 && (
+                            <Marker position={[stayLat, stayLng]} icon={stayIcon}>
+                                <Popup className="custom-popup">
+                                    <div className="p-1">
+                                        <p className="font-bold text-red-600">Your Base</p>
+                                        <p className="font-medium">{roadmap.selected_stay || 'Stay'}</p>
+                                    </div>
+                                </Popup>
+                            </Marker>
+                        )}
+
+                        {/* Numbered place markers */}
+                        {validPlaces.map((p: any, idx: number) => (
+                            <Marker
+                                key={p.id || idx}
+                                position={[parseFloat(p.latitude), parseFloat(p.longitude)]}
+                                icon={createNumberedIcon(idx + 1)}
+                            >
+                                <Popup className="custom-popup">
+                                    <div className="p-2 min-w-[150px]">
+                                        <p className="font-bold text-brand-600 text-lg">{p.name}</p>
+                                        <div className="flex items-center gap-1 text-xs text-gray-500 mt-1">
+                                            <span className="bg-gray-100 px-1.5 py-0.5 rounded font-bold uppercase">{p.travel_type}</span>
+                                        </div>
+                                        <div className="mt-2 space-y-1 text-xs font-medium border-t pt-2">
+                                            <p className="flex justify-between"><span>Entry:</span> <span className="text-emerald-600">₹{p.entry_fee || 0}</span></p>
+                                            <p className="flex justify-between"><span>Spend:</span> <span>{p.avg_visit_time || 60}m</span></p>
+                                        </div>
+                                    </div>
+                                </Popup>
+                            </Marker>
+                        ))}
+
+                        {/* Road-following route */}
+                        {roadPath.length >= 2 && (
+                            <>
+                                {/* Shadow line */}
+                                <Polyline positions={roadPath} color="#1e40af" weight={8} opacity={0.2} />
+                                {/* Main line */}
+                                <Polyline
+                                    positions={roadPath}
+                                    color="#3b82f6"
+                                    weight={5}
+                                    lineJoin="round"
+                                    opacity={0.8}
+                                    dashArray={isLoadingRoute ? '10, 15' : undefined}
+                                />
+                            </>
+                        )}
+                    </MapContainer>
+
+                    {/* Loading overlay */}
+                    <AnimatePresence>
+                        {isLoadingRoute && (
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="absolute inset-0 z-[1000] bg-white/20 backdrop-blur-[2px] flex items-center justify-center"
+                            >
+                                <div className="bg-white/90 px-6 py-4 rounded-3xl shadow-2xl flex items-center gap-3">
+                                    <Loader2 className="animate-spin text-brand-500" size={24} />
+                                    <span className="font-bold text-gray-700">Calculating Road Route...</span>
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
+            </div>
+
+            <style>{`
+                .custom-popup .leaflet-popup-content-wrapper {
+                    border-radius: 20px; padding: 0; overflow: hidden;
+                    box-shadow: 0 10px 25px -5px rgba(0,0,0,.1), 0 8px 10px -6px rgba(0,0,0,.1);
+                }
+                .custom-popup .leaflet-popup-content { margin: 0; }
+                .custom-popup .leaflet-popup-tip-container { display: none; }
+            `}</style>
+        </div>
     );
 }
 
