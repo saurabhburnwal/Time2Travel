@@ -11,13 +11,13 @@ const COOKIE_NAME = 'tt_token';
 /**
  * Cookie options for the JWT.
  *  - httpOnly  : JS cannot read it → XSS-safe
- *  - sameSite  : 'strict' → CSRF-safe (cookie not sent from foreign origins)
- *  - secure    : true in production (HTTPS only); false in dev so localhost works
+ *  - sameSite  : 'none' in production for cross-site frontend/backend, 'strict' in dev
+ *  - secure    : true in production (required with SameSite=None), false in dev
  *  - maxAge    : matches JWT expiry (7 days)
  */
-const cookieOptions = (res) => ({
+const cookieOptions = () => ({
     httpOnly: true,
-    sameSite: 'strict',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
     secure: process.env.NODE_ENV === 'production',
     maxAge: 7 * 24 * 60 * 60 * 1000,   // 7 days in ms
 });
@@ -27,18 +27,15 @@ const cookieOptions = (res) => ({
  * Does NOT include the token in the JSON response body.
  */
 function setAuthCookie(res, token) {
-    res.cookie(COOKIE_NAME, token, cookieOptions(res));
+    res.cookie(COOKIE_NAME, token, cookieOptions());
 }
 
 /**
  * Clear the auth cookie (logout).
  */
 function clearAuthCookie(res) {
-    res.clearCookie(COOKIE_NAME, {
-        httpOnly: true,
-        sameSite: 'strict',
-        secure: process.env.NODE_ENV === 'production',
-    });
+    const { httpOnly, sameSite, secure } = cookieOptions();
+    res.clearCookie(COOKIE_NAME, { httpOnly, sameSite, secure });
 }
 
 /**
@@ -90,7 +87,7 @@ exports.getMe = async (req, res, next) => {
         try {
             decoded = jwt.verify(token, process.env.JWT_SECRET);
         } catch (err) {
-            res.clearCookie('tt_token', { httpOnly: true, sameSite: 'strict' });
+            clearAuthCookie(res);
             return res.status(200).json({ success: false, message: 'Session expired or invalid.' });
         }
 
