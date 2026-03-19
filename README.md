@@ -202,14 +202,14 @@ APP_BASE_URL=http://localhost:3000
 EMAIL_PROVIDER=resend
 RESEND_API_KEY=your-resend-api-key
 RESEND_API_URL=https://api.resend.com/emails
-EMAIL_FROM=you@yourdomain.com
+EMAIL_FROM=onboarding@resend.dev
 EMAIL_FROM_NAME=Time2Travel
 EMAIL_SEND_TIMEOUT_MS=10000
 ```
 
 > **Note:** Email delivery is API-based (Resend), so SMTP routing issues like `ENETUNREACH` are avoided.
 
-> **Sender Verification:** `EMAIL_FROM` must be a verified sender/domain in your Resend account.
+> **Sender Verification:** Use `onboarding@resend.dev` for initial testing. For production, switch `EMAIL_FROM` to an address from your verified domain in Resend.
 
 ### Run the server
 ```bash
