@@ -203,6 +203,8 @@ SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_USER=your-email@gmail.com
 SMTP_PASS=your-google-app-password
+SMTP_FROM_EMAIL=your-email@gmail.com
+SMTP_FROM_NAME=Time2Travel
 ```
 
 > **Gmail App Password**: Go to Google Account → Security → 2-Step Verification → App Passwords. Generate one specifically for this app.

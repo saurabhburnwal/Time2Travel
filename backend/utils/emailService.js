@@ -4,18 +4,33 @@ const nodemailer = require('nodemailer');
  * Email transporter — uses Gmail SMTP with app password.
  * Config is loaded from environment variables with sensible defaults.
  */
+const SMTP_HOST = process.env.SMTP_HOST || 'smtp.gmail.com';
+const SMTP_PORT = parseInt(process.env.SMTP_PORT || '587', 10);
+const SMTP_USER = process.env.SMTP_USER || '';
+const SMTP_PASS = process.env.SMTP_PASS || '';
+const SMTP_FROM_EMAIL = process.env.SMTP_FROM_EMAIL || process.env.EMAIL_FROM || SMTP_USER;
+const SMTP_FROM_NAME = process.env.SMTP_FROM_NAME || 'Time2Travel';
+
+if (process.env.NODE_ENV === 'production' && (!SMTP_USER || !SMTP_PASS)) {
+  throw new Error('[emailService] Missing SMTP_USER or SMTP_PASS in production environment.');
+}
+
+if (!SMTP_USER || !SMTP_PASS) {
+  console.warn('[emailService] SMTP_USER/SMTP_PASS not fully configured. Email sending will fail until configured.');
+}
+
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || 'smtp.gmail.com',
-  port: parseInt(process.env.SMTP_PORT) || 587,
-  secure: false, // true for 465, false for other ports (STARTTLS)
+  host: SMTP_HOST,
+  port: SMTP_PORT,
+  secure: SMTP_PORT === 465,
   auth: {
-    user: process.env.SMTP_USER || 'ttimettottravel@gmail.com',
-    pass: process.env.SMTP_PASS || '',
+    user: SMTP_USER,
+    pass: SMTP_PASS,
   },
 });
 
-const FROM_EMAIL = process.env.SMTP_FROM_EMAIL || 'ttimettottravel@gmail.com';
-const FROM_NAME = process.env.SMTP_FROM_NAME || 'Time2Travel';
+const FROM_EMAIL = SMTP_FROM_EMAIL;
+const FROM_NAME = SMTP_FROM_NAME;
 
 /**
  * Verify SMTP connection on startup (non-blocking, skip in tests).
@@ -307,7 +322,7 @@ async function sendVerificationEmail(toEmail, name, token) {
 
   try {
     await transporter.sendMail({
-      from: process.env.SMTP_FROM_EMAIL || '"Time2Travel" <no-reply@time2travel.app>',
+      from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
       to: toEmail,
       subject: '✅ Verify your Time2Travel email address',
       html: htmlBody,
@@ -447,7 +462,7 @@ async function sendPasswordResetOTP(toEmail, name, otp) {
 
   try {
     await transporter.sendMail({
-      from: process.env.SMTP_FROM_EMAIL || '"Time2Travel" <no-reply@time2travel.app>',
+      from: `"${FROM_NAME}" <${FROM_EMAIL}>`,
       to: toEmail,
       subject: '🔐 Your Time2Travel Password Reset Code',
       html: htmlBody,
