@@ -26,19 +26,46 @@ const errorHandler = require('./middleware/errorHandler');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const allowedOrigins = [
+const defaultAllowedOrigins = [
     'http://localhost:3000',
     'http://localhost:5173',
 ];
-if (process.env.FRONTEND_URL) {
-    allowedOrigins.push(process.env.FRONTEND_URL);
-}
+
+const envAllowedOrigins = (process.env.FRONTEND_URL || '')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
+const allowedOrigins = [...new Set([...defaultAllowedOrigins, ...envAllowedOrigins])];
+
+const allowedOriginPatterns = [
+    /^https:\/\/time2-travel(?:-[a-z0-9-]+)?\.vercel\.app$/i,
+    /^https:\/\/time2travel(?:-[a-z0-9-]+)?\.vercel\.app$/i,
+];
+
+const corsOptions = {
+    origin: (origin, callback) => {
+        if (!origin) {
+            return callback(null, true);
+        }
+
+        const isExplicitlyAllowed = allowedOrigins.includes(origin);
+        const matchesAllowedPattern = allowedOriginPatterns.some((pattern) => pattern.test(origin));
+
+        if (isExplicitlyAllowed || matchesAllowedPattern) {
+            return callback(null, true);
+        }
+
+        return callback(new Error(`CORS blocked for origin: ${origin}`));
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+};
 
 // ===== CORE MIDDLEWARE =====
-app.use(cors({
-    origin: allowedOrigins,
-    credentials: true,   // required for cookies to be sent cross-origin
-}));
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
