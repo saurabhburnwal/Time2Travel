@@ -1,22 +1,19 @@
-import { supabase, DBHostProfile } from './supabaseClient';
+import { apiGet } from './apiClient';
+import { DBHostProfile } from './supabaseClient';
 
-export async function getHostProfile(user_id: number): Promise<DBHostProfile | null> {
+/**
+ * Fetches the authenticated user's host profile via the Express backend.
+ * The `_user_id` parameter is kept for backward-compatibility with all call
+ * sites, but the backend identifies the user from the HttpOnly JWT cookie.
+ *
+ * Previously this called Supabase REST directly with the anon key, which was
+ * rejected by RLS (HTTP 406). Routing through the backend avoids RLS entirely.
+ */
+export async function getHostProfile(_user_id: number): Promise<DBHostProfile | null> {
     try {
-        const { data, error } = await supabase
-            .from('host_profiles')
-            .select('*, destinations:destination_id(name)')
-            .eq('user_id', user_id)
-            .single();
-
-        if (error) {
-            console.warn('getHostProfile error:', error);
-            return null;
-        }
-
-        return {
-            ...data,
-            destination_name: data.destinations?.name
-        } as DBHostProfile;
+        const { success, data } = await apiGet<{ success: boolean; host: any }>('/api/hosts/me');
+        if (!success || !data?.host) return null;
+        return data.host as DBHostProfile;
     } catch (err) {
         console.warn('getHostProfile exception:', err);
         return null;

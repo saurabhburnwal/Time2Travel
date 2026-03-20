@@ -69,7 +69,13 @@ export async function rejectHostRegistration(id: number, reason: string): Promis
 }
 
 export async function deleteUser(id: number): Promise<boolean> {
-    return deleteTableRow('users', id);
+    try {
+        const { success } = await apiDelete(`/api/users/${id}`);
+        return success;
+    } catch (err) {
+        console.warn('deleteUser error:', err);
+        return false;
+    }
 }
 
 // --- Generic Table Management ---

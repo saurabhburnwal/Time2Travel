@@ -76,7 +76,7 @@ export default function HostRegistration() {
         if (!form.state) { setDestinations([]); return; }
         (async () => {
             const d = await fetchDestinations(form.state);
-            setDestinations(d || []);
+            setDestinations((d || []).map(dest => dest.name));
         })();
     }, [form.state]);
 

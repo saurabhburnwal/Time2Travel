@@ -177,16 +177,23 @@ exports.deleteUser = async (req, res, next) => {
             return res.status(400).json({ success: false, message: 'You cannot delete your own account.' });
         }
 
-        const result = await query(
-            `DELETE FROM users WHERE user_id = $1 RETURNING user_id, name`,
-            [id]
-        );
-
-        if (result.rowCount === 0) {
+        // Check user exists first
+        const userCheck = await query(`SELECT name FROM users WHERE user_id = $1`, [id]);
+        if (userCheck.rowCount === 0) {
             return res.status(404).json({ success: false, message: 'User not found.' });
         }
 
-        res.json({ success: true, message: `User '${result.rows[0].name}' deleted.` });
+        // Remove dependent rows to satisfy FK constraints (no ON DELETE CASCADE in schema)
+        await query(`DELETE FROM travel_preferences WHERE user_id = $1`, [id]);
+        await query(`DELETE FROM safety_contacts WHERE user_id = $1`, [id]);
+        await query(`DELETE FROM reviews WHERE user_id = $1`, [id]);
+        await query(`DELETE FROM host_profiles WHERE user_id = $1`, [id]);
+        await query(`DELETE FROM host_registrations WHERE user_id = $1`, [id]);
+        await query(`DELETE FROM roadmaps WHERE user_id = $1`, [id]);
+
+        await query(`DELETE FROM users WHERE user_id = $1`, [id]);
+
+        res.json({ success: true, message: `User '${userCheck.rows[0].name}' deleted.` });
     } catch (err) {
         next(err);
     }
@@ -196,8 +203,14 @@ exports.deleteMe = async (req, res, next) => {
     try {
         const userId = req.user.userId;
 
-        // Optionally: verify current password here if required for security.
-        // For now, simpler implementation:
+        // Remove dependent rows to satisfy FK constraints before deleting the user
+        await query(`DELETE FROM travel_preferences WHERE user_id = $1`, [userId]);
+        await query(`DELETE FROM safety_contacts WHERE user_id = $1`, [userId]);
+        await query(`DELETE FROM reviews WHERE user_id = $1`, [userId]);
+        await query(`DELETE FROM host_profiles WHERE user_id = $1`, [userId]);
+        await query(`DELETE FROM host_registrations WHERE user_id = $1`, [userId]);
+        await query(`DELETE FROM roadmaps WHERE user_id = $1`, [userId]);
+
         const result = await query(
             `DELETE FROM users WHERE user_id = $1 RETURNING name`,
             [userId]
@@ -207,18 +220,14 @@ exports.deleteMe = async (req, res, next) => {
             return res.status(404).json({ success: false, message: 'User not found.' });
         }
 
-        // Logout user from current session
-        const { logout } = require('./authController');
-        if (typeof logout === 'function') {
-            logout(req, res);
-        } else {
-            // Manual logout if import issues
-            res.clearCookie('tt_token', {
-                httpOnly: true,
-                sameSite: 'strict',
-            });
-            res.json({ success: true, message: 'Your account has been permanently deleted.' });
-        }
+        // Clear the auth cookie with the same options used when it was set
+        res.clearCookie('tt_token', {
+            httpOnly: true,
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+            secure: process.env.NODE_ENV === 'production',
+        });
+
+        res.json({ success: true, message: 'Your account has been permanently deleted.' });
     } catch (err) {
         next(err);
     }
