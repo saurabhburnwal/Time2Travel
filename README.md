@@ -11,7 +11,7 @@ Time2Travel is a comprehensive **MCA Software Project** built to bring local cul
 
 ### What makes it different:
 - **NNA Route Optimization** — Points of Interest are visited in an algorithmically optimal order, minimizing backtracking.
-- **4 Roadmap Styles** — Fastest, Budget, Scenic, and Balanced.
+- **Roadmap Styles** — Fastest and Budget-friendly variants are generated from current optimizer implementation.
 - **Category-Aware Itineraries** — High-priority categories (e.g., Culture, Adventure) are intelligently prioritized in the itinerary generation.
 - **Real Host Ecosystem** — Hosts register, get admin-verified, and manage listings, guests, and earnings from a dedicated dashboard.
 - **Transport & Budget Calculation** — Automatic estimation of transport costs and total trip budget based on the selected roadmap style.
@@ -67,7 +67,7 @@ for host-specific tables (host_bookings, host_properties etc.)
 ## 📂 Project Structure
 
 ```
-Time2Travel-main/
+Time2Travel/
 ├── backend/
 │   ├── controllers/             # Business logic
 │   │   ├── authController.js     Register, Login, OTP, Verify Email
@@ -95,7 +95,7 @@ Time2Travel-main/
 │
 ├── travelRoadmap/
 │   └── src/
-│       ├── pages/               26 UI pages
+│       ├── pages/               Route pages (traveler, host, admin)
 │       │   ├── Landing.tsx       Public homepage with reviews
 │       │   ├── TripPlanner.tsx   Step 1 — Trip parameters
 │       │   ├── StaySelection.tsx Step 2 — Hotel vs Host
@@ -110,8 +110,8 @@ Time2Travel-main/
 │       │   ├── HostEarnings.tsx  Settled vs Pending earnings
 │       │   ├── HostReviews.tsx   All reviews received
 │       │   ├── AdminDashboard.tsx Full database admin
-│       │   └── ...              + 12 more pages
-│       ├── services/            20 API service modules
+│       │   └── ...              + additional pages
+│       ├── services/            Backend API + Supabase service modules
 │       ├── contexts/AuthContext.tsx  Global auth state
 │       ├── components/          Shared UI (Navbar, HostNav, etc)
 │       └── App.tsx              Route definitions + guards
@@ -141,7 +141,7 @@ npm install -g supabase
 
 ## 🗄️ Database Commands (Supabase)
 
-All commands run from the **project root** (`Time2Travel-main/`).
+All commands run from the **project root** (`Time2Travel/`).
 
 ### Start the DB
 ```bash
@@ -239,31 +239,27 @@ App runs at: `http://localhost:3000`
 
 ## 🧪 Testing
 
-The project uses a comprehensive testing suite for both the backend (Jest) and frontend (Vitest), with a focus on achieving high coverage for critical performance and business logic.
+The project uses testing suites for both backend (Jest) and frontend (Vitest), focused on critical business flows.
 
 ### 🟢 Backend Testing (Jest)
 Located in `backend/tests/`.
 - **Run all tests**: `npm test`
 - **Run with coverage**: `npm run test -- --coverage`
-- **Critical Coverage (88%+ achieved)**:
-    - `lookupController.js` (91.6%): State/Destination search and metadata filtering.
-    - `placeController.js` (90.0%): Point of Interest retrieval and destination mapping.
-    - `hotelController.js` (88.2%): Accommodation management and custom hotel insertion.
-    - `routeOptimizer.js` (93.4%): Nearest Neighbor Algorithm (NNA) for route efficiency.
-    - `expenseEstimator.js` (100%): Budget calculation logic across roadmap styles.
-    - `authController.js` & `roadmapController.js`: Secure session and itinerary generation flows.
+- **Current focus areas**:
+   - `lookupController.js`: State/destination/travel metadata retrieval.
+   - `placeController.js` and `hotelController.js`: Place and stay retrieval flows.
+   - `routeOptimizer.js` and `expenseEstimator.js`: Roadmap and cost logic.
+   - `authController.js` and `roadmapController.js`: Auth/session and itinerary save flows.
 
 ### 🔵 Frontend Testing (Vitest + JSDOM)
 Located in `travelRoadmap/src/tests/`.
 - **Run all tests**: `npm test`
 - **Run with coverage**: `npm run test -- --coverage`
-- **Critical Coverage (86%+ achieved)**:
-    - `TripPlanner.tsx` (86.6%): Complex multi-step trip parameter UI with framer-motion.
-    - `TripContext.tsx` (97.6%): Global state management for persistent trip data.
-    - `destinationsService.ts` (100%): Robust API wrappers for destination/state fetching.
-    - `ForgotPassword.test.tsx`: End-to-end UI flow for password recovery.
-    - `authService.test.ts`: Login and OTP service logic.
-    - `StarRating.test.tsx` & `AnimatedPage.test.tsx`: Shared UI components.
+- **Current focus areas**:
+   - `TripPlanner.tsx` and `TripContext.tsx`: Multi-step planner and persisted trip state.
+   - `destinationsService.ts` and `authService.ts`: API wrapper behavior.
+   - `ForgotPassword.test.tsx`: OTP reset UI flow.
+   - `StarRating.test.tsx` and `AnimatedPage.test.tsx`: Shared component behavior.
 
 > [!NOTE]
 > Backend tests include a `NODE_ENV=test` check to prevent side effects like sending real emails or starting the Express listener during unit test execution.
@@ -297,6 +293,7 @@ Authentication: JWT stored in `HttpOnly` cookie `tt_token` (set on login, sent a
 |--------|----------|------|-------------|
 | `GET` | `/me` | 🔐 | Fetch own full profile. |
 | `PUT` | `/me` | 🔐 | Update name, phone, gender. |
+| `DELETE` | `/me` | 🔐 | Delete own account. |
 | `GET` | `/` | 🛡️ Admin | List all users in the system. |
 | `PATCH` | `/:id/status` | 🛡️ Admin | Activate or deactivate a user account. |
 | `PATCH` | `/:id/role` | 🛡️ Admin | Promote or demote a user's role. |
@@ -307,11 +304,13 @@ Authentication: JWT stored in `HttpOnly` cookie `tt_token` (set on login, sent a
 ### Roadmap Generator (`/api/roadmap`)
 | Method | Endpoint | Auth | Description |
 |--------|----------|------|-------------|
-| `POST` | `/generate` | 🔐 | Run NNA optimizer. Returns 4 itinerary styles. |
+| `POST` | `/generate` | 🔐 | Run NNA optimizer. Returns currently supported styles (`fastest`, `budget`). |
 | `POST` | `/save` | 🔐 | Save chosen roadmap and stay selection. |
 | `GET` | `/my` | 🔐 | Get all saved trips for current user. |
+| `GET` | `/` | 🔐 | Alias of `/my`. |
 | `GET` | `/:id` | 🔐 | Get full trip details incl. places and host info. |
 | `PATCH` | `/:id/complete` | 🔐 | Mark a trip as completed. |
+| `PATCH` | `/:id/places` | 🔐 | Update ordered places for a saved roadmap. |
 | `DELETE` | `/:id` | 🔐 | Delete a saved roadmap. |
 | `POST` | `/email-pdf` | 🔐 | Generate trip PDF and email it to the user. |
 
@@ -322,6 +321,7 @@ Authentication: JWT stored in `HttpOnly` cookie `tt_token` (set on login, sent a
 |--------|----------|------|-------------|
 | `GET` | `/` | Public | List all available destinations. |
 | `GET` | `/:id` | Public | Get a specific destination by ID. |
+| `GET` | `/:id/places` | Public | Get places for a destination by destination ID. |
 
 ---
 
@@ -357,7 +357,13 @@ Authentication: JWT stored in `HttpOnly` cookie `tt_token` (set on login, sent a
 | `POST` | `/register` | 🔐 | Submit a host profile (pre-approval). |
 | `GET` | `/me` | 🔐 | Get own host profile. |
 | `PUT` | `/me` | 🔐 | Update own host profile. |
+| `DELETE` | `/me` | 🔐 | Delete own host account/profile link. |
 | `PATCH` | `/:id/verify` | 🛡️ Admin | Verify or unverify a host profile. |
+| `PATCH` | `/:id/status` | 🛡️ Admin | Activate/deactivate host profile. |
+| `GET` | `/me/properties` | 🔐 | Get current host properties. |
+| `POST` | `/me/properties` | 🔐 | Add a host property. |
+| `PUT` | `/me/properties/:id` | 🔐 | Update a host property. |
+| `DELETE` | `/me/properties/:id` | 🔐 | Delete a host property. |
 
 ---
 
@@ -365,6 +371,7 @@ Authentication: JWT stored in `HttpOnly` cookie `tt_token` (set on login, sent a
 | Method | Endpoint | Auth | Description |
 |--------|----------|------|-------------|
 | `POST` | `/` | 🔐 | Submit a new full host registration form. |
+| `GET` | `/pending` | 🛡️ Admin | List pending host registrations only. |
 | `GET` | `/my` | 🔐 | Get own most recent registration status. |
 | `GET` | `/my-all` | 🔐 | Get all own registration submissions. |
 | `GET` | `/` | 🛡️ Admin | List all registrations in the system. |
@@ -398,8 +405,13 @@ Authentication: JWT stored in `HttpOnly` cookie `tt_token` (set on login, sent a
 ### Places & Hotels (`/api/places`, `/api/hotels`)
 | Method | Endpoint | Auth | Description |
 |--------|----------|------|-------------|
-| `GET` | `/api/places?destination_id=` | Public | Get POIs for a destination. |
-| `GET` | `/api/hotels?destination_id=` | Public | Get hotels for a destination. |
+| `GET` | `/api/places` | Public | List places (supports `destination_id`, `travel_type`). |
+| `GET` | `/api/places/by-destination/:destinationName` | Public | Get places by destination name. |
+| `GET` | `/api/places/:id` | Public | Get place by ID. |
+| `GET` | `/api/hotels?destination_id=` | Public | Get hotels for a destination ID. |
+| `GET` | `/api/hotels?destination=` | Public | Get hotels for a destination name. |
+| `GET` | `/api/hotels/:id` | Public | Get hotel by ID. |
+| `POST` | `/api/hotels` | 🔐 | Add a custom hotel for trip planning. |
 
 ---
 
@@ -413,7 +425,7 @@ Authentication: JWT stored in `HttpOnly` cookie `tt_token` (set on login, sent a
 | `PUT` | `/tables/:tableName/:id` | Update an existing row by primary key. |
 | `DELETE` | `/tables/:tableName/:id` | Delete a row by primary key. |
 
-**Allowed Tables**: `destinations`, `hotels`, `places`, `reviews`, `users`, `host_profiles`, `host_registrations`, `host_properties`, `host_bookings`, `travel_types`, `roadmaps`, `roadmap_types`, `roadmap_places`, `roadmap_accommodations`, `expenses`, `roles`, `group_types`, `travel_preferences`, `safety_contacts`
+**Allowed Tables**: `destinations`, `hotels`, `places`, `reviews`, `users`, `host_profiles`, `host_registrations`, `host_properties`, `host_bookings`, `host_unavailability`, `travel_types`, `roadmaps`, `roadmap_types`, `roadmap_places`, `roadmap_accommodations`, `expenses`, `roles`, `group_types`, `travel_preferences`, `safety_contacts`
 
 ---
 
@@ -444,7 +456,7 @@ TripPlanner (Budget, Days, Style, Group Size)
 StaySelection (Hotel vs. Homestay Host)
    │
    ▼
-RoadmapOptions (Pick Fastest / Budget / Scenic / Balanced)
+RoadmapOptions (Pick Fastest / Budget)
    │
    ▼
 Itinerary → MapView → ExpenseBreakdown → FinalReview
@@ -460,7 +472,7 @@ HostFeedback (Star ratings + Contribution Amount)
 
 ## 🔐 Security Overview
 - Passwords are **SHA-256 hashed client-side** before being sent, then **bcrypt-hashed server-side**.
-- JWTs live in `HttpOnly, SameSite=strict` cookies — inaccessible to JavaScript.
+- JWTs live in `HttpOnly` cookies — `SameSite=strict` in development and `SameSite=none` + `secure` in production.
 - Password reset uses a **6-digit OTP** (15 min expiry) + a scoped purpose-claim JWT.
 - Email verification tokens are **invalidated on first use**.
 - All DB queries use **parameterized values** — no raw string concatenation on user input.

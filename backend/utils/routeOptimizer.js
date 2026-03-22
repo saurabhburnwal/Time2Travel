@@ -2,7 +2,7 @@
  * Route Optimizer Utility
  * Uses Haversine formula for geographic distances and
  * Nearest Neighbor Algorithm (NNA) for route optimization.
- * Generates 4 roadmap styles: fastest, scenic, budget, balanced.
+ * Generates currently supported roadmap styles: fastest and budget.
  */
 
 // ===== HAVERSINE DISTANCE =====
@@ -202,7 +202,7 @@ const generateBudget = (places, days = 3, preferredType = null) => {
  * @param {Array} places - Place records from DB
  * @param {number} days  - Number of trip days
  * @param {string} preferredType - Category to prioritize
- * @returns {Object} - { fastest, budget }
+ * @returns {Object} - currently includes { fastest, budget }
  */
 const generateAllRoadmaps = (places, days = 3, preferredType = null) => {
     if (!places || places.length === 0) {

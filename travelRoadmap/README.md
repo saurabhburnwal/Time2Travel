@@ -1,151 +1,85 @@
-# Time2Travel - Smart Travel Planning App
+# Time2Travel Frontend (`travelRoadmap`)
 
-A React-based travel planning application that helps users create optimized travel itineraries within their budget.
+React + TypeScript SPA for the Time2Travel platform. It integrates with the Express backend for core trip/user flows and with Supabase client access for selected host operations.
 
-## Features
+## Implemented Features
 
-- 🗺️ **Destination Selection**: Choose from 100+ destinations across South India
-- 💰 **Budget Planning**: Set your budget and get cost-optimized routes
-- 🏨 **Stay Selection**: Choose from hotels, hostels, or local hosts
-- 📅 **Day-by-Day Itinerary**: Get personalized travel plans
-- 💸 **Expense Breakdown**: Detailed cost analysis
-- 🗓️ **Flexible Duration**: Plan trips for 2-7 days
+- 🔐 Auth UX: register, login, email verification, forgot-password OTP reset.
+- 🧭 Trip planning flow: destination + preferences → stay selection → roadmap options → itinerary/map/expenses/final review.
+- 🛣️ Roadmap styles currently supported in UI: **Fastest** and **Budget Friendly**.
+- 🗺️ Map and itinerary views: ordered POIs with day-wise grouping.
+- 💸 Expense breakdown: accommodation, transport, food, and entry fee components.
+- 🏠 Host flows: host registration, dashboard, properties, guests, earnings, reviews, availability.
+- 🛡️ Admin flows: admin dashboard and profile with backend-driven table management.
+- 📄 Trip PDF generation and email trigger from final review.
 
 ## Project Structure
 
 ```
 travelRoadmap/
 ├── src/
-│   ├── App.tsx           # Main application component
-│   ├── main.tsx          # React entry point
-│   └── index.css         # Tailwind CSS styles
-├── public/               # Static assets
-├── index.html            # HTML entry point
-├── package.json          # Dependencies
-├── vite.config.js        # Vite configuration
-├── tailwind.config.js    # Tailwind CSS configuration
-└── postcss.config.js     # PostCSS configuration
+│   ├── App.tsx                # Route definitions + protected role routes
+│   ├── pages/                 # Landing, planner, roadmap, host/admin pages
+│   ├── services/              # Backend API client + Supabase-backed services
+│   ├── contexts/              # Auth and trip state providers
+│   ├── components/            # Shared UI elements
+│   └── tests/                 # Vitest test suite
+├── public/                    # Static assets
+├── package.json
+├── vite.config.ts
+├── tailwind.config.js
+└── postcss.config.js
 ```
 
-## Installation
+## Environment Variables
 
-1. **Prerequisites**: Make sure you have Node.js (v16+) and npm installed
+Create `travelRoadmap/.env` (or copy `.env.example`) and set:
 
-2. **Install dependencies**:
+```env
+VITE_API_URL=http://localhost:5000
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+Notes:
+- `VITE_API_URL` defaults to `http://localhost:5000` if not provided.
+- Supabase keys are required for host-related client flows that use `supabaseClient.ts`.
+
+## Setup & Run
+
 ```bash
+cd travelRoadmap
 npm install
-```
-
-## Running the Application
-
-### Development Mode
-```bash
 npm run dev
 ```
-This will start the development server at `http://localhost:3000` and automatically open it in your browser.
 
-### Production Build
+Dev server runs on `http://localhost:3000`.
+
+Additional scripts:
+
 ```bash
 npm run build
-```
-This creates an optimized production build in the `dist` folder.
-
-### Preview Production Build
-```bash
 npm run preview
+npm test
 ```
-This previews the production build locally.
 
-## Technologies Used
+## Backend Dependency
 
-- **React 18** - UI library
-- **Vite** - Fast build tool and dev server
-- **Tailwind CSS** - Utility-first CSS framework
-- **Lucide Icons** - Beautiful icon library
-- **TypeScript** - Type-safe JavaScript
+Frontend assumes the backend API is running and reachable at `VITE_API_URL`.
 
-## How to Use
+From `Time2Travel/backend`:
 
-1. **Start Planning**: Click "Plan My Trip" on the landing page
-2. **Select Destination**: Choose a state and destination
-3. **Set Budget**: Use the slider to set your budget (₹1,000-₹10,000)
-4. **Choose Duration**: Select number of travel days (2-7)
-5. **Pick Your Stay**: Choose from hotels or connect with local hosts
-6. **Generate Roadmap**: Get AI-optimized travel itineraries
-7. **Review & Download**: View detailed itinerary and expense breakdown
+```bash
+npm install
+npm run dev
+```
 
-## Available Destinations
+## Current Scope Notes
 
-### Kerala
-Munnar, Alleppey, Kochi, Wayanad, Kovalam, Thekkady, and more...
-
-### Karnataka
-Coorg, Hampi, Bangalore, Mysore, Chikmagalur, and more...
-
-### Tamil Nadu
-Ooty, Kodaikanal, Mahabalipuram, Rameswaram, Kanyakumari, and more...
-
-### Andhra Pradesh
-Visakhapatnam, Araku Valley, Tirupati, Vijayawada, and more...
-
-### Telangana
-Hyderabad, Warangal, Ramoji Film City, and more...
-
-## Features in Detail
-
-### Smart Route Optimization
-- Calculates distances from your stay location
-- Groups nearby tourist spots
-- Minimizes travel time and costs
-- Generates multiple itinerary options
-
-### Expense Management
-- Detailed breakdown by category
-- Hotel/hostel costs
-- Transport costs
-- Food expenses
-- Entry fees for attractions
-
-### Local Host Connection
-- Connect with verified local hosts
-- Free or affordable stays
-- Authentic travel experiences
-- Food included options
-
-## Browser Support
-
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-
-## Performance
-
-- Lightning-fast development with Vite
-- Optimized production builds
-- Responsive design for all devices
-- Smooth animations and transitions
-
-## Notes
-
-- Mock data is used for demonstration
-- Coordinates are for reference only
-- Prices are approximate
-- Contact information for safety emergencies should be added before travel
-
-## Future Enhancements
-
-- Real-time pricing integration
-- Booking system integration
-- GPS-based route tracking
-- Weather forecasts
-- Travel insurance options
-- Photo gallery integration
+- Roadmap generation currently exposes two styles (`fastest`, `budget`) from backend and UI.
+- Stay selection supports hotels and verified local hosts; there is no separate hostel-only backend model.
+- Data shown in trip outputs comes from project datasets and database records; values are estimates where applicable (for example, costs and travel durations).
 
 ## License
 
-This project is open source and available for personal and educational use.
-
-## Support
-
-For issues or questions, please check the application's help section or contact the development team.
+MIT (see project root `LICENSE`).
