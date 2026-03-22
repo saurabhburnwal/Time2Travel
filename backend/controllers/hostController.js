@@ -92,16 +92,17 @@ exports.getMyHostProfile = async (req, res, next) => {
 // ===== UPDATE OWN HOST PROFILE =====
 exports.updateMyHostProfile = async (req, res, next) => {
     try {
-        const { destination_id, max_guests, provides_food, voluntary_min_amount } = req.body;
+        const { destination_id, max_guests, provides_food, voluntary_min_amount, is_active } = req.body;
 
         const result = await query(
             `UPDATE host_profiles SET
                 destination_id = COALESCE($1, destination_id),
                 max_guests = COALESCE($2, max_guests),
                 provides_food = COALESCE($3, provides_food),
-                voluntary_min_amount = COALESCE($4, voluntary_min_amount)
-             WHERE user_id = $5 RETURNING *`,
-            [destination_id || null, max_guests || null, provides_food ?? null, voluntary_min_amount || null, req.user.userId]
+                voluntary_min_amount = COALESCE($4, voluntary_min_amount),
+                is_active = COALESCE($5, is_active)
+             WHERE user_id = $6 RETURNING *`,
+            [destination_id || null, max_guests || null, provides_food ?? null, voluntary_min_amount || null, is_active ?? null, req.user.userId]
         );
 
         if (result.rowCount === 0) {

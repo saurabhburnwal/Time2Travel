@@ -1,11 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import HostNav from '../components/HostNav';
-import { Calendar, Clock, Save, CheckCircle2 } from 'lucide-react';
+import { Calendar, Clock, Save, CheckCircle2, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { useAuth } from '../contexts/AuthContext';
+import { getHostProfile, updateHostProfile } from '../services/hostProfileService';
+import type { DBHostProfile } from '../services/supabaseClient';
 
 export default function HostAvailability() {
+    const { user } = useAuth();
     const [saving, setSaving] = useState(false);
+    const [profile, setProfile] = useState<DBHostProfile | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (!user) return;
+        const loadProfile = async () => {
+            const p = await getHostProfile(user.id);
+            setProfile(p);
+            setLoading(false);
+        };
+        loadProfile();
+    }, [user]);
 
     const handleSave = () => {
         setSaving(true);
@@ -14,6 +30,30 @@ export default function HostAvailability() {
             toast.success('Availability preferences saved');
         }, 1000);
     };
+
+    const handleToggleHosting = async () => {
+        if (!profile) return;
+        setSaving(true);
+        const newStatus = !profile.is_active;
+        const { success, error } = await updateHostProfile({ is_active: newStatus });
+        
+        if (success) {
+            setProfile({ ...profile, is_active: newStatus });
+            toast.success(newStatus ? 'Hosting resumed' : 'Hosting paused');
+        } else {
+            toast.error(error || 'Failed to update status');
+        }
+        setSaving(false);
+    };
+
+    if (loading) {
+        return (
+            <div className="min-h-screen pt-24 pb-12 bg-slate-50 flex flex-col items-center justify-center">
+                <Loader2 className="animate-spin text-brand-500 mb-4" size={48} />
+                <p className="text-slate-400 font-bold uppercase tracking-[0.3em] text-[10px]">Loading Settings...</p>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-slate-50 pt-20">
@@ -29,7 +69,7 @@ export default function HostAvailability() {
                     <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 to-transparent" />
                     <div className="relative h-full flex flex-col justify-center px-10">
                          <div className="flex items-center gap-3 mb-2">
-                             <span className="w-2 h-2 rounded-full bg-brand-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+                             <span className={`w-2 h-2 rounded-full ${profile?.is_active ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.5)]'}`} />
                              <span className="text-[10px] font-bold uppercase tracking-wider text-brand-400">Scheduling</span>
                         </div>
                         <h1 className="text-3xl font-bold text-white mb-2">Availability Calendar</h1>
@@ -108,12 +148,27 @@ export default function HostAvailability() {
                              <div className="relative z-10">
                                 <h3 className="text-xl font-bold mb-3 tracking-tight">Pause Hosting</h3>
                                 <p className="text-sm text-slate-300 leading-relaxed mb-8 font-medium">
-                                    Temporarily hide your properties from new search results. Existing reservations will not be affected.
+                                    {profile?.is_active 
+                                        ? "Temporarily hide your properties from new search results. Existing reservations will not be affected."
+                                        : "Your portfolio is currently paused. Resume hosting to make your properties visible to travelers again."}
                                 </p>
-                                <button className="w-full py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider transition-colors border border-white/10 active:scale-95">
-                                    Suspend Portfolio
+                                <button 
+                                    onClick={handleToggleHosting}
+                                    disabled={saving}
+                                    className={`w-full py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all border active:scale-95 flex items-center justify-center gap-2 ${
+                                        profile?.is_active 
+                                            ? 'bg-white/10 hover:bg-white/20 text-white border-white/10' 
+                                            : 'bg-emerald-600 hover:bg-emerald-700 text-white border-transparent shadow-lg shadow-emerald-900/20'
+                                    }`}
+                                >
+                                    {saving && <Loader2 size={14} className="animate-spin" />}
+                                    {profile?.is_active ? 'Suspend Portfolio' : 'Resume Hosting'}
                                 </button>
-                                <button className="w-full mt-4 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-sm active:scale-95">
+                                <button 
+                                    onClick={handleSave}
+                                    disabled={saving}
+                                    className="w-full mt-4 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-sm active:scale-95"
+                                >
                                     Save Changes
                                 </button>
                              </div>
