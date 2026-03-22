@@ -63,8 +63,41 @@ exports.addRow = async (req, res, next) => {
             return res.status(403).json({ success: false, message: 'Table not allowed.' });
         }
 
-        const keys = Object.keys(rowData);
-        const values = Object.values(rowData);
+        const colRes = await query(`SELECT column_name FROM information_schema.columns WHERE table_name = $1`, [tableName]);
+        if (colRes.rowCount === 0) {
+            return res.status(404).json({ success: false, message: 'Table not found in schema.' });
+        }
+        const validColumns = colRes.rows.map(r => r.column_name);
+        
+        let rowDataToInsert = { ...rowData };
+        
+        if (tableName === 'users' && rowDataToInsert.password) {
+            const bcrypt = require('bcryptjs');
+            rowDataToInsert.password_hash = await bcrypt.hash(rowDataToInsert.password, 10);
+            delete rowDataToInsert.password;
+        }
+
+        if (tableName === 'users' && rowDataToInsert.role) {
+            const roleRes = await query(`SELECT role_id FROM roles WHERE LOWER(role_name) = LOWER($1)`, [rowDataToInsert.role]);
+            if (roleRes.rowCount > 0) {
+                rowDataToInsert.role_id = roleRes.rows[0].role_id;
+            }
+            delete rowDataToInsert.role;
+        }
+
+        const keys = [];
+        const values = [];
+        Object.entries(rowDataToInsert).forEach(([k, v]) => {
+            if (validColumns.includes(k)) {
+                keys.push(k);
+                values.push(v);
+            }
+        });
+        
+        if (keys.length === 0) {
+            return res.status(400).json({ success: false, message: 'No valid columns to insert.' });
+        }
+
         const placeholders = keys.map((_, i) => `$${i + 1}`).join(', ');
         const columns = keys.join(', ');
 
@@ -86,6 +119,12 @@ exports.updateRow = async (req, res, next) => {
             return res.status(403).json({ success: false, message: 'Table not allowed.' });
         }
 
+        const colRes = await query(`SELECT column_name FROM information_schema.columns WHERE table_name = $1`, [tableName]);
+        if (colRes.rowCount === 0) {
+            return res.status(404).json({ success: false, message: 'Table not found in schema.' });
+        }
+        const validColumns = colRes.rows.map(r => r.column_name);
+
         // Identify the ID column name (usually tableName_id or id)
         const idColRes = await query(`
             SELECT a.attname
@@ -95,9 +134,38 @@ exports.updateRow = async (req, res, next) => {
         `, [tableName]);
 
         const idColumn = idColRes.rowCount > 0 ? idColRes.rows[0].attname : 'id';
+        
+        // Exclude role_id update to prevent accidental privilege escalation unless handled separately
+        // For standard fields update
+        let rowDataToUpdate = { ...rowData };
+        
+        if (tableName === 'users' && rowDataToUpdate.password) {
+            const bcrypt = require('bcryptjs');
+            rowDataToUpdate.password_hash = await bcrypt.hash(rowDataToUpdate.password, 10);
+            delete rowDataToUpdate.password;
+        }
 
-        const keys = Object.keys(rowData);
-        const values = Object.values(rowData);
+        if (tableName === 'users' && rowDataToUpdate.role) {
+            const roleRes = await query(`SELECT role_id FROM roles WHERE LOWER(role_name) = LOWER($1)`, [rowDataToUpdate.role]);
+            if (roleRes.rowCount > 0) {
+                rowDataToUpdate.role_id = roleRes.rows[0].role_id;
+            }
+            delete rowDataToUpdate.role;
+        }
+
+        const keys = [];
+        const values = [];
+        Object.entries(rowDataToUpdate).forEach(([k, v]) => {
+            if (validColumns.includes(k) && k !== idColumn) {
+                keys.push(k);
+                values.push(v);
+            }
+        });
+        
+        if (keys.length === 0) {
+            return res.status(400).json({ success: false, message: 'No valid columns to update.' });
+        }
+
         const setClause = keys.map((k, i) => `${k} = $${i + 1}`).join(', ');
         
         values.push(id);

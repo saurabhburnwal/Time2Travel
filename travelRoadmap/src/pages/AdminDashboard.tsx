@@ -33,6 +33,7 @@ interface TableConfig {
     label: string;
     icon: React.ReactNode;
     tableName: string;
+    primaryKey: string;
     fields: { key: string; label: string; type: 'text' | 'number' | 'boolean' | 'select'; options?: string[] }[];
 }
 
@@ -42,10 +43,25 @@ const TABLE_CONFIGS: Record<string, TableConfig> = {
         label: 'Users',
         icon: <Users size={18} />,
         tableName: 'users',
+        primaryKey: 'user_id',
         fields: [
             { key: 'name', label: 'Name', type: 'text' },
             { key: 'email', label: 'Email', type: 'text' },
-            { key: 'password', label: 'Password', type: 'text' },
+            { key: 'role', label: 'Role', type: 'select', options: ['traveler', 'host', 'admin'] },
+            { key: 'password', label: 'Set Password', type: 'text' },
+        ]
+    },
+    hosts: {
+        key: 'hosts',
+        label: 'Hosts',
+        icon: <UserCheck size={18} />,
+        tableName: 'host_profiles',
+        primaryKey: 'host_id',
+        fields: [
+            { key: 'name', label: 'Name', type: 'text' },
+            { key: 'email', label: 'Email', type: 'text' },
+            { key: 'max_guests', label: 'Max Guests', type: 'number' },
+            { key: 'verified', label: 'Verified', type: 'boolean' },
         ]
     },
     destinations: {
@@ -53,6 +69,7 @@ const TABLE_CONFIGS: Record<string, TableConfig> = {
         label: 'Destinations',
         icon: <MapPin size={18} />,
         tableName: 'destinations',
+        primaryKey: 'destination_id',
         fields: [
             { key: 'name', label: 'Name', type: 'text' },
             { key: 'state', label: 'State', type: 'text' },
@@ -65,6 +82,7 @@ const TABLE_CONFIGS: Record<string, TableConfig> = {
         label: 'Hotels',
         icon: <Home size={18} />,
         tableName: 'hotels',
+        primaryKey: 'hotel_id',
         fields: [
             { key: 'name', label: 'Name', type: 'text' },
             { key: 'destination_id', label: 'Dest ID', type: 'number' },
@@ -77,6 +95,7 @@ const TABLE_CONFIGS: Record<string, TableConfig> = {
         label: 'Places',
         icon: <MapPin size={18} />,
         tableName: 'places',
+        primaryKey: 'place_id',
         fields: [
             { key: 'name', label: 'Name', type: 'text' },
             { key: 'destination_id', label: 'Dest ID', type: 'number' },
@@ -89,6 +108,7 @@ const TABLE_CONFIGS: Record<string, TableConfig> = {
         label: 'Reviews',
         icon: <MessageSquare size={18} />,
         tableName: 'reviews',
+        primaryKey: 'review_id',
         fields: [
             { key: 'user_id', label: 'User ID', type: 'number' },
             { key: 'roadmap_id', label: 'Roadmap ID', type: 'number' },
@@ -101,6 +121,7 @@ const TABLE_CONFIGS: Record<string, TableConfig> = {
         label: 'Bookings',
         icon: <CreditCard size={18} />,
         tableName: 'host_bookings',
+        primaryKey: 'booking_id',
         fields: [
             { key: 'property_id', label: 'Property', type: 'number' },
             { key: 'host_id', label: 'Host ID', type: 'number' },
@@ -114,6 +135,7 @@ const TABLE_CONFIGS: Record<string, TableConfig> = {
         label: 'Expenses',
         icon: <BarChart size={18} />,
         tableName: 'expenses',
+        primaryKey: 'expense_id',
         fields: [
             { key: 'roadmap_id', label: 'Roadmap ID', type: 'number' },
             { key: 'accommodation', label: 'Hotel Cost', type: 'number' },
@@ -126,6 +148,7 @@ const TABLE_CONFIGS: Record<string, TableConfig> = {
         label: 'Roadmaps',
         icon: <Map size={18} />,
         tableName: 'roadmaps',
+        primaryKey: 'roadmap_id',
         fields: [
             { key: 'user_id', label: 'User ID', type: 'number' },
             { key: 'destination_id', label: 'Dest ID', type: 'number' },
@@ -137,6 +160,7 @@ const TABLE_CONFIGS: Record<string, TableConfig> = {
         label: 'Travel Types',
         icon: <Compass size={18} />,
         tableName: 'travel_types',
+        primaryKey: 'travel_type_id',
         fields: [
             { key: 'name', label: 'Type Name', type: 'text' },
         ]
@@ -146,6 +170,7 @@ const TABLE_CONFIGS: Record<string, TableConfig> = {
         label: 'Roles',
         icon: <Shield size={18} />,
         tableName: 'roles',
+        primaryKey: 'role_id',
         fields: [
             { key: 'role_name', label: 'Role Name', type: 'text' },
         ]
@@ -155,6 +180,7 @@ const TABLE_CONFIGS: Record<string, TableConfig> = {
         label: 'Groups',
         icon: <Users size={18} />,
         tableName: 'group_types',
+        primaryKey: 'group_type_id',
         fields: [
             { key: 'type_name', label: 'Group Type', type: 'text' },
         ]
@@ -164,6 +190,7 @@ const TABLE_CONFIGS: Record<string, TableConfig> = {
         label: 'Properties',
         icon: <Home size={18} />,
         tableName: 'host_properties',
+        primaryKey: 'property_id',
         fields: [
             { key: 'host_id', label: 'Host ID', type: 'number' },
             { key: 'property_name', label: 'Name', type: 'text' },
@@ -176,6 +203,7 @@ const TABLE_CONFIGS: Record<string, TableConfig> = {
         label: 'Roadmap Types',
         icon: <Compass size={18} />,
         tableName: 'roadmap_types',
+        primaryKey: 'roadmap_type_id',
         fields: [
             { key: 'type_name', label: 'Type Name', type: 'text' },
         ]
@@ -393,11 +421,16 @@ export default function AdminDashboard() {
         { key: 'roadmap_types', label: 'Route Genres', icon: <Compass size={16} />, category: 'Travel' },
     ];
 
-    const getPrimaryId = (item: any) => 
-        item.id || item.user_id || item.host_id || item.destination_id || 
-        item.hotel_id || item.place_id || item.review_id || item.expense_id || 
-        item.roadmap_id || item.booking_id || item.travel_type_id || 
-        item.role_id || item.group_type_id || item.property_id || item.roadmap_type_id;
+    const getPrimaryId = (item: any, index: number) => {
+        const config = TABLE_CONFIGS[activeTab];
+        if (config && config.primaryKey && item[config.primaryKey] !== undefined) {
+            return item[config.primaryKey];
+        }
+        return item.id || item.user_id || item.host_id || item.destination_id || 
+               item.hotel_id || item.place_id || item.review_id || item.expense_id || 
+               item.roadmap_id || item.booking_id || item.travel_type_id || 
+               item.role_id || item.group_type_id || item.property_id || item.roadmap_type_id || index;
+    };
 
     return (
         <AnimatedPage className="bg-slate-50 min-h-screen overflow-hidden flex">
@@ -608,12 +641,14 @@ export default function AdminDashboard() {
                                                 <h3 className="text-xl font-bold text-slate-300 uppercase tracking-[0.4em]">No Pending Citations</h3>
                                             </div>
                                         ) : (
-                                            data.map((reg: any) => (
-                                                <div key={reg.id} className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col md:flex-row items-center justify-between gap-6 hover:shadow-md transition-all">
+                                            data.map((reg: any, index: number) => {
+                                                const regId = reg.id || reg.registration_id;
+                                                return (
+                                                <div key={regId || `reg-${index}`} className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col md:flex-row items-center justify-between gap-6 hover:shadow-md transition-all">
                                                     <div className="flex-1">
                                                         <div className="flex items-center gap-4 mb-4">
                                                             <div className="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 text-xl font-bold border border-slate-100">
-                                                                {reg.name.charAt(0)}
+                                                                {reg?.name ? reg.name.charAt(0) : '?'}
                                                             </div>
                                                             <div>
                                                                 <h3 className="text-xl font-bold text-slate-900 tracking-tight">{reg.name}</h3>
@@ -631,20 +666,20 @@ export default function AdminDashboard() {
                                                     </div>
                                                     <div className="flex flex-col gap-2 min-w-[180px]">
                                                         <button 
-                                                            onClick={() => handleApproveRegistration(reg.id)}
+                                                            onClick={() => handleApproveRegistration(regId)}
                                                             className="w-full py-3 bg-slate-900 text-white rounded-xl font-bold text-[10px] uppercase tracking-wider shadow-md hover:bg-emerald-500 transition-all flex items-center justify-center gap-2"
                                                         >
                                                             <Check size={14} /> Approve
                                                         </button>
                                                         <button 
-                                                            onClick={() => setRejectModal({ id: reg.id, name: reg.name })}
+                                                            onClick={() => setRejectModal({ id: regId, name: reg.name })}
                                                             className="w-full py-3 bg-white text-rose-500 border border-rose-100 rounded-xl font-bold text-[10px] uppercase tracking-wider hover:bg-rose-50 transition-all"
                                                         >
                                                             Decline
                                                         </button>
                                                     </div>
                                                 </div>
-                                            ))
+                                            )})
                                         )}
                                     </div>
                                 ) : (
@@ -655,15 +690,6 @@ export default function AdminDashboard() {
                                                     <thead>
                                                         <tr className="bg-slate-50/50 border-b border-slate-100">
                                                             <th className="px-6 py-4 text-[9px] font-bold text-slate-400 uppercase tracking-wider">Identity</th>
-                                                            {activeTab === 'users' && <>
-                                                                    <th className="px-6 py-4 text-[9px] font-bold text-slate-400 uppercase tracking-wider">Contact</th>
-                                                                    <th className="px-6 py-4 text-[9px] font-bold text-slate-400 uppercase tracking-wider">Status</th>
-                                                                    <th className="px-6 py-4 text-[9px] font-bold text-slate-400 uppercase tracking-wider">Control</th>
-                                                                </>}
-                                                                {activeTab === 'hosts' && <>
-                                                                    <th className="px-6 py-4 text-[9px] font-bold text-slate-400 uppercase tracking-wider">Status</th>
-                                                                    <th className="px-6 py-4 text-[9px] font-bold text-slate-400 uppercase tracking-wider">Control</th>
-                                                                </>}
                                                             {TABLE_CONFIGS[activeTab]?.fields.map(f => (
                                                                 <th key={f.key} className="px-6 py-4 text-[9px] font-bold text-slate-400 uppercase tracking-wider">{f.label}</th>
                                                             ))}
@@ -676,13 +702,24 @@ export default function AdminDashboard() {
                                                                 <td className="px-10 py-8 font-black text-brand-600">NEW ENTRY</td>
                                                                 {TABLE_CONFIGS[activeTab]?.fields.map(f => (
                                                                     <td key={f.key} className="px-10 py-8">
-                                                                        <input 
-                                                                            type={f.type === 'number' ? 'number' : 'text'}
-                                                                            placeholder={f.label}
-                                                                            value={editForm[f.key] || ''}
-                                                                            onChange={(e) => setEditForm({...editForm, [f.key]: e.target.value})}
-                                                                            className="w-full bg-white px-4 py-3 rounded-xl border border-brand-200 outline-none text-xs font-bold"
-                                                                        />
+                                                                        {f.type === 'select' ? (
+                                                                            <select
+                                                                                value={editForm[f.key] || ''}
+                                                                                onChange={(e) => setEditForm({...editForm, [f.key]: e.target.value})}
+                                                                                className="w-full bg-white px-4 py-3 rounded-xl border border-brand-200 outline-none text-xs font-bold"
+                                                                            >
+                                                                                <option value="" disabled>Select {f.label}</option>
+                                                                                {f.options?.map(opt => <option key={opt} value={opt}>{String(opt).charAt(0).toUpperCase() + String(opt).slice(1)}</option>)}
+                                                                            </select>
+                                                                        ) : (
+                                                                            <input 
+                                                                                type={f.type === 'number' ? 'number' : 'text'}
+                                                                                placeholder={f.label}
+                                                                                value={editForm[f.key] || ''}
+                                                                                onChange={(e) => setEditForm({...editForm, [f.key]: e.target.value})}
+                                                                                className="w-full bg-white px-4 py-3 rounded-xl border border-brand-200 outline-none text-xs font-bold"
+                                                                            />
+                                                                        )}
                                                                     </td>
                                                                 ))}
                                                                 <td className="px-10 py-8 text-right flex items-center justify-end gap-3">
@@ -692,8 +729,8 @@ export default function AdminDashboard() {
                                                             </tr>
                                                         )}
 
-                                                        {filteredData.slice(0, visibleCount).map(item => {
-                                                            const itemId = getPrimaryId(item);
+                                                        {filteredData.slice(0, visibleCount).map((item, index) => {
+                                                            const itemId = getPrimaryId(item, index);
                                                             const isEditing = editingId === itemId;
 
                                                             return (
@@ -706,22 +743,26 @@ export default function AdminDashboard() {
                                                                         </div>
                                                                     </td>
                                                                     
-                                                                    {activeTab === 'users' && <>
-                                                                        <td className="px-6 py-4 font-semibold text-slate-400 text-[10px]">{item.email}</td>
-                                                                        <td className="px-6 py-4">
-                                                                            <span className="px-2 py-0.5 bg-slate-900 text-white rounded text-[8px] font-bold uppercase tracking-wider">{item.role}</span>
-                                                                        </td>
-                                                                    </>}
-                                                                    
                                                                     {TABLE_CONFIGS[activeTab]?.fields.map(f => (
                                                                         <td key={f.key} className="px-10 py-8">
                                                                             {isEditing ? (
-                                                                                <input 
-                                                                                    type={f.type === 'number' ? 'number' : 'text'}
-                                                                                    value={editForm[f.key] || ''}
-                                                                                    onChange={(e) => setEditForm({...editForm, [f.key]: e.target.value})}
-                                                                                    className="w-full bg-white px-4 py-3 rounded-xl border border-brand-500 outline-none text-xs font-bold"
-                                                                                />
+                                                                                f.type === 'select' ? (
+                                                                                    <select
+                                                                                        value={editForm[f.key] || ''}
+                                                                                        onChange={(e) => setEditForm({...editForm, [f.key]: e.target.value})}
+                                                                                        className="w-full bg-white px-4 py-3 rounded-xl border border-brand-500 outline-none text-xs font-bold"
+                                                                                    >
+                                                                                        <option value="" disabled>Select {f.label}</option>
+                                                                                        {f.options?.map(opt => <option key={opt} value={opt}>{String(opt).charAt(0).toUpperCase() + String(opt).slice(1)}</option>)}
+                                                                                    </select>
+                                                                                ) : (
+                                                                                    <input 
+                                                                                        type={f.type === 'number' ? 'number' : 'text'}
+                                                                                        value={editForm[f.key] || ''}
+                                                                                        onChange={(e) => setEditForm({...editForm, [f.key]: e.target.value})}
+                                                                                        className="w-full bg-white px-4 py-3 rounded-xl border border-brand-500 outline-none text-xs font-bold"
+                                                                                    />
+                                                                                )
                                                                             ) : (
                                                                                 <span className="text-slate-600 font-bold text-xs truncate max-w-[150px] inline-block">{item[f.key] || '-'}</span>
                                                                             )}
