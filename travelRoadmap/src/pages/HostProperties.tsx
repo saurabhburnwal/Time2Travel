@@ -4,6 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { getHostProfile } from '../services/hostProfileService';
 import { getHostProperties, addHostProperty, updateHostProperty, togglePropertyStatus, deleteHostProperty } from '../services/hostPropertyService';
 import { supabase, AppHostProperty, DBHostProfile } from '../services/supabaseClient';
+import { apiGet } from '../services/apiClient';
 import HostNav from '../components/HostNav';
 import { 
     Loader2, Home, MapPin, Users, Utensils, IndianRupee, 
@@ -72,8 +73,11 @@ export default function HostProperties() {
         }
         setProperties(props);
 
-        const { data } = await supabase.from('destinations').select('destination_id, name').order('name');
-        if (data) setDestinations(data);
+        const { success, data } = await apiGet<{ destinations: { destination_id: number, name: string }[] }>('/api/destinations');
+        if (success && data?.destinations) {
+            const sortedDestinations = data.destinations.sort((a, b) => a.name.localeCompare(b.name));
+            setDestinations(sortedDestinations);
+        }
         
         setLoading(false);
     };
@@ -115,7 +119,7 @@ export default function HostProperties() {
             setEditingProperty(null);
             setFormData({
                 name: '',
-                destinationId: profile?.destination_id.toString() || '',
+                destinationId: profile?.destination_id?.toString() || '',
                 address: '',
                 maxGuests: 2,
                 providesFood: false,

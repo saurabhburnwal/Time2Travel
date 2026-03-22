@@ -30,7 +30,35 @@ router.delete('/me', verifyToken, deleteHostAccount);
 // PATCH /api/hosts/:id/verify  — admin: verify/unverify a host
 router.patch('/:id/verify', verifyToken, requireRole('admin'), verifyHost);
 
+const {
+    getHostProperties,
+    addHostProperty,
+    updateHostProperty,
+    deleteHostProperty
+} = require('../controllers/hostPropertyController');
+
 // PATCH /api/hosts/:id/status — admin: deactivate/activate host
 router.patch('/:id/status', verifyToken, requireRole('admin'), updateHostStatus);
 
+// ==== HOST PROPERTIES ENDPOINTS ====
+router.get('/me/properties', verifyToken, getHostProperties);
+router.post('/me/properties', verifyToken, addHostProperty);
+router.put('/me/properties/:id', verifyToken, updateHostProperty);
+router.delete('/me/properties/:id', verifyToken, deleteHostProperty);
+
 module.exports = router;
+
+// ==== HOST PROPERTIES ENDOINTS ====
+const {
+    getHostProperties,
+    addHostProperty,
+    updateHostProperty,
+    deleteHostProperty,
+    toggleHostPropertyStatus
+} = require('../controllers/hostController');
+
+router.get('/me/properties', verifyToken, getHostProperties);
+router.post('/me/properties', verifyToken, addHostProperty);
+router.put('/me/properties/:id', verifyToken, updateHostProperty);
+router.patch('/me/properties/:id/status', verifyToken, updateHostProperty); // or toggleHostPropertyStatus
+router.delete('/me/properties/:id', verifyToken, deleteHostProperty);

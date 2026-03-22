@@ -27,7 +27,10 @@ export function ProtectedRoute() {
     const location = useLocation();
 
     if (isLoading) return <AuthLoadingSpinner />;
-    if (!isLoggedIn) return <Navigate to="/login" state={{ from: location }} replace />;
+    if (!isLoggedIn) {
+        if (location.pathname === '/login') return null;
+        return <Navigate to="/login" state={{ from: location }} replace />;
+    }
 
     return <Outlet />;
 }
@@ -41,8 +44,14 @@ export function AdminRoute() {
     const location = useLocation();
 
     if (isLoading) return <AuthLoadingSpinner />;
-    if (!isLoggedIn) return <Navigate to="/login" state={{ from: location }} replace />;
-    if (!isAdmin) return <Navigate to="/" replace />;
+    if (!isLoggedIn) {
+        if (location.pathname === '/login') return null;
+        return <Navigate to="/login" state={{ from: location }} replace />;
+    }
+    if (!isAdmin) {
+        if (location.pathname === '/') return null;
+        return <Navigate to="/" replace />;
+    }
 
     return <Outlet />;
 }
@@ -56,8 +65,14 @@ export function HostRoute() {
     const location = useLocation();
 
     if (isLoading) return <AuthLoadingSpinner />;
-    if (!isLoggedIn) return <Navigate to="/login" state={{ from: location }} replace />;
-    if (!isHost) return <Navigate to="/plan" replace />;
+    if (!isLoggedIn) {
+        if (location.pathname === '/login') return null;
+        return <Navigate to="/login" state={{ from: location }} replace />;
+    }
+    if (!isHost) {
+        if (location.pathname === '/plan') return null;
+        return <Navigate to="/plan" replace />;
+    }
 
     return <Outlet />;
 }
